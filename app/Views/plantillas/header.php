@@ -3,6 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="../Resources/icons/Boo_24669.ico" >
-	<title>DASA</title>
+	<title><?php echo $titulo ?> | Welcome</title>
 </head>
 <body>

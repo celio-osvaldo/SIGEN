@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <html>
     <head>
-      <title> <?php echo $titulo ?> | Inico de sesión </title>
+      <title> <?php echo $title ?> | Inico de sesión </title>
       <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
       <link rel="shortcut icon" href="./Resources/icons/Boo_24669.ico">
       <link rel="stylesheet" type="text/css" href=".\assets\bootstrap_4.4\css\bootstrap.min.css">
@@ -20,7 +20,7 @@
             <div class="col-12 user-img">
               <img src="./Resources/Icons/user_84308.png">
             </div>
-            <form method="post" action="<?php echo base_url() ?>" class="col-12">
+            <form method="post" action="<?php echo base_url() ?>Welcome/LogDasa" class="col-12">
               <div class="form-group">
                 <input type="text" id="usuario" name="nombre" class="form-control" placeholder="Usuario" required>
               </div>
@@ -30,9 +30,14 @@
               <input type="submit" value="Entrar" class="btn btn-success" >
             </form>
             <br>
-            <div class="col-12 forgot"><label class="control-label" style="color: red; font-size: 16px;"><!-- <?php if ($error): ?> <p> <?php echo $error ?> </p><?php endif; ?> --></label></div>
             <div class="col-12 forgot">
-              <a href="#">DASASYS</a>
+              <label class="control-label" style="color: red; font-size: 16px;"><?php if ($error): ?> 
+                <p> <?php echo $error ?> </p>
+                    <?php endif; ?>
+              </label>
+            </div>
+            <div class="col-12 forgot">
+              <a href="<?php echo base_url() ?>Welcome/LogDasa/">DASASYS</a>
             </div>
           </div> <!-- END-MODAL-->
         </div>

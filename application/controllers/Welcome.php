@@ -23,7 +23,7 @@ class Welcome extends CI_Controller {
 		#return view('welcome_message');
 	   $data['title']='DASASYS';
 	   $this->load->view('plantillas/header', $data);
-	   $this->load->view('DASA/welcome');
+	   $this->load->view('Log/in');
        $this->load->view('plantillas/footer');
 	}
 }

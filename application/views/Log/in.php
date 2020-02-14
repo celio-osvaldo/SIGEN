@@ -22,7 +22,7 @@
             </div>
             <form method="post" action="<?php echo base_url() ?>Welcome/LogDasa" class="col-12">
               <div class="form-group">
-                <input type="text" id="usuario" name="nombre" class="form-control" placeholder="Usuario" required>
+                <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required>
               </div>
               <div class="form-group">
                 <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña" required>

@@ -4,15 +4,13 @@
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="../Resources/icons/Boo_24669.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">
+
 	<link rel="stylesheet" href="..\assets\Personalized\css\GeneralStyles.css">
 	<script src="..\assets\jquery-3.4.1.min.js"></script>
 	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
 
-
-
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm"></nav>
 	<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #99C328;">
 		<a class="navbar-brand" href="#" style="color:black;">Logo Sistema</a>
 
@@ -79,5 +77,7 @@
 				</li>
 			</ul>
 		</div>
-		<a class="navbar-brand">Nombre de Usuario:</a>
+		<a class="navbar-brand">Usuario:<?php  echo $_SESSION['Nom_us'];?></a>
+
+		<a class="btn btn-danger" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>

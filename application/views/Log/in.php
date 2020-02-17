@@ -20,9 +20,13 @@
             <div class="col-12 user-img">
               <img src="./Resources/Icons/user_84308.png">
             </div>
-            <form method="post" action="<?php echo base_url() ?>Welcome/LogDasa" class="col-12">
+            <form method="post" action="<?php echo base_url() ?>Welcome/SetSession" class="col-12">
               <div class="form-group">
+<<<<<<< HEAD
+                <input type="text" id="user" name="user" class="form-control" placeholder="Usuario" required>
+=======
                 <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required>
+>>>>>>> master
               </div>
               <div class="form-group">
                 <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña" required>

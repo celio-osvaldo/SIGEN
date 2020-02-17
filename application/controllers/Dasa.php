@@ -11,5 +11,14 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/Welcome');
        	$this->load->view('plantillas/footer');
 	}
+		public function LogIn()
+	{
+		redirect('/', 'refresh');
+	}
+	public function Logout(){
+
+		@session_destroy();
+		$this->LogIn();
+	}
 
 }

@@ -4,15 +4,12 @@
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="../Resources/icons/Boo_24669.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">
-
-	<link rel="stylesheet" href="..\assets\Personalized\css\GeneralStyles.css">
-	<script src="..\assets\jquery-3.4.1.min.js"></script>
-	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles">
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-light" style="background-color: #99C328;">
-		<a class="navbar-brand" href="#" style="color:black;">Logo Sistema</a>
+	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Logo Sistema</a>
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="navbar-toggler-icon"></span>
@@ -21,58 +18,58 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav mr-auto">
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color:black;">Inventario</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inventario</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#"style="color:black;">Productos</a>
+						<a class="dropdown-item" href="#">Productos</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"style="color:black;">Material Oficina</a>
+						<a class="dropdown-item" href="#">Material Oficina</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="color:black;">Obras / Clientes</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Obras / Clientes</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#"style="color:black;">Lista Obras/Clientes</a>
+						<a class="dropdown-item" href="#">Lista Obras/Clientes</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="color:black;">Ventas</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ventas</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#"style="color:black;">Movimientos (Pagos)</a>
+						<a class="dropdown-item" href="#">Movimientos (Pagos)</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"style="color:black;">Anticipos</a>
+						<a class="dropdown-item" href="#">Anticipos</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"style="color:black;">Pagos SFV</a>
+						<a class="dropdown-item" href="#">Pagos SFV</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"style="color:black;">Cotizaciones</a>
+						<a class="dropdown-item" href="#">Cotizaciones</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"style="color:black;">Recibo de entrega</a>
+						<a class="dropdown-item" href="#">Recibo de entrega</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="color:black;">Catálogos</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catálogos</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#"style="color:black;">Proveedores</a>
+						<a class="dropdown-item" href="#">Proveedores</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"style="color:black;">Productos</a>
+						<a class="dropdown-item" href="#">Productos</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#"style="color:black;">Clientes</a>
+						<a class="dropdown-item" href="#">Clientes</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="color:black;">Flujo de Efectivo</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Flujo de Efectivo</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#"style="color:black;">Reporte Mensual</a>
+						<a class="dropdown-item" href="#">Reporte Mensual</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"style="color:black;">Gastos</a>
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gastos</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#"style="color:black;">Ventas(Facturas)</a>	
+						<a class="dropdown-item" href="#">Ventas(Facturas)</a>	
 						<div class="dropdown-divider"></div>
-						<p class="dropdown-item" style="color:black;">Operativos</p>
-						<a class="dropdown-item"  href="#"style="color:black;">Caja Chica</a>
-						<a class="dropdown-item"  href="#"style="color:black;">Gastos</a>
-						<a class="dropdown-item"  href="#"style="color:black;">Viaticos</a>	
+						<p class="dropdown-item" >Operativos</p>
+						<a class="dropdown-item"  href="#">Caja Chica</a>
+						<a class="dropdown-item"  href="#">Gastos</a>
+						<a class="dropdown-item"  href="#">Viaticos</a>	
 					</div>
 				</li>
 			</ul>

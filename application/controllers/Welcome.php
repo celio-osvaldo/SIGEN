@@ -11,7 +11,7 @@ class Welcome extends CI_Controller {
 	public function Index()#the main view of system shows the login
 	{
 		$data['error'] = $this->session->flashdata('error');#if the users doesn't have access or incorrectly enters their credentials, an error will be displayed in the view.
-		$data['title']='DASASYS';#the title of the tab that you are.
+		$data['title']='SiGeN';#the title of the tab that you are.
 		$this->load->view('Log/in', $data);#the view of login
 	}
 
@@ -61,7 +61,7 @@ class Welcome extends CI_Controller {
 	public function LogDasa(){
 		$_SESSION['Id_usuario']=$_REQUEST['usuario'];
 		$_SESSION['Nom_us']=$_REQUEST['pass'];
-		redirect('/Dasa/Index', 'refresh');
+		redirect('/DASA/Index', 'refresh');
 
 /*
 		$Id_usuario=$_REQUEST['usuario'];

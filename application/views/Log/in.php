@@ -22,11 +22,7 @@
             </div>
             <form method="post" action="<?php echo base_url() ?>Welcome/SetSession" class="col-12">
               <div class="form-group">
-<<<<<<< HEAD
                 <input type="text" id="user" name="user" class="form-control" placeholder="Usuario" required>
-=======
-                <input type="text" id="usuario" name="usuario" class="form-control" placeholder="Usuario" required>
->>>>>>> master
               </div>
               <div class="form-group">
                 <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña" required>
@@ -41,7 +37,7 @@
               </label>
             </div>
             <div class="col-12 forgot">
-              <a href="<?php echo base_url() ?>Welcome/LogDasa/">DASASYS</a>
+              <a href="<?php echo base_url() ?>Welcome/LogDasa/">SiGeN</a>
             </div>
           </div> <!-- END-MODAL-->
         </div>

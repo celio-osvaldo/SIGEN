@@ -26,6 +26,8 @@ class Welcome extends CI_Controller {
                'empresa_nom' => $users->empresa_nom,#the field of table must be same in the parameter
                'usuario_alias' => $users->usuario_alias,#the field of table must be same in the parameter
                'usuario_nom' => $users->usuario_nom,#the field of table must be same in the parameter
+               'perm_escri' => $users->perm_escri,
+               'perm_lectura' => $users->perm_lectura,
                'GetSession' => true);//If last data are true the next function will execute
             $this->session->set_userdata($usuario_data);//Varable session content the array for validate form
             redirect('Welcome/GetSession');//once time that all data is validates the function redirect to GetSession for know wich view should show.
@@ -33,24 +35,40 @@ class Welcome extends CI_Controller {
          	$this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
             redirect('Welcome/Index');//redirect to index for the user can correctly log
          } 
-    } else{
-         	$this->Index();#Any case ever show Index view;
-         }
+    } 
+    // else{
+    //      	$this->Index();#Any case ever show Index view;
+    //      }
    }
 
    public function GetSession() {//function for redirect to users at respective interface
       switch($this->session->userdata('empresa_nom')){//according to company that the user will redirect to interface that it belong
 
          case 'DASA'://if the user belon DASA option
+            if ($this->session->userdata('perm_escri') == 1 && $this->session->userdata('perm_lectura') == 1) {
+               redirect('Welcome/Companies');
+            }
+            else{
          	redirect('Welcome/LogDasa');#will redirect to function of LogDasa
+            }
          break;
 
          case 'ILUMINACIÓN'://if the user belon Iluminacion option
-         	redirect('Welcome/LogIluminacion');#will redirect to function of LogDasa
+            if ($this->session->userdata('perm_escri') == 1 && $this->session->userdata('perm_lectura') == 1) {
+               redirect('Welcome/Companies');
+            }
+            else{
+         	  redirect('Welcome/LogIluminacion');#will redirect to function of LogDasa
+            }
          break;
 
          case 'SALINAS'://if the user belon salinas option
-         redirect('Welcome/LogSalinas');#will redirect to function of LogDasa
+            if ($this->session->userdata('perm_escri') == 1 && $this->session->userdata('perm_lectura') == 1) {
+               redirect('Welcome/Companies');
+            }
+            else{
+               redirect('Welcome/LogSalinas');#will redirect to function of LogDasa
+            }
          break;
 
          default:
@@ -73,10 +91,17 @@ class Welcome extends CI_Controller {
 	}
 
 	public function Companies(){
-		$data['title']='SiGeN';#the title of the tab that you are.
-		$this->load->view('plantillas/header', $data);
-		$this->load->view('Log/companies');
-       	$this->load->view('plantillas/footer');
+      if ($this->session->userdata('usuario_alias')) {
+         # code...
+		    $data['title']='SiGeN';#the title of the tab that you are.
+          $data['alias'] = $this->session->userdata('usuario_alias');
+		    $this->load->view('plantillas/header', $data);
+		    $this->load->view('Log/companies');
+         $this->load->view('plantillas/footer');
+      }
+      else{
+         redirect('Welcome/Index');
+      }
 	}
 
 

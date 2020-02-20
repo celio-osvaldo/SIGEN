@@ -1,3 +1,14 @@
+body{
+	background: #E3E0E0;
+}
+
+.bg-card{
+	background: #D8D6D6;
+	-webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+	box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
 .dropdown:hover>.dropdown-menu{
   display: block;
 }

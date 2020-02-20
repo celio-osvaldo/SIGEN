@@ -4,11 +4,11 @@
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="../Resources/icons/Boo_24669.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles">
+	<link rel="stylesheet" type="text/css" href=".\.\assets\Personalized\css\GeneralStyles">
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<a class="navbar-brand" href="#">Logo Sistema</a>
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -74,7 +74,7 @@
 				</li>
 			</ul>
 		</div>
-		<a class="navbar-brand">Usuario:<?php  echo $_SESSION['Nom_us'];?></a>
+		<a class="navbar-brand">Usuario: <?php  echo $alias; ?></a>
 
 		<a class="btn btn-danger" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>

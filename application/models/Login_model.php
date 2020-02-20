@@ -8,7 +8,7 @@ public function __Construct(){
 }
 
 function UsersQuery($user, $pass){
-		$this->db->select('empresa_nom, id_usuario, usuario_alias, usuario_nom');//the name of fields to query in the login
+		$this->db->select('empresa_nom, id_usuario, usuario_alias, usuario_nom, perm_escri, perm_lectura');//the name of fields to query in the login
       $this->db->from('empresa');#name of first table
       $this->db->join('us_empresa', 'id_empresa = empresa_id_empresa');#the relation into the first table and second table whit the fields that relation their
       $this->db->join('usuario', 'id_usuario = usuario_id_usuario');#the relation into the second table and thirth table whit the fields that relation their

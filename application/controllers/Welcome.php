@@ -20,6 +20,7 @@ class Welcome extends CI_Controller {
          $user = $this->input->post('user');//the name of input in the view for user
          $pass = $this->input->post('pass');//the name of input in the view for password
          $users = $this->Login_model->UsersQuery($user, $pass);//invoke the funtion into the model
+        
          if (isset($users)) {#if the query is realized
             $usuario_data = array(#its created an array with the fields to validated for login
                'id_usuario' => $id_usuario->id_usuario,#the field of table must be same in the parameter
@@ -33,7 +34,8 @@ class Welcome extends CI_Controller {
             redirect('Welcome/GetSession');//once time that all data is validates the function redirect to GetSession for know wich view should show.
          } else {
          	$this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
-            redirect('Welcome/Index');//redirect to index for the user can correctly log
+
+            redirect('/');//redirect to index for the user can correctly log
          } 
     } 
     // else{
@@ -67,11 +69,13 @@ class Welcome extends CI_Controller {
                redirect('Welcome/Companies');
             }
             else{
+
                redirect('Welcome/LogSalinas');#will redirect to function of LogDasa
             }
          break;
 
          default:
+
          redirect('Welcome/Index');//If doesn´t exist user will redirect to Index view
       }
    }

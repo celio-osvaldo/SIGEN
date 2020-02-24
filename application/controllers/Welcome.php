@@ -75,13 +75,9 @@ class Welcome extends CI_Controller {
             }
          break;
 
-         case 'CORP'://if the user belon salinas option
-            if ($this->session->userdata('nombre_tipo') == "Super") {
-               redirect('Welcome/Companies');
-            }
-            else{
-               redirect('Welcome/LogSalinas');#will redirect to function of LogDasa
-            }
+         case 'CORP'://if the user belon the boss option
+            
+               redirect('Welcome/LogSuperUser');
          break;
 
          default:
@@ -102,20 +98,9 @@ class Welcome extends CI_Controller {
 		redirect('/Salinas/Index', 'refresh');
 	}
 
-	public function Companies(){
-      if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
-		    $data['title']='SiGeN';#the title of the tab that you are.
-          $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
-          $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
-          $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
-		    $this->load->view('plantillas/header', $data);
-		    $this->load->view('Log/companies');
-         $this->load->view('plantillas/footer');
-      }
-      else{#if not there a session started or if it is destroy ever redirect to login
-         redirect('Welcome/Index');
-      }
-	}
+   public function LogSuperUser(){
+      redirect('SuperUser/Companies', 'refresh');
+   }
 
 
 #end controller

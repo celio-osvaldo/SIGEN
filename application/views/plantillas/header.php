@@ -9,7 +9,7 @@
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="<?php echo $corp; ?>">
 		<a class="navbar-brand" href="#">Logo Sistema</a>
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,5 +21,5 @@
 		</div>
 		<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a><!-- 
 		<a class="navbar-brand"><link rel="stylesheet" href="..\Resources\Icons\user_accounts_15362.ico"><?php  echo $alias; ?> </a> -->
-		<a class="btn btn-outline-danger" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
+		<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>

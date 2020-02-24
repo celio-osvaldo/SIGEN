@@ -72,14 +72,21 @@ class Welcome extends CI_Controller {
             }
          break;
 
+         case 'CORP'://if the user belon salinas option
+            if ($this->session->userdata('nombre_tipo') == "Super") {
+               redirect('Welcome/Companies');
+            }
+            else{
+               redirect('Welcome/LogSalinas');#will redirect to function of LogDasa
+            }
+         break;
+
          default:
          redirect('Welcome/Index');//If doesn´t exist user will redirect to Index view
       }
    }
 
 	public function LogDasa(){
-		// $_SESSION['Id_usuario']=$_REQUEST['usuario'];
-		// $_SESSION['Nom_us']=$_REQUEST['pass'];
 		redirect('/DASA/Index', 'refresh');
 	}
 
@@ -96,6 +103,7 @@ class Welcome extends CI_Controller {
 		    $data['title']='SiGeN';#the title of the tab that you are.
           $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
           $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
+          $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 		    $this->load->view('plantillas/header', $data);
 		    $this->load->view('Log/companies');
          $this->load->view('plantillas/footer');

@@ -4,12 +4,8 @@
 	<meta charset="UTF-8">
 	<link rel="shortcut icon" href="../Resources/icons/Boo_24669.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">
-<<<<<<< HEAD
 	<link href="../assets/Personalized/css/GeneralStyles.css" rel="stylesheet">
-=======
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
-	<!-- <link rel="stylesheet" href="..\assets\Personalized\js\smartmenus\addons\bootstrap-4\jquery.smartmenus.bootstrap-4.css"> -->
->>>>>>> ac29ffef86037216ea77b0636eec6f96478dac6a
 
 </head>
 <body>

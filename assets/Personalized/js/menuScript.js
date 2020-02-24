@@ -290,5 +290,9 @@ $(document).ready(function () {
                 });
 
                 jQuery.SmartMenus.Bootstrap.init();
+
+                $('#DASA').removeClass("bg-dark").addClass("bg-dasa");
+                $('#ILUMINACION').removeClass("bg-dark").addClass("bg-isa");
+                $('#Salinas').removeClass("bg-dark").addClass("bg-dasa");
             
             });

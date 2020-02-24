@@ -21,13 +21,37 @@ body{
 .dropdown:hover>.dropdown-menu{
   display: block;
 }
+.header_gral {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   color: white;
+}
 
-.footer {
+.footer_gral {
    position: fixed;
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: #99C328;
+   color: white;
+}
+
+.header_iluminacion {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   background-color: #2DAAFF;/*Azul*/
+   color: white;
+}
+
+.footer_iluminacion {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #99C328; /*Verde*/
    color: white;
 }
 

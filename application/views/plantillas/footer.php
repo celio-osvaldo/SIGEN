@@ -13,5 +13,9 @@
 
 	<script src="..\assets\jquery-3.4.1.min.js"></script>
 	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\js\smartmenus\jquery.smartmenus.min.js"></script><script type="text/javascript" src="..\assets\Personalized\js\smartmenus\addons\bootstrap-4\jquery.smartmenus.bootstrap-4.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\js\renderMenu.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\js\menuScript.js"></script>
+
 </body>
 </html> 

@@ -20,24 +20,25 @@ class Welcome extends CI_Controller {
          $user = $this->input->post('user');//the name of input in the view for user
          $pass = $this->input->post('pass');//the name of input in the view for password
          $users = $this->Login_model->UsersQuery($user, $pass);//invoke the funtion into the model
+        
          if (isset($users)) {#if the query is realized
             $usuario_data = array(#its created an array with the fields to validated for login
                'id_usuario' => $id_usuario->id_usuario,#the field of table must be same in the parameter
                'empresa_nom' => $users->empresa_nom,#the field of table must be same in the parameter
                'usuario_alias' => $users->usuario_alias,#the field of table must be same in the parameter
                'usuario_nom' => $users->usuario_nom,#the field of table must be same in the parameter
-               'perm_escri' => $users->perm_escri,
-               'perm_lectura' => $users->perm_lectura,
+               'nombre_tipo' => $users->nombre_tipo,
                'GetSession' => true);//If last data are true the next function will execute
             $this->session->set_userdata($usuario_data);//Varable session content the array for validate form
             redirect('Welcome/GetSession');//once time that all data is validates the function redirect to GetSession for know wich view should show.
          } else {
-         	$this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
-            redirect('Welcome/Index');//redirect to index for the user can correctly log
+            $this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
+
+            redirect('/');//redirect to index for the user can correctly log
          } 
     } 
     // else{
-    //      	$this->Index();#Any case ever show Index view;
+    //         $this->Index();#Any case ever show Index view;
     //      }
    }
 
@@ -45,10 +46,10 @@ class Welcome extends CI_Controller {
       switch($this->session->userdata('empresa_nom')){//according to company that the user will redirect to interface that it belong
 
          case 'DASA'://if the user belon DASA option
-            if ($this->session->userdata('perm_escri') == 1 && $this->session->userdata('perm_lectura') == 1) {
-               redirect('Welcome/Companies');
+            if ($this->session->userdata('nombre_tipo') == "Super") {#validation for permissions of super user
+               redirect('Welcome/Companies');#rdirect to main view of super user
             }
-            else{
+            else{#if not super user logged redirect to view for simple user
          	redirect('Welcome/LogDasa');#will redirect to function of LogDasa
             }
          break;
@@ -77,8 +78,8 @@ class Welcome extends CI_Controller {
    }
 
 	public function LogDasa(){
-		$_SESSION['Id_usuario']=$_REQUEST['usuario'];
-		$_SESSION['Nom_us']=$_REQUEST['pass'];
+		// $_SESSION['Id_usuario']=$_REQUEST['usuario'];
+		// $_SESSION['Nom_us']=$_REQUEST['pass'];
 		redirect('/DASA/Index', 'refresh');
 	}
 
@@ -91,15 +92,15 @@ class Welcome extends CI_Controller {
 	}
 
 	public function Companies(){
-      if ($this->session->userdata('usuario_alias')) {
-         # code...
+      if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
 		    $data['title']='SiGeN';#the title of the tab that you are.
-          $data['alias'] = $this->session->userdata('usuario_alias');
+          $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
+          $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
 		    $this->load->view('plantillas/header', $data);
 		    $this->load->view('Log/companies');
          $this->load->view('plantillas/footer');
       }
-      else{
+      else{#if not there a session started or if it is destroy ever redirect to login
          redirect('Welcome/Index');
       }
 	}

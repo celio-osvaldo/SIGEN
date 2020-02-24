@@ -27,7 +27,7 @@
               <div class="form-group">
                 <input type="password" id="pass" name="pass" class="form-control" placeholder="Contraseña" required>
               </div>
-              <input type="submit" value="Entrar" class="btn btn-success" >
+              <input type="submit" value="Entrar" class="btn btn-outline-success" >
             </form>
             <br>
             <div class="col-12 forgot">

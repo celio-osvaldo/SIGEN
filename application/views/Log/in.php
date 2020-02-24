@@ -1,7 +1,7 @@
 <!DOCTYPE html>
   <html>
     <head>
-      <title> <?php echo $title ?> | Inico de sesión </title>
+      <title> <?php echo $title ?> | Inico de sesión</title>
       <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
       <link rel="shortcut icon" href="./Resources/icons/Boo_24669.ico">
       <link rel="stylesheet" type="text/css" href=".\assets\bootstrap_4.4\css\bootstrap.min.css">

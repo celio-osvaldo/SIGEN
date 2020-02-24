@@ -32,7 +32,9 @@ class Welcome extends CI_Controller {
             $this->session->set_userdata($usuario_data);//Varable session content the array for validate form
             redirect('Welcome/GetSession');//once time that all data is validates the function redirect to GetSession for know wich view should show.
          } else {
-            $this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
+
+         	$this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
+
 
             redirect('/');//redirect to index for the user can correctly log
          } 
@@ -68,11 +70,13 @@ class Welcome extends CI_Controller {
                redirect('Welcome/Companies');
             }
             else{
+
                redirect('Welcome/LogSalinas');#will redirect to function of LogDasa
             }
          break;
 
          default:
+
          redirect('Welcome/Index');//If doesn´t exist user will redirect to Index view
       }
    }

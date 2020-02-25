@@ -19,23 +19,21 @@ class Welcome extends CI_Controller {
       if ($this->input->post()) {
          $user = $this->input->post('user');//the name of input in the view for user
          $pass = $this->input->post('pass');//the name of input in the view for password
-         $users = $this->Login_model->UsersQuery($user, $pass);//invoke the funtion into the model
-        
+         $users = $this->Login_model->UserLogin($user, $pass);//invoke the funtion into the model
+          
          if (isset($users)) {#if the query is realized
             $usuario_data = array(#its created an array with the fields to validated for login
-               'id_usuario' => $id_usuario->id_usuario,#the field of table must be same in the parameter
-               'empresa_nom' => $users->empresa_nom,#the field of table must be same in the parameter
+               'id_usuario' => $users->id_usuario,#the field of table must be same in the parameter
+               //'empresa_nom' => $users->empresa_nom,#the field of table must be same in the parameter
                'usuario_alias' => $users->usuario_alias,#the field of table must be same in the parameter
                'usuario_nom' => $users->usuario_nom,#the field of table must be same in the parameter
-               'nombre_tipo' => $users->nombre_tipo,
+               'usuario_tipo' => $users->usuario_tipo,
                'GetSession' => true);//If last data are true the next function will execute
             $this->session->set_userdata($usuario_data);//Varable session content the array for validate form
             redirect('Welcome/GetSession');//once time that all data is validates the function redirect to GetSession for know wich view should show.
          } else {
 
          	$this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
-
-
             redirect('/');//redirect to index for the user can correctly log
          } 
     } 
@@ -45,8 +43,13 @@ class Welcome extends CI_Controller {
    }
 
    public function GetSession() {//function for redirect to users at respective interface
-      switch($this->session->userdata('empresa_nom')){//according to company that the user will redirect to interface that it belong
-
+      switch($this->session->userdata('usuario_tipo')){//according to company that the user will redirect to interface that it belong
+        case '1':
+               redirect('SuperUser/Companies');#rdirect to main view of super user
+         break;
+        case '2':
+               redirect('Welcome/Companies');#rdirect to main view of super user
+         break;
          case 'DASA'://if the user belon DASA option
                redirect('Welcome/Companies');#rdirect to main view of super user
             
@@ -66,7 +69,7 @@ class Welcome extends CI_Controller {
          break;
 
          default:
-
+         $this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
          redirect('/');//If doesn´t exist user will redirect to Index view
       }
    }
@@ -91,9 +94,10 @@ class Welcome extends CI_Controller {
       if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
           $data['title']='SiGeN';#the title of the tab that you are.
           $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
-          $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
-          $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
-          if ($this->session->userdata('nombre_tipo') == "Super") { 
+          $data['type'] = $this->session->userdata('usuario_tipo');#it will know who type of user 
+
+
+          if ($this->session->userdata('usuario_tipo') == "Super") { 
             $this->load->view('plantillas/header', $data);
             $this->load->view('SuperUser/companies');
             $this->load->view('plantillas/footer');
@@ -105,6 +109,7 @@ class Welcome extends CI_Controller {
          }
       }
       else{#if not there a session started or if it is destroy ever redirect to login
+        $this->session->set_flashdata('error', 'No ha iniciado Sesión');//if not exist the user, just show an error in the view
          redirect('/');
       }
    }

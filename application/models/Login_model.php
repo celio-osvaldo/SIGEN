@@ -35,10 +35,10 @@ function UsersQuery($user, $pass){
     function UserCompanies($id_user){
     $this->db->select('id_empresa, empresa_nom, perm_lectura,perm_escri');//the name of fields to query in the login
       $this->db->from('us_empresa');#name of first table
-      $ths->db->join('empresa','empresa_id_empresa=id_empresa');
+      $this->db->join('empresa','empresa_id_empresa=id_empresa');
       $this->db->where('usuario_id_usuario', $id_user);#the field must match the entered parameter of password
       $query = $this->db->get();#the query is obtained and stored within the variable
-      $result = $query->row();#the result displays in a row
+      $result = $query->result_array();#the result displays in a row
       return $result;#if the query has data, returns the data query
   }
 

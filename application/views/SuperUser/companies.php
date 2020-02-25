@@ -1,9 +1,8 @@
-<div class="jumbotron jumbotron-fluid">
-    <br>
-
+<br>
       <div class=" col-lg-12 card bg-card">
       <br>        
-        <div class="row">
+        <div class="container">
+          <div class="row">
           <div class="col-sm-1"></div>
           <div class="card text-center" style="width: 15rem;">
           <div class="card-header"></div>
@@ -27,6 +26,6 @@
           </div>
         </div>
         </div> 
+        </div>
         <br>
       </div>
-</div>

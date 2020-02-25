@@ -23,3 +23,7 @@
 		<a class="navbar-brand"><link rel="stylesheet" href="..\Resources\Icons\user_accounts_15362.ico"><?php  echo $alias; ?> </a> -->
 		<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>
+
+	<div class="row">
+		<div class="col-md-1"></div>
+		<div class="col-md-10">

@@ -48,41 +48,26 @@ class Welcome extends CI_Controller {
       switch($this->session->userdata('empresa_nom')){//according to company that the user will redirect to interface that it belong
 
          case 'DASA'://if the user belon DASA option
-            if ($this->session->userdata('nombre_tipo') == "Super") {#validation for permissions of super user
                redirect('Welcome/Companies');#rdirect to main view of super user
-            }
-            else{#if not super user logged redirect to view for simple user
-         	redirect('Welcome/LogDasa');#will redirect to function of LogDasa
-            }
+            
          break;
 
          case 'ILUMINACIÓN'://if the user belon Iluminacion option
-            if ($this->session->userdata('perm_escri') == 1 && $this->session->userdata('perm_lectura') == 1) {
                redirect('Welcome/Companies');
-            }
-            else{
-         	  redirect('Welcome/LogIluminacion');#will redirect to function of LogDasa
-            }
          break;
 
          case 'SALINAS'://if the user belon salinas option
-            if ($this->session->userdata('perm_escri') == 1 && $this->session->userdata('perm_lectura') == 1) {
+            
                redirect('Welcome/Companies');
-            }
-            else{
-
-               redirect('Welcome/LogSalinas');#will redirect to function of LogDasa
-            }
          break;
 
          case 'CORP'://if the user belon the boss option
-            
-               redirect('Welcome/LogSuperUser');
+               redirect('Welcome/Companies');
          break;
 
          default:
 
-         redirect('Welcome/Index');//If doesn´t exist user will redirect to Index view
+         redirect('/');//If doesn´t exist user will redirect to Index view
       }
    }
 
@@ -102,6 +87,20 @@ class Welcome extends CI_Controller {
       redirect('SuperUser/Companies', 'refresh');
    }
 
+   public function Companies(){
+      if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
+          $data['title']='SiGeN';#the title of the tab that you are.
+          $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
+          $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
+          $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
+          $this->load->view('plantillas/header', $data);
+          $this->load->view('SuperUser/companies');
+         $this->load->view('plantillas/footer');
+      }
+      else{#if not there a session started or if it is destroy ever redirect to login
+         redirect('/');
+      }
+   }
 
 #end controller
 }

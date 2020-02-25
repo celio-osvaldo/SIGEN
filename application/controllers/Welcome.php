@@ -52,7 +52,7 @@ class Welcome extends CI_Controller {
             
          break;
 
-         case 'ILUMINACIÓN'://if the user belon Iluminacion option
+         case 'ILUMINACION'://if the user belon Iluminacion option
                redirect('Welcome/Companies');
          break;
 
@@ -84,7 +84,7 @@ class Welcome extends CI_Controller {
 	}
 
    public function LogSuperUser(){
-      redirect('SuperUser/Companies', 'refresh');
+      // redirect('SuperUser/Companies', 'refresh');
    }
 
    public function Companies(){
@@ -93,9 +93,16 @@ class Welcome extends CI_Controller {
           $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
           $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
           $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
-          $this->load->view('plantillas/header', $data);
-          $this->load->view('SuperUser/companies');
+          if ($this->session->userdata('nombre_tipo') == "Super") { 
+            $this->load->view('plantillas/header', $data);
+            $this->load->view('SuperUser/companies');
+            $this->load->view('plantillas/footer');
+          }else{
+            $data['type'] = '1';
+         $this->load->view('plantillas/header', $data);
+         $this->load->view('SuperUser/companies');
          $this->load->view('plantillas/footer');
+         }
       }
       else{#if not there a session started or if it is destroy ever redirect to login
          redirect('/');

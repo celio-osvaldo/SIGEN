@@ -15,6 +15,7 @@ class Iluminacion extends CI_Controller {
        		$this->load->view('plantillas/footer_iluminacion');
        	}
        	else{
+       		$this->session->set_flashdata('error', 'No ha iniciado Sesión');//if not exist the user, just show an error in the view
        		redirect('/');
        	}
 	}

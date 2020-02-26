@@ -14,7 +14,8 @@ class SuperUser extends CI_Controller {
          $this->load->view('plantillas/footer');
       }
       else{#if not there a session started or if it is destroy ever redirect to login
-         redirect('Welcome/Index');
+      	$this->session->set_flashdata('error', 'No ha iniciado Sesión');//if not exist the user, just show an error in the view
+         redirect('/');
       }
 	}
 		public function LogIn()

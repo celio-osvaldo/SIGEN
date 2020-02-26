@@ -37,7 +37,7 @@
               </label>
             </div>
             <div class="col-12 forgot">
-              <a href="<?php echo base_url() ?>Welcome/LogDasa/">SiGeN</a>
+              <a href="<?php echo base_url() ?>Welcome/Dasa/">SiGeN</a>
             </div>
           </div> <!-- END-MODAL-->
         </div>

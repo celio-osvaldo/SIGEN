@@ -1,4 +1,4 @@
- <title> <?php echo $title ?> | Página Inicial </title>
+ <title> <?php echo $title ?></title>
 
 
  <div class="jumbotron ">

@@ -1,3 +1,4 @@
+ <title> <?php echo $title ?>  </title>
   <br>
   <div class="jumbotron jumbotron-fluid">
 
@@ -22,7 +23,7 @@
             <div class="card text-center" style="width: 15rem;">
               <div class="card-header"></div>
               <div class="card-body">
-                <a href="#"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/DASA_logo.png"></a>
+                <a href="<?php echo base_url() ?>Welcome/Dasa"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/DASA_logo.png"></a>
               </div>
             </div>
             <?php
@@ -30,11 +31,11 @@
           case 'ILUMINACION':
           ?>
 
-                      <div class="col-md-1"></div>
+            <div class="col-md-1"></div>
             <div class="card text-center" style="width: 15rem;">
               <div class="card-header"></div>
               <div class="card-body">
-                <a href="#"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/Logo_ISA.png"></a> 
+                <a href="<?php echo base_url() ?>Welcome/Iluminacion"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/Logo_ISA.png"></a> 
               </div>
             </div>
 
@@ -46,7 +47,7 @@
             <div class="card text-center" style="width: 15rem;">
               <div class="card-header"></div>
               <div class="card-body">
-                <a href="#"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/SALINAS.png"></a>
+                <a href="<?php echo base_url() ?>Welcome/Salinas"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/SALINAS.png"></a>
               </div>
             </div>
 

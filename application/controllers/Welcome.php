@@ -74,15 +74,15 @@ class Welcome extends CI_Controller {
       }
    }
 
-	public function LogDasa(){
+	public function Dasa(){
 		redirect('/DASA/Index', 'refresh');
 	}
 
-	public function LogIluminacion(){
+	public function Iluminacion(){
 		redirect('/Iluminacion/Index', 'refresh');
 	}
 
-	public function LogSalinas(){
+	public function Salinas(){
 		redirect('/Salinas/Index', 'refresh');
 	}
 

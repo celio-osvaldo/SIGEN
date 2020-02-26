@@ -36,6 +36,23 @@ body{
    width: 100%;
    color: white;
 }
+.header_dasa {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   background-color: #EC3038;/*Rojo*/
+   color: white;
+   font-weight: bold;
+}
+.footer_dasa {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #EC3038;/*Rojo*/
+   color: white;
+}
 
 .header_iluminacion {
    position: fixed;
@@ -44,6 +61,7 @@ body{
    width: 100%;
    background-color: #2DAAFF;/*Azul*/
    color: white;
+   font-weight: bold;
 }
 
 .footer_iluminacion {
@@ -52,6 +70,24 @@ body{
    bottom: 0;
    width: 100%;
    background-color: #99C328; /*Verde*/
+   color: white;
+}
+.header_salinas {
+   position: fixed;
+   left: 0;
+   top: 0;
+   width: 100%;
+   background-color: #EA0000;/*Rojo*/
+   color: white;
+   font-weight: bold;
+}
+
+.footer_salinas {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #000000; /*Negro*/
    color: white;
 }
 

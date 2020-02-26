@@ -10,9 +10,9 @@ class DASA extends CI_Controller {
           $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
           $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | DASA';
-	   		$this->load->view('plantillas/header', $data);
+	   		$this->load->view('plantillas/header_dasa', $data);
 			$this->load->view('DASA/Welcome');
-       		$this->load->view('plantillas/footer');
+       		$this->load->view('plantillas/footer_dasa');
        	}
        	else{
        		redirect('/');

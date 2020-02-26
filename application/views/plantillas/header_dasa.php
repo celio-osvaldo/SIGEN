@@ -7,8 +7,8 @@
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
 </head>
 <body>
-	<div class="header_dasa">
-	<nav class="navbar navbar-expand-lg navbar-light">
+	<!-- <div class="header_dasa"> -->
+	<nav class="navbar navbar-expand-lg navbar-light header_dasa">
 		<a class="navbar-brand" href="<?php echo base_url()?>Welcome/Companies"><img  src="<?php echo base_url() ?>Resources/Logos/grupo.ico"></a>
 
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inventario</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">Productos</a>
+						<a class="dropdown-item" href="<?php echo base_url()?>Dasa/GetInventories">Productos</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" href="#">Material Oficina</a>
 					</div>
@@ -77,4 +77,4 @@
 		<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
 		<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>
-	</div>
+	<!-- </div> -->

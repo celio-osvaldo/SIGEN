@@ -22,9 +22,9 @@ body{
   display: block;
 }
 .header_gral {
-   position: fixed;
+   /*position: fixed;
    left: 0;
-   top: 0;
+   top: 0;*/
    width: 100%;
    color: white;
 }
@@ -37,10 +37,10 @@ body{
    color: white;
 }
 .header_dasa {
-   position: fixed;
-   left: 0;
-   top: 0;
-   width: 100%;
+   /*position: fixed;*/
+   /*left: 0;
+   top: 0;*/
+   /*width: 100%;*/
    background-color: #EC3038;/*Rojo*/
    color: white;
    font-weight: bold;
@@ -55,9 +55,9 @@ body{
 }
 
 .header_iluminacion {
-   position: fixed;
+   /*position: fixed;
    left: 0;
-   top: 0;
+   top: 0;*/
    width: 100%;
    background-color: #2DAAFF;/*Azul*/
    color: white;
@@ -73,10 +73,10 @@ body{
    color: white;
 }
 .header_salinas {
-   position: fixed;
+   /*position: fixed;
    left: 0;
    top: 0;
-   width: 100%;
+   width: 100%;*/
    background-color: #EA0000;/*Rojo*/
    color: white;
    font-weight: bold;

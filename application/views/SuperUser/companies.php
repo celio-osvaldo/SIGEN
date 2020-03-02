@@ -2,10 +2,13 @@
   <br>
   <div class="jumbotron jumbotron-fluid">
 
-      <div class=" col-lg-12 card bg-card">
-        <br>        
-        <div class="container">
-          <div class="row">
+<div class="row">
+    <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <div class=" col-lg-12 card bg-card">
+          <br>        
+          <div class="container">
+            <div class="row">
 
 
     <?php 
@@ -70,6 +73,7 @@
     }
 
     ?>
-
-
+</div>
+    <div class="col-md-1"></div>
+</div>
   </div>

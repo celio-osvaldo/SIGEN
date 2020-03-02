@@ -1,8 +1,3 @@
-
-
-<link href="../assets/Personalized/css/GeneralStyles.css" rel="stylesheet">
-
-
 <div class="footer_dasa">
 	<div class="container-fluid">
 		<div class="row">
@@ -20,6 +15,22 @@
 	</div>
 </div>
 
+
+		<script>//script to load the GetInventories controller on click at the link with the id Produc_inv
+			$(document).ready(function(){
+				$("#Produc_inv").click(function(){
+					$("#page_content").load("GetInventories");
+					});
+				});
+		</script>
+
+		<script>
+			$(document).ready(function(){//script to load the CustomerProjects controller on click at the link with the id Customers_list
+				$("#Customers_list").click(function(){
+					$("#page_content").load("CustomerProjects");
+					});
+				});
+		</script>
 <script src="..\assets\Jquery\jquery-3.4.1.min.js"></script>
 <script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
 </body>

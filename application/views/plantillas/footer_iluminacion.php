@@ -20,7 +20,5 @@
 	</div>
 </div>
 
-	<script src="..\assets\jquery-3.4.1.min.js"></script>
-	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
 </body>
 </html> 

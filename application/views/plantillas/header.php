@@ -6,6 +6,12 @@
 	<link rel="shortcut icon" href="../Resources/icons/Boo_24669.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
+	<script src="..\assets\Jquery\jquery-3.4.1.min.js"></script>
+	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\js\smartmenus\jquery.smartmenus.min.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\js\smartmenus\addons\bootstrap-4\jquery.smartmenus.bootstrap-4.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\js\renderMenu.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\js\menuScript.js"></script>
 </head>
 <body>
 

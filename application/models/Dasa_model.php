@@ -17,6 +17,8 @@ class Dasa_model extends CI_Model
       	$query = $this->db->get();
       	if($query -> num_rows() >0){
 			return $query;
+		}else{
+			return $query;
 		}
 	}
 }

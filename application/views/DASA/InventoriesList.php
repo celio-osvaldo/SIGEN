@@ -2,7 +2,9 @@
 <html>
 <head>
     <title></title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" type="text/css" href="..\assets\Personalized\DataTables\datatables.min.css">
+    <script src="..\assets\Jquery\jquery-3.4.1.min.js"></script>
 </head>
 <body>
 <br>

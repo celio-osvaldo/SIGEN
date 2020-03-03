@@ -6,6 +6,8 @@
 	<link rel="shortcut icon" href="../Resources/icons/Boo_24669.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
+	<script src="..\assets\jquery-3.4.1.min.js"></script>
+	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
 </head>
 <body>
 	<div class="header_salinas">

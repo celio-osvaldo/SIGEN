@@ -28,7 +28,7 @@
 
 <div class="row">
     <table class="table table-striped table-bordered table-condensed">
-  <thead>
+  <thead  class="bg-primary">
     <tr>
       <th scope="col">Obra/Cliente</th>
       <th scope="col">Importe Total</th>
@@ -47,7 +47,7 @@
       <td></td>
       <td></td>
       <td></td>
-      <td></td>
+      <td><a href="#"><img src="<?php echo base_url() ?>Resources/Icons/edit.ico"></a></td>
     </tr>
   </tbody>
 </table>
@@ -72,7 +72,7 @@
         <label>Importe Total</label>
         <input type="number" name="" id="imp_obra" class="form-control input-sm">
         <label>Comentarios</label>
-        <input type="coment" name="" id="coment_obra" class="form-control input-sm">
+        <textarea id="coment_obra" class="form-control input-sm" maxlength="200"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

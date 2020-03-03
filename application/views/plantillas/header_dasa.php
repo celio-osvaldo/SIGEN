@@ -87,19 +87,3 @@
 			<h1 class="display-1" align="center">¡Bienvenido!</h1>
 			<p class="lead" align="center">Selecciona la opción deseada del menú superior</p>
 		</div>
-
-		<script>//script to load the GetInventories controller on click at the link with the id Produc_inv
-			$(document).ready(function(){
-				$("#Produc_inv").click(function(){
-					$("#page_content").load("GetInventories");
-					});
-				});
-		</script>
-
-		<script>
-			$(document).ready(function(){//script to load the CustomerProjects controller on click at the link with the id Customers_list
-				$("#Customers_list").click(function(){
-					$("#page_content").load("CustomerProjects");
-					});
-				});
-		</script>

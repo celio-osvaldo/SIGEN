@@ -37,7 +37,7 @@
                                 <td><?php echo "".$row->catalogo_producto_precio.""; ?></td>
                                 <td><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
-                                <td>borrar editar agregar</td>
+                                <td><a class="navbar-brand" role="button"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico"></a> <a class="navbar-brand" role="button"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a></td>
                             </tr>
                         <?php } ?>
                     </tbody>

@@ -39,6 +39,22 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/Customer_Projects');
 	}
 
+	public function AddCustomerProject(){
+		$this->load->model('Dasa_model');
+		$nombre=$_POST["nombre"];
+		$importe=$_POST["importe"];
+		$coment=$_POST["coment"];
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+				$data=array('empresa_id_empresa' => $idcomp->id_empresa,
+					'obra_cliente_nombre'=> $nombre,
+					'obra_cliente_imp_total'=>$importe,
+					'obra_cliente_saldo'=>$importe,
+					'obra_cliente_comentarios'=>$coment);
+		$result=$this->Dasa_model->AddCustomer_Project($data);
+		echo $result;		
+	}
+
 
 
 }

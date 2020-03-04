@@ -8,7 +8,7 @@
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
 	<script src="..\assets\Jquery\jquery-3.4.1.min.js"></script>
 	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
-	
+	<script type="text/javascript" src="..\assets\Personalized\DataTables\datatables.min.js"></script>
 
 	
 </head>

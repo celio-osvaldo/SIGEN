@@ -21,4 +21,19 @@ class Dasa_model extends CI_Model
 			return $query;
 		}
 	}
+
+	public function IdCompany($company){
+	   	$this->db->select('id_empresa');//the name of fields to query in the login
+      	$this->db->from('us_empresa');#name of first table
+      	$this->db->join('empresa','empresa_id_empresa=id_empresa');
+      	$this->db->where('empresa_nom', $company);#the field must match the entered parameter of password
+      	$query = $this->db->get();#the query is obtained and stored within the variable
+      	$result = $query->row();#the result displays in a row
+      	return $result;#if the query has data, returns the data query
+  		}
+
+	public function AddCustomer_Project($data){
+		$this->db->insert('obra_cliente',$data);
+		return 1;
+	}
 }

@@ -31,8 +31,10 @@ class DASA extends CI_Controller {
 
 	public function GetInventories(){
 		$this->load->model('Dasa_model');
-		$data = array('inventories' => $this->Dasa_model->GetAllProducts());
+		$data = array('inventories' => $this->Dasa_model->GetAllProducts(),
+						'providers' => $this->Dasa_model->GetAllProviders());
 		$this->load->view('DASA/InventoriesList', $data);
+		$this->load->view('DASA/AddProductModal', $data);
 	}
 
 	public function UpdateProductInfo(){
@@ -76,6 +78,10 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		$this->Dasa_model->UpdateProduct($id, $data);
 		$this->Index();
+	}
+
+	public function AddProduct(){
+		$this->load->model('Dasa_model');
 	}
 
 

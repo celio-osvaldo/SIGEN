@@ -1,4 +1,15 @@
 <div class="row">
+    <div class="col-md-1"></div>
+  <div class="col-md-7">
+    <h3 align="center">Catálogo de productos</h3>
+  </div>
+  <div class="col-md-4">
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewProduct"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar producto</button>
+  </div>
+  <div class="col-md-1"></div>
+</div>
+
+<div class="row">
     
     <div class="col-md-1"></div>
     <div class="col-md-10">

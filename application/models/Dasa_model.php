@@ -12,7 +12,7 @@ class Dasa_model extends CI_Model
 		$this->db->from('catalogo_producto');
       	$this->db->join('catalogo_proveedor', 'catalogo_proveedor_id_catalogo_proveedor = id_catalogo_proveedor');
       	$this->db->join('empresa', 'empresa_id_empresa = id_empresa');
-      	$this->db->where('empresa_id_empresa = 2');
+      	$this->db->where('empresa_id_empresa = 1');
       	$this->db->order_by('catalogo_producto_nombre', 'asc');
       	$query = $this->db->get();
       	if($query -> num_rows() >0){
@@ -52,6 +52,25 @@ class Dasa_model extends CI_Model
 		$this-> db -> update('catalogo_producto', $data);#Name of table to update
 		if ($this ->db->affected_rows() > 0){
 			return true;
+		}else{
+			return false;
+		}
+	}
+
+	public function InsertProduct($data){
+		$this->db->insert('catalogo_producto', $data);
+		if ($this->db->affected_rows() > 0) {
+			return true;
+		} else{
+			return false;
+		}
+	}
+
+	public function GetAllProviders(){
+		$this->db->Where('empresa_id_empresa = 1');
+		$q = $this->db->get('catalogo_proveedor');
+		if($q -> num_rows() >0){
+			return $q;
 		}else{
 			return false;
 		}

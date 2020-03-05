@@ -1,14 +1,10 @@
-
-<body>
-<br>
-
 <div class="row">
     
     <div class="col-md-1"></div>
     <div class="col-md-10">
         <div class="container">
             <div class="card bg-card">
-            <div class="container">
+            <div class="container col-md-12">
                 <br>
                 <table id="table_id" class="table table-hover display" style="font-size: 10pt;">
                     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
@@ -32,7 +28,13 @@
                                 <td><?php echo "".$row->catalogo_producto_precio.""; ?></td>
                                 <td><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
-                                <td><a class="navbar-brand" role="button"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico"></a> <a class="navbar-brand" role="button"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a></td>
+                                 <td>
+                                    <form action="<?php echo base_url(); ?>Dasa/UpdateProductInfo" id="editProductInfo" method="POST">
+                                        <input type="hidden" name="idproduct" value="<?php echo "".$row->id_catalogo_producto.""; ?>">
+                                        <button type="submit" class="btn btn-outline-secondary" name="acept" id="acept"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" />
+                                        </button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -52,6 +54,3 @@
         $('#table_id').DataTable();
     } );
 </script>
-
-</body>
-</html>

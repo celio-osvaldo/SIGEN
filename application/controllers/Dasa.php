@@ -35,9 +35,19 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/InventoriesList', $data);
 	}
 
+	public function UpdateProductInfo(){
+		$this->load->model('Dasa_model');
+		$id=$_POST['idproduct'];
+		$data = array('product' => $this->Dasa_model->GetProductByID($id));
+		$this->load->view('DASA/editProductForm', $data);
+	}
+
 	public function CustomerProjects(){
 		$this->load->view('DASA/Customer_Projects');
 	}
+
+
+#actions
 
 	public function AddCustomerProject(){
 		$this->load->model('Dasa_model');
@@ -55,7 +65,20 @@ class DASA extends CI_Controller {
 		echo $result;		
 	}
 
+	public function SendDataProductEdit(){
+		$id = $this->input->post('id');
+		$data = array('catalogo_producto_nombre'=> $this->input->post('nameProductE'),
+						'catalogo_producto_umedida'=> $this->input->post('medidaE'),
+						'catalogo_producto_precio'=> $this->input->post('priceE'),
+						 'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerE'),
+						'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
+
+		$this->load->model('Dasa_model');
+		$this->Dasa_model->UpdateProduct($id, $data);
+		$this->Index();
+	}
 
 
+#end controller
 }
  

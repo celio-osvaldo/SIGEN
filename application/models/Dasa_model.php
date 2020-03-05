@@ -36,4 +36,27 @@ class Dasa_model extends CI_Model
 		$this->db->insert('obra_cliente',$data);
 		return 1;
 	}
+
+	public function GetProductByID($id){
+      	$this->db->where('id_catalogo_producto = ', $id);
+		$q = $this->db->get('catalogo_producto');
+      	if($q -> num_rows() >0){
+			return $q;
+		}else{
+			return false;
+		}
+	}
+
+	public function UpdateProduct($id, $data){
+		$this-> db -> where('id_catalogo_producto', $id);#name of field o ftable to modificade
+		$this-> db -> update('catalogo_producto', $data);#Name of table to update
+		if ($this ->db->affected_rows() > 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
+
+#end model	
 }

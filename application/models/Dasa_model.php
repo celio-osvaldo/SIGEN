@@ -76,6 +76,15 @@ class Dasa_model extends CI_Model
 		}
 	}
 
+	public function GetAllMeasurements(){
+		$q = $this->db->get('unidades_de_medida');
+		if($q -> num_rows() >0){
+			return $q;
+		}else{
+			return false;
+		}
+	}
+
 
 #end model	
 }

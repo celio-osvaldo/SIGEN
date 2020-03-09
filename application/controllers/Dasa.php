@@ -32,7 +32,8 @@ class DASA extends CI_Controller {
 	public function GetInventories(){
 		$this->load->model('Dasa_model');
 		$data = array('inventories' => $this->Dasa_model->GetAllProducts(),
-						'providers' => $this->Dasa_model->GetAllProviders());
+						'providers' => $this->Dasa_model->GetAllProviders(),
+						'measure' => $this->Dasa_model->GetAllMeasurements());
 		$this->load->view('DASA/InventoriesList', $data);
 		$this->load->view('DASA/AddProductModal', $data);
 	}
@@ -81,7 +82,21 @@ class DASA extends CI_Controller {
 	}
 
 	public function AddProduct(){
+		$data = array('id_catalogo_producto' => $this->input->post('id'),
+						'catalogo_producto_nombre'=> $this->input->post('nameProduct'),
+						'catalogo_producto_umedida'=> $this->input->post('medida'),
+						'catalogo_producto_precio'=> $this->input->post('price'),
+						 'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('provider'),
+						 'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('EnterpriseID'),
+						'catalogo_producto_fecha_actualizacion' => $this->input->post('date'),
+						'catalogo_producto_url_imagen' => $this->input->post('image'));
 		$this->load->model('Dasa_model');
+		if($this->Dasa_model->InsertProduct($data) == true){
+			$this->Index();
+			echo "<script>alert('Producto agregado correctamente. Verifique en la tabla');window.location.assign('index') </script>";
+		} else{
+			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('index') </script>";
+		}
 	}
 
 

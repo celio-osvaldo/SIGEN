@@ -60,7 +60,9 @@
                    ?>
                 </td>
                 <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
-                <td><a class="navbar-brand" onclick="Edit(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a></td>
+                <td>
+                  <a class="navbar-brand" onclick="Edit(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a>
+                </td>
               </tr>
             <?php } ?>
           </tbody>

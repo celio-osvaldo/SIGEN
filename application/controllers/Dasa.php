@@ -31,8 +31,18 @@ class DASA extends CI_Controller {
 
 	public function GetInventories(){
 		$this->load->model('Dasa_model');
-		$data = array('inventories' => $this->Dasa_model->GetAllProducts());
+		$data = array('inventories' => $this->Dasa_model->GetAllProducts(),
+						'providers' => $this->Dasa_model->GetAllProviders(),
+						'measure' => $this->Dasa_model->GetAllMeasurements());
 		$this->load->view('DASA/InventoriesList', $data);
+		$this->load->view('DASA/AddProductModal', $data);
+	}
+
+	public function UpdateProductInfo(){
+		$this->load->model('Dasa_model');
+		$id=$_POST['idproduct'];
+		$data = array('product' => $this->Dasa_model->GetProductByID($id));
+		$this->load->view('DASA/editProductForm', $data);
 	}
 
 	public function CustomerProjects(){
@@ -42,6 +52,9 @@ class DASA extends CI_Controller {
 		$data=array('customerslist'=>$this->Dasa_model->GetAllCustomer_Project($idcompany->id_empresa));
 		$this->load->view('DASA/Customer_Projects',$data);
 	}
+
+
+#actions
 
 	public function AddCustomerProject(){
 		$this->load->model('Dasa_model');
@@ -80,7 +93,40 @@ class DASA extends CI_Controller {
 		echo $result;
 	}
 
+	public function SendDataProductEdit(){
+		$id = $this->input->post('idE');
+		$data = array('catalogo_producto_nombre'=> $this->input->post('nameProductE'),
+						'catalogo_producto_umedida'=> $this->input->post('medidaE'),
+						'catalogo_producto_precio'=> $this->input->post('priceE'),
+						 'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerE'),
+						'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
 
+		$this->load->model('Dasa_model');
+		if($this->Dasa_model->UpdateProduct($id, $data) == true){
+		$this->Index();
+			echo "<script>alert('Producto modificado correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
+		} else{
+			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
+		}
+	}
+
+	public function AddProduct(){
+		$data = array('id_catalogo_producto' => $this->input->post('id'),
+						'catalogo_producto_nombre'=> $this->input->post('nameProduct'),
+						'catalogo_producto_umedida'=> $this->input->post('medida'),
+						'catalogo_producto_precio'=> $this->input->post('price'),
+						 'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('provider'),
+						 'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('EnterpriseID'),
+						'catalogo_producto_fecha_actualizacion' => $this->input->post('date'),
+						'catalogo_producto_url_imagen' => $this->input->post('image'));
+		$this->load->model('Dasa_model');
+		if($this->Dasa_model->InsertProduct($data) == true){
+			$this->Index();
+			echo "<script>alert('Producto agregado correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
+		} else{
+			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
+		}
+	}
 
 }
  

@@ -32,8 +32,22 @@ class Dasa_model extends CI_Model
       	return $result;#if the query has data, returns the data query
   		}
 
+  	public function GetAllCustomer_Project($idcompany){
+  		$this->db->select('id_obra_cliente, obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_estado, obra_cliente_comentarios');
+  		$this->db->from('obra_cliente');
+  		$this->db->where('empresa_id_empresa',$idcompany);
+  		$query = $this->db->get();
+  		return $query;			
+  	}
+
 	public function AddCustomer_Project($data){
 		$this->db->insert('obra_cliente',$data);
 		return 1;
 	}
+
+  public function Edit_CustomerProject($id,$data){
+    $this->db->where('id_obra_cliente', $id);
+    $this->db->update('obra_cliente', $data);
+    return 1;
+  }
 }

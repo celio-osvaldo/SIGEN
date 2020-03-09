@@ -24,25 +24,49 @@
                 <th>Importe Total</th>
                 <th>Pagado</th>
                 <th>Saldo</th>
+                <th hidden="true">Estado_id</th>
                 <th>Estado</th>
                 <th>Comentarios</th>
                 <th>Editar</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th></th>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td><a href="#"><img src="<?php echo base_url() ?>Resources/Icons/edit.ico"></a></td>
+             <?php
+             foreach ($customerslist->result() as $row) {?>
+              <tr>          
+                <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
+                <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_imp_total.""; ?></td>
+                <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>">Total pagado</td>
+                <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_saldo.""; ?></td>
+
+                <td id="<?php echo "estado_obra".$row->id_obra_cliente;?>" hidden="true"><?php echo "".$row->obra_cliente_estado.""; ?></td>
+
+                <td id="nom_estadp">
+                  <?php 
+                  switch ($row->obra_cliente_estado) {
+                    case '1':
+                      echo 'Activo';
+                      break;
+                    case '2':
+                      echo 'Pagado';
+                      break;
+                    case '3':
+                      echo 'Cancelado';
+                      break;
+                    default:
+                      echo 'Error';
+                      break;
+                  }
+                   ?>
+                </td>
+                <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
+                <td><a class="navbar-brand" onclick="Edit(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a></td>
               </tr>
-            </tbody>
-          </table>
-        </div>
+            <?php } ?>
+          </tbody>
+        </table>
       </div>
+    </div>
     </div>
   </div>
 </div>
@@ -51,7 +75,7 @@
 
 
 
-<!-- Modal -->
+<!-- Modal Add Customer_Project -->
 <div class="modal fade" id="NewClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -71,11 +95,48 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="guardarnuevo">Guardar</button>
+        <button type="button" class="btn btn-primary" id="guardarnuevo" data-dismiss="modal">Guardar</button>
       </div>
     </div>
   </div>
 </div>
+
+
+
+<!-- Modal Edit Customer_Project -->
+<div class="modal fade" id="EditClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Obra/Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label>Nombre Obra/Cliente</label>
+        <input type="text" name="" id="edit_nom_obra" class="form-control input-sm">
+        <label>Importe Total</label>
+        <input type="number" name="" id="edit_imp_obra" class="form-control input-sm">
+        <label>Estado</label><br>   
+        <select id="edit_estado_obra">
+          <option value="1">Activo</option>
+          <option value="2">Pagado</option>
+          <option value="3">Cancelado</option>
+        </select><br>
+        <label>Comentarios</label>
+        <textarea id="edit_coment_obra" class="form-control input-sm" maxlength="200"></textarea>
+        <input type="text" id="edit_id_obra" hidden="true">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="UpdateRegister" data-dismiss="modal">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!--script para llenar la tabla con la libreria DataTable -->
 <script type="text/javascript">
   $(document).ready( function () {
@@ -97,15 +158,17 @@
       nombre=$('#nom_obra').val();
       importe=$('#imp_obra').val();
       coment=$('#coment_obra').val();
+
       if (nombre!=""&&importe!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Dasa/AddCustomerProject",
           data:{nombre:nombre, importe:importe,coment:coment},
           success:function(result){
-            alert(result);
+            //alert(result);
             if(result==1){
               alert('Registro Agregado');
+             CloseModal();
             }else{
               alert('Falló el servidor. Registro no agregado');
             }
@@ -114,9 +177,60 @@
       }else{
         alert("Debe ingresar nombre de Obra/cliente e Importe Total");
       }
+    });
 
+    //Función para actualizar el registro
+    $('#UpdateRegister').click(function(){
+    act_nom=$("#edit_nom_obra").val();
+    act_imp=$("#edit_imp_obra").val();
+    act_estado=$("#edit_estado_obra").val();
+    act_coment=$("#edit_coment_obra").val();
+    id=$("#edit_id_obra").val();
+    //alert(act_nom+act_imp+act_estado+act_coment);
+      if (act_nom!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Dasa/EditCustomerProject",
+          data:{act_nom:act_nom, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id},
+          success:function(result){
+            //alert(result);
+            if(result==1){
+              alert('Registro Actualizado');
+              CloseModal();
+            }else{
+              alert('Falló el servidor. Registro no actualizado');
+            }
+          }
+        });
+      }else{
+        alert("Debe ingresar nombre de Obra/cliente e Importe Total");
+      } 
     });
   });
+
+  function CloseModal(){
+    $('#btncancelar').click();
+    $('#NewClientModal').modal("hide");
+    $('.modal-backdrop').remove();
+    $("#page_content").load("CustomerProjects");
+  }
+
+//Función para Mostrar Modal de Editar un registro de Cliente/Obra
+  function Edit($id){
+    //alert("Editar "+$id);
+    var nombre=$("#nom_obra"+$id).text();
+    var importe=$("#imp_obra"+$id).text();
+    var estado=$("#estado_obra"+$id).text();
+    var coment=$("#coment_obra"+$id).text();
+    var id=$id;
+    $("#EditClientModal").modal();
+    $("#edit_nom_obra").val(nombre);
+    $("#edit_imp_obra").val(importe);
+    $("#edit_estado_obra").val(estado);
+    $("#edit_coment_obra").val(coment);
+    $("#edit_id_obra").val(id);
+    }
+
 </script>
 
 

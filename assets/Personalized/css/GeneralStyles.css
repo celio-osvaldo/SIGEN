@@ -46,8 +46,8 @@ body{
    font-weight: bold;
 }
 .footer_dasa {
-   position: fixed;
-   left: 0;
+   position: bottom;
+   /*left: 0;*/
    bottom: 0;
    width: 100%;
    background-color: #EC3038;/*Rojo*/
@@ -65,7 +65,7 @@ body{
 }
 
 .footer_iluminacion {
-   position: fixed;
+   position: bottom;
    left: 0;
    bottom: 0;
    width: 100%;
@@ -83,7 +83,7 @@ body{
 }
 
 .footer_salinas {
-   position: fixed;
+position: bottom;
    left: 0;
    bottom: 0;
    width: 100%;

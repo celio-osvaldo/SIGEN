@@ -36,7 +36,11 @@ class DASA extends CI_Controller {
 	}
 
 	public function CustomerProjects(){
-		$this->load->view('DASA/Customer_Projects');
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data=array('customerslist'=>$this->Dasa_model->GetAllCustomer_Project($idcompany->id_empresa));
+		$this->load->view('DASA/Customer_Projects',$data);
 	}
 
 	public function AddCustomerProject(){
@@ -50,9 +54,30 @@ class DASA extends CI_Controller {
 					'obra_cliente_nombre'=> $nombre,
 					'obra_cliente_imp_total'=>$importe,
 					'obra_cliente_saldo'=>$importe,
+					'obra_cliente_estado'=>1,
 					'obra_cliente_comentarios'=>$coment);
 		$result=$this->Dasa_model->AddCustomer_Project($data);
 		echo $result;		
+	}
+
+	public function EditCustomerProject(){
+		$this->load->model('Dasa_model');
+		$act_nom=$_POST["act_nom"];
+		$act_imp=$_POST["act_imp"];
+		$act_estado=$_POST["act_estado"];
+		$act_coment=$_POST["act_coment"];
+		$id=$_POST["id"];
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+
+		$data = array(
+        'obra_cliente_nombre' => $act_nom,
+        'obra_cliente_imp_total' => $act_imp,
+        'obra_cliente_estado' => $act_estado,
+        'obra_cliente_comentarios' => $act_coment
+			);
+		$result=$this->Dasa_model->Edit_CustomerProject($id,$data);
+		echo $result;
 	}
 
 

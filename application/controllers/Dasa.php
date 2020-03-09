@@ -69,7 +69,7 @@ class DASA extends CI_Controller {
 	}
 
 	public function SendDataProductEdit(){
-		$id = $this->input->post('id');
+		$id = $this->input->post('idE');
 		$data = array('catalogo_producto_nombre'=> $this->input->post('nameProductE'),
 						'catalogo_producto_umedida'=> $this->input->post('medidaE'),
 						'catalogo_producto_precio'=> $this->input->post('priceE'),
@@ -77,8 +77,12 @@ class DASA extends CI_Controller {
 						'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
 
 		$this->load->model('Dasa_model');
-		$this->Dasa_model->UpdateProduct($id, $data);
+		if($this->Dasa_model->UpdateProduct($id, $data) == true){
 		$this->Index();
+			echo "<script>alert('Producto modificado correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
+		} else{
+			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
+		}
 	}
 
 	public function AddProduct(){
@@ -93,9 +97,9 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		if($this->Dasa_model->InsertProduct($data) == true){
 			$this->Index();
-			echo "<script>alert('Producto agregado correctamente. Verifique en la tabla');window.location.assign('index') </script>";
+			echo "<script>alert('Producto agregado correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
 		} else{
-			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('index') </script>";
+			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
 		}
 	}
 

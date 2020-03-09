@@ -9,7 +9,7 @@
       </div>
         <form class="form-group" action="<?php echo base_url(); ?>Dasa/AddProduct" method="POST">
       <div class="modal-body">
-                  <input class="form-control" type="number" name="id" id="id" disabled>
+                  <input class="form-control" type="hidden" name="id" id="id" disabled>
                   <label class="label-control">Nombre del producto</label>
                   <input class="form-control" type="text" name="nameProduct" id="nameProduct" required="true">
                   <label class="label-control">Unidad de medida</label>
@@ -28,9 +28,9 @@
                       <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
                   <?php } ?>
                   </select>
-                  <input class="form-control" type="text" name="EnterpriseID" id="EnterpriseID" value="1">
+                  <input class="form-control" type="hidden" name="EnterpriseID" id="EnterpriseID" value="1">
                   <input type="hidden" name="date" id="date" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-                  <input type="text" name="image" id="image">
+                  <input type="hidden" name="image" id="image">
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-outline-success" id="guardarnuevo">Guardar</button>

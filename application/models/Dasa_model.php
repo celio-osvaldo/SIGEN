@@ -99,5 +99,41 @@ class Dasa_model extends CI_Model
 		}
 	}
 
+	 public function GetAllCustomer_Payments($idcompany){
+    $this->db->select('id_obra_cliente, obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios');
+      $this->db->from('obra_cliente');
+      $this->db->where('empresa_id_empresa',$idcompany);
+      $this->db->where('obra_cliente_estado',1);
+      $query = $this->db->get();
+      return $query; 
+  }
+
+    public function AddCustomer_Pay($data){
+    $this->db->insert('venta_movimiento',$data);
+    return 1;
+  }
+
+  public function SumPagos_Obra($id_obra){
+    $this->db->select_sum('venta_mov_monto');
+    $this->db->from('venta_movimiento');
+    $this->db->Where('obra_cliente_id_obra_cliente',$id_obra);
+    $query = $this->db->get();
+    return $query; // Produces: SELECT SUM(age) as age FROM members
+  }
+
+  public function Total_obra($id_obra){
+    $this->db->select('obra_cliente_imp_total');
+    $this->db->from('obra_cliente');
+    $this->db->where('id_obra_cliente',$id_obra);
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function UpdatePaysCustomer($id_obra,$data){
+    $this->db->where('id_obra_cliente', $id_obra);
+    $this->db->update('obra_cliente', $data);
+    return 1;
+  }
+
 
 }

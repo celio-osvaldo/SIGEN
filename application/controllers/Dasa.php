@@ -53,6 +53,14 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/Customer_Projects',$data);
 	}
 
+		public function CustomerPayments(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data=array('customerspays'=>$this->Dasa_model->GetAllCustomer_Payments($idcompany->id_empresa));
+		$this->load->view('DASA/Customer_Payments',$data);
+	}
+
 
 #actions
 
@@ -112,13 +120,13 @@ class DASA extends CI_Controller {
 
 	public function AddProduct(){
 		$data = array('id_catalogo_producto' => $this->input->post('id'),
-						'catalogo_producto_nombre'=> $this->input->post('nameProduct'),
-						'catalogo_producto_umedida'=> $this->input->post('medida'),
-						'catalogo_producto_precio'=> $this->input->post('price'),
-						 'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('provider'),
-						 'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('EnterpriseID'),
-						'catalogo_producto_fecha_actualizacion' => $this->input->post('date'),
-						'catalogo_producto_url_imagen' => $this->input->post('image'));
+			'catalogo_producto_nombre'=> $this->input->post('nameProduct'),
+			'catalogo_producto_umedida'=> $this->input->post('medida'),
+			'catalogo_producto_precio'=> $this->input->post('price'),
+			'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('provider'),
+			'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('EnterpriseID'),
+			'catalogo_producto_fecha_actualizacion' => $this->input->post('date'),
+			'catalogo_producto_url_imagen' => $this->input->post('image'));
 		$this->load->model('Dasa_model');
 		if($this->Dasa_model->InsertProduct($data) == true){
 			$this->Index();
@@ -126,6 +134,23 @@ class DASA extends CI_Controller {
 		} else{
 			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
 		}
+	}
+
+	public function AddCustomersPay(){
+		$this->load->model('Dasa_model');
+		$id_obra=$_POST["id_obra"];
+		$cant_pago=$_POST["cant_pago"];
+		$fecha=$_POST["fecha"];
+		$coment=$_POST["coment"];
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		//$data=array('venta_mov_fecha'=> $this->input->post('fecha'),
+			//'venta_mov_comentario'=>$this->input->post('coment'),
+			//'venta_mov_monto'=>$this->input->post('cant_pago'),
+			//'obra_cliente_id_obra_cliente'=>$this->input->post('id_obra'),
+			//'obra_cliente_empresa_id_empresa'=>$idcomp->id_empresa);
+		//$result=$this->Dasa_model->AddCustomer_Pay($data);
+		return 2;
 	}
 
 }

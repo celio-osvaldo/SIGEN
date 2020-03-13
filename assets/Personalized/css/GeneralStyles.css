@@ -94,3 +94,7 @@ position: bottom;
 .hide-object{
   display: none;
 }
+
+ .sinborde {
+    border: 0;
+  }

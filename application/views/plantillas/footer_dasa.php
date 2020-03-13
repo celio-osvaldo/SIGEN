@@ -29,7 +29,15 @@
 				$("#Customers_list").click(function(){
 					$("#page_content").load("CustomerProjects");
 					});
-				});
+			});
+		</script>
+
+		<script>
+			$(document).ready(function(){//script to load the CustomerProjects controller on click at the link with the id Customers_list
+				$("#Customers_Payments").click(function(){
+					$("#page_content").load("CustomerPayments");
+					});
+			});
 		</script>
 </body>
 </html> 

@@ -33,7 +33,7 @@ class Dasa_model extends CI_Model
   		}
 
   	public function GetAllCustomer_Project($idcompany){
-  		$this->db->select('id_obra_cliente, obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_estado, obra_cliente_comentarios');
+  		$this->db->select('id_obra_cliente, obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios');
   		$this->db->from('obra_cliente');
   		$this->db->where('empresa_id_empresa',$idcompany);
   		$query = $this->db->get();
@@ -108,24 +108,31 @@ class Dasa_model extends CI_Model
       return $query; 
   }
 
-    public function AddCustomer_Pay($data){
-    $this->db->insert('venta_movimiento',$data);
-    return 1;
+  public function AddCustomer_Pay($data){
+  	$this->db->insert('venta_movimiento', $data);
+  	if ($this->db->affected_rows() > 0) {
+			return 1;
+		} else{
+			return 2;
+		}
+
   }
 
   public function SumPagos_Obra($id_obra){
-    $this->db->select_sum('venta_mov_monto');
+    $this->db->select_sum('venta_mov_monto','suma_pagos');
     $this->db->from('venta_movimiento');
     $this->db->Where('obra_cliente_id_obra_cliente',$id_obra);
     $query = $this->db->get();
-    return $query; // Produces: SELECT SUM(age) as age FROM members
+    $result = $query->row();
+    return $result; // Produces: SELECT SUM(age) as age FROM members
   }
 
   public function Total_obra($id_obra){
     $this->db->select('obra_cliente_imp_total');
     $this->db->from('obra_cliente');
     $this->db->where('id_obra_cliente',$id_obra);
-    $result=$this->db->get();
+    $query=$this->db->get();
+    $result = $query->row();
     return $result;
   }
 

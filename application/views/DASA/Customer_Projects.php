@@ -36,7 +36,7 @@
               <tr>          
                 <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
                 <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_imp_total.""; ?></td>
-                <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>">Total pagado</td>
+                <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_pagado.""; ?> </td>
                 <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_saldo.""; ?></td>
 
                 <td id="<?php echo "estado_obra".$row->id_obra_cliente;?>" hidden="true"><?php echo "".$row->obra_cliente_estado.""; ?></td>

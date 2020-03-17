@@ -69,9 +69,9 @@
       </div>
       <div class="modal-body">
         <label>Cantidad de Pago</label>
-        <input type="number" name="" id="pago_obra" class="form-control input-sm">
+        <input type="number" name="" id="pago_obra" class="form-control input-sm" required="true">
         <label>Fecha de Pago</label>
-        <input type="date" size="10" id="fecha_pago" class="form-control input-sm">
+        <input type="date" id="fecha_pago" class="form-control input-sm" required="true">
         <label>Comentario del Pago</label>
         <textarea id="coment_obra" class="form-control input-sm" maxlength="50"></textarea>
         <input type="number" id="id_obra" hidden="true">
@@ -102,10 +102,10 @@
           url:"<?php echo base_url();?>Dasa/AddCustomersPay",
           data:{id_obra:id_obra, cant_pago:cant_pago, fecha:fecha, coment:coment},
           success:function(result){
-            alert(result);
+            //alert(result);
+            refrescar();
             if(result==1){
               alert('Pago Agregado');
-             //CloseModal();
             }else{
               alert('Falló el servidor. Pago no agregado');
             }
@@ -114,12 +114,16 @@
       }else{
         alert("Debe ingresar Cantidad de Pago mayor a 0 e indicar una fecha");
       }
-
     });
   });
 
+  function refrescar(){
+    //Actualiza la el div con los datos de CustomerPayments
+    $("#page_content").load("CustomerPayments");
+  }
+
+
   function AddPay($id) {
-    //alert('Agregar Pago');
     $('#AddPayments').modal();
     var obra=$('#nom_obra'+$id).text();
     $('#id_obra').val($id);
@@ -129,7 +133,6 @@
 
   function Details($id) {
    alert('Ver Detalles');
-
  }
 </script>
 

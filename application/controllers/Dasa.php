@@ -90,10 +90,12 @@ class DASA extends CI_Controller {
 		$id=$_POST["id"];
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
-
+		$sum_pagos=$this->Dasa_model->SumPagos_Obra($id);
+		$saldo=($act_imp-$sum_pagos->suma_pagos);
 		$data = array(
         'obra_cliente_nombre' => $act_nom,
         'obra_cliente_imp_total' => $act_imp,
+        'obra_cliente_saldo'=>$saldo,
         'obra_cliente_estado' => $act_estado,
         'obra_cliente_comentarios' => $act_coment
 			);
@@ -138,19 +140,28 @@ class DASA extends CI_Controller {
 
 	public function AddCustomersPay(){
 		$this->load->model('Dasa_model');
-		$id_obra=$_POST["id_obra"];
-		$cant_pago=$_POST["cant_pago"];
-		$fecha=$_POST["fecha"];
-		$coment=$_POST["coment"];
+		$new_id_obra=$_POST["id_obra"];
+		$new_cant_pago=$_POST["cant_pago"];
+		$new_fecha=$_POST["fecha"];
+		$new_coment=$_POST["coment"];
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
-		//$data=array('venta_mov_fecha'=> $this->input->post('fecha'),
-			//'venta_mov_comentario'=>$this->input->post('coment'),
-			//'venta_mov_monto'=>$this->input->post('cant_pago'),
-			//'obra_cliente_id_obra_cliente'=>$this->input->post('id_obra'),
-			//'obra_cliente_empresa_id_empresa'=>$idcomp->id_empresa);
-		//$result=$this->Dasa_model->AddCustomer_Pay($data);
-		return 2;
+		$data = array('obra_cliente_empresa_id_empresa' => $idcomp->id_empresa,
+			'venta_mov_fecha' => $new_fecha,
+			'venta_mov_comentario' => $new_coment,
+			'venta_mov_monto' => $new_cant_pago,
+			'obra_cliente_id_obra_cliente' => $new_id_obra);
+		//var_dump($data);
+		$result=$this->Dasa_model->AddCustomer_Pay($data);
+		$sum_pagos=$this->Dasa_model->SumPagos_Obra($new_id_obra);
+		$total_obra=$this->Dasa_model->Total_obra($new_id_obra);
+		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+		$saldo=array('obra_cliente_saldo' => $resta,
+					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+					'obra_cliente_ult_pago'=>$new_fecha);
+		$actualiza=$this->Dasa_model->UpdatePaysCustomer($new_id_obra,$saldo);
+		//var_dump($total_obra);
+		echo $result;
 	}
 
 }

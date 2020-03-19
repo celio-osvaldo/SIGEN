@@ -43,7 +43,7 @@
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" id="Customers_Payments">Movimientos (Pagos)</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Anticipos</a>
+					<!--		<a class="dropdown-item" href="#">Anticipos</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Pagos SFV</a>
 							<div class="dropdown-divider"></div>
@@ -51,6 +51,7 @@
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Recibo de entrega</a>
 						</div>
+					-->
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Catálogos</a>

@@ -55,7 +55,7 @@
               foreach ($payments_list->result() as $row) {
                 ?>
                 <tr>
-                  <td id="<?php echo "fecha".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_fecha.""; ?>  </td>
+                  <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
                   <td id="<?php echo "pago".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_monto.""; ?> </td>
                   <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
                 </td>

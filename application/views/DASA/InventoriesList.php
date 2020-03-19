@@ -15,9 +15,10 @@
     <div class="col-md-10">
         <div class="container">
             <div class="card bg-card">
-            <div class="container col-md-12">
+            <div class="container">
                 <br>
-                <table id="table_id" class="table table-hover display" style="font-size: 10pt;">
+                <div class="table-responsive-lg">
+                    <table id="table_id" class="table table-hover display table-striped" style="font-size: 10pt;">
                     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
                         <tr>
                             <th>Código</th>
@@ -50,6 +51,7 @@
                         <?php } ?>
                     </tbody>
                 </table>
+                </div>
                 <br>
             </div>
         </div>

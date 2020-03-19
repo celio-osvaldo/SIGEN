@@ -71,12 +71,12 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gastos</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Ventas(Facturas)</a>	
+							<a class="dropdown-item" id="billsV">Ventas(Facturas)</a>	
 							<div class="dropdown-divider"></div>
 							<p class="dropdown-item" >Operativos</p>
-							<a class="dropdown-item"  href="#">Caja Chica</a>
+							<a class="dropdown-item" id="pettyCashV">Caja Chica</a>
 							<a class="dropdown-item"  href="#">Gastos</a>
-							<a class="dropdown-item"  href="#">Viaticos</a>	
+							<a class="dropdown-item" id="viaticsV">Viaticos</a>	
 						</div>
 					</li>
 				</ul>

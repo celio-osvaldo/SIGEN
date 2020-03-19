@@ -35,7 +35,7 @@ class DASA extends CI_Controller {
 						'providers' => $this->Dasa_model->GetAllProviders(),
 						'measure' => $this->Dasa_model->GetAllMeasurements());
 		$this->load->view('DASA/InventoriesList', $data);
-		//$this->load->view('DASA/AddProductModal', $data);
+		$this->load->view('DASA/AddProductModal', $data);
 	}
 
 	public function UpdateProductInfo(){
@@ -68,6 +68,33 @@ class DASA extends CI_Controller {
 		$data=array('payments_list'=>$this->Dasa_model->GetPayments_List($id_obra),
 					'obra'=>$data2);
 		$this->load->view('DASA/Customer_Payments_List',$data);
+	}
+
+	public function GetAllBills(){
+		$table = 'gasto_venta';
+		$id = 'id_gasto_venta';
+		$this->load->model('Dasa_model');
+		$data=array('bill'=>$this->Dasa_model->GetBills(),
+					'woks'=>$this->Dasa_model->GetAllWorks_Client(),
+					'max'=>$this->Dasa_model->IDMAX($table, $id));
+		$this->load->view('Dasa/BillsSales', $data);
+	}
+
+	public function GetAllViatics(){
+		$this->load->view('Dasa/ViaticList');
+	}
+
+	public function DeatailsOfViatic(){
+		$this->load->view('Dasa/DetailsViaticReport');
+	}
+
+	public function PettyCash(){
+		$table = 'lista_caja_chica';
+		$id = 'id_lista_caja_chica';
+		$this->load->model('Dasa_model');
+		$data=array('cash' => $this->Dasa_model->GetAllReportsOfPettyCash(),
+					'max'=>$this->Dasa_model->IDMAX($table, $id));
+		$this->load->view('Dasa/PettyCash', $data);
 	}
 
 
@@ -171,6 +198,49 @@ class DASA extends CI_Controller {
 		$actualiza=$this->Dasa_model->UpdatePaysCustomer($new_id_obra,$saldo);
 		//var_dump($total_obra);
 		echo $result;
+	}
+
+	public function AddBillOfSale(){
+		$table = 'gasto_venta';
+		$company = 1;
+		$data = array('id_gasto_venta' => $this->input->post('folioI'),
+						'obra_cliente_id_obra_cliente'=> $this->input->post('clientNameI'),
+						'obra_cliente_empresa_id_empresa'=> $company,
+						'gasto_venta_fecha'=> $this->input->post('emitionDateI'),
+						'gasto_venta_factura'=> $this->input->post('billI'),
+						'gasto_venta_monto'=> $this->input->post('amountI'),
+						'gasto_venta_concepto' => $this->input->post('conceptI'),
+						'gasto_venta_observacion' => $this->input->post('coment'),
+						'gasto_venta_estado_pago' => $this->input->post('statusI'),
+						'gasto_venta_fecha_pago' => $this->input->post('dateI'));
+		$this->load->model('Dasa_model');
+		if($this->Dasa_model->Insert($table, $data) == true){
+			$this->Index();
+			echo "<script>alert('Factura agregada correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
+		} else{
+			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
+		}
+	}
+
+	public function AddReportPettyCash(){
+		$table = 'lista_caja_chica';
+		$cash = 1;
+
+		$data = array('id_lista_caja_chica' => $this->input->post('cashI'),
+						'caja_chica_id_caja_chica'=> $cash,
+						'lista_caja_chica_fecha'=> $this->input->post('dateI'),
+						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
+						'lista_caja_chica_reposicion'=> $this->input->post('moneyI'),
+						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'),
+						'lista_caja_chica_factura' => $this->input->post('upBillI'),
+						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
+		$this->load->model('Dasa_model');
+		if($this->Dasa_model->Insert($table, $data) == true){
+			$this->Index();
+			echo "<script>alert('Factura agregada correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
+		} else{
+			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
+		}
 	}
 
 }

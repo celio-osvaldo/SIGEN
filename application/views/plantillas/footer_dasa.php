@@ -39,5 +39,26 @@
 					});
 			});
 		</script>
+		<script>
+			$(document).ready(function(){//script to load the bills of controller on click at the link with the id billsV
+				$("#billsV").click(function(){
+					$("#page_content").load("GetAllBills");
+					});
+				});
+		</script>
+		<script>//script to load the report of viatics of controller on click at the link with the id viaticsV
+			$(document).ready(function(){
+				$("#viaticsV").click(function(){
+					$("#page_content").load("GetAllViatics");
+				});
+			});
+		</script>
+		<script>//script to load the report of viatics of controller on click at the link with the id pettyCashV
+			$(document).ready(function(){
+				$("#pettyCashV").click(function(){
+					$("#page_content").load("PettyCash");
+				});
+			});
+		</script>
 </body>
 </html> 

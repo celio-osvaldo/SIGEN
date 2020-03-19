@@ -160,5 +160,49 @@ class Dasa_model extends CI_Model
   	return $result;
   }
 
+  public function GetBills(){
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_nom, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago');
+    $this->db->from('obra_cliente');
+        $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+        $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
+        $this->db->where('empresa_nom = "DASA"');
+        $query = $this->db->get();
+        if($query -> num_rows() >0){
+      return $query;
+    }else{
+      return false;
+    }
+  }
+
+  function IDMAX($table, $id){
+    $this->db->select_max($id);
+    $q = $this->db->get($table);
+    if($q->num_rows() > 0){
+      return $q;
+    }else{
+      return $q;
+    }
+  }
+
+  public function GetAllWorks_Client(){
+    $q = $this->db->get('obra_cliente');
+    if($q -> num_rows() >0){
+      return $q;
+    }else{
+      return false;
+    }
+  }
+
+  public function GetAllReportsOfPettyCash(){
+    $cash = 1;
+    $this->db->where('caja_chica_id_caja_chica', $cash);
+    $q = $this->db->get('lista_caja_chica');
+    if($q -> num_rows() >0){
+      return $q;
+    }else{
+      return $q;
+    }
+  }
+
 
 }

@@ -35,7 +35,7 @@ class DASA extends CI_Controller {
 						'providers' => $this->Dasa_model->GetAllProviders(),
 						'measure' => $this->Dasa_model->GetAllMeasurements());
 		$this->load->view('DASA/InventoriesList', $data);
-		$this->load->view('DASA/AddProductModal', $data);
+		//$this->load->view('DASA/AddProductModal', $data);
 	}
 
 	public function UpdateProductInfo(){
@@ -59,6 +59,15 @@ class DASA extends CI_Controller {
 		$idcompany=$this->Dasa_model->IdCompany($company);
 		$data=array('customerspays'=>$this->Dasa_model->GetAllCustomer_Payments($idcompany->id_empresa));
 		$this->load->view('DASA/Customer_Payments',$data);
+	}
+
+	public function Payments_List(){
+		$this->load->model('Dasa_model');
+		$id_obra=$_POST["id_obra"];
+		$data2=$this->Dasa_model->Datos_obra($id_obra);
+		$data=array('payments_list'=>$this->Dasa_model->GetPayments_List($id_obra),
+					'obra'=>$data2);
+		$this->load->view('DASA/Customer_Payments_List',$data);
 	}
 
 

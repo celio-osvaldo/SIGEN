@@ -132,7 +132,10 @@
 
 
   function Details($id) {
-   alert('Ver Detalles');
+   //alert('Ver Detalles');
+   var id_obra=$id;
+   $("#page_content").load("Payments_List",{id_obra:id_obra});
+                      
  }
 </script>
 

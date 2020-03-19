@@ -142,5 +142,23 @@ class Dasa_model extends CI_Model
     return 1;
   }
 
+  public function Datos_obra($id_obra){
+  	$this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
+  	$this->db->from('obra_cliente');
+  	$this->db->Where('id_obra_cliente',$id_obra);
+  	$query=$this->db->get();
+  	$result=$query->row();
+  	return $result;
+  }
+
+  public function GetPayments_List($id_obra){
+  	$this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto');
+  	$this->db->from('venta_movimiento');
+  	$this->db->where('obra_cliente_id_obra_cliente',$id_obra);
+  	$this->db->order_by('venta_mov_fecha');
+  	$result=$this->db->get();
+  	return $result;
+  }
+
 
 }

@@ -25,7 +25,7 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Inventario</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Almacén</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item"  id="Produc_inv">Productos</a>
 							<div class="dropdown-divider"></div>
@@ -33,16 +33,15 @@
 						</div>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Obras / Clientes</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Proyectos</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" id="Customers_list">Lista Obras/Clientes</a>
+							<a class="dropdown-item" id="Customers_list">Lista de Proyectos</a>
 						</div>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Ventas</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión de Pagos</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 							<a class="dropdown-item" id="Customers_Payments">Movimientos (Pagos)</a>
-							<div class="dropdown-divider"></div>
 					<!--		<a class="dropdown-item" href="#">Anticipos</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Pagos SFV</a>
@@ -70,14 +69,19 @@
 						</div>
 					</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gastos</a>
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Egreso</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" id="billsV">Ventas(Facturas)</a>	
+							<a class="dropdown-item" id="billsV">Costo de Ventas</a>	
 							<div class="dropdown-divider"></div>
-							<p class="dropdown-item" >Operativos</p>
-							<a class="dropdown-item" id="pettyCashV">Caja Chica</a>
-							<a class="dropdown-item"  href="#">Gastos</a>
-							<a class="dropdown-item" id="viaticsV">Viaticos</a>	
+
+							<div class="dropdown-submenu">
+								<a class="dropdown-item">Operativos</a>
+								<ul class="dropdown-menu">
+									<li><a class="dropdown-item" id="pettyCashV">Caja Chica</a></li>
+									<li><a class="dropdown-item"  href="#">Otros Gastos</a></li>
+									<li><a class="dropdown-item" id="viaticsV">Viaticos</a></li>
+								</ul>
+							</div>
 						</div>
 					</li>
 				</ul>
@@ -85,8 +89,3 @@
 			<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
 			<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 		</nav>
-		<!-- </div> -->
-		<div class="jumbotron" id="page_content">
-			<h1 class="display-1" align="center">¡Bienvenido!</h1>
-			<p class="lead" align="center">Selecciona la opción deseada del menú superior</p>
-		</div>

@@ -60,7 +60,7 @@
                   <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
                 </td>
                 <td>
-                  <a class="navbar-brand" onclick="Edit_pay(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a>
+                  <a class="navbar-brand" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a>
                 </td>
               </tr>
               <?php 
@@ -87,16 +87,16 @@
       </div>
       <div class="modal-body">
         <label>Fecha de Pago</label>
-        <input type="text" name="" id="edit_fecha" class="form-control input-sm">
+        <input type="date" name="" id="edit_fecha" class="form-control input-sm">
         <label>Importe de Pago</label>
-        <input type="text" name="" id="edit_imp_pago" class="form-control input-sm">
+        <input type="number" name="" id="edit_imp_pago" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_vent_mov" hidden="true">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="UpdateRegister" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="UpdatePay" data-dismiss="modal">Actualizar</button>
       </div>
     </div>
   </div>
@@ -107,21 +107,54 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#table_payments_list').DataTable();
+
+        //Función para actualizar el registro
+    $('#UpdatePay').click(function(){
+    act_fecha=$("#edit_fecha").val();
+    act_imp=$("#edit_imp_pago").val();
+    act_coment=$("#edit_coment").val();
+    id=$("#edit_id_vent_mov").val();
+    //alert(act_fecha+act_imp+act_coment+id);
+      if (act_fecha!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Dasa/EditCustomerPay",
+          data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment,id:id},
+          success:function(result){
+            //alert(result);
+            if(result=='actualizado'){
+              alert('Registro Actualizado');
+              Update_Page();
+            }else{
+              alert('Falló el servidor. Registro no actualizado');
+            }
+          }
+        });
+      }else{
+        alert("Debe ingresar fecha de Pago e Importe Total");
+      } 
+    });
+
   });
 </script>
 
 <script type="text/javascript">
 //Función para Mostrar Modal de Editar un registro Pago
-  function Edit_pay($id){
+  function Edit_pay2($id){
     //alert("Editar "+$id);
     var fecha=$("#fecha"+$id).text();
     var pago=$("#pago"+$id).text();
     var coment=$("#coment"+$id).text();
     var id_venta_mov=$id;
+    //alert(id_venta_mov);
     $("#EditPayModal").modal();
     $("#edit_fecha").val(fecha);
     $("#edit_imp_pago").val(pago);
     $("#edit_coment").val(coment);
-    $("#edit_id_obra").val(id_venta_mov);
+    $("#edit_id_vent_mov").val(id_venta_mov);
     }
+
+  function Update_Page(){
+    $("#page_content").load("CustomerPayments");
+  }
 </script>

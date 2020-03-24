@@ -62,8 +62,8 @@ class Dasa_model extends CI_Model
 	}
 
 	public function UpdateProduct($id, $data){
-		$this-> db -> where('id_catalogo_producto', $id);#name of field o ftable to modificade
-		$this-> db -> update('catalogo_producto', $data);#Name of table to update
+		$this->db-> where('id_catalogo_producto', $id);#name of field o ftable to modificade
+		$this->db-> update('catalogo_producto', $data);#Name of table to update
 		if ($this ->db->affected_rows() > 0){
 			return true;
 		}else{
@@ -204,5 +204,19 @@ class Dasa_model extends CI_Model
     }
   }
 
+  public function UpdateProject_Pay($data,$id){
+    $this->db->where('id_venta_mov', $id);
+    $this->db->update('venta_movimiento', $data);
+    return true;
+  }
+
+  public function Id_Proyecto($id_movimiento){
+    $this->db->select('obra_cliente_id_obra_cliente');
+    $this->db->from('venta_movimiento');
+    $this->db->where('id_venta_mov',$id_movimiento);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
 
 }

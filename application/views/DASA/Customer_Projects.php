@@ -3,10 +3,10 @@
 
 <div class="row">
   <div class="col-9">
-    <h3 align="center">Lista de Obras/Clientes</h3>
+    <h3 align="center">Lista de Proyectos</h3>
   </div>
   <div class="col-3">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewClientModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nueva Obra/Cliente</button>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewClientModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Proyecto</button>
   </div>
 </div>
 
@@ -20,7 +20,7 @@
           <table class="table table-striped table-bordered table-condensed" id="table_customer">
             <thead  class="bg-primary">
               <tr>
-                <th>Obra/Cliente</th>
+                <th>Proyecto</th>
                 <th>Importe Total</th>
                 <th>Pagado</th>
                 <th>Saldo</th>
@@ -82,13 +82,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Nueva Obra/Cliente</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Proyecto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Obra/Cliente</label>
+        <label>Nombre Proyecto</label>
         <input type="text" name="" id="nom_obra" class="form-control input-sm">
         <label>Importe Total</label>
         <input type="number" name="" id="imp_obra" class="form-control input-sm">
@@ -110,13 +110,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modificar Obra/Cliente</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Proyecto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Obra/Cliente</label>
+        <label>Nombre de Proyecto</label>
         <input type="text" name="" id="edit_nom_obra" class="form-control input-sm">
         <label>Importe Total</label>
         <input type="number" name="" id="edit_imp_obra" class="form-control input-sm">
@@ -177,7 +177,7 @@
           }
         });
       }else{
-        alert("Debe ingresar nombre de Obra/cliente e Importe Total");
+        alert("Debe ingresar nombre de Proyecto e Importe Total");
       }
     });
 
@@ -205,7 +205,7 @@
           }
         });
       }else{
-        alert("Debe ingresar nombre de Obra/cliente e Importe Total");
+        alert("Debe ingresar nombre de Proyecto e Importe Total");
       } 
     });
   });

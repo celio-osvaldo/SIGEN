@@ -11,7 +11,7 @@ class DASA extends CI_Controller {
           $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | DASA';
 	   		$this->load->view('plantillas/header_dasa', $data);
-			//s$this->load->view('DASA/Welcome');
+			$this->load->view('DASA/Welcome');
        		$this->load->view('plantillas/footer_dasa');
        	}
        	else{
@@ -35,7 +35,7 @@ class DASA extends CI_Controller {
 						'providers' => $this->Dasa_model->GetAllProviders(),
 						'measure' => $this->Dasa_model->GetAllMeasurements());
 		$this->load->view('DASA/InventoriesList', $data);
-		$this->load->view('DASA/AddProductModal', $data);
+		//$this->load->view('DASA/AddProductModal', $data);
 	}
 
 	public function UpdateProductInfo(){
@@ -240,6 +240,27 @@ class DASA extends CI_Controller {
 			echo "<script>alert('Factura agregada correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
 		} else{
 			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
+		}
+	}
+
+	public function EditCustomerPay(){
+		$id_movimiento=$_POST["id"];
+		$this->load->model('Dasa_model');
+		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
+						'venta_mov_monto' => $this->input->post('act_imp'),
+						'venta_mov_comentario' => $this->input->post('act_coment') );
+		//var_dump($id_movimiento);
+		if ($this->Dasa_model->UpdateProject_Pay($data,$id_movimiento)) {
+			$id_obra=$this->Dasa_model->Id_Proyecto($id_movimiento);
+			$sum_pagos=$this->Dasa_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
+			$total_obra=$this->Dasa_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
+			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+			$saldo=array('obra_cliente_saldo' => $resta,
+					'obra_cliente_pagado'=>$sum_pagos->suma_pagos);
+			$actualiza=$this->Dasa_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
+			echo 'actualizado';
+		}else{
+			echo 'error';
 		}
 	}
 

@@ -97,6 +97,18 @@ class DASA extends CI_Controller {
 		$this->load->view('Dasa/PettyCash', $data);
 	}
 
+	public function Catalogo_Proveedor(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		//var_dump($company);
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		//var_dump($idcompany);
+		$data=array('catalogo_proveedor'=>$this->Dasa_model->GetAll_Provider($idcompany->id_empresa));
+		$this->load->view('DASA/Cat_Provider',$data);
+		//var_dump($data);
+
+	}
+
 
 #actions
 

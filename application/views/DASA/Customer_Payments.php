@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-9">
-    <h3 align="center">Lista de Pagos a Obras/Clientes</h3>
+    <h3 align="center">Lista de Pagos a Proyectos</h3>
   </div>
 </div>
 
@@ -16,7 +16,7 @@
           <table class="table table-striped table-bordered table-condensed" id="table_customer">
             <thead  class="bg-primary">
               <tr>
-                <th>Obra/Cliente</th>
+                <th>Proyecto</th>
                 <th>Importe Total</th>
                 <th>Pagado</th>
                 <th>Saldo</th>

@@ -219,4 +219,12 @@ class Dasa_model extends CI_Model
     return $result;
   }
 
+  public function GetAll_Provider($idcompany){
+    $this->db->select('id_catalogo_proveedor, catalogo_proveedor_nom_fiscal, catalogo_proveedor_empresa, rfc, catalogo_proveedor_contacto1, catalogo_proveedor_contacto2, catalogo_proveedor_puesto1, catalogo_proveedor_puesto2, catalogo_proveedor_tel1, catalogo_proveedor_tel2, catalogo_proveedor_cel1, catalogo_proveedor_cel2, catalogo_proveedor_email1, catalogo_proveedor_email2, catalogo_proveedor_coment');
+    $this->db->from('catalogo_proveedor');
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $result=$this->db->get();
+    return $result;
+  }
+
 }

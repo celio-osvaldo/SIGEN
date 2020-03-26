@@ -75,7 +75,7 @@ class Welcome extends CI_Controller {
    }
 
 	public function Dasa(){
-		redirect('/DASA/Index', 'refresh');
+		redirect('/Dasa/Index', 'refresh');
 	}
 
 	public function Iluminacion(){

@@ -42,13 +42,21 @@ class Dasa_model extends CI_Model
 
 	public function AddCustomer_Project($data){
 		$this->db->insert('obra_cliente',$data);
-		return 1;
+    if ($this->db->affected_rows() > 0) {
+      return 1;
+    } else{
+      return 2;
+    }
 	}
 
   public function Edit_CustomerProject($id,$data){
     $this->db->where('id_obra_cliente', $id);
     $this->db->update('obra_cliente', $data);
-    return 1;
+    if ($this->db->affected_rows() > 0) {
+      return 1;
+    } else{
+      return 2;
+    }
   }
 
 	public function GetProductByID($id){
@@ -139,7 +147,11 @@ class Dasa_model extends CI_Model
   public function UpdatePaysCustomer($id_obra,$data){
     $this->db->where('id_obra_cliente', $id_obra);
     $this->db->update('obra_cliente', $data);
-    return 1;
+    if ($this->db->affected_rows() > 0) {
+      return 1;
+    } else{
+      return 2;
+    }
   }
 
   public function Datos_obra($id_obra){
@@ -207,7 +219,11 @@ class Dasa_model extends CI_Model
   public function UpdateProject_Pay($data,$id){
     $this->db->where('id_venta_mov', $id);
     $this->db->update('venta_movimiento', $data);
-    return true;
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
   public function Id_Proyecto($id_movimiento){
@@ -225,6 +241,25 @@ class Dasa_model extends CI_Model
     $this->db->where('empresa_id_empresa', $idcompany);
     $result=$this->db->get();
     return $result;
+  }
+
+  public function Update_Provider($id_prov,$data){
+    $this->db->where('id_catalogo_proveedor', $id_prov);
+    $this->db->update('catalogo_proveedor', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+    public function New_Provider($data){
+    $this->db->insert('catalogo_proveedor', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
 }

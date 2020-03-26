@@ -276,5 +276,56 @@ class DASA extends CI_Controller {
 		}
 	}
 
+	public function UpdateProvider(){
+		$this->load->model('Dasa_model');
+		$id_prov=$_POST["id_cat"];
+		$data = array('catalogo_proveedor_nom_fiscal' => $this->input->post('nom_fiscal') ,
+						'catalogo_proveedor_empresa' => $this->input->post('nom_comer'),
+						'rfc' => $this->input->post('rfc'),
+						'catalogo_proveedor_contacto1' => $this->input->post('cont1') ,
+						'catalogo_proveedor_puesto1' => $this->input->post('puesto1') ,
+						'catalogo_proveedor_tel1' => $this->input->post('tel1') ,
+						'catalogo_proveedor_cel1' => $this->input->post('cel1') ,
+						'catalogo_proveedor_email1' => $this->input->post('email1') ,
+						'catalogo_proveedor_contacto2' => $this->input->post('cont2') ,
+						'catalogo_proveedor_puesto2' => $this->input->post('puesto2') ,
+						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
+						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
+						'catalogo_proveedor_email2' => $this->input->post('email2') ,
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
+		if($this->Dasa_model->Update_Provider($id_prov,$data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function NewProvider(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		$data = array('empresa_id_empresa' => $idcomp->id_empresa ,
+						'catalogo_proveedor_nom_fiscal' => $this->input->post('nom_fiscal') ,
+						'catalogo_proveedor_empresa' => $this->input->post('nom_comer'),
+						'rfc' => $this->input->post('rfc'),
+						'catalogo_proveedor_contacto1' => $this->input->post('cont1') ,
+						'catalogo_proveedor_puesto1' => $this->input->post('puesto1') ,
+						'catalogo_proveedor_tel1' => $this->input->post('tel1') ,
+						'catalogo_proveedor_cel1' => $this->input->post('cel1') ,
+						'catalogo_proveedor_email1' => $this->input->post('email1') ,
+						'catalogo_proveedor_contacto2' => $this->input->post('cont2') ,
+						'catalogo_proveedor_puesto2' => $this->input->post('puesto2') ,
+						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
+						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
+						'catalogo_proveedor_email2' => $this->input->post('email2') ,
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
+		if($this->Dasa_model->New_Provider($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+
+	}
+
 }
  

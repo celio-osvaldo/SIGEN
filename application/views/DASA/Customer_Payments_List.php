@@ -35,12 +35,10 @@
 
 
 
-<div class="row">
-  <div class="col-md-12">
-    <div class="container">
+
       <div class="card bg-card">
-        <div class="container">
-          <table class="table table-striped table-bordered table-condensed" id="table_payments_list">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-condensed table-hover" id="table_payments_list">
             <thead  class="bg-primary">
               <tr>
                 <th>Fecha de Pago</th>
@@ -70,9 +68,7 @@
         </table>
       </div>
     </div>
-  </div>
-</div>
-</div>
+
 
 
 <!-- Modal Edit Pay Customer_Project -->

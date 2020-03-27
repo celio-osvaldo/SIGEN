@@ -31,11 +31,12 @@ class DASA extends CI_Controller {
 
 	public function GetInventories(){
 		$this->load->model('Dasa_model');
-		$data = array('inventories' => $this->Dasa_model->GetAllProducts(),
-						'providers' => $this->Dasa_model->GetAllProviders(),
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data = array('inventories' => $this->Dasa_model->GetAllProducts($idcompany->id_empresa),
+						'providers' => $this->Dasa_model->GetAll_Provider($idcompany->id_empresa),
 						'measure' => $this->Dasa_model->GetAllMeasurements());
 		$this->load->view('DASA/InventoriesList', $data);
-		//$this->load->view('DASA/AddProductModal', $data);
 	}
 
 	public function UpdateProductInfo(){

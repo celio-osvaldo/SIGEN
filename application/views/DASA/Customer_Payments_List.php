@@ -38,8 +38,8 @@
 
       <div class="card bg-card">
         <div class="table-responsive">
-          <table class="table table-striped table-bordered table-condensed table-hover" id="table_payments_list">
-            <thead  class="bg-primary">
+          <table id="table_payments_list" class="table table-striped table-hover display" style="font-size: 10pt;">
+            <thead class="bg-primary" style="color: #FFFFFF;" align="center">
               <tr>
                 <th>Fecha de Pago</th>
                 <th>Pago</th>

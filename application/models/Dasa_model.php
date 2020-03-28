@@ -252,4 +252,32 @@ class Dasa_model extends CI_Model
     }
   }
 
+  public function GetAll_Customer($idcompany){
+    $this->db->select('id_catalogo_cliente, catalogo_cliente_nom_fiscal, catalogo_cliente_empresa, catalogo_cliente_rfc, catalogo_cliente_contacto1, catalogo_cliente_contacto2, catalogo_cliente_puesto1, catalogo_cliente_puesto2, catalogo_cliente_tel1, catalogo_cliente_tel2, catalogo_cliente_cel1, catalogo_cliente_cel2, catalogo_cliente_email1, catalogo_cliente_email2, catalogo_cliente_coment');
+    $this->db->from('catalogo_cliente');
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $result=$this->db->get();
+    return $result;
+  }
+
+    public function Update_Customer($id_cust,$data){
+    $this->db->where('id_catalogo_cliente', $id_cust);
+    $this->db->update('catalogo_cliente', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+      public function New_Customer($data){
+    $this->db->insert('catalogo_cliente', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+  
+
 }

@@ -107,7 +107,16 @@ class DASA extends CI_Controller {
 		$data=array('catalogo_proveedor'=>$this->Dasa_model->GetAll_Provider($idcompany->id_empresa));
 		$this->load->view('DASA/Cat_Provider',$data);
 		//var_dump($data);
-
+	}
+	public function Catalogo_Cliente(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		//var_dump($company);
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		//var_dump($idcompany);
+		$data=array('catalogo_cliente'=>$this->Dasa_model->GetAll_Customer($idcompany->id_empresa));
+		$this->load->view('DASA/Cat_Customer',$data);
+		//var_dump($data);
 	}
 
 
@@ -325,8 +334,58 @@ class DASA extends CI_Controller {
 		}else{
 			echo false;
 		}
-
 	}
+	
+	public function UpdateCustomer(){
+		$this->load->model('Dasa_model');
+		$id_cust=$_POST["id_cat"];
+		$data = array('catalogo_cliente_nom_fiscal' => $this->input->post('nom_fiscal') ,
+						'catalogo_cliente_empresa' => $this->input->post('nom_comer'),
+						'catalogo_cliente_rfc' => $this->input->post('rfc'),
+						'catalogo_cliente_contacto1' => $this->input->post('cont1') ,
+						'catalogo_cliente_puesto1' => $this->input->post('puesto1') ,
+						'catalogo_cliente_tel1' => $this->input->post('tel1') ,
+						'catalogo_cliente_cel1' => $this->input->post('cel1') ,
+						'catalogo_cliente_email1' => $this->input->post('email1') ,
+						'catalogo_cliente_contacto2' => $this->input->post('cont2') ,
+						'catalogo_cliente_puesto2' => $this->input->post('puesto2') ,
+						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
+						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
+						'catalogo_cliente_email2' => $this->input->post('email2') ,
+						'catalogo_cliente_coment' => $this->input->post('coment'));
+		if($this->Dasa_model->Update_Customer($id_cust,$data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+		public function NewCustomer(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		$data = array('empresa_id_empresa' => $idcomp->id_empresa ,
+						'catalogo_cliente_nom_fiscal' => $this->input->post('nom_fiscal') ,
+						'catalogo_cliente_empresa' => $this->input->post('nom_comer'),
+						'catalogo_cliente_rfc' => $this->input->post('rfc'),
+						'catalogo_cliente_contacto1' => $this->input->post('cont1') ,
+						'catalogo_cliente_puesto1' => $this->input->post('puesto1') ,
+						'catalogo_cliente_tel1' => $this->input->post('tel1') ,
+						'catalogo_cliente_cel1' => $this->input->post('cel1') ,
+						'catalogo_cliente_email1' => $this->input->post('email1') ,
+						'catalogo_cliente_contacto2' => $this->input->post('cont2') ,
+						'catalogo_cliente_puesto2' => $this->input->post('puesto2') ,
+						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
+						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
+						'catalogo_cliente_email2' => $this->input->post('email2') ,
+						'catalogo_cliente_coment' => $this->input->post('coment'));
+		if($this->Dasa_model->New_Customer($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
 
 }
  

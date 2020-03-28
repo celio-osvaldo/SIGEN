@@ -59,7 +59,7 @@
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" id="Produc_inv">Productos</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Clientes</a>
+							<a class="dropdown-item" id="Cat_customer">Clientes</a>
 						</div>
 					</li>
 					<li class="nav-item dropdown">

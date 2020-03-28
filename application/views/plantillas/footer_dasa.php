@@ -67,6 +67,13 @@
 				});
 			});
 		</script>
+				<script>//script to load the report of viatics of controller on click at the link with the id pettyCashV
+			$(document).ready(function(){
+				$("#Cat_customer").click(function(){
+					$("#page_content").load("Catalogo_Cliente");
+				});
+			});
+		</script>
 		
 </body>
 </html> 

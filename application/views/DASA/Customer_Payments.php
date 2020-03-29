@@ -15,6 +15,7 @@
             <thead class="bg-primary" style="color: #FFFFFF;" align="center">
               <tr>
                 <th>Proyecto</th>
+                <th>Cliente</th>
                 <th>Importe Total</th>
                 <th>Pagado</th>
                 <th>Saldo</th>
@@ -31,9 +32,10 @@
                ?>
                <tr>
                  <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-                 <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_imp_total.""; ?></td>
-                 <td id="<?php echo "pagado_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_pagado.""; ?></td>
-                 <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_saldo.""; ?></td>
+                 <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
+                 <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_imp_total.""; ?></td>
+                 <td id="<?php echo "pagado_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_pagado.""; ?></td>
+                 <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_saldo.""; ?></td>
                  <td id="<?php echo "ult_pago_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_ult_pago.""; ?></td>
                  <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
                  <td>

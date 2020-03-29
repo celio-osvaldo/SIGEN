@@ -1,4 +1,4 @@
-<!--Mostrar lista de Proveedores -->
+<!--Mostrar lista de Clientes -->
 
 <div class="row">
   <div class="col-9">

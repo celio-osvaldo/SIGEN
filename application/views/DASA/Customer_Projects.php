@@ -16,6 +16,7 @@
             <thead class="bg-primary" style="color: #FFFFFF;" align="center">
               <tr>
                 <th>Proyecto</th>
+                <th>Cliente</th>
                 <th>Importe Total</th>
                 <th>Pagado</th>
                 <th>Saldo</th>
@@ -27,12 +28,13 @@
             </thead>
             <tbody>
              <?php
-             foreach ($customerslist->result() as $row) {?>
+             foreach ($proyectlist->result() as $row) {?>
               <tr>          
                 <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-                <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_imp_total.""; ?></td>
-                <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_pagado.""; ?> </td>
-                <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_saldo.""; ?></td>
+                <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
+                <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_imp_total.""; ?></td>
+                <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_pagado.""; ?> </td>
+                <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_saldo.""; ?></td>
 
                 <td id="<?php echo "estado_obra".$row->id_obra_cliente;?>" hidden="true"><?php echo "".$row->obra_cliente_estado.""; ?></td>
 
@@ -82,6 +84,13 @@
       <div class="modal-body">
         <label>Nombre Proyecto</label>
         <input type="text" name="" id="nom_obra" class="form-control input-sm">
+         <label class="label-control">Cliente</label>
+                  <select class="form-control" name="customer" id="customer">
+                    <option disabled selected>----Seleccionar Cliente----</option>
+                  <?php foreach ($customerlist->result() as $row){ ?>
+                      <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+                  <?php } ?>
+                  </select>
         <label>Importe Total</label>
         <input type="number" name="" id="imp_obra" class="form-control input-sm">
         <label>Comentarios</label>
@@ -110,6 +119,12 @@
       <div class="modal-body">
         <label>Nombre de Proyecto</label>
         <input type="text" name="" id="edit_nom_obra" class="form-control input-sm">
+        <label class="label-control">Cliente</label>
+                  <select class="form-control" name="edit_customer" id="edit_customer">
+                  <?php foreach ($customerlist->result() as $row){ ?>
+                      <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+                  <?php } ?>
+                  </select>
         <label>Importe Total</label>
         <input type="number" name="" id="edit_imp_obra" class="form-control input-sm">
         <label>Estado</label><br>   
@@ -150,14 +165,16 @@
   $(document).ready(function(){
     $('#guardarnuevo').click(function(){
       nombre=$('#nom_obra').val();
+      id_cliente=$('#customer').val();
+      alert(id_cliente);
       importe=$('#imp_obra').val();
       coment=$('#coment_obra').val();
 
-      if (nombre!=""&&importe!="") {//Verificamos que los campos no estén vacíos
+      if (nombre!=""&&importe!=""&&id_cliente!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Dasa/AddCustomerProject",
-          data:{nombre:nombre, importe:importe,coment:coment},
+          data:{nombre:nombre, id_cliente:id_cliente, importe:importe,coment:coment},
           success:function(result){
             //alert(result);
             if(result==1){
@@ -169,13 +186,14 @@
           }
         });
       }else{
-        alert("Debe ingresar nombre de Proyecto e Importe Total");
+        alert("Debe ingresar nombre de Proyecto, Cliente e Importe");
       }
     });
 
     //Función para actualizar el registro
     $('#UpdateRegister').click(function(){
     act_nom=$("#edit_nom_obra").val();
+    act_cliente=$("#edit_customer").val();
     act_imp=$("#edit_imp_obra").val();
     act_estado=$("#edit_estado_obra").val();
     act_coment=$("#edit_coment_obra").val();
@@ -185,7 +203,7 @@
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Dasa/EditCustomerProject",
-          data:{act_nom:act_nom, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id},
+          data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id},
           success:function(result){
             //alert(result);
             if(result==1){
@@ -213,13 +231,15 @@
   function Edit($id){
     //alert("Editar "+$id);
     var nombre=$("#nom_obra"+$id).text();
-    var importe=$("#imp_obra"+$id).text();
+    var cliente=$("#nom_cliente"+$id).text();
+    var importe=$("#imp_obra"+$id).text().split("$");
     var estado=$("#estado_obra"+$id).text();
     var coment=$("#coment_obra"+$id).text();
     var id=$id;
     $("#EditClientModal").modal();
     $("#edit_nom_obra").val(nombre);
-    $("#edit_imp_obra").val(importe);
+    $("#edit_customer option:contains("+cliente+")").attr('selected', true);
+    $("#edit_imp_obra").val(parseFloat(importe[1]));
     $("#edit_estado_obra").val(estado);
     $("#edit_coment_obra").val(coment);
     $("#edit_id_obra").val(id);

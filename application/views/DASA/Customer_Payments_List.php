@@ -36,38 +36,38 @@
 
 
 
-      <div class="card bg-card">
-        <div class="table-responsive">
-          <table id="table_payments_list" class="table table-striped table-hover display" style="font-size: 10pt;">
-            <thead class="bg-primary" style="color: #FFFFFF;" align="center">
-              <tr>
-                <th>Fecha de Pago</th>
-                <th>Pago</th>
-                <th>Comentarios</th>
-                <th>Editar</th>
+<div class="card bg-card">
+  <div class="table-responsive">
+    <table id="table_payments_list" class="table table-striped table-hover display" style="font-size: 10pt;">
+      <thead class="bg-primary" style="color: #FFFFFF;" align="center">
+        <tr>
+          <th>Fecha de Pago</th>
+          <th>Pago</th>
+          <th>Comentarios</th>
+          <th>Editar</th>
 
-              </tr>
-            </thead>
-            <tbody>
-              <?php 
-              foreach ($payments_list->result() as $row) {
-                ?>
-                <tr>
-                  <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
-                  <td id="<?php echo "pago".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_monto.""; ?> </td>
-                  <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
-                </td>
-                <td>
-                  <a class="navbar-brand" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a>
-                </td>
-              </tr>
-              <?php 
-            }
-            ?>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        </tr>
+      </thead>
+      <tbody>
+        <?php 
+        foreach ($payments_list->result() as $row) {
+          ?>
+          <tr>
+            <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
+            <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo "".$row->venta_mov_monto.""; ?> </td>
+            <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
+          </td>
+          <td>
+            <a class="navbar-brand" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico"></a>
+          </td>
+        </tr>
+        <?php 
+      }
+      ?>
+    </tbody>
+  </table>
+</div>
+</div>
 
 
 
@@ -105,11 +105,11 @@
     $('#table_payments_list').DataTable();
 
         //Función para actualizar el registro
-    $('#UpdatePay').click(function(){
-    act_fecha=$("#edit_fecha").val();
-    act_imp=$("#edit_imp_pago").val();
-    act_coment=$("#edit_coment").val();
-    id=$("#edit_id_vent_mov").val();
+        $('#UpdatePay').click(function(){
+          act_fecha=$("#edit_fecha").val();
+          act_imp=$("#edit_imp_pago").val();
+          act_coment=$("#edit_coment").val();
+          id=$("#edit_id_vent_mov").val();
     //alert(act_fecha+act_imp+act_coment+id);
       if (act_fecha!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
@@ -131,24 +131,26 @@
       } 
     });
 
-  });
-</script>
+      });
+    </script>
 
-<script type="text/javascript">
+    <script type="text/javascript">
 //Función para Mostrar Modal de Editar un registro Pago
-  function Edit_pay2($id){
+function Edit_pay2($id){
     //alert("Editar "+$id);
     var fecha=$("#fecha"+$id).text();
-    var pago=$("#pago"+$id).text();
+    //alert(fecha);
+    var pago=$("#pago"+$id).text().split('$');
+    //alert(pago);
     var coment=$("#coment"+$id).text();
     var id_venta_mov=$id;
     //alert(id_venta_mov);
     $("#EditPayModal").modal();
-    $("#edit_fecha").val(fecha);
-    $("#edit_imp_pago").val(pago);
+    document.getElementById("edit_fecha").valueAsDate = new Date(fecha);
+    $("#edit_imp_pago").val(parseFloat(pago[1]));
     $("#edit_coment").val(coment);
     $("#edit_id_vent_mov").val(id_venta_mov);
-    }
+  }
 
   function Update_Page(){
     $("#page_content").load("CustomerPayments");

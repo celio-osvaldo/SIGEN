@@ -27,7 +27,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Almacén</a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item">Productos</a>
+							<a class="dropdown-item" id="Alm_Products">Productos</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Material Oficina</a>
 						</div>

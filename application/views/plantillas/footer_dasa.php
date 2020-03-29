@@ -74,6 +74,14 @@
 				});
 			});
 		</script>
+
+		<script>//script to load Products Inventorie
+			$(document).ready(function(){
+				$("#Alm_Products").click(function(){
+					$("#page_content").load("InventarioProductos");
+				});
+			});
+		</script>
 		
 </body>
 </html> 

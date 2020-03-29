@@ -50,7 +50,8 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		$company='DASA';
 		$idcompany=$this->Dasa_model->IdCompany($company);
-		$data=array('customerslist'=>$this->Dasa_model->GetAllCustomer_Project($idcompany->id_empresa));
+		$data=array('proyectlist'=>$this->Dasa_model->GetAllCustomer_Project($idcompany->id_empresa),
+					'customerlist'=>$this->Dasa_model->Get_Customer_List($idcompany->id_empresa));
 		$this->load->view('DASA/Customer_Projects',$data);
 	}
 
@@ -119,18 +120,30 @@ class DASA extends CI_Controller {
 		//var_dump($data);
 	}
 
+	public function InventarioProductos(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data=array('inventario_productos'=>$this->Dasa_model->GetInventorie_Products($idcompany->id_empresa),
+					'unidades_medida'=>$this->Dasa_model->GetAllMeasurements());
+		//var_dump($data);
+		$this->load->view('DASA/Inventario_Productos',$data);
+	}
+
 
 #actions
 
 	public function AddCustomerProject(){
 		$this->load->model('Dasa_model');
 		$nombre=$_POST["nombre"];
+		$id_cliente=$_POST["id_cliente"];
 		$importe=$_POST["importe"];
 		$coment=$_POST["coment"];
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
 				$data=array('empresa_id_empresa' => $idcomp->id_empresa,
 					'obra_cliente_nombre'=> $nombre,
+					'obra_cliente_id_cliente'=>$id_cliente,
 					'obra_cliente_imp_total'=>$importe,
 					'obra_cliente_saldo'=>$importe,
 					'obra_cliente_estado'=>1,
@@ -142,6 +155,7 @@ class DASA extends CI_Controller {
 	public function EditCustomerProject(){
 		$this->load->model('Dasa_model');
 		$act_nom=$_POST["act_nom"];
+		$act_cliente=$_POST["act_cliente"];
 		$act_imp=$_POST["act_imp"];
 		$act_estado=$_POST["act_estado"];
 		$act_coment=$_POST["act_coment"];
@@ -149,10 +163,17 @@ class DASA extends CI_Controller {
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
 		$sum_pagos=$this->Dasa_model->SumPagos_Obra($id);
-		$saldo=($act_imp-$sum_pagos->suma_pagos);
+		if(is_null($sum_pagos->suma_pagos)){
+			$suma_pagos=0;
+		}else{
+			$suma_pagos=$sum_pagos->suma_pagos;
+		}
+		$saldo=($act_imp-$suma_pagos);
 		$data = array(
         'obra_cliente_nombre' => $act_nom,
+        'obra_cliente_id_cliente'=>$act_cliente,
         'obra_cliente_imp_total' => $act_imp,
+        'obra_cliente_pagado'=>$suma_pagos,
         'obra_cliente_saldo'=>$saldo,
         'obra_cliente_estado' => $act_estado,
         'obra_cliente_comentarios' => $act_coment
@@ -380,6 +401,44 @@ class DASA extends CI_Controller {
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
 						'catalogo_cliente_coment' => $this->input->post('coment'));
 		if($this->Dasa_model->New_Customer($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function NewAlm_Product(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data = array('empresa_id_empresa' => $idcompany->id_empresa,
+						'prod_alm_nom' => $this->input->post('nom_prod'),
+						'prod_alm_medida' => $this->input->post('unid_med'),
+						'prod_alm_modelo' => $this->input->post('modelo'),
+						'prod_alm_prec_unit' => $this->input->post('precio'),
+						'prod_alm_exist' => $this->input->post('existencia'),
+						'prod_alm_codigo' => $this->input->post('codigo'),
+						'prod_alm_descripcion' => $this->input->post('descripcion'),
+						'prod_alm_coment' => $this->input->post('coment'));
+		if($this->Dasa_model->New_Product($data)){
+			echo true;
+		}else{
+			echo false;
+		}		
+	}
+
+	public function UpdateProduct(){
+		$this->load->model('Dasa_model');
+		$id_prod=$_POST["id_prod"];
+		$data = array('prod_alm_nom' => $this->input->post('nom_prod') ,
+						'prod_alm_medida' => $this->input->post('unid_med'),
+						'prod_alm_modelo' => $this->input->post('modelo'),
+						'prod_alm_prec_unit' => $this->input->post('precio') ,
+						'prod_alm_exist' => $this->input->post('existencia') ,
+						'prod_alm_codigo' => $this->input->post('codigo') ,
+						'prod_alm_descripcion' => $this->input->post('descripcion') ,
+						'prod_alm_coment' => $this->input->post('coment'));
+		if($this->Dasa_model->Update_Product($id_prod,$data)){
 			echo true;
 		}else{
 			echo false;

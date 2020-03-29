@@ -69,14 +69,14 @@ class Dasa_model extends CI_Model
     }
   }
 
-public function UpdateProduct($id, $data){
-    $this->db->where('id_catalogo_producto', $id);
-    $this->db->update('catalogo_producto', $data);
-    if ($this->db->affected_rows() > 0) {
-      return true;
-    } else{
-      return false;
-    }
+  public function UpdateProduct($id, $data){
+      $this->db->where('id_catalogo_producto', $id);
+      $this->db->update('catalogo_producto', $data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+      } else{
+        return false;
+      }
   }
 
   // this function can insert in any table of bd specifying th ename of table as parameter
@@ -164,16 +164,26 @@ public function UpdateProduct($id, $data){
   	return $result;
   }
 
-  public function GetBills(){
-    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_nom, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago');
+  public function GetAllCostOfSale($idcompany){
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago');
     $this->db->from('obra_cliente');
-        $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
-        $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
-        $this->db->where('empresa_nom = "DASA"');
-        $query = $this->db->get();
-        if($query -> num_rows() >0){
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $query = $this->db->get();
+    if($query -> num_rows() >0){
       return $query;
     }else{
+      return $query;
+    }
+  }
+
+  public function UpdateCostSale($id, $data){
+    $this->db->where('id_gasto_venta', $id);
+    $this->db->update('gasto_venta', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
       return false;
     }
   }

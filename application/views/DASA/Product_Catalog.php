@@ -150,10 +150,7 @@ function CloseModal(){
                                 <td id="<?php echo "provider".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td id="<?php echo "date".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
                                 <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_url_imagen.""; ?></td>
-                                <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" />
-                                        </a>
-                                    </form>
-                                </td>
+                                <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -283,8 +280,6 @@ function CloseModal(){
     $("#page_content").load("GetInventories");
   }
 </script>
-
-
 
 <!-- Script thats return data of an object selected -->
 <script>

@@ -42,7 +42,7 @@
 		<script>
 			$(document).ready(function(){//script to load the bills of controller on click at the link with the id billsV
 				$("#billsV").click(function(){
-					$("#page_content").load("GetAllBills");
+					$("#page_content").load("GetListCostOfSale");
 					});
 				});
 		</script>

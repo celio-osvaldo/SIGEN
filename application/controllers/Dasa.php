@@ -38,7 +38,6 @@ class DASA extends CI_Controller {
 		$data = array('inventories' => $this->Dasa_model->GetAllProducts($idcompany->id_empresa),
 						'providers' => $this->Dasa_model->GetAll_Provider($idcompany->id_empresa),
 						'measure' => $this->Dasa_model->GetAllMeasurements());
-		//$this->load->view('DASA/EditProductForm', $data);
 		$this->load->view('DASA/Product_Catalog', $data);
 	}
 
@@ -68,14 +67,27 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/Customer_Payments_List',$data);
 	}
 
-	public function GetAllBills(){
+	public function test(){
+		$this->load->model('Dasa_model');
 		$table = 'gasto_venta';
 		$id = 'id_gasto_venta';
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data=array('woks'=>$this->Dasa_model->GetAllWorks_Client(),
+					'max'=>$this->Dasa_model->IDMAX($table, $id));
+		$this->load->view('DASA/EditProductForm', $data);
+	}
+
+	public function GetListCostOfSale(){
 		$this->load->model('Dasa_model');
-		$data=array('bill'=>$this->Dasa_model->GetBills(),
+		$table = 'gasto_venta';
+		$id = 'id_gasto_venta';
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data=array('cost_sale'=>$this->Dasa_model->GetAllCostOfSale($idcompany->id_empresa),
 					'woks'=>$this->Dasa_model->GetAllWorks_Client(),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
-		$this->load->view('Dasa/BillsSales', $data);
+		$this->load->view('Dasa/CostOfSale-List', $data);
 	}
 
 	public function GetAllViatics(){
@@ -237,25 +249,45 @@ class DASA extends CI_Controller {
 		echo $result;
 	}
 
-	public function AddBillOfSale(){
-		$table = 'gasto_venta';
-		$company = 1;
-		$data = array('id_gasto_venta' => $this->input->post('folioI'),
-						'obra_cliente_id_obra_cliente'=> $this->input->post('clientNameI'),
-						'obra_cliente_empresa_id_empresa'=> $company,
-						'gasto_venta_fecha'=> $this->input->post('emitionDateI'),
-						'gasto_venta_factura'=> $this->input->post('billI'),
-						'gasto_venta_monto'=> $this->input->post('amountI'),
-						'gasto_venta_concepto' => $this->input->post('conceptI'),
-						'gasto_venta_observacion' => $this->input->post('coment'),
-						'gasto_venta_estado_pago' => $this->input->post('statusI'),
-						'gasto_venta_fecha_pago' => $this->input->post('dateI'));
+	public function AddCostOfSale(){
 		$this->load->model('Dasa_model');
-		if($this->Dasa_model->Insert($table, $data) == true){
-			$this->Index();
-			echo "<script>alert('Factura agregada correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
-		} else{
-			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		// $idcompany=2;
+		$table = 'gasto_venta';
+		$data = array('id_gasto_venta' => $this->input->post('addFolio'),
+						'obra_cliente_id_obra_cliente'=> $this->input->post('addClientName'),
+						'obra_cliente_empresa_id_empresa'=> $idcompany,
+						'gasto_venta_fecha'=> $this->input->post('addEmitionDate'),
+						'gasto_venta_factura'=> $this->input->post('addBill'),
+						'gasto_venta_monto'=> $this->input->post('addAmount'),
+						'gasto_venta_concepto' => $this->input->post('addConcept'),
+						'gasto_venta_observacion' => $this->input->post('addComment'),
+						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
+						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
+
+		$result = $this->Dasa_model->Insert($table, $data);
+		echo $result;
+	}
+
+	public function EditCostOfSale(){
+		$this->load->model('Dasa_model');
+		$idcompany = 2;
+		$id = $_POST['folioE'];
+		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
+						'obra_cliente_empresa_id_empresa'=> $idcompany,
+						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
+						'gasto_venta_factura'=> $this->input->post('billE'),
+						'gasto_venta_monto'=> $this->input->post('amountE'),
+						'gasto_venta_concepto' => $this->input->post('conceptE'),
+						'gasto_venta_observacion' => $this->input->post('commentE'),
+						'gasto_venta_estado_pago' => $this->input->post('statusE'),
+						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
+
+		if($this->Dasa_model->UpdateCostSale($id, $data)){
+			echo true;
+		}else{
+			echo false;
 		}
 	}
 

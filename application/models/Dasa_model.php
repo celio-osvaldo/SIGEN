@@ -8,19 +8,19 @@ class Dasa_model extends CI_Model
 	}
 
 	public function GetAllProducts($idcompany){
-		$this->db->select('id_catalogo_producto, catalogo_producto_nombre, catalogo_producto_umedida, catalogo_producto_precio, catalogo_proveedor_empresa, catalogo_producto_fecha_actualizacion, empresa_id_empresa, unidad_medida');
-		$this->db->from('catalogo_producto');
+    $this->db->select('id_catalogo_producto, catalogo_producto_nombre, catalogo_producto_umedida, catalogo_producto_precio, catalogo_proveedor_empresa, catalogo_producto_fecha_actualizacion, empresa_id_empresa, unidad_medida, catalogo_proveedor_empresa_id_empresa, catalogo_producto_url_imagen');
+    $this->db->from('catalogo_producto');
     $this->db->join('unidades_de_medida', 'id_uMedida = catalogo_producto_umedida');
     $this->db->join('catalogo_proveedor', 'catalogo_proveedor_id_catalogo_proveedor = id_catalogo_proveedor');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
     $this->db->where('empresa_id_empresa', $idcompany);
     $query = $this->db->get();
     if($query -> num_rows() >0){
-			return $query;
-		}else{
-			return $query;
-		}
-	}
+      return $query;
+    }else{
+      return $query;
+    }
+  }
 
 	public function IdCompany($company){
 	   	$this->db->select('id_empresa');//the name of fields to query in the login
@@ -69,34 +69,25 @@ class Dasa_model extends CI_Model
     }
   }
 
-	public function GetProductByID($id){
-      	$this->db->where('id_catalogo_producto = ', $id);
-		$q = $this->db->get('catalogo_producto');
-      	if($q -> num_rows() >0){
-			return $q;
-		}else{
-			return false;
-		}
-	}
+public function UpdateProduct($id, $data){
+    $this->db->where('id_catalogo_producto', $id);
+    $this->db->update('catalogo_producto', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
-	public function UpdateProduct($id, $data){
-		$this->db-> where('id_catalogo_producto', $id);#name of field o ftable to modificade
-		$this->db-> update('catalogo_producto', $data);#Name of table to update
-		if ($this ->db->affected_rows() > 0){
-			return true;
-		}else{
-			return false;
-		}
-	}
-
-	public function InsertProduct($data){
-		$this->db->insert('catalogo_producto', $data);
-		if ($this->db->affected_rows() > 0) {
-			return true;
-		} else{
-			return false;
-		}
-	}
+  // this function can insert in any table of bd specifying th ename of table as parameter
+  public function Insert($table, $data){
+    $this->db->insert($table, $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
 	public function GetAllMeasurements(){
 		$q = $this->db->get('unidades_de_medida');
@@ -319,5 +310,5 @@ class Dasa_model extends CI_Model
     }
 
   
-
+#end of model
 }

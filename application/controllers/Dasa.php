@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class DASA extends CI_Controller {
 
+#views
+	
 	public function Index()
 	{
 		if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
@@ -36,14 +38,8 @@ class DASA extends CI_Controller {
 		$data = array('inventories' => $this->Dasa_model->GetAllProducts($idcompany->id_empresa),
 						'providers' => $this->Dasa_model->GetAll_Provider($idcompany->id_empresa),
 						'measure' => $this->Dasa_model->GetAllMeasurements());
-		$this->load->view('DASA/InventoriesList', $data);
-	}
-
-	public function UpdateProductInfo(){
-		$this->load->model('Dasa_model');
-		$id=$_POST['idproduct'];
-		$data = array('product' => $this->Dasa_model->GetProductByID($id));
-		$this->load->view('DASA/editProductForm', $data);
+		//$this->load->view('DASA/EditProductForm', $data);
+		$this->load->view('DASA/Product_Catalog', $data);
 	}
 
 	public function CustomerProjects(){
@@ -182,39 +178,37 @@ class DASA extends CI_Controller {
 		echo $result;
 	}
 
-	public function SendDataProductEdit(){
-		$id = $this->input->post('idE');
-		$data = array('catalogo_producto_nombre'=> $this->input->post('nameProductE'),
-						'catalogo_producto_umedida'=> $this->input->post('medidaE'),
-						'catalogo_producto_precio'=> $this->input->post('priceE'),
-						 'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerE'),
-						'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
-
+	public function AddProduct(){
+		$table = 'catalogo_producto';
+		$data = array('id_catalogo_producto' => $this->input->post('idInsert'),
+			'catalogo_producto_nombre'=> $this->input->post('nameProductInsert'),
+			'catalogo_producto_umedida'=> $this->input->post('medidaInsert'),
+			'catalogo_producto_precio'=> $this->input->post('priceInsert'),
+			'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerInsert'),
+			'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('EnterpriseIDInsert'),
+			'catalogo_producto_fecha_actualizacion' => $this->input->post('dateInsert'));
 		$this->load->model('Dasa_model');
-		if($this->Dasa_model->UpdateProduct($id, $data) == true){
-		$this->Index();
-			echo "<script>alert('Producto modificado correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
-		} else{
-			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
-		}
+		$result = $this->Dasa_model->Insert($table, $data);
+		echo $result;
 	}
 
-	public function AddProduct(){
-		$data = array('id_catalogo_producto' => $this->input->post('id'),
-			'catalogo_producto_nombre'=> $this->input->post('nameProduct'),
-			'catalogo_producto_umedida'=> $this->input->post('medida'),
-			'catalogo_producto_precio'=> $this->input->post('price'),
-			'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('provider'),
-			'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('EnterpriseID'),
-			'catalogo_producto_fecha_actualizacion' => $this->input->post('date'),
-			'catalogo_producto_url_imagen' => $this->input->post('image'));
-		$this->load->model('Dasa_model');
-		if($this->Dasa_model->InsertProduct($data) == true){
-			$this->Index();
-			echo "<script>alert('Producto agregado correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
-		} else{
-			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
-		}
+	public function UploadImage(){
+		$image = 'imageI';//The name of input that select file
+        $config['upload_path'] = ".\Resources\Products&Services\DASA";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('idI');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "gif|jpg|jpeg|png";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+        $config['max_width'] = "2080";//max of width of image
+    	$config['max_height'] = "2000";//max of height of image
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($image)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
 	}
 
 	public function AddCustomersPay(){
@@ -427,18 +421,18 @@ class DASA extends CI_Controller {
 		}		
 	}
 
-	public function UpdateProduct(){
+	public function UpdateInfoProduct(){
 		$this->load->model('Dasa_model');
-		$id_prod=$_POST["id_prod"];
-		$data = array('prod_alm_nom' => $this->input->post('nom_prod') ,
-						'prod_alm_medida' => $this->input->post('unid_med'),
-						'prod_alm_modelo' => $this->input->post('modelo'),
-						'prod_alm_prec_unit' => $this->input->post('precio') ,
-						'prod_alm_exist' => $this->input->post('existencia') ,
-						'prod_alm_codigo' => $this->input->post('codigo') ,
-						'prod_alm_descripcion' => $this->input->post('descripcion') ,
-						'prod_alm_coment' => $this->input->post('coment'));
-		if($this->Dasa_model->Update_Product($id_prod,$data)){
+		$id = $_POST["idE"];
+    	$data = array(
+    					'catalogo_producto_nombre' => $this->input->post('nameProductE'),
+				        'catalogo_producto_umedida' => $this->input->post('medidaE'),
+				        'catalogo_producto_precio'=>$this->input->post('priceE'),
+				        'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
+				        'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
+				        'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'),
+				        'catalogo_producto_url_imagen' => $this->input->post('imageE'));
+		if($this->Dasa_model->UpdateProduct($id, $data)){
 			echo true;
 		}else{
 			echo false;
@@ -446,5 +440,6 @@ class DASA extends CI_Controller {
 	}
 
 
+#end conntroller
 }
  

@@ -319,6 +319,33 @@ class Dasa_model extends CI_Model
     }
     }
 
+  public function GetInventorie_Office($idcompany){
+    $this->db->select('id_prod, producto_consu_nom, unidad_medida, producto_consu_prec_unit, producto_consu_exist, producto_consu_ult_compra, producto_consu_periodicidad, producto_consu_prox_compra, catalogo_proveedor_empresa');
+    $this->db->from('producto_consumible');
+    $this->db->join('unidades_de_medida','producto_consu_medida=id_uMedida');
+    $this->db->join('catalogo_proveedor','producto_consu_ult_proveedor=id_catalogo_proveedor');
+    $this->db->where('producto_consumible.empresa_id_empresa',$idcompany);
+    $result=$this->db->get();
+    return $result;
+  }
+    public function New_Consumible($data){
+    $this->db->insert('producto_consumible', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+    public function   Update_Consumible($id, $data){
+      $this->db->where('id_prod', $id);
+      $this->db->update('producto_consumible', $data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+      } else{
+        return false;
+      }
+  }
   
 #end of model
 }

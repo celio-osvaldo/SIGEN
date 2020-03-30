@@ -83,5 +83,13 @@
 			});
 		</script>
 		
+				<script>//script to load Office P Inventorie
+			$(document).ready(function(){
+				$("#Alm_Oficina").click(function(){
+					$("#page_content").load("InventarioOficina");
+				});
+			});
+		</script>
+		
 </body>
 </html> 

@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col-9">
-    <h3 align="center">Inventario de Productos</h3>
+    <h3 align="center">Almacén de Productos</h3>
   </div>
     <div class="col-3">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewInv_ProdModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Producto</button>

@@ -139,6 +139,19 @@ class DASA extends CI_Controller {
 	}
 
 
+	public function InventarioOficina(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data=array('inventario_oficina'=>$this->Dasa_model->GetInventorie_Office($idcompany->id_empresa),
+					'unidades_medida'=>$this->Dasa_model->GetAllMeasurements(),
+					'providers' => $this->Dasa_model->GetAll_Provider($idcompany->id_empresa));
+		//var_dump($data);
+		$this->load->view('DASA/Inventario_Oficina',$data);
+	}
+
+
+
 #actions
 
 	public function AddCustomerProject(){
@@ -465,6 +478,64 @@ class DASA extends CI_Controller {
 				        'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'),
 				        'catalogo_producto_url_imagen' => $this->input->post('imageE'));
 		if($this->Dasa_model->UpdateProduct($id, $data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+	
+	public function NewAlm_Consumible(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$periodicidad=$_POST["periodicidad"];
+		$fecha_actual =$_POST["ult_compra"];
+		if($periodicidad>0){
+			//sumo días de periodicidad
+			$prox_compra=date("Y-m-d",strtotime($fecha_actual."+ ".$periodicidad." days")); 
+		}else{
+			$prox_compra="0000-00-00";
+		}
+		//var_dump($periodicidad);
+		//var_dump($fecha_actual);
+		//var_dump($prox_compra);
+		$data = array('empresa_id_empresa' => $idcompany->id_empresa,
+						'producto_consu_nom' => $this->input->post('nom_prod'),
+						'producto_consu_medida' => $this->input->post('unid_med'),
+						'producto_consu_prec_unit' => $this->input->post('precio'),
+						'producto_consu_exist' => $this->input->post('existencia'),
+						'producto_consu_ult_compra' => $this->input->post('ult_compra'),
+						'producto_consu_periodicidad' => $this->input->post('periodicidad'),
+						'producto_consu_prox_compra' => $prox_compra,
+						'producto_consu_ult_proveedor' => $this->input->post('proveedor'));
+		if($this->Dasa_model->New_Consumible($data)){
+			echo true;
+		}else{
+			echo false;
+		}	
+	}
+
+	public function UpdateConsumible(){
+		$this->load->model('Dasa_model');
+		$id = $_POST["id_prod"];
+		$periodicidad=$_POST["periodicidad"];
+		$fecha_actual =$_POST["ult_compra"];
+		if($periodicidad>0){
+			//sumo días de periodicidad
+			$prox_compra=date("Y-m-d",strtotime($fecha_actual."+ ".$periodicidad." days")); 
+		}else{
+			$prox_compra="0000-00-00";
+		}
+    	$data = array(
+    					'producto_consu_nom' => $this->input->post('nom_prod'),
+						'producto_consu_medida' => $this->input->post('unid_med'),
+						'producto_consu_prec_unit' => $this->input->post('precio'),
+						'producto_consu_exist' => $this->input->post('existencia'),
+						'producto_consu_ult_compra' => $this->input->post('ult_compra'),
+						'producto_consu_periodicidad' => $this->input->post('periodicidad'),
+						'producto_consu_prox_compra' => $prox_compra,
+						'producto_consu_ult_proveedor' => $this->input->post('proveedor'));
+		if($this->Dasa_model->Update_Consumible($id, $data)){
 			echo true;
 		}else{
 			echo false;

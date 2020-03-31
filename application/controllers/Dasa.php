@@ -305,24 +305,19 @@ class DASA extends CI_Controller {
 	}
 
 	public function AddReportPettyCash(){
+		$this->load->model('Dasa_model');
 		$table = 'lista_caja_chica';
 		$cash = 1;
-
 		$data = array('id_lista_caja_chica' => $this->input->post('cashI'),
 						'caja_chica_id_caja_chica'=> $cash,
 						'lista_caja_chica_fecha'=> $this->input->post('dateI'),
 						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
 						'lista_caja_chica_reposicion'=> $this->input->post('moneyI'),
-						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'),
-						'lista_caja_chica_factura' => $this->input->post('upBillI'),
-						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
-		$this->load->model('Dasa_model');
-		if($this->Dasa_model->Insert($table, $data) == true){
-			$this->Index();
-			echo "<script>alert('Factura agregada correctamente. Verifique en la tabla');window.location.assign('Index') </script>";
-		} else{
-			echo "<script>alert('Ocurrio un error al agregar. Intente nuevamente');window.location.assign('Index') </script>";
-		}
+						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'));
+						// 'lista_caja_chica_factura' => $this->input->post('upBillI'),
+						// 'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
+		$result = $this->Dasa_model->Insert($table, $data);
+		echo $result;
 	}
 
 	public function EditCustomerPay(){

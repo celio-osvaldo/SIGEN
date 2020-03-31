@@ -306,6 +306,22 @@ class DASA extends CI_Controller {
 
 	public function AddReportPettyCash(){
 		$this->load->model('Dasa_model');
+		$file = 'upBillI';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/PettyCash/DASA/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('folioBillI');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+        $upload_file = $config['file_name'] = $this->input->post('folioBillI');
 		$table = 'lista_caja_chica';
 		$cash = 1;
 		$data = array('id_lista_caja_chica' => $this->input->post('cashI'),
@@ -313,11 +329,17 @@ class DASA extends CI_Controller {
 						'lista_caja_chica_fecha'=> $this->input->post('dateI'),
 						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
 						'lista_caja_chica_reposicion'=> $this->input->post('moneyI'),
-						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'));
-						// 'lista_caja_chica_factura' => $this->input->post('upBillI'),
-						// 'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
-		$result = $this->Dasa_model->Insert($table, $data);
-		echo $result;
+						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'),
+						'lista_caja_chica_factura' => $upload_file,
+						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
+		// $result = $this->Dasa_model->Insert($table, $data);
+		// echo $result;
+		if ($this->Dasa_model->Insert($table, $data)) {
+        	$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
+        }
 	}
 
 	public function EditCustomerPay(){

@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Listado de caja chica</h3>
+    <h3 align="center">Listado de reportes en caja chica</h3>
   </div>
   <div class="col-md-4">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newReport"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Reporte</button>
@@ -47,7 +47,7 @@
                             <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_gasto.""; ?></td>
                             <?php } ?>
                             <td><?php echo "".$row->lista_caja_chica_factura.""; ?></td>
-                            <td align="center"><img src="<?php echo base_url(); ?>Resources/Icons/cloud-upload-symbol_icon-icons.com_56540.ico" alt="Subir Factura"></td>
+                            <td align="center"><img src="<?php echo base_url(); ?>Resources/Icons/invoice_icon_128337.ico" alt="Subir Factura"></td>
                             <td id="<?php echo "dateB".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_fecha_factura.""; ?></td>
                             <!-- <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_lista_caja_chica.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td> -->
                         </tr>
@@ -75,7 +75,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-        <form class="form-group" id="addReport" action="<?php echo base_url(); ?>Dasa/AddReportPettyCash" method="POST">
+        <form class="form-group" id="addReport" enctype="multipart/form-data">
       <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
@@ -86,7 +86,7 @@
                         <label class="label-control">Fecha de emisión</label>
                         <input class="form-control" type="text" name="dateI" id="dateI" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                         <label class = "control-label">Concepto</label>
-                        <input class="form-control" type="text" name="conceptI" id="conceptI" required="true">
+                        <input class="form-control" type="text" name="conceptI" id="conceptI" required="true" required="true">
                     </div>
 
                     <div class="col-md-6">
@@ -116,16 +116,23 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <label class="label-control">Factura/Comprobante</label> -->
-                        <!-- <input class="form-control" type="hidden" name="upBillI" id="upBillI" >
-                        <br>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label-control">No. Folio</label>
+                        <input class="form-control" type="text" name="folioBillI" id="folioBillI" required="true">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="label-control">Factura/Comprobante</label>
+                        <input class="form-control" type="file" name="upBillI" id="upBillI" accept="application/pdf" required="true">
+                    </div>
+                    <div class="col-md-4">
                         <label class = "control-label">Fecha factura</label>
-                        <input class="form-control" type="date" name="dateBillI" id="dateBillI" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>"> -->
-                    </div>                    
+                        <input class="form-control" type="date" name="dateBillI" id="dateBillI" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+                    </div>
                 </div>
       </div>
       <div class="modal-footer">
-        <button type="submit" class="btn btn-outline-success" id="saveReport">Guardar</button>
+        <button type="submit" class="btn btn-outline-success submitBtn" id="saveReport">Guardar</button>
         <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
       </div>
                 </form>
@@ -141,41 +148,52 @@
     } );
 </script>
 
-<!-- script by add new costofsale -->
+<!-- script by add new report in petty cash -->
 <script>
-$(document).ready(function () {
-    $("#addReport").bind("submit",function(){
-        // Catch button of save
-        var btnSend = $("#saveReport");
+$(document).ready(function(e){
+    $("#addReport").on('submit', function(e){
+        e.preventDefault();
         $.ajax({
-            type: $(this).attr("method"),
-            url: $(this).attr("action"),
-            data:$(this).serialize(),
-            beforeSend: function(){//Send data to server
-                // btnSend.text("Guardando..."); Change when data is send
-                btnSend.val("Guardando...");
-                btnSend.attr("disabled","disabled");//the disabled property is added to avoid a double click and send the information two or more times
+            type: 'POST',
+            url: '<?php echo base_url(); ?>Dasa/AddReportPettyCash',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function(){
+                $('.submitBtn').attr("disabled","disabled");
+                $('#addReport').css("opacity",".5");
             },
-            complete:function(data){//restore default values whet the request ended
-                btnSend.val("Guardado");
-                btnSend.removeAttr("disabled");
-            },
-            success: function(data){//if data is succesful show alerts
-                alert(data);
-                if(data==1){
-                  alert('Reporte de caja chica agregado');
-                  CloseModal();
+            success: function(msg){
+                $('.statusMsg').html('');
+                if(msg == 'ok'){
+                    alert('Falló el servidor. Reporte no agregado. Verifique que la información sea correcta');
+                    CloseModal();
                 }else{
-                  alert('Falló el servidor. Reporte no agregado. Verifique que la información sea correcta');
+                    alert("Reporte subido satisfactoriamente");
+
+                    CloseModal();
+                    
                 }
-            },
-            error: function(data){//execute when request fails
-                alert("Falló el servidor. Registro no agregado");
+                $('#addReport').css("opacity","");
+                $(".submitBtn").removeAttr("disabled");
             }
         });
-        return false;
+    });
+    
+    //file type validation
+    $("#upBillI").change(function() {
+        var file = this.files[0];
+        var imagefile = file.type;
+        // var match= ["*"];
+        if(!(imagefile)){
+            alert('Please select a valid image file (PDF).');
+            $("#upBillI").val('');
+            return false;
+        }
     });
 });
+
 function CloseModal(){
     $('#btncancelar').click();
     $('#NewClientModal').modal("hide");

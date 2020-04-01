@@ -111,8 +111,8 @@
                             <textarea class="form-control" name="addComment" id="addComment" cols="10" rows="8"></textarea>
                         </div>
                         <div class="col-md-6">
-                            <label for="">Factura:</label>
-                            <input class="form-control" name="addBill" id="addBill" type="text">
+                            <!-- <label for="">Factura:</label>
+                            <input class="form-control" name="addBill" id="addBill" type="text"> -->
                             <label for="">Estatus:</label>
                             <input type="text" name="addStatus" id="addStatus" class="form-control" value="Autorización Solicitada">
                             <label for="">Fecha de pago:</label>

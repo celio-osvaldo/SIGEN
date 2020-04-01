@@ -117,6 +117,7 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/Cat_Provider',$data);
 		//var_dump($data);
 	}
+	
 	public function Catalogo_Cliente(){
 		$this->load->model('Dasa_model');
 		$company='DASA';
@@ -444,6 +445,27 @@ class DASA extends CI_Controller {
 		}else{
 			echo false;
 		}
+	}
+	
+	public function Update_Alm_Product(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$id_prod=$_POST["id_prod"];
+		$data = array(
+						'prod_alm_nom' => $this->input->post('nom_prod'),
+						'prod_alm_medida' => $this->input->post('unid_med'),
+						'prod_alm_modelo' => $this->input->post('modelo'),
+						'prod_alm_prec_unit' => $this->input->post('precio'),
+						'prod_alm_exist' => $this->input->post('existencia'),
+						'prod_alm_codigo' => $this->input->post('codigo'),
+						'prod_alm_descripcion' => $this->input->post('descripcion'),
+						'prod_alm_coment' => $this->input->post('coment'));
+		if($this->Dasa_model->Edit_Product($id_prod,$data)){
+			echo true;
+		}else{
+			echo false;
+		}		
 	}
 
 	public function NewAlm_Product(){

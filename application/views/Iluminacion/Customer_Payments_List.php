@@ -114,7 +114,7 @@
       if (act_fecha!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/EditCustomerPay",
+          url:"<?php echo base_url();?>Iluminacion/EditCustomerPay",
           data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment,id:id},
           success:function(result){
             //alert(result);

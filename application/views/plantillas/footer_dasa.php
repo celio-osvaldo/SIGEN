@@ -60,7 +60,7 @@
 				});
 			});
 		</script>
-		<script>//script to load the report of viatics of controller on click at the link with the id pettyCashV
+		<script>//script to load the Provider Catalog
 			$(document).ready(function(){
 				$("#Cat_Proveedor").click(function(){
 					$("#page_content").load("Catalogo_Proveedor");
@@ -83,7 +83,7 @@
 			});
 		</script>
 		
-				<script>//script to load Office P Inventorie
+		<script>//script to load Office Product Inventorie
 			$(document).ready(function(){
 				$("#Alm_Oficina").click(function(){
 					$("#page_content").load("InventarioOficina");

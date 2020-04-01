@@ -299,6 +299,16 @@ class Dasa_model extends CI_Model
     $result=$this->db->get();
     return $result;
   }
+  
+    public function Edit_Product($id_prod,$data){
+      $this->db->where('id_prod_alm',$id_prod);
+      $this->db->update('producto_almacen', $data);
+     if ($this->db->affected_rows() > 0) {
+      return true;
+      } else{
+      return false;
+      }
+  }
 
   public function New_Product($data){
     $this->db->insert('producto_almacen', $data);
@@ -328,6 +338,7 @@ class Dasa_model extends CI_Model
     $result=$this->db->get();
     return $result;
   }
+  
     public function New_Consumible($data){
     $this->db->insert('producto_consumible', $data);
     if ($this->db->affected_rows() > 0) {

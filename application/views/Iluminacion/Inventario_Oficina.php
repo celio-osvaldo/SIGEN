@@ -57,7 +57,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Producto</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Consumible</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -162,7 +162,7 @@
       if (nom_prod!=""&&unid_med!=null&&proveedor!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/UpdateConsumible",
+          url:"<?php echo base_url();?>Iluminacion/UpdateConsumible",
           data:{id_prod:id_prod, nom_prod:nom_prod, unid_med:unid_med, existencia:existencia, precio:precio, ult_compra:ult_compra, periodicidad:periodicidad, proveedor:proveedor},
           success:function(result){
             //alert(result);
@@ -191,7 +191,7 @@
       if (nom_prod!=""&&unid_med!=null&&proveedor!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/NewAlm_Consumible",
+          url:"<?php echo base_url();?>Iluminacion/NewAlm_Consumible",
           data:{nom_prod:nom_prod, unid_med:unid_med, existencia:existencia, precio:precio, ult_compra:ult_compra, periodicidad:periodicidad, proveedor:proveedor},
           success:function(result){
             //alert(result);

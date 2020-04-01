@@ -97,7 +97,7 @@
        if (cant_pago>0&&fecha_pago!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/AddCustomersPay",
+          url:"<?php echo base_url();?>Iluminacion/AddCustomersPay",
           data:{id_obra:id_obra, cant_pago:cant_pago, fecha:fecha, coment:coment},
           success:function(result){
             //alert(result);
@@ -136,5 +136,3 @@
                       
  }
 </script>
-
-

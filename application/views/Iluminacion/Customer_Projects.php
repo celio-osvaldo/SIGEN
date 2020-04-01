@@ -1,5 +1,5 @@
 
-<!--Mostrar lista de Proyectos -->
+<!--Mostrar lista de clientes y obras -->
 
 <div class="row">
   <div class="col-9">
@@ -58,8 +58,7 @@
                 </td>
                 <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
                 <td>
-                  <a class="navbar-brand" onclick="Edit(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>">
-                    <button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" />
+                  <a class="navbar-brand" onclick="Edit(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" />
                     </button></a>
                 </td>
               </tr>
@@ -158,9 +157,9 @@
 <!--script Limpiar Ventana Modal Nuevo Cliente/Obra -->
 <script type="text/javascript">
   $("#btncancelar").on("click",function(event){ 
-    $('#nom_obra').val("");
-    $('#imp_obra').val("");
-    $('#coment_obra').val("");
+    $("#nom_obra").val("");
+    $("#imp_obra").val("");
+    $("#coment_obra").val("");
   });
 
 //funcion para Guardar nuevo cliente/obra
@@ -175,7 +174,7 @@
       if (nombre!=""&&importe!=""&&id_cliente!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/AddCustomerProject",
+          url:"<?php echo base_url();?>Iluminacion/AddCustomerProject",
           data:{nombre:nombre, id_cliente:id_cliente, importe:importe,coment:coment},
           success:function(result){
             //alert(result);
@@ -204,7 +203,7 @@
       if (act_nom!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/EditCustomerProject",
+          url:"<?php echo base_url();?>Iluminacion/EditCustomerProject",
           data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id},
           success:function(result){
             //alert(result);

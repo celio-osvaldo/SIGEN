@@ -20,6 +20,7 @@
           <th>Unidad de Medida</th>
           <th>Modelo</th>
           <th>Precio Unitario</th>
+          <th>Precio de Venta</th>
           <th>Existencia</th>
           <th>Cógido Producto</th>
           <th>Descripción del Producto</th>
@@ -39,6 +40,7 @@
           <td id="<?php echo "unid_med".$row->id_prod_alm;?>"><?php echo "".$row->unidad_medida.""; ?></td>
           <td id="<?php echo "modelo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_modelo.""; ?></td>
           <td id="<?php echo "precio".$row->id_prod_alm;?>">$<?php echo "".$row->prod_alm_prec_unit.""; ?></td>
+          <td id="<?php echo "precio_venta".$row->id_prod_alm;?>">$<?php echo "".$row->prod_alm_precio_venta.""; ?></td>
           <td id="<?php echo "existencia".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_exist.""; ?></td>
           <td id="<?php echo "codigo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_codigo.""; ?></td>
           <td id="<?php echo "descripcion".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_descripcion.""; ?></td>
@@ -76,6 +78,8 @@
         <input type="text" id="new_model" class="form-control input-sm"><br>
         <label>Precio Unitario</label><br>
         <input type="number" id="new_prec" class="form-control input-sm"><br>
+        <label>Precio de Venta</label><br>
+        <input type="number" id="new_prec_venta" class="form-control input-sm"><br>
         <label>Existencia</label><br>
         <input type="number" id="new_exist" class="form-control input-sm"><br>
         <label>Cógido de Producto</label><br>
@@ -118,6 +122,8 @@
         <input type="text" id="edit_model" class="form-control input-sm"><br>
         <label>Precio Unitario</label><br>
         <input type="number" id="edit_prec" class="form-control input-sm"><br>
+         <label>Precio de Venta</label><br>
+        <input type="number" id="edit_prec_venta" class="form-control input-sm"><br>
         <label>Existencia</label><br>
         <input type="number" id="edit_exist" class="form-control input-sm"><br>
         <label>Cógido de Producto</label><br>
@@ -148,6 +154,7 @@
       unid_med=$("#edit_unid_med").val();
       modelo=$("#edit_model").val();
       precio=$("#edit_prec").val();
+      precio_venta=$("#edit_prec_venta").val();
       existencia=$("#edit_exist").val();
       codigo=$("#edit_cod").val();
       descripcion=$("#edit_descrip").val();
@@ -157,8 +164,8 @@
       if (nom_prod!=""&&unid_med!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/Update_Alm_Product",
-          data:{id_prod:id_prod, nom_prod:nom_prod, unid_med:unid_med, modelo:modelo, precio:precio, existencia:existencia, codigo:codigo, descripcion:descripcion, coment:coment},
+          url:"<?php echo base_url();?>Iluminacion/Update_Alm_Product",
+          data:{id_prod:id_prod, nom_prod:nom_prod, unid_med:unid_med, modelo:modelo, precio:precio, precio_venta:precio_venta, existencia:existencia, codigo:codigo, descripcion:descripcion, coment:coment},
           success:function(result){
             //alert(result);
             if(result){
@@ -179,6 +186,7 @@
       unid_med=$("#new_unid_med").val();
       modelo=$("#new_model").val();
       precio=$("#new_prec").val();
+      precio_venta=$("#new_prec_venta").val();
       existencia=$("#new_exist").val();
       codigo=$("#new_cod").val();
       descripcion=$("#new_descrip").val();
@@ -187,8 +195,8 @@
       if (nom_prod!=""&&unid_med!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/NewAlm_Product",
-          data:{nom_prod:nom_prod, unid_med:unid_med, modelo:modelo, precio:precio, existencia:existencia, codigo:codigo, descripcion:descripcion, coment:coment},
+          url:"<?php echo base_url();?>Iluminacion/NewAlm_Product",
+          data:{nom_prod:nom_prod, unid_med:unid_med, modelo:modelo, precio:precio,precio_venta:precio_venta, existencia:existencia, codigo:codigo, descripcion:descripcion, coment:coment},
           success:function(result){
             //alert(result);
             if(result){
@@ -216,6 +224,7 @@
     var unid_med=$("#unid_med"+id_producto).val();
     var modelo=$("#modelo"+id_producto).text();
     var precio=$("#precio"+id_producto).text().split('$');
+    var precio_venta=$("#precio_venta"+id_producto).text().split('$');
     var existencia=$("#existencia"+id_producto).text();
     var codigo=$("#codigo"+id_producto).text();
     var descripcion=$("#descripcion"+id_producto).text();
@@ -226,6 +235,7 @@
     $("#edit_unid_med option:contains("+unid_med+")").attr('selected', true);
     $("#edit_model").val(modelo);
     $("#edit_prec").val(parseFloat(precio[1]));
+    $("#edit_prec_venta").val(parseFloat(precio_venta[1]));
     $("#edit_exist").val(existencia);
     $("#edit_cod").val(codigo);
     $("#edit_descrip").val(descripcion);

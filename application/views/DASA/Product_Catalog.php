@@ -1,109 +1,3 @@
-<!-- modall edit bill -->
-<div class="modal fade" id="productE" data-backdrop="static" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edición de los datos de produto</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-         <!-- <form class="form-group" id="addproduct" method="POST" enctype="multipart/form-data" action="<?php echo base_url()?>Dasa/UpdateInfoProduct"> -->
-                    <?php echo form_open_multipart('Dasa/UpdateInfoProduct', 'id="addproduct"') ?>
-                    <div class="row">
-                      <input class="form-control" type="hidden" id="idE" name="idE">
-                      <div class="col-md-6">
-                        <label class="label-control">Nombre del producto</label>
-                        <input class="form-control" type="text" id="nameProductE" name="nameProductE" required="true">
-                      </div>
-
-                      <div class="col-md-4">
-                        <label class="label-control">Unidad de medida</label>
-                        <select class="custom-select" id="medidaE" name="medidaE" required="true">
-                          <option value="">Seleccionar</option>
-                          <?php foreach ($measure->result() as $row){ ?>
-                          <option value="<?php echo "".$row->id_uMedida.""; ?>"><?php echo "".$row->unidad_medida.""; ?></option>
-                          <?php } ?>
-                        </select>
-                      </div>
-
-                      <div class="col-md-2">
-                        <label class="label-control">Precio</label>
-                        <input class="form-control" type="text" id="priceE" name="priceE" required="true">
-                      </div>
-
-                      <div class="col-md-12">
-                        <label class="label-control">Proveedor</label>
-                        <select class="custom-select" id="providerE" name="providerE" required="true">
-                        <?php foreach ($providers->result() as $row){ ?>
-                            <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
-                        <?php } ?>
-                        </select>
-                        <input class="form-control" type="hidden" name="EnterpriseIDE" name="EnterpriseIDE" id="EnterpriseIDE" value="2">
-                      </div>
-                      <input type="text" name="imageE" id="imageE">
-                      <input type="hidden" id="dateE" name="dateE" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-
-                      <div class="modal-footer">
-                        <input type="submit" class="btn btn-outline-success" id="saveData" value="Guardar">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="cancelar">Cancelar</button>
-                      </div>
-
-                </div>
-
-                <!-- </form> -->
-                <?php form_close() ?>
-      </div>
-      <!-- <div class="modal-footer"> -->
-      <!-- </div> -->
-    </div>
-  </div>
-</div>
-<!-- end modal -->
-<!-- script by update product -->
-<script>
-  $(document).ready(function () {
-    $("#editproduct").bind("submit",function(){
-        // Catch button of save
-        var btnSend = $("#saveData");
-        $.ajax({
-            type: $(this).attr("method"),
-            url: $(this).attr("action"),
-            data:$(this).serialize(),
-            beforeSend: function(){//Send data to server
-                // btnSend.text("Actualizando..."); Change when data is send
-                btnSend.val("Actualizando...");
-                btnSend.attr("disabled","disabled");//the disabled property is added to avoid a double click and send the information two or more times
-            },
-            complete:function(data){//restore default values whet the request ended
-                btnSend.val("Actualizado");
-                btnSend.removeAttr("disabled");
-            },
-            success: function(data){//if data is succesful show alerts
-                // alert(data);
-                if(data==1){
-                  alert('Información del producto actualizada');
-                  CloseModal();
-                }else{
-                  alert('Falló el servidor. Producto no agregado. Verifique que la información sea correcta');
-                }
-            },
-            error: function(data){//execute when request fails
-                alert("Falló el servidor. Registro no agregado");
-            }
-        });
-        return false;
-    });
-});
-function CloseModal(){
-    $('#btncancelar').click();
-    $('#NewClientModal').modal("hide");
-    $('.modal-backdrop').remove();
-    $("#page_content").load("GetInventories");
-  }
-</script>
-
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
@@ -123,7 +17,7 @@ function CloseModal(){
             <div class="card bg-card">
             <div class="container">
                 <br>
-                <div class="table-responsive-lg">
+                <div class="table-responsive">
                     <table id="tableProductCatalog_id" class="table table-hover display table-striped" style="font-size: 10pt;">
                     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
                         <tr>
@@ -149,7 +43,7 @@ function CloseModal(){
                                 <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_precio.""; ?></td>
                                 <td id="<?php echo "provider".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td id="<?php echo "date".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
-                                <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_url_imagen.""; ?></td>
+                                <td><a role="button" class="btn btn-outline-dark" onclick="Display_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#imgProduct"><img src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
                                 <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                             </tr>
                         <?php } ?>
@@ -164,11 +58,6 @@ function CloseModal(){
     <div class="col-md-1"></div>
 </div>
 
-
-
-<br>
-
-
 <!-- modal add product -->
 <div class="modal fade" id="NewProduct" data-backdrop="static" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
@@ -179,9 +68,8 @@ function CloseModal(){
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-                  <!-- <form class="form-group" id="editproduct" method="POST" enctype="multipart/form-data" action="<?php echo base_url()?>Dasa/AddProduct"> -->
-                    <?php echo form_open_multipart('Dasa/AddProduct', 'id="editproduct"') ?>
+      <form class="form-group" id="addproduct" enctype="multipart/form-data">
+          <div class="modal-body">
                     <div class="row">
                       <input class="form-control" type="hidden" id="idInsert" name="idInsert">
                       <div class="col-md-6">
@@ -204,33 +92,115 @@ function CloseModal(){
                         <input class="form-control" type="number" id="priceInsert" name="priceInsert" required="true">
                       </div>
 
-                      <div class="col-md-12">
+                      <div class="col-md-6">
                         <label class="label-control">Proveedor</label>
                         <select class="custom-select" id="providerInsert" name="providerInsert" required="true">
                         <?php foreach ($providers->result() as $row){ ?>
                             <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
                         <?php } ?>
                         </select>
-                        <input class="form-control" type="hidden" name="EnterpriseIDInsert" name="EnterpriseIDInsert" id="EnterpriseIDInsert" value="2">
+                        <input class="form-control" type="hidden" name="enterpriseIDInsert" id="enterpriseIDInsert" value="2">
                       </div>
 
-                      <input type="hidden" id="dateInsert" name="dateInsert" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-
-                      <div class="modal-footer">
-                        <input type="submit" class="btn btn-outline-success" id="saveProduct" value="Guardar">
-                        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="cancelar">Cancelar</button>
+                      <div class="col-md-6">
+                        <label>Imágen</label>
+                        <input type="hidden" id="dateInsert" name="dateInsert" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+                        <input class="form-control" type="file" name="imageInsert" id="imageInsert" required="true">
                       </div>
 
                 </div>
-
-                <!-- </form> -->
-                <?php form_close() ?>
+              </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-outline-success submitBtn" id="saveProduct">Guardar</button>
+                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
+                </div>
+        </form>
       </div>
+    </div>
+  </div>
+<!-- end modal -->
+
+<!-- modal edit product -->
+<div class="modal fade" id="productE" data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Edición de los datos de produto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+         <form class="form-group" id="editproduct" method="POST" enctype="multipart/form-data" action="<?php echo base_url()?>Dasa/UpdateInfoProduct">
+              <div class="modal-body">
+                    <div class="row">
+                      <input class="form-control" type="hidden" id="idE" name="idE">
+                      <div class="col-md-6">
+                        <label class="label-control">Nombre del producto</label>
+                        <input class="form-control" type="text" id="nameProductE" name="nameProductE" required="true">
+                      </div>
+
+                      <div class="col-md-4">
+                        <label class="label-control">Unidad de medida</label>
+                        <select class="custom-select" id="medidaE" name="medidaE" required="true">
+                          <option value="">Seleccionar</option>
+                          <?php foreach ($measure->result() as $row){ ?>
+                          <option value="<?php echo "".$row->id_uMedida.""; ?>"><?php echo "".$row->unidad_medida.""; ?></option>
+                          <?php } ?>
+                        </select>
+                      </div>
+
+                      <div class="col-md-2">
+                        <label class="label-control">Precio</label>
+                        <input class="form-control" type="text" id="priceE" name="priceE" required="true">
+                      </div>
+
+                      <div class="col-md-6">
+                        <label class="label-control">Proveedor</label>
+                        <select class="custom-select" id="providerE" name="providerE" required="true">
+                        <?php foreach ($providers->result() as $row){ ?>
+                            <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
+                        <?php } ?>
+                        </select>
+                        <input class="form-control" type="hidden" name="EnterpriseIDE" name="EnterpriseIDE" id="EnterpriseIDE" value="2">
+                      </div>
+                      <input type="text" name="imageE" id="imageE">
+                      <input type="hidden" id="dateE" name="dateE" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+
+                      <div class="col-md-6">
+                        <input type="file" name="imageE" id="imageE" >
+                      </div>
+
+                </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="submit" class="btn btn-outline-success submitBtn" id="editProduct">Guardar</button>
+                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
+                </div>
+        </form>
     </div>
   </div>
 </div>
 <!-- end modal -->
 
+<!-- modal image product -->
+<div class="modal fade" id="imgProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+<!-- end modal -->
 
 <script type="text/javascript">
   $(document).ready( function () {
@@ -238,41 +208,109 @@ function CloseModal(){
   });
 </script>
 
-<!-- script by add new product -->
+<!-- new product script -->
 <script>
-$(document).ready(function () {
-    $("#addproduct").bind("submit",function(){
-        // Catch button of save
-        var btnSend = $("#saveProduct");
+$(document).ready(function(e){
+    $("#addproduct").on('submit', function(e){
+        e.preventDefault();
         $.ajax({
-            type: $(this).attr("method"),
-            url: $(this).attr("action"),
-            data:$(this).serialize(),
-            beforeSend: function(){//Send data to server
-                // btnSend.text("Guardando..."); Change when data is send
-                btnSend.val("Guardando...");
-                btnSend.attr("disabled","disabled");//the disabled property is added to avoid a double click and send the information two or more times
+            type: 'POST',
+            url: '<?php echo base_url(); ?>Dasa/AddProduct',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function(){
+                $('.submitBtn').attr("disabled","disabled");
+                $('#addproduct').css("opacity",".5");
             },
-            complete:function(data){//restore default values whet the request ended
-                btnSend.val("Guardado");
-                btnSend.removeAttr("disabled");
-            },
-            success: function(data){//if data is succesful show alerts
-                // alert(data);
-                if(data==1){
-                  alert('Producto Agregado');
-                  CloseModal();
+            success: function(data){
+                // $('.statusMsg').html('');
+                if(data == 1){
+                    $('#addproduct')[0].reset();
+                    // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
+                    alert('Información del costo de venta actualizada');
+                    CloseModal();
                 }else{
-                  alert('Falló el servidor. Producto no agregado. Verifique que la información sea correcta');
+                  alert('Falló el servidor. Verifique que la información sea correcta');
                 }
-            },
-            error: function(data){//execute when request fails
-                alert("Falló el servidor. Registro no agregado");
+                $('#addproduct').css("opacity","");
+                $(".submitBtn").removeAttr("disabled");
             }
         });
-        return false;
+    });
+    
+    //file type validation
+    $("#imageInsert").change(function() {
+        var file = this.files[0];
+        var imagefile = file.type;
+        var match= ["image/jpeg","image/png","image/jpg"];
+        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+            alert('Please select a valid image file (JPEG/JPG/PNG).');
+            $("#imageInsert").val('');
+            return false;
+        }else{
+          alert('imagen subida');
+        }
     });
 });
+
+function CloseModal(){
+    $('#btncancelar').click();
+    $('#NewClientModal').modal("hide");
+    $('.modal-backdrop').remove();
+    $("#page_content").load("GetInventories");
+  }
+</script>
+
+
+<!-- edit product script -->
+<script>
+$(document).ready(function(e){
+    $("#editproduct").on('submit', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>Dasa/UpdateInfoProduct',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function(){
+                $('.submitBtn').attr("disabled","disabled");
+                $('#editproduct').css("opacity",".5");
+            },
+            success: function(data){
+                // $('.statusMsg').html('');
+                if(data == 1){
+                    $('#editproduct')[0].reset();
+                    // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
+                    alert('Información del costo de venta actualizada');
+                    CloseModal();
+                }else{
+                  alert('Falló el servidor. Verifique que la información sea correcta');
+                }
+                $('#editproduct').css("opacity","");
+                $(".submitBtn").removeAttr("disabled");
+            }
+        });
+    });
+    
+    //file type validation
+    $("#imageInsert").change(function() {
+        var file = this.files[0];
+        var imagefile = file.type;
+        var match= ["image/jpeg","image/png","image/jpg"];
+        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
+            alert('Please select a valid image file (JPEG/JPG/PNG).');
+            $("#imageInsert").val('');
+            return false;
+        }else{
+          alert('imagen subida');
+        }
+    });
+});
+
 function CloseModal(){
     $('#btncancelar').click();
     $('#NewClientModal').modal("hide");
@@ -308,4 +346,16 @@ function CloseModal(){
   function Update_Page(){
     $("#page_content").load("GetInventories");
   }
+</script>
+
+<!-- image of product selected script -->
+<script>
+  function Display_product($id){
+    var image=$("#image"+$id).text();
+    var id=$id;
+
+    $("#imgProduct").modal();
+    $("#imageE").val(image);
+    $("#idE").val(id);
+    }
 </script>

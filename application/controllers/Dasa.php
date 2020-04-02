@@ -205,37 +205,39 @@ class DASA extends CI_Controller {
 	}
 
 	public function AddProduct(){
+		$this->load->model('Dasa_model');
+		$file = 'imageInsert';//The name of input that select file
+        $config['upload_path'] = "./Resources/Products&Services/DASA";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('nameProductInsert');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "*";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+        $upload_file = $config['file_name'] = $this->input->post('nameProductInsert');
 		$table = 'catalogo_producto';
 		$data = array('id_catalogo_producto' => $this->input->post('idInsert'),
 			'catalogo_producto_nombre'=> $this->input->post('nameProductInsert'),
 			'catalogo_producto_umedida'=> $this->input->post('medidaInsert'),
 			'catalogo_producto_precio'=> $this->input->post('priceInsert'),
 			'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerInsert'),
-			'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('EnterpriseIDInsert'),
-			'catalogo_producto_fecha_actualizacion' => $this->input->post('dateInsert'));
-		$this->load->model('Dasa_model');
-		$result = $this->Dasa_model->Insert($table, $data);
-		echo $result;
-	}
-
-	public function UploadImage(){
-		$image = 'imageI';//The name of input that select file
-        $config['upload_path'] = ".\Resources\Products&Services\DASA";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('idI');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "gif|jpg|jpeg|png";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
-        $config['max_width'] = "2080";//max of width of image
-    	$config['max_height'] = "2000";//max of height of image
-
-        $this->load->library('upload', $config);//use for allow the upload files at server
-
-        if (!$this->upload->do_upload($image)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
+			'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('enterpriseIDInsert'),
+			'catalogo_producto_fecha_actualizacion' => $this->input->post('dateInsert'),
+			'catalogo_producto_url_imagen' => $upload_file);
+		if ($this->Dasa_model->Insert($table, $data)) {
+        	$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
         }
-	}
+    }
 
 	public function AddCustomersPay(){
 		$this->load->model('Dasa_model');

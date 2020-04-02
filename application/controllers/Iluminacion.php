@@ -381,5 +381,78 @@ class Iluminacion extends CI_Controller {
 		echo $result;
 	}
 
+	public function Catalogo_Cliente(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		//var_dump($company);
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		//var_dump($idcompany);
+		$data=array('catalogo_cliente'=>$this->Iluminacion_model->GetAll_Customer($idcompany->id_empresa));
+		$this->load->view('Iluminacion/Cat_Customer',$data);
+		//var_dump($data);
+	}
+
+	public function UpdateCustomer(){
+		$this->load->model('Iluminacion_model');
+		$id_cust=$_POST["id_cat"];
+		$data = array('catalogo_cliente_nom_fiscal' => $this->input->post('nom_fiscal') ,
+						'catalogo_cliente_empresa' => $this->input->post('nom_comer'),
+						'catalogo_cliente_rfc' => $this->input->post('rfc'),
+						'catalogo_cliente_contacto1' => $this->input->post('cont1') ,
+						'catalogo_cliente_puesto1' => $this->input->post('puesto1') ,
+						'catalogo_cliente_tel1' => $this->input->post('tel1') ,
+						'catalogo_cliente_cel1' => $this->input->post('cel1') ,
+						'catalogo_cliente_email1' => $this->input->post('email1') ,
+						'catalogo_cliente_contacto2' => $this->input->post('cont2') ,
+						'catalogo_cliente_puesto2' => $this->input->post('puesto2') ,
+						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
+						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
+						'catalogo_cliente_email2' => $this->input->post('email2') ,
+						'catalogo_cliente_coment' => $this->input->post('coment'));
+		if($this->Iluminacion_model->Update_Customer($id_cust,$data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+
+	public function NewCustomer(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('empresa_id_empresa' => $idcomp->id_empresa ,
+						'catalogo_cliente_nom_fiscal' => $this->input->post('nom_fiscal') ,
+						'catalogo_cliente_empresa' => $this->input->post('nom_comer'),
+						'catalogo_cliente_rfc' => $this->input->post('rfc'),
+						'catalogo_cliente_contacto1' => $this->input->post('cont1') ,
+						'catalogo_cliente_puesto1' => $this->input->post('puesto1') ,
+						'catalogo_cliente_tel1' => $this->input->post('tel1') ,
+						'catalogo_cliente_cel1' => $this->input->post('cel1') ,
+						'catalogo_cliente_email1' => $this->input->post('email1') ,
+						'catalogo_cliente_contacto2' => $this->input->post('cont2') ,
+						'catalogo_cliente_puesto2' => $this->input->post('puesto2') ,
+						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
+						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
+						'catalogo_cliente_email2' => $this->input->post('email2') ,
+						'catalogo_cliente_coment' => $this->input->post('coment'));
+		if($this->Iluminacion_model->New_Customer($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Anticipos(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		//$data=array('inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcompany->id_empresa),
+					//'unidades_medida'=>$this->Iluminacion_model->GetAllMeasurements());
+		//var_dump($data);
+		$this->load->view('Iluminacion/Lista_Anticipos');
+	}
+
+
 }
  

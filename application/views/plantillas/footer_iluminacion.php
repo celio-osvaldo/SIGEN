@@ -64,5 +64,21 @@
 				});
 	</script>
 
+		</script>
+	<script>//script to load the report of viatics of controller on click at the link with the id pettyCashV
+			$(document).ready(function(){
+				$("#Cat_customer").click(function(){
+					$("#page_content").load("Catalogo_Cliente");
+				});
+			});
+	</script>
+	<script>//script to load Anticipos List
+			$(document).ready(function(){
+				$("#Anticipos").click(function(){
+					$("#page_content").load("Anticipos");
+				});
+			});
+	</script>
+
 	</body>
 </html> 

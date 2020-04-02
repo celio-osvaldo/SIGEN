@@ -40,7 +40,8 @@
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Gestión de Pagos</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" id="Customers_Payments">Movimientos (Pagos)</a>
-							<a class="dropdown-item" href="#">Anticipos</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" id="Anticipos">Anticipos</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Pagos SFV</a>
 							<div class="dropdown-divider"></div>

@@ -90,6 +90,14 @@
 				});
 			});
 		</script>
+
+		<script>//script to load Office Product Inventorie
+			$(document).ready(function(){
+				$("#Flujo_Efectivo").click(function(){
+					$("#page_content").load("FlujoEfectivo");
+				});
+			});
+		</script>
 		
 </body>
 </html> 

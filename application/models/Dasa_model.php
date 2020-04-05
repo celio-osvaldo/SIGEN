@@ -348,7 +348,7 @@ class Dasa_model extends CI_Model
     }
   }
 
-    public function   Update_Consumible($id, $data){
+    public function Update_Consumible($id, $data){
       $this->db->where('id_prod', $id);
       $this->db->update('producto_consumible', $data);
       if ($this->db->affected_rows() > 0) {
@@ -357,6 +357,46 @@ class Dasa_model extends CI_Model
         return false;
       }
   }
+
+  public function Get_Ingresos_Pagos($idcompany,$anio,$mes){
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa');
+    //$this->db->select_sum('venta_mov_monto','total_ingreso');
+    $this->db->from('venta_movimiento');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
+    $this->db->where('MONTH(venta_mov_fecha)',$mes);
+    $this->db->where('YEAR(venta_mov_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->order_by('venta_mov_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+    public function Get_Egresos_Caja_Chica($idcompany,$anio,$mes){
+    $this->db->select('id_lista_caja_chica, caja_chica_id_caja_chica,lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura');
+    //$this->db->select_sum('venta_mov_monto','total_ingreso');
+    $this->db->from('lista_caja_chica');
+    $this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
+    $this->db->where('MONTH(lista_caja_chica_fecha)',$mes);
+    $this->db->where('YEAR(lista_caja_chica_fecha)',$anio);
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->order_by('lista_caja_chica_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Get_sal_ban_ant($idcompany,$anio_ant,$mes_ant){
+    $this->db->select('flujo_efectivo_saldo_fin');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes_ant);
+    $this->db->where('flujo_efectivo_anio',$anio_ant);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+
   
 #end of model
 }

@@ -23,7 +23,7 @@
                         <tr>
                             <th>Código</th>
                             <th>Nombre</th>
-                            <th>ud. medida</th>
+                            <th>Unidad medida</th>
                             <th></th>
                             <th>Precio</th>
                             <th>Proveedor</th>
@@ -112,7 +112,7 @@
               </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-outline-success submitBtn" id="saveProduct">Guardar</button>
-                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
+                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" >Cancelar</button>
                 </div>
         </form>
       </div>
@@ -164,7 +164,7 @@
                         </select>
                         <input class="form-control" type="hidden" name="EnterpriseIDE" name="EnterpriseIDE" id="EnterpriseIDE" value="2">
                       </div>
-                      <input type="text" name="imageE" id="imageE">
+                      <input type="text" >
                       <input type="hidden" id="dateE" name="dateE" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
 
                       <div class="col-md-6">
@@ -175,7 +175,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-outline-success submitBtn" id="editProduct">Guardar</button>
-                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
+                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" >Cancelar</button>
                 </div>
         </form>
     </div>
@@ -261,6 +261,7 @@ function CloseModal(){
     $('.modal-backdrop').remove();
     $("#page_content").load("GetInventories");
   }
+
 </script>
 
 
@@ -311,12 +312,7 @@ $(document).ready(function(e){
     });
 });
 
-function CloseModal(){
-    $('#btncancelar').click();
-    $('#NewClientModal').modal("hide");
-    $('.modal-backdrop').remove();
-    $("#page_content").load("GetInventories");
-  }
+
 </script>
 
 <!-- Script thats return data of an object selected -->
@@ -331,7 +327,6 @@ function CloseModal(){
     var image=$("#image"+$id).text();
     // var date=$("#date"+$id).text();
     var id=$id;
-
     $("#productE").modal();
     $("#nameProductE").val(name_product);
     $("#medidaE").val(uds_medida);

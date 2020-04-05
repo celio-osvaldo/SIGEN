@@ -151,6 +151,14 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/Inventario_Oficina',$data);
 	}
 
+	public function FlujoEfectivo(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		//$data = array('' => , );
+		$this->load->view('DASA/Report_Flujo_Efectivo');
+	}
+
 
 
 #actions
@@ -581,6 +589,80 @@ class DASA extends CI_Controller {
 		}else{
 			echo false;
 		}
+	}
+
+	public function Reporte_flujo_efectivo(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$anio=$_POST["anio"];
+		$mes=$_POST["mes"];
+		switch ($mes) {
+			case '01':
+				$mes_letra="ENERO";
+				break;
+			case '02':
+				$mes_letra="FEBRERO";
+				break;
+			case '03':
+				$mes_letra="MARZO";
+				break;
+			case '04':
+				$mes_letra="ABRIL";
+				break;
+			case '05':
+				$mes_letra="MAYO";
+				break;
+			case '06':
+				$mes_letra="JUNIO";
+				break;
+			case '07':
+				$mes_letra="JULIO";
+				break;
+			case '08':
+				$mes_letra="AGOSTO";
+				break;
+			case '09':
+				$mes_letra="SEPTIEMBRE";
+				break;
+			case '10':
+				$mes_letra="OCTUBRE";
+				break;
+			case '11':
+				$mes_letra="NOVIEMBRE";
+				break;
+			case '12':
+				$mes_letra="DICIEMBRE";
+				break;			
+			default:
+				# code...
+				break;
+		}
+		if($mes==01){
+			$mes_ant=12;
+			$anio_ant=$anio-1;
+		}else{
+			$mes_ant=$mes-1;
+			$anio_ant=$anio;
+		}
+		$saldo_ant=$this->Dasa_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant);
+		
+
+		if(is_null($saldo_ant)){
+			$data = array('ingresos_venta_mov' => $this->Dasa_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
+					      'sal_ban_ant'=>0,
+					      'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					      'mes'=>$mes_letra,
+					  	   'anio'=>$anio );
+		}else{
+			$data = array('ingresos_venta_mov' => $this->Dasa_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
+					  	   'sal_ban_ant'=> $saldo_ant,
+					  	   'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					  	   'mes'=>$mes_letra,
+					  	   'anio'=>$anio );
+		}	
+		//var_dump($data);
+		$this->load->view('DASA/Tabla_flujo_efectivo', $data);
 	}
 
 

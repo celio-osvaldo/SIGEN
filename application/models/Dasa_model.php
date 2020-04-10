@@ -385,6 +385,31 @@ class Dasa_model extends CI_Model
     return $result;
   }
 
+  
+    public function Get_Egresos_Gasto_Venta($idcompany,$anio,$mes){
+    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre');
+    $this->db->from('gasto_venta');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->where('MONTH(gasto_venta_fecha)',$mes);
+    $this->db->where('YEAR(gasto_venta_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->order_by('gasto_venta_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+    public function Get_Egresos_Gasto_Viatico($idcompany,$anio,$mes){
+    $this->db->select('id_viaticos, obra_cliente_id_obra_cliente, obra_cliente_nombre, obra_cliente_empresa_id_empresa, viaticos_fecha, viaticos_empleado, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total');
+    $this->db->from('viaticos');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->where('MONTH(viaticos_fecha)',$mes);
+    $this->db->where('YEAR(viaticos_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->order_by('viaticos_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
   public function Get_sal_ban_ant($idcompany,$anio_ant,$mes_ant){
     $this->db->select('flujo_efectivo_saldo_fin');
     $this->db->from('flujo_efectivo');
@@ -394,6 +419,26 @@ class Dasa_model extends CI_Model
      $query=$this->db->get();
     $result=$query->row();
     return $result;
+  }
+
+  public function Verifica_Flujo($idcompany,$anio,$mes){
+    $this->db->select('id_flujo_efectivo');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes);
+    $this->db->where('flujo_efectivo_anio',$anio);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Guarda_Flujo($data){
+    $this->db->insert('flujo_efectivo',$data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
 

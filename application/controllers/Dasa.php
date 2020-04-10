@@ -281,7 +281,7 @@ class DASA extends CI_Controller {
 		$table = 'gasto_venta';
 		$data = array('id_gasto_venta' => $this->input->post('addFolio'),
 						'obra_cliente_id_obra_cliente'=> $this->input->post('addClientName'),
-						'obra_cliente_empresa_id_empresa'=> $idcompany,
+						'obra_cliente_empresa_id_empresa'=> $idcompany->id_empresa,
 						'gasto_venta_fecha'=> $this->input->post('addEmitionDate'),
 						'gasto_venta_factura'=> $this->input->post('addBill'),
 						'gasto_venta_monto'=> $this->input->post('addAmount'),
@@ -289,9 +289,10 @@ class DASA extends CI_Controller {
 						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
 						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
+		//var_dump($data);
 
 		$result = $this->Dasa_model->Insert($table, $data);
-		echo $result;
+		echo $data;
 	}
 
 	public function EditCostOfSale(){
@@ -652,17 +653,44 @@ class DASA extends CI_Controller {
 			$data = array('ingresos_venta_mov' => $this->Dasa_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
 					      'sal_ban_ant'=>0,
 					      'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					      'egresos_gasto_venta' => $this->Dasa_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
+					      'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
 					      'mes'=>$mes_letra,
 					  	   'anio'=>$anio );
 		}else{
 			$data = array('ingresos_venta_mov' => $this->Dasa_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
 					  	   'sal_ban_ant'=> $saldo_ant,
 					  	   'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_gasto_venta' => $this->Dasa_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
 					  	   'mes'=>$mes_letra,
 					  	   'anio'=>$anio );
 		}	
 		//var_dump($data);
 		$this->load->view('DASA/Tabla_flujo_efectivo', $data);
+	}
+
+	public function Save_Reporte_flujo(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$anio=$_POST["anio"];
+		$mes=$_POST["mes"];
+		if(is_null($this->Dasa_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes))){
+			$data = array('empresa_id_empresa' =>$idcompany->id_empresa ,
+						  'flujo_efectivo_mes' =>$mes ,
+						  'flujo_efectivo_anio' =>$anio ,
+						  'flujo_efectivo_saldo_ini' =>$this->input->post('saldo_ini') ,
+						  'flujo_efectivo_saldo_fin' =>$this->input->post('saldo_fin') ,
+						  'flujo_efectivo_total_ingreso' =>$this->input->post('ingreso') ,
+						  'flujo_efectivo_total_egreso' =>$this->input->post('egresos') , );
+			$result=$this->Dasa_model->Guarda_Flujo($data);
+			echo $result;
+		}else{
+			echo "existe";
+		}
+
+
 	}
 
 

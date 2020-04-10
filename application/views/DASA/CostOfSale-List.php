@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Facturas de Venta</h3>
+    <h3 align="center">Lista de Facturas Costo de Venta</h3>
   </div>
   <div class="col-md-4">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewBill"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Factura</button>
@@ -86,7 +86,7 @@
                         <div class="col-md-6"></div>
                         <div class="col-md-3">
                             <label class="label-control">Fecha de emisión:</label>
-                            <input class="form-control" type="text" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
+                            <input class="form-control" type="date" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
                         </div>
                         <div class="col-md-12">
                             <label class = "control-label">Cliente:</label>
@@ -111,8 +111,8 @@
                             <textarea class="form-control" name="addComment" id="addComment" cols="10" rows="8"></textarea>
                         </div>
                         <div class="col-md-6">
-                            <!-- <label for="">Factura:</label>
-                            <input class="form-control" name="addBill" id="addBill" type="text"> -->
+                             <label for="">Factura:</label>
+                            <input class="form-control" name="addBill" id="addBill" type="text">
                             <label for="">Estatus:</label>
                             <input type="text" name="addStatus" id="addStatus" class="form-control" value="Autorización Solicitada">
                             <label for="">Fecha de pago:</label>

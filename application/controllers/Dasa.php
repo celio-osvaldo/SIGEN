@@ -265,9 +265,11 @@ class DASA extends CI_Controller {
 		$sum_pagos=$this->Dasa_model->SumPagos_Obra($new_id_obra);
 		$total_obra=$this->Dasa_model->Total_obra($new_id_obra);
 		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+		$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($new_id_obra);
+		//var_dump($fecha_ult_pago);
 		$saldo=array('obra_cliente_saldo' => $resta,
 					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
-					'obra_cliente_ult_pago'=>$new_fecha);
+					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
 		$actualiza=$this->Dasa_model->UpdatePaysCustomer($new_id_obra,$saldo);
 		//var_dump($total_obra);
 		echo $result;
@@ -366,8 +368,12 @@ class DASA extends CI_Controller {
 			$sum_pagos=$this->Dasa_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
 			$total_obra=$this->Dasa_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
 			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+
+			$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
+			
 			$saldo=array('obra_cliente_saldo' => $resta,
-					'obra_cliente_pagado'=>$sum_pagos->suma_pagos);
+					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
 			$actualiza=$this->Dasa_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
 			echo 'actualizado';
 		}else{

@@ -115,7 +115,6 @@ class Dasa_model extends CI_Model
 		} else{
 			return 2;
 		}
-
   }
 
   public function SumPagos_Obra($id_obra){
@@ -133,6 +132,15 @@ class Dasa_model extends CI_Model
     $this->db->where('id_obra_cliente',$id_obra);
     $query=$this->db->get();
     $result = $query->row();
+    return $result;
+  }
+
+  public function Fecha_Ult_Pago($new_id_obra){
+    $this->db->select_max('venta_mov_fecha');
+    $this->db->from('venta_movimiento');
+    $this->db->where('obra_cliente_id_obra_cliente',$new_id_obra);
+    $query=$this->db->get();
+    $result=$query->row();
     return $result;
   }
 

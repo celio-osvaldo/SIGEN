@@ -67,7 +67,7 @@
       </div>
       <div class="modal-body">
         <label>Cantidad de Pago</label>
-        <input type="number" name="" id="pago_obra" class="form-control input-sm" required="true">
+        <input type="number" min="0" name="" id="pago_obra" class="form-control input-sm" required="true">
         <label>Fecha de Pago</label>
         <input type="date" id="fecha_pago" class="form-control input-sm" required="true">
         <label>Comentario del Pago</label>

@@ -240,9 +240,10 @@ class Iluminacion extends CI_Controller {
 		$sum_pagos=$this->Iluminacion_model->SumPagos_Obra($new_id_obra);
 		$total_obra=$this->Iluminacion_model->Total_obra($new_id_obra);
 		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+		$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($new_id_obra);
 		$saldo=array('obra_cliente_saldo' => $resta,
 					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
-					'obra_cliente_ult_pago'=>$new_fecha);
+					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
 		$actualiza=$this->Iluminacion_model->UpdatePaysCustomer($new_id_obra,$saldo);
 		//var_dump($total_obra);
 		echo $result;
@@ -269,8 +270,12 @@ class Iluminacion extends CI_Controller {
 			$sum_pagos=$this->Iluminacion_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
 			$total_obra=$this->Iluminacion_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
 			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+
+			$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
+
 			$saldo=array('obra_cliente_saldo' => $resta,
-					'obra_cliente_pagado'=>$sum_pagos->suma_pagos);
+					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
 			$actualiza=$this->Iluminacion_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
 			echo 'actualizado';
 		}else{
@@ -447,10 +452,84 @@ class Iluminacion extends CI_Controller {
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
-		//$data=array('inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcompany->id_empresa),
-					//'unidades_medida'=>$this->Iluminacion_model->GetAllMeasurements());
+		$data=array('inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
+					'unidades_medida'=>$this->Iluminacion_model->GetAllMeasurements(),
+					'catalogo_cliente'=>$this->Iluminacion_model->GetAll_Customer($idcomp->id_empresa),
+					'lista_anticipos'=>$this->Iluminacion_model->GetAll_Anticipos());
 		//var_dump($data);
-		$this->load->view('Iluminacion/Lista_Anticipos');
+		$this->load->view('Iluminacion/Lista_Anticipos',$data);
+	}
+
+	public function NewAnticipo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('cliente') ,
+					  'anticipo_status' => 'Activo',
+					  'anticipo_fecha_finiquito'=> $this->input->post('fecha_fin'),
+					  'anticipo_fecha_entrega' => $this->input->post('fecha_ent'),
+					  'anticipo_coment' =>$this->input->post('coment'));
+		if($this->Iluminacion_model->New_Anticipo($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Update_Anticipo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_anticipo=$_POST["id_anticipo"];
+		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('cliente') ,
+					  'anticipo_status' => $this->input->post('estado'),
+					  'anticipo_fecha_finiquito'=> $this->input->post('fecha_fin'),
+					  'anticipo_fecha_entrega' => $this->input->post('fecha_ent'),
+					  'anticipo_coment' =>$this->input->post('coment'));
+		if($this->Iluminacion_model->Update_Anticipo($data,$id_anticipo)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Add_Product(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_anticipo=$_POST["id_anticipo"];
+		$id_producto=$_POST["id_producto"];
+		$data = array('anticipo_id_anticipo' =>$this->input->post('id_anticipo') ,
+					  'producto_almacen_id_prod_alm' =>$this->input->post('id_producto') ,
+					  'prod_anticipo_cantidad' =>$this->input->post('prod_cantidad') ,
+					  'prod_anticipo_precio_venta' =>$this->input->post('prod_precio_venta') ,
+					  'prod_anticipo_coment' =>$this->input->post('coment'));
+
+		if($this->Iluminacion_model->Add_Anticipo_product($data)){
+
+			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
+			$pagado=$this->Iluminacion_model->Get_Pagado_Anticipo($id_anticipo);
+			$resto=(($total->total)-($pagado->anticipo_pago));
+			$data2 = array('anticipo_total' => round($total->total,2),
+							'anticipo_resto' => $resto );
+			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
+			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
+			$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
+			$existencia = array('prod_alm_exist' => $nueva_existencia );
+			$this->Iluminacion_model->Descuenta_producto($id_producto,$existencia);
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Anticipo_Prod_List(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_anticipo=$_POST["id_anticipo"];
+		$data = array('anticipo_productos' => $this->Iluminacion_model->Get_Anticipo_Product_List($id_anticipo));
+		$this->load->view('Iluminacion/AnticipoProduct_List',$data);
 	}
 
 

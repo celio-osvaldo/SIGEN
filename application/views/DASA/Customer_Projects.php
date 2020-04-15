@@ -4,10 +4,11 @@
 <div class="row">
   <div class="col-9">
     <h3 align="center">Lista de Proyectos</h3>
-  </div>
-  <div class="col-3">
+</div>
+<div class="col-3">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewClientModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Proyecto</button>
-  </div>
+ </div>
+
 </div>
 
       <div class="card bg-card">

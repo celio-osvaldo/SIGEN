@@ -165,6 +165,15 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+  public function Fecha_Ult_Pago($new_id_obra){
+    $this->db->select_max('venta_mov_fecha');
+    $this->db->from('venta_movimiento');
+    $this->db->where('obra_cliente_id_obra_cliente',$new_id_obra);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
   public function UpdatePaysCustomer($id_obra,$data){
     $this->db->where('id_obra_cliente', $id_obra);
     $this->db->update('obra_cliente', $data);
@@ -273,6 +282,14 @@ class Iluminacion_model extends CI_Model
     $result=$this->db->get();
     return $result;
   }
+  
+  public function GetAll_Anticipos(){
+    $this->db->select('id_anticipo, obra_cliente_id_obra_cliente, catalogo_cliente_empresa, anticipo_fecha_deposito, anticipo_total, anticipo_pago, anticipo_resto, anticipo_status, anticipo_fecha_finiquito, anticipo_fecha_entrega, anticipo_coment');
+    $this->db->from('anticipo');
+    $this->db->join('catalogo_cliente', 'obra_cliente_id_obra_cliente=id_catalogo_cliente');
+    $result=$this->db->get();
+    return $result;
+  }
 
   public function Update_Customer($id_cust,$data){
     $this->db->where('id_catalogo_cliente', $id_cust);
@@ -291,6 +308,80 @@ class Iluminacion_model extends CI_Model
     } else{
       return false;
     }
+  }
+
+  public function New_Anticipo($data){
+    $this->db->insert('anticipo',$data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+  
+  public function Update_Anticipo($data,$id_anticipo){
+    $this->db->where('id_anticipo', $id_anticipo);
+    $this->db->update('anticipo', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Add_Anticipo_product($data){
+    $this->db->insert('prod_anticipo',$data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Get_Total_Anticipo($id_anticipo){
+    $this->db->select_sum('(prod_anticipo_cantidad) * (prod_anticipo_precio_venta)','total');
+    $this->db->from('prod_anticipo');
+    $this->db->where('anticipo_id_anticipo',$id_anticipo);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_Pagado_Anticipo($id_anticipo){
+    $this->db->select('anticipo_pago');
+    $this->db->from('anticipo');
+    $this->db->where('id_anticipo',$id_anticipo);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_Inventorie_Product($id_producto){
+    $this->db->select('prod_alm_exist');
+    $this->db->from('producto_almacen');
+    $this->db->where('id_prod_alm',$id_producto);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Descuenta_producto($id_producto,$data){
+    $this->db->where('id_prod_alm', $id_producto);
+    $this->db->update('producto_almacen', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Get_Anticipo_Product_List($id_anticipo){
+    $this->db->select('id_prod_anticipo, anticipo_id_anticipo, producto_almacen_id_prod_alm, prod_alm_nom, prod_anticipo_cantidad, prod_anticipo_precio_venta, prod_anticipo_coment');
+    $this->db->from('prod_anticipo');
+    $this->db->join('producto_almacen','producto_almacen_id_prod_alm=id_prod_alm');
+    $this->db->where('anticipo_id_anticipo', $id_anticipo);
+    $result=$this->db->get();
+    return $result;
   }
 
   

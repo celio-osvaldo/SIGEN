@@ -384,6 +384,26 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+  public function Get_Anticipo_Info($id_anticipo){
+    $this->db->select('id_anticipo, obra_cliente_id_obra_cliente, catalogo_cliente_empresa, anticipo_fecha_deposito, anticipo_total, anticipo_pago, anticipo_resto, anticipo_status, anticipo_fecha_finiquito, anticipo_fecha_entrega, anticipo_coment');
+    $this->db->from('anticipo');
+    $this->db->join('catalogo_cliente','obra_cliente_id_obra_cliente=id_catalogo_cliente');
+    $this->db->where('id_anticipo', $id_anticipo);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Update_Prod_Anticipo($data,$id_prod_ant){
+    $this->db->where('id_prod_anticipo', $id_prod_ant);
+    $this->db->update('prod_anticipo', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
   
   }
 

@@ -314,7 +314,7 @@
   }
 
   function Product_Details($id_anticipo){
-    var id_anticpo=$id_anticipo;
+    var id_anticipo=$id_anticipo;
    $("#page_content").load("Anticipo_Prod_List",{id_anticipo:id_anticipo});
   }
 

@@ -528,8 +528,49 @@ class Iluminacion extends CI_Controller {
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_anticipo=$_POST["id_anticipo"];
-		$data = array('anticipo_productos' => $this->Iluminacion_model->Get_Anticipo_Product_List($id_anticipo));
+		$data = array('anticipo_productos' => $this->Iluminacion_model->Get_Anticipo_Product_List($id_anticipo),
+					  'anticipo_info' => $this->Iluminacion_model->Get_Anticipo_Info($id_anticipo));
 		$this->load->view('Iluminacion/AnticipoProduct_List',$data);
+	}
+
+	public function EditProduct_Anticipo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_prod_ant=$_POST["id_prod_ant"];
+		$id_producto=$_POST["id_producto"];
+		$act_cantidad=$_POST["act_cantidad"];
+		$cant_anterior=$_POST["cant_anterior"];
+		$act_precio_venta=$_POST["act_precio_venta"];
+		$precio_anterior=$_POST["precio_anterior"];
+		$act_coment=$_POST["act_coment"];
+		$id_anticipo=$_POST["id_anticipo"];
+		$data = array('prod_anticipo_cantidad' => $act_cantidad ,
+					  'prod_anticipo_precio_venta' => $act_precio_venta,
+					  'prod_anticipo_coment' => $act_coment);
+
+		if ($this->Iluminacion_model->Update_Prod_Anticipo($data,$id_prod_ant)) {
+			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
+			if($act_cantidad>$cant_anterior){
+				$resta=$act_cantidad-$cant_anterior;
+				$nueva_existencia=($prod_inventario->prod_alm_exist)-$resta;
+				$existencia = array('prod_alm_exist' => $nueva_existencia );
+				$this->Iluminacion_model->Descuenta_producto($id_producto,$existencia);
+			}else{
+				$suma=$cant_anterior-$act_cantidad;
+				$nueva_existencia=($prod_inventario->prod_alm_exist)+$suma;
+				$existencia = array('prod_alm_exist' => $nueva_existencia );
+				$this->Iluminacion_model->Descuenta_producto($id_producto,$existencia);
+			}
+		}
+			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
+			$pagado=$this->Iluminacion_model->Get_Pagado_Anticipo($id_anticipo);
+			$resto=(($total->total)-($pagado->anticipo_pago));
+			$data2 = array('anticipo_total' => round($total->total,2),
+							'anticipo_resto' => $resto );
+			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
+			echo true;
+
 	}
 
 

@@ -6,7 +6,7 @@
     <div class="col" align="center">
       <span class="badge badge-info">
         <h6 align="center">
-          Obra/Cliente:<hr><?php echo $obra->obra_cliente_nombre; ?>
+          Proyecto/Cliente:<hr><?php echo $obra->obra_cliente_nombre; ?>
         </h6>
       </span>
       <span class="badge badge-info">

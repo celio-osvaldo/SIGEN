@@ -46,8 +46,8 @@
                             <td>$</td>
                             <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_gasto.""; ?></td>
                             <?php } ?>
-                            <td><?php echo "".$row->lista_caja_chica_factura.""; ?></td>
-                            <td align="center"><img src="<?php echo base_url(); ?>Resources/Icons/invoice_icon_128337.ico" alt="Subir Factura"></td>
+                            <td id="<?php echo "bill".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_factura.""; ?></td>
+                            <td align="center" id="<?php echo "bill".$row->id_lista_caja_chica.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_lista_caja_chica.""; ?>" data-toggle="modal" data-target="#viewBill" onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
                             <td id="<?php echo "dateB".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_fecha_factura.""; ?></td>
                             <!-- <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_lista_caja_chica.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td> -->
                         </tr>
@@ -142,6 +142,19 @@
 <!-- end modal -->
 
 
+<!-- Bill modal -->
+<div class="modal fade bd-example-modal-lg" id="viewBill" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
+    <input type="hidden" class="form-control" name="folios" id="folios">
+    <div class="modal-content">
+      <div style="height: 600px;">
+       <iframe width="100%" height="100%" id="showbill"></iframe>
+       </div>
+    </div>
+  </div>
+</div>
+<!-- end modal -->
+
 <script type="text/javascript">
     $(document).ready( function () {
         $('#table_id').DataTable();
@@ -167,7 +180,7 @@ $(document).ready(function(e){
             success: function(msg){
                 $('.statusMsg').html('');
                 if(msg == 'ok'){
-                    alert('Falló el servidor. Reporte no agregado. Verifique que la información sea correcta');
+                    alert('Falló el servidor. Reporte no agregado. Verifique que la informaci贸n sea correcta');
                     CloseModal();
                 }else{
                     alert("Reporte subido satisfactoriamente");
@@ -198,7 +211,7 @@ function CloseModal(){
     $('#btncancelar').click();
     $('#NewClientModal').modal("hide");
     $('.modal-backdrop').remove();
-    $("#page_content").load("GetListCostOfSale");
+    $("#page_content").load("PettyCash");
   }
 </script>
 
@@ -217,4 +230,18 @@ function CloseModal(){
             }
     });
 });
+</script>
+
+<!-- view bill script -->
+<script>
+  function Display_bill($id){
+    var invoice=$("#bill"+$id).text();
+    var id=$id;
+    var url = "<?php echo base_url()?>Resources/Bills/PettyCash/DASA/"+invoice+".pdf";
+
+    $("#viewBill").modal();
+    $("#folios").val(invoice);
+    // $("#folios").val(id);
+    $("#showbill").prop("src", url);
+    }
 </script>

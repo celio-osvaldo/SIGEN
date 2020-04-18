@@ -99,5 +99,14 @@
 			});
 		</script>
 		
+		<script>//script to load Office Product Inventorie
+			$(document).ready(function(){
+				$("#other_expens").click(function(){
+					$("#page_content").load("OtherExpens");
+				});
+			});
+		</script>
+
+		<!-- <script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script> -->
 </body>
 </html> 

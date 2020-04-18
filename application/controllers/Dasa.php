@@ -33,11 +33,14 @@ class DASA extends CI_Controller {
 
 	public function GetInventories(){
 		$this->load->model('Dasa_model');
+		$table = 'catalogo_producto';
+		$id = 'id_catalogo_producto';
 		$company='DASA';
 		$idcompany=$this->Dasa_model->IdCompany($company);
 		$data = array('inventories' => $this->Dasa_model->GetAllProducts($idcompany->id_empresa),
 						'providers' => $this->Dasa_model->GetAll_Provider($idcompany->id_empresa),
-						'measure' => $this->Dasa_model->GetAllMeasurements());
+						'measure' => $this->Dasa_model->GetAllMeasurements(),
+						'max'=>$this->Dasa_model->IDMAX($table, $id));
 		$this->load->view('DASA/Product_Catalog', $data);
 	}
 
@@ -67,15 +70,12 @@ class DASA extends CI_Controller {
 		$this->load->view('DASA/Customer_Payments_List',$data);
 	}
 
-	public function test(){
+	public function OtherExpens(){
 		$this->load->model('Dasa_model');
-		$table = 'gasto_venta';
-		$id = 'id_gasto_venta';
 		$company='DASA';
 		$idcompany=$this->Dasa_model->IdCompany($company);
-		$data=array('woks'=>$this->Dasa_model->GetAllWorks_Client(),
-					'max'=>$this->Dasa_model->IDMAX($table, $id));
-		$this->load->view('DASA/EditProductForm', $data);
+		$data=array('expens'=>$this->Dasa_model->GetOthersExpens($idcompany->id_empresa));
+		$this->load->view('DASA/OtherCost', $data);
 	}
 
 	public function GetListCostOfSale(){
@@ -85,17 +85,30 @@ class DASA extends CI_Controller {
 		$company='DASA';
 		$idcompany=$this->Dasa_model->IdCompany($company);
 		$data=array('cost_sale'=>$this->Dasa_model->GetAllCostOfSale($idcompany->id_empresa),
-					'woks'=>$this->Dasa_model->GetAllWorks_Client(),
+					'woks'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
 		$this->load->view('Dasa/CostOfSale-List', $data);
 	}
 
 	public function GetAllViatics(){
-		$this->load->view('Dasa/ViaticList');
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data = array('report_viatics' => $this->Dasa_model->GetAllViaticsReports($idcompany->id_empresa),
+						'works'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa));
+		$this->load->view('Dasa/ViaticList',$data);
 	}
 
 	public function DeatailsOfViatic(){
-		$this->load->view('Dasa/DetailsViaticReport');
+		$this->load->model('Dasa_model');
+		$id_viatico=$_POST['id_viatico'];
+		$data2=$this->Dasa_model->GetViaticsById($id_viatico);
+		$table = 'lista_viatico';
+		$id = 'id_lista_viatico';
+		$data=array('viatico'=>$data2,
+						'detail' =>$this->Dasa_model->GetDetailsOfViatics($id_viatico),
+					'max'=>$this->Dasa_model->IDMAX($table, $id));
+		$this->load->view('Dasa/DetailsViaticReport', $data);
 	}
 
 	public function PettyCash(){
@@ -216,9 +229,9 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		$file = 'imageInsert';//The name of input that select file
         $config['upload_path'] = "./Resources/Products&Services/DASA";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('nameProductInsert');//name of file
+        $config['file_name'] = $this->input->post('idInsert');//name of file
         $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "*";//type of files allowed to upload
+        $config['allowed_types'] = "jpg";//type of files allowed to upload
         $config['max_size'] = "5000";//max size of the file allowed
 
         $this->load->library('upload', $config);//use for allow the upload files at server
@@ -229,7 +242,7 @@ class DASA extends CI_Controller {
             return;
         }
 
-        $upload_file = $config['file_name'] = $this->input->post('nameProductInsert');
+        $upload_file = $config['file_name'] = $this->input->post('idInsert');
 		$table = 'catalogo_producto';
 		$data = array('id_catalogo_producto' => $this->input->post('idInsert'),
 			'catalogo_producto_nombre'=> $this->input->post('nameProductInsert'),
@@ -277,30 +290,47 @@ class DASA extends CI_Controller {
 
 	public function AddCostOfSale(){
 		$this->load->model('Dasa_model');
-		$company='DASA';
-		$idcompany=$this->Dasa_model->IdCompany($company);
-		// $idcompany=2;
+
+		$file = 'addBill';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/CostOfSale/DASA/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('addFolio');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+		$upload_file = $config['file_name'] = $this->input->post('addFolio');
 		$table = 'gasto_venta';
-		$data = array('id_gasto_venta' => $this->input->post('addFolio'),
+		$data = array('id_gasto_venta' => $this->input->post('idCost'),
 						'obra_cliente_id_obra_cliente'=> $this->input->post('addClientName'),
-						'obra_cliente_empresa_id_empresa'=> $idcompany->id_empresa,
+						'obra_cliente_empresa_id_empresa'=> $this->input->post('addCompany'),
 						'gasto_venta_fecha'=> $this->input->post('addEmitionDate'),
-						'gasto_venta_factura'=> $this->input->post('addBill'),
+						'gasto_venta_factura'=> $upload_file,
 						'gasto_venta_monto'=> $this->input->post('addAmount'),
 						'gasto_venta_concepto' => $this->input->post('addConcept'),
 						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
 						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
-		//var_dump($data);
 
-		$result = $this->Dasa_model->Insert($table, $data);
-		echo $data;
+		if($this->Dasa_model->Insert($table, $data)){
+			$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
+		}
 	}
 
 	public function EditCostOfSale(){
 		$this->load->model('Dasa_model');
 		$idcompany = 2;
-		$id = $_POST['folioE'];
+		$id = $_POST['idE'];
 		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
 						'obra_cliente_empresa_id_empresa'=> $idcompany,
 						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
@@ -312,6 +342,26 @@ class DASA extends CI_Controller {
 						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
 
 		if($this->Dasa_model->UpdateCostSale($id, $data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function UpdateExpend(){
+		$this->load->model('Dasa_model');
+		$idcompany = 2;
+		$id = $_POST['idE'];
+		$data = array('empresa_id_empresa'=> $this->input->post('editCompany'),
+						'fecha_emision'=> $this->input->post('editEmitionDate'),
+						'concepto'=> $this->input->post('editConcept'),
+						'saldo'=> $this->input->post('editAmount'),
+						'comentario'=> $this->input->post('editComment'),
+						'folio' => $this->input->post('editFolio'),
+						'factura' => $this->input->post('editFolio'),
+						'fecha_pago_factura' => $this->input->post('editDate'));
+
+		if($this->Dasa_model->UpdateExpendInfo($id, $data)){
 			echo true;
 		}else{
 			echo false;
@@ -346,8 +396,6 @@ class DASA extends CI_Controller {
 						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'),
 						'lista_caja_chica_factura' => $upload_file,
 						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
-		// $result = $this->Dasa_model->Insert($table, $data);
-		// echo $result;
 		if ($this->Dasa_model->Insert($table, $data)) {
         	$data['uploadSuccess'] = $this->upload->data();
         	echo true;
@@ -539,6 +587,42 @@ class DASA extends CI_Controller {
 			echo false;
 		}
 	}
+
+	public function AddNewExpend(){
+		$this->load->model('Dasa_model');
+		$file = 'addBill';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/Expends/DASA/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('addFolio');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+        $upload_file = $config['file_name'] = $this->input->post('addFolio');
+		$table = 'otros_gastos';
+		$data = array('id_OGasto' => $this->input->post('cashI'),
+						'empresa_id_empresa'=> $this->input->post('addCompany'),
+						'fecha_emision'=> $this->input->post('addEmitionDate'),
+						'concepto'=> $this->input->post('addConcept'),
+						'saldo'=> $this->input->post('addAmount'),
+						'comentario'=> $this->input->post('addComment'),
+						'folio' => $this->input->post('addFolio'),
+						'factura' => $upload_file,
+						'fecha_pago_factura' => $this->input->post('addDate'));
+		if ($this->Dasa_model->Insert($table, $data)) {
+        	$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
+        }
+	}
 	
 	public function NewAlm_Consumible(){
 		$this->load->model('Dasa_model');
@@ -595,6 +679,60 @@ class DASA extends CI_Controller {
 			echo true;
 		}else{
 			echo false;
+		}
+	}
+
+	public function AddViaticReport(){
+		$this->load->model('Dasa_model');
+		$table = 'viaticos';
+		$data = array('id_viaticos' => $this->input->post('idreport'),
+						'obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
+						'obra_cliente_empresa_id_empresa' => $this->input->post('addCompany'),
+						'viaticos_fecha' => $this->input->post('addEmitionDate'),
+						'viaticos_empleado' => $this->input->post('employ'),
+						'viaticos_total_días' => $this->input->post('totalDays'),
+						'viaticos_fecha_ini' => $this->input->post('addStartDate'),
+						'viaticos_fecha_fin' => $this->input->post('AddDateEnd'),
+						'viaticos_total' => $this->input->post('addMoney'));
+		if ($this->Dasa_model->Insert($table, $data)) {
+        	echo true;
+        }else{
+        	echo false;
+        }
+	}
+
+	public function AddViaticExpend(){
+		$this->load->model('Dasa_model');
+		$file = 'addEvidence';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/ViaticExpends/DASA/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('maxid');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "*";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+		$upload_file = $config['file_name'] = $this->input->post('maxid');
+		$table = 'lista_viatico';
+		$data = array('id_lista_viatico' => $this->input->post('addexpendId'),
+						'viaticos_id_viaticos'=> $this->input->post('idViatic'),
+						'lista_viatico_fecha'=> $this->input->post('addDate'),
+						'lista_viatico_concepto'=> $this->input->post('addconcept'),
+						'lista_viatico_importe'=> $this->input->post('addImport'),
+						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
+						'lista_viatico_factura' => $upload_file);
+
+		if($this->Dasa_model->Insert($table, $data)){
+			$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
 		}
 	}
 

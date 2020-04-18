@@ -1,8 +1,8 @@
 <!--Mostrar lista de Productos de Anticipo -->
 
-
-
-
+<div class="container">
+  <button class="btn btn-success" onclick="Lista_Anticipos()">Regresar a Lista de Anticipos</button>
+</div>
 <div class="card bg-card">
   <div class="table-responsive">
     <table id="table_anticipo_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
@@ -40,9 +40,9 @@
       </div>
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
-          <th>id_anticipo</th>
+          <th hidden="true">id_anticipo</th>
           <th>Nombre de Producto</th>
-          <th>id_producto</th>
+          <th hidden="true">id_producto</th>
           <th>Cantidad de Productos</th>
           <th>Precio de Venta</th>
           <th>Comentarios</th>
@@ -54,9 +54,9 @@
         foreach ($anticipo_productos->result() as $row) {
           ?>
           <tr>
-            <td id="<?php echo "id_anticipo".$row->id_prod_anticipo;?>"><?php echo "".$row->anticipo_id_anticipo.""; ?></td>
+            <td hidden="true"> id="<?php echo "id_anticipo".$row->id_prod_anticipo;?>"><?php echo "".$row->anticipo_id_anticipo.""; ?></td>
             <td id="<?php echo "nombre".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
-            <td id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
+            <td hidden="true"> id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
             <td id="<?php echo "cantidad".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_anticipo_cantidad.""; ?></td>
             <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo "".$row->prod_anticipo_precio_venta.""; ?></td>
             <td id="<?php echo "coment".$row->id_prod_anticipo;?>"><?php echo $row->prod_anticipo_coment;?></td>
@@ -86,9 +86,9 @@
       </div>
       <div class="modal-body">
         <label>Cantidad</label>
-        <input type="number"  id="edit_cant" class="form-control input-sm">
+        <input type="number" min="0" id="edit_cant" class="form-control input-sm">
         <label>Precio de Venta</label>
-        <input type="number" id="edit_precio" class="form-control input-sm">
+        <input type="number" min="0" id="edit_precio" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_prod_ant" hidden="true">
@@ -96,6 +96,32 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
         <button type="button" class="btn btn-primary" id="UpdateProduct" data-dismiss="modal">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Delete Product Anticipo -->
+<div class="modal fade" id="DeleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title" id="titleDeleteProductModal">Eliminar Producto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6><label>Cantidad: </label><span class="badge badge-danger" id="delete_cant"></span></h6>
+        <h6><label>Precio de Venta: $</label><span class="badge badge-danger" id="delete_precio"></span></h6>
+        <h6><label>Comentarios: </label><span class="badge badge-danger" id="delete_coment"></span></h6>
+        <input type="text" id="delete_id_prod_ant" hidden="true">
+        <h6 class="bg-warning"><p>Al eliminar el producto, la cantidad de este se agregará nuevamente al almacen como existencia.</p></h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="Delete_Product" data-dismiss="modal">Eliminar</button>
       </div>
     </div>
   </div>
@@ -115,8 +141,8 @@
           act_precio_venta=$("#edit_precio").val();
           precio_anterior=$("#precio"+id_prod_ant).text().split('$');
           act_coment=$("#edit_coment").val();
-          id_producto=$("#id_producto"+id_prod_ant).val();
-    alert(id_anticipo+" "+id_prod_ant+" "+act_cantidad+" "+cant_anterior+" "+precio_anterior[1]+" "+act_precio_venta);
+          id_producto=$("#id_producto"+id_prod_ant).text();
+   //alert(id_anticipo+" "+id_prod_ant+" "+act_cantidad+" "+cant_anterior+" "+precio_anterior[1]+" idprod "+id_producto+" "+act_precio_venta);
       if (act_cantidad>0&&act_precio_venta>0) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
@@ -134,7 +160,32 @@
       }else{
         alert("Debe ingresar por lo menos 1 producto");
       }
-      Update_Page(); 
+      Update_Page(id_anticipo); 
+    });
+
+        
+        $('#Delete_Product').click(function(){
+          id_prod_ant=$("#delete_id_prod_ant").val();
+          id_anticipo=$("#id_anticipo"+id_prod_ant).text();
+          cantidad=$("#delete_cant").text();
+          precio_venta=$("#delete_precio").text();
+          coment=$("#delete_coment").text();
+          id_producto=$("#id_producto"+id_prod_ant).text();
+          alert(id_anticipo+" "+id_prod_ant+" "+cantidad+" "+precio_venta+" "+coment+" idprod "+id_producto);
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/DeleteProduct_Anticipo",
+          data:{id_anticipo:id_anticipo, id_prod_ant:id_prod_ant, id_producto:id_producto, cantidad:cantidad, precio_venta:precio_venta, coment:coment},
+          success:function(result){
+            //alert(result);
+            if(result){
+              alert('Producto Eliminado');
+            }else{
+              alert('Falló el servidor. Producto no eliminado');
+            }
+          }
+        });
+      Update_Page(id_anticipo); 
     });
 
   });
@@ -146,19 +197,47 @@
     var cantidad=$("#cantidad"+id_prod_ant).text();
     var precio_venta=$("#precio"+id_prod_ant).text().split('$');
     var coment=$("#coment"+id_prod_ant).text();
+    var id_producto=$("#id_producto"+id_prod_ant).text();
     //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
+    <?php foreach ($inventario_productos->result() as $key): ?>
+        if (id_producto==<?php echo $key->id_prod_alm; ?>) {
+          var precio_unitario=(<?php echo $key->prod_alm_prec_unit; ?>);
+          var existencia=(<?php echo $key->prod_alm_exist; ?>);
+          var precio_venta=(<?php echo $key->prod_alm_precio_venta; ?>);
+        }
+      <?php endforeach ?>
+      var existencia=parseInt(existencia)+parseInt(cantidad);
     $('#EditProductModal').modal();
-     $("#titleProductModal").text("Editar Producto: "+nombre_prod)
+     $("#titleProductModal").text("Editar Producto: "+nombre_prod);
      $("#edit_cant").val(cantidad);
+     $("#edit_cant").attr({"max" : existencia});
      $("#edit_precio").val(parseFloat(precio_venta[1]));
      $("#edit_coment").val(coment);
      $("#edit_id_prod_ant").val(id_prod_ant);
   }
 
-  function Update_Page(){
-    var id_anticipo=<?php echo $anticipo_info->id_anticipo;?>
+  function DeleteProduct($id_prod_anticipo){
+    var id_prod_ant=$id_prod_anticipo;
+    var nombre_prod=$("#nombre"+id_prod_ant).text();
+    var cantidad=$("#cantidad"+id_prod_ant).text();
+    var precio_venta=$("#precio"+id_prod_ant).text().split('$');
+    var coment=$("#coment"+id_prod_ant).text();
+    //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
+    $('#DeleteProductModal').modal();
+     $("#titleDeleteProductModal").text("Eliminar Producto: "+nombre_prod)
+     $("#delete_cant").text(cantidad);
+     $("#delete_precio").text(parseFloat(precio_venta[1]));
+     $("#delete_coment").text(coment);
+     $("#delete_id_prod_ant").val(id_prod_ant);
+  }
 
+  function Update_Page($id_anticipo){
+    id_anticipo=$id_anticipo;
     $("#page_content").load("Anticipo_Prod_List",{id_anticipo:id_anticipo});
+  }
+
+  function Lista_Anticipos(){
+    $("#page_content").load("Anticipos");
   }
 
 </script>

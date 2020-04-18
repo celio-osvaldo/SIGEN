@@ -184,10 +184,103 @@
   </div>
 </div>
 
+
+<!-- Modal Add Pay -->
+<div class="modal fade" id="Add_PayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="title">Agregar Pago de Anticipo<label id="title_pago"></label></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="pago_prod_id_anticipo" hidden="true">
+        <label>Cantidad</label><br>
+        <input type="number" min="0" id="pago_cantidad"><br>
+        <label>Fecha</label><br>
+        <input type="date" id="pago_fecha"><br>
+        <label>Comprobante de Pago</label><br>
+                <!-- Form -->
+        <form method='post' action='' enctype="multipart/form-data">
+          <input type="file" id="pago_imagen" accept="application/pdf, image/*" class="form-control"><br>
+        </form>
+        
+        <label>Comentarios</label><br>
+        <textarea id="pago_coment" maxlength="150" class="form-control input-sm"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="AddPay" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>  
+<button type="button" class="btn btn-info" data-toggle="modal" data-target="#uploadModal">Upload file</button>
+
+<!-- Modal -->
+<div id="uploadModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">File upload form</h4>
+      </div>
+      <div class="modal-body">
+        <!-- Form -->
+        <form method='post' action='' enctype="multipart/form-data">
+          Select file : <input type='file' name='file' id='file' class='form-control' ><br>
+          <input type='button' class='btn btn-info' value='Upload' id='btn_upload'>
+        </form>
+
+        <!-- Preview-->
+        <div id='preview'></div>
+      </div>
+ 
+    </div>
+
+  </div>
+</div>
+
 <script type="text/javascript">
 
   $(document).ready(function(){
     $('#table_anticipo').DataTable();
+
+
+
+$('#btn_upload').click(function(){
+
+    var fd = new FormData();
+    var files = $('#file')[0].files[0];
+    fd.append('file',files);
+
+    // AJAX request
+    $.ajax({
+      url: '<?php echo base_url();?>Iluminacion/Add_Pay',
+      type: 'post',
+      data: fd,
+      contentType: false,
+      processData: false,
+      success: function(response){
+        alert(response);
+        if(response != 0){
+          // Show image preview
+          $('#preview').append("<a href='<?php echo base_url() ?>"+response+"' target='_blank'><img src='<?php echo base_url() ?>"+response+"' width='100' height='100' style='display: inline-block;'></a>");
+        }else{
+          alert('file not uploaded');
+        }
+      }
+    });
+  });
+
+
+
+
+
 
     $('#NewAnticipo').click(function(){
       cliente=$('#new_cliente').val();
@@ -289,7 +382,51 @@
       $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
     });
 
+    $('#AddPay').click(function(){
+      id_anticipo=$("#pago_prod_id_anticipo").val();
+      cantidad=$("#pago_cantidad").val();
+      fecha=$("#pago_fecha").val();
+      coment=$("#pago_coment").val();
+      var datos = new FormData();
+      var files = $('#pago_imagen')[0].files[0];
+      datos.append('file',files);
+      datos.append('id_anticipo',id_anticipo);
+      datos.append('cantidad',cantidad);
+      datos.append('fecha',fecha);
+      datos.append('coment',coment);
+      //alert(id_anticipo+" "+cantidad+" "+fecha+" "+coment);
+      if(true){
+      $.ajax({
+          url: '<?php echo base_url();?>Iluminacion/Add_Pay',
+          type: 'post',
+          data: datos,
+          contentType: false,
+          processData: false,
+          success:function(result){
+            //alert(result);
+            if(result=="ok-ok"){
+              alert('Pago agregado. Imagen Guardada');
+            }else{
+              if(result=="error-ok"){
+                alert('Pago agregado. Imagen No guardada\nFormatos aceptados: jpg, png, jpeg, gif , pdf');
+              }else{
+                alert('Error. Pago no agregado. Imagen no guardada');
+              }
+              
+            }
+            Update();
+          }
+        });
+      }else{
+        alert("Debe Ingresar una cantidad mayor a 0 (cero) y una fecha válida");
+      }
+      
+
+    });
+
+
   });
+
 
   function EditAnticipo($id_anticipo){
     var id_ant=$id_anticipo;
@@ -316,6 +453,14 @@
   function Product_Details($id_anticipo){
     var id_anticipo=$id_anticipo;
    $("#page_content").load("Anticipo_Prod_List",{id_anticipo:id_anticipo});
+  }
+
+  function Add_Pago($id_anticipo){
+    var id_ant=$id_anticipo;
+    var cliente=$("#nom_cliente"+id_ant).text();
+    $('#Add_PayModal').modal();
+    $("#pago_prod_id_anticipo").val(id_ant);   
+    //$("#title_pago").text("Cliente: "+cliente);
   }
 
   function Update(){

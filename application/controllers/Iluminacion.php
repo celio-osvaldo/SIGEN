@@ -516,7 +516,7 @@ class Iluminacion extends CI_Controller {
 			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
 			$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
 			$existencia = array('prod_alm_exist' => $nueva_existencia );
-			$this->Iluminacion_model->Descuenta_producto($id_producto,$existencia);
+			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			echo true;
 		}else{
 			echo false;
@@ -529,7 +529,8 @@ class Iluminacion extends CI_Controller {
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_anticipo=$_POST["id_anticipo"];
 		$data = array('anticipo_productos' => $this->Iluminacion_model->Get_Anticipo_Product_List($id_anticipo),
-					  'anticipo_info' => $this->Iluminacion_model->Get_Anticipo_Info($id_anticipo));
+					  'anticipo_info' => $this->Iluminacion_model->Get_Anticipo_Info($id_anticipo),
+					  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa));
 		$this->load->view('Iluminacion/AnticipoProduct_List',$data);
 	}
 
@@ -555,12 +556,12 @@ class Iluminacion extends CI_Controller {
 				$resta=$act_cantidad-$cant_anterior;
 				$nueva_existencia=($prod_inventario->prod_alm_exist)-$resta;
 				$existencia = array('prod_alm_exist' => $nueva_existencia );
-				$this->Iluminacion_model->Descuenta_producto($id_producto,$existencia);
+				$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			}else{
 				$suma=$cant_anterior-$act_cantidad;
 				$nueva_existencia=($prod_inventario->prod_alm_exist)+$suma;
 				$existencia = array('prod_alm_exist' => $nueva_existencia );
-				$this->Iluminacion_model->Descuenta_producto($id_producto,$existencia);
+				$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			}
 		}
 			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
@@ -570,7 +571,86 @@ class Iluminacion extends CI_Controller {
 							'anticipo_resto' => $resto );
 			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
 			echo true;
+	}
 
+	public function DeleteProduct_Anticipo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_prod_ant=$_POST["id_prod_ant"];
+		$id_producto=$_POST["id_producto"];
+		$cantidad=$_POST["cantidad"];
+		$precio_venta=$_POST["precio_venta"];
+		$coment=$_POST["coment"];
+		$id_anticipo=$_POST["id_anticipo"];
+
+		if ($this->Iluminacion_model->Delete_Product_Ant($id_prod_ant)) {
+			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
+			$nueva_existencia=($prod_inventario->prod_alm_exist)+$cantidad;
+			$existencia = array('prod_alm_exist' => $nueva_existencia );
+			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
+			$pagado=$this->Iluminacion_model->Get_Pagado_Anticipo($id_anticipo);
+			$resto=(($total->total)-($pagado->anticipo_pago));
+			$data2 = array('anticipo_total' => round($total->total,2),
+				'anticipo_resto' => $resto );
+			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Add_Pay(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_anticipo=$_POST['id_anticipo'];
+		$cantidad=$_POST["cantidad"];
+		$fecha=$_POST["fecha"];
+		$coment=$_POST["coment"];
+		$result="";
+
+		$filename = $_FILES['file']['name'];//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Pagos_Anticipo/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$response = 0;
+		$data = array('id_anticipo' => $id_anticipo,
+			'pagos_anticipo_fecha' => $fecha,
+			'pagos_anticipo_cantidad' => $cantidad,
+			'pagos_anticipo_coment' => $coment);
+
+		$id_pagos_anticipo=$this->Iluminacion_model->AddPay_Anticipo($data);
+
+
+			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
+
+			$pagado=$this->Iluminacion_model->Get_Pagos($id_anticipo);
+			$fecha_pago=$this->Iluminacion_model->Get_Fecha_pago($id_anticipo);
+			$resto=(($total->total)-($pagado->total_pagos));
+			$data2 = array('anticipo_pago' => round($pagado->total_pagos,2),
+							'anticipo_resto' => $resto,
+							'anticipo_fecha_deposito' => $fecha_pago->pagos_anticipo_fecha);
+			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
+		$url_imagen='Resources/Pagos_Anticipo/Iluminacion/Anticipo_Pago_'.$id_pagos_anticipo.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_pagos_anticipo!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
+
+				$data = array('pagos_anticipo_url_comprobante' => $url_imagen);
+				$this->Iluminacion_model->Url_Pay_Anticipo($data,$id_pagos_anticipo);
+				$result = "ok-ok";
+			}else{
+				$result="error-ok";
+			}
+		}
+		echo $result;
 	}
 
 

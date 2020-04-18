@@ -365,7 +365,7 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
-  public function Descuenta_producto($id_producto,$data){
+  public function Actualiza_producto($id_producto,$data){
     $this->db->where('id_prod_alm', $id_producto);
     $this->db->update('producto_almacen', $data);
     if ($this->db->affected_rows() > 0) {
@@ -404,8 +404,55 @@ class Iluminacion_model extends CI_Model
     }
   }
 
-  
+  public function Delete_Product_Ant($id_prod_ant){
+    $this->db->where('id_prod_anticipo', $id_prod_ant);
+    $this->db->delete('prod_anticipo');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
+
+  public function AddPay_Anticipo($data){
+    $this->db->insert('pagos_anticipo',$data);
+    if ($this->db->affected_rows() > 0) {
+      $id=$this->db->insert_id();
+      return $id;
+    } else{
+      return false;
+    }
+  }
+
+  public function Url_Pay_Anticipo($data,$id_pagos_anticipo){
+    $this->db->where('id_pagos_anticipo', $id_pagos_anticipo);
+    $this->db->update('pagos_anticipo', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Get_Fecha_pago($id_anticipo){
+    $this->db->select_max('pagos_anticipo_fecha');
+    $this->db->from('pagos_anticipo');
+    $this->db->where('id_anticipo',$id_anticipo);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_Pagos($id_anticipo){
+    $this->db->select_sum('pagos_anticipo_cantidad','total_pagos');
+    $this->db->from('pagos_anticipo');
+    $this->db->where('id_anticipo',$id_anticipo);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+  
+}
 
 
 

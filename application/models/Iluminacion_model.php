@@ -451,6 +451,14 @@ class Iluminacion_model extends CI_Model
     $result=$query->row();
     return $result;
   }
+
+  public function Get_Anticipo_Pay_List($id_anticipo){
+    $this->db->select('id_pagos_anticipo, id_anticipo, pagos_anticipo_fecha, pagos_anticipo_cantidad, pagos_anticipo_coment, pagos_anticipo_url_comprobante');
+    $this->db->from('pagos_anticipo');
+    $this->db->where('id_anticipo',$id_anticipo);
+    $result=$this->db->get();
+    return $result;
+  }
   
 }
 

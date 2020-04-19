@@ -609,9 +609,16 @@ class Iluminacion extends CI_Controller {
 		$cantidad=$_POST["cantidad"];
 		$fecha=$_POST["fecha"];
 		$coment=$_POST["coment"];
-		$result="";
+		$result="ok";
 
-		$filename = $_FILES['file']['name'];//Obtenemos el nombre del documento que subiremos
+
+		if (isset($_FILES['file']['name'])) {
+			$filename = $_FILES['file']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
 		$location = 'Resources/Pagos_Anticipo/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
 		// file extension
 		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
@@ -619,7 +626,7 @@ class Iluminacion extends CI_Controller {
 
 		// Valid image extensions
 		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
-		$response = 0;
+
 		$data = array('id_anticipo' => $id_anticipo,
 			'pagos_anticipo_fecha' => $fecha,
 			'pagos_anticipo_cantidad' => $cantidad,
@@ -628,15 +635,21 @@ class Iluminacion extends CI_Controller {
 		$id_pagos_anticipo=$this->Iluminacion_model->AddPay_Anticipo($data);
 
 
-			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
+		$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
 
-			$pagado=$this->Iluminacion_model->Get_Pagos($id_anticipo);
-			$fecha_pago=$this->Iluminacion_model->Get_Fecha_pago($id_anticipo);
-			$resto=(($total->total)-($pagado->total_pagos));
-			$data2 = array('anticipo_pago' => round($pagado->total_pagos,2),
-							'anticipo_resto' => $resto,
-							'anticipo_fecha_deposito' => $fecha_pago->pagos_anticipo_fecha);
-			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
+		$pagado=$this->Iluminacion_model->Get_Pagos($id_anticipo);
+		$fecha_pago=$this->Iluminacion_model->Get_Fecha_pago($id_anticipo);
+		$resto=(($total->total)-($pagado->total_pagos));
+		if($resto<=0){
+			$estado="Pagado";
+		}else{
+			$estado="Activo";
+		}
+		$data2 = array('anticipo_pago' => round($pagado->total_pagos,2),
+						'anticipo_resto' => $resto,
+						'anticipo_status' => $estado,
+						'anticipo_fecha_deposito' => $fecha_pago->pagos_anticipo_fecha);
+		$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
 		$url_imagen='Resources/Pagos_Anticipo/Iluminacion/Anticipo_Pago_'.$id_pagos_anticipo.'.'.$file_extension;
 
 		if(in_array($file_extension,$image_ext)&&$id_pagos_anticipo!=""){
@@ -649,8 +662,20 @@ class Iluminacion extends CI_Controller {
 			}else{
 				$result="error-ok";
 			}
+		}else{
+			$result="ok";
 		}
 		echo $result;
+	}
+
+	public function Anticipo_Pagos_List(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_anticipo=$_POST["id_anticipo"];
+		$data = array('anticipo_pagos' => $this->Iluminacion_model->Get_Anticipo_Pay_List($id_anticipo),
+					  'anticipo_info' => $this->Iluminacion_model->Get_Anticipo_Info($id_anticipo));
+		$this->load->view('Iluminacion/AnticipoPay_List',$data);
 	}
 
 

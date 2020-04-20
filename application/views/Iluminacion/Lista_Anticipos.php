@@ -203,7 +203,7 @@
         <input type="date" id="pago_fecha"><br>
         <label>Comprobante de Pago</label><br>
         <!-- Form -->
-        <form method='post' action='' enctype="multipart/form-data">
+        <form method='post' enctype="multipart/form-data">
           <input type="file" id="pago_imagen" accept="application/pdf, image/*" class="form-control"><br>
         </form>
         
@@ -218,16 +218,16 @@
   </div>
 </div>  
 
-        <script type="text/javascript">
+<script type="text/javascript">
 
-          $(document).ready(function(){
-            $('#table_anticipo').DataTable();
+  $(document).ready(function(){
+    $('#table_anticipo').DataTable();
 
-            $('#NewAnticipo').click(function(){
-              cliente=$('#new_cliente').val();
-              fecha_fin=$('#new_fecha_fin').val();
-              fecha_ent=$('#new_fecha_entrega').val();
-              coment=$('#new_coment').val();
+    $('#NewAnticipo').click(function(){
+      cliente=$('#new_cliente').val();
+      fecha_fin=$('#new_fecha_fin').val();
+      fecha_ent=$('#new_fecha_entrega').val();
+      coment=$('#new_coment').val();
       //alert(cliente+fecha_fin+fecha_ent+coment);
       $.ajax({
         type:"POST",
@@ -245,14 +245,14 @@
         });
     });
 
-            $('#UpdateAnticipo').click(function(){
-              id_anticipo=$('#id_anticipo').val();
-              cliente=$('#edit_cliente').val();
-              estado=$('#edit_estado').val();
-              fecha_fin=$('#edit_fecha_fin').val();
-              fecha_ent=$('#edit_fecha_entrega').val();
-              coment=$('#edit_coment').val();
-              id_anticipo=$('#edit_id_anticipo').val();
+    $('#UpdateAnticipo').click(function(){
+      id_anticipo=$('#id_anticipo').val();
+      cliente=$('#edit_cliente').val();
+      estado=$('#edit_estado').val();
+      fecha_fin=$('#edit_fecha_fin').val();
+      fecha_ent=$('#edit_fecha_entrega').val();
+      coment=$('#edit_coment').val();
+      id_anticipo=$('#edit_id_anticipo').val();
       //alert(cliente+estado+fecha_fin+fecha_ent+coment+id_anticipo);
       $.ajax({
         type:"POST",
@@ -270,13 +270,13 @@
         });
     });
 
-            $('#AddProduct').click(function(){
-              id_anticipo=$("#prod_id_anticipo").val();
-              id_producto=$("#prod_nombre").val();
-              prod_cantidad=$("#prod_cantidad").val();
-              prod_precio_venta=$("#prod_precio").val();
-              total=$("#prod_total").val();
-              coment=$("#prod_coment").val();
+    $('#AddProduct').click(function(){
+      id_anticipo=$("#prod_id_anticipo").val();
+      id_producto=$("#prod_nombre").val();
+      prod_cantidad=$("#prod_cantidad").val();
+      prod_precio_venta=$("#prod_precio").val();
+      total=$("#prod_total").val();
+      coment=$("#prod_coment").val();
       //alert(id_anticipo+" "+id_producto+" "+prod_cantidad+" "+prod_precio_venta+" "+total+" "+coment);
       if(prod_cantidad>0&&id_producto!=null){
         $.ajax({
@@ -298,44 +298,44 @@
       }
     });
 
-            $( "#prod_nombre" ).change(function() {
-              var id_producto=$('#prod_nombre').val();
-              <?php foreach ($inventario_productos->result() as $key): ?>
-                if (id_producto==<?php echo $key->id_prod_alm; ?>) {
-                  var precio_unitario=(<?php echo $key->prod_alm_prec_unit; ?>);
-                  var existencia=(<?php echo $key->prod_alm_exist; ?>);
-                  var precio_venta=(<?php echo $key->prod_alm_precio_venta; ?>);
-                }
-              <?php endforeach ?>
-              $("#prod_precio").val(0);
-              $("#prod_cantidad").val(0);
-              $("#prod_precio").val(precio_venta);
-              $("#prod_cantidad").attr({"max" : existencia});
-              $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
-            });
+    $( "#prod_nombre" ).change(function() {
+      var id_producto=$('#prod_nombre').val();
+      <?php foreach ($inventario_productos->result() as $key): ?>
+        if (id_producto==<?php echo $key->id_prod_alm; ?>) {
+          var precio_unitario=(<?php echo $key->prod_alm_prec_unit; ?>);
+          var existencia=(<?php echo $key->prod_alm_exist; ?>);
+          var precio_venta=(<?php echo $key->prod_alm_precio_venta; ?>);
+        }
+      <?php endforeach ?>
+      $("#prod_precio").val(0);
+      $("#prod_cantidad").val(0);
+      $("#prod_precio").val(precio_venta);
+      $("#prod_cantidad").attr({"max" : existencia});
+      $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
+    });
 
-            $( "#prod_cantidad" ).change(function() {
-              $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
-            });
+    $( "#prod_cantidad" ).change(function() {
+      $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
+    });
 
-            $( "#prod_precio" ).change(function() {
-              $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
-            });
+    $( "#prod_precio" ).change(function() {
+      $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
+    });
 
-            $('#AddPay').click(function(){
-              id_anticipo=$("#pago_prod_id_anticipo").val();
-              cantidad=$("#pago_cantidad").val();
-              fecha=$("#pago_fecha").val();
-              coment=$("#pago_coment").val();
-              var datos = new FormData();
-              var files = $('#pago_imagen')[0].files[0];
-              datos.append('file',files);
-              datos.append('id_anticipo',id_anticipo);
-              datos.append('cantidad',cantidad);
-              datos.append('fecha',fecha);
-              datos.append('coment',coment);
+    $('#AddPay').click(function(){
+      id_anticipo=$("#pago_prod_id_anticipo").val();
+      cantidad=$("#pago_cantidad").val();
+      fecha=$("#pago_fecha").val();
+      coment=$("#pago_coment").val();
+      var datos = new FormData();
+      var files = $('#pago_imagen')[0].files[0];
+      datos.append('file',files);
+      datos.append('id_anticipo',id_anticipo);
+      datos.append('cantidad',cantidad);
+      datos.append('fecha',fecha);
+      datos.append('coment',coment);
       //alert(id_anticipo+" "+cantidad+" "+fecha+" "+coment);
-      if(true){
+      if(cantidad>0&&fecha!=""){
         $.ajax({
           url: '<?php echo base_url();?>Iluminacion/Add_Pay',
           type: 'post',
@@ -357,15 +357,14 @@
                 }                
               }              
             }
-            Update();
           }
         });
       }else{
         alert("Debe Ingresar una cantidad mayor a 0 (cero) y una fecha válida");
-      }     
+      }
+      Update();  
     });
-
-          });
+  });
 
 
 function EditAnticipo($id_anticipo){

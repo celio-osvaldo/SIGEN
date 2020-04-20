@@ -224,7 +224,7 @@
     var coment=$("#coment"+id_prod_ant).text();
     //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
     $('#DeleteProductModal').modal();
-     $("#titleDeleteProductModal").text("Eliminar Producto: "+nombre_prod)
+     $("#titleDeleteProductModal").text("Eliminar Producto: "+nombre_prod);
      $("#delete_cant").text(cantidad);
      $("#delete_precio").text(parseFloat(precio_venta[1]));
      $("#delete_coment").text(coment);

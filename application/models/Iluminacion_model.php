@@ -424,7 +424,7 @@ class Iluminacion_model extends CI_Model
     }
   }
 
-  public function Url_Pay_Anticipo($data,$id_pagos_anticipo){
+  public function UpdatePay_Anticipo($data,$id_pagos_anticipo){
     $this->db->where('id_pagos_anticipo', $id_pagos_anticipo);
     $this->db->update('pagos_anticipo', $data);
     if ($this->db->affected_rows() > 0) {
@@ -458,6 +458,25 @@ class Iluminacion_model extends CI_Model
     $this->db->where('id_anticipo',$id_anticipo);
     $result=$this->db->get();
     return $result;
+  }
+
+  public function Get_url_comprobante_Pago($id_pagos_anticipo){
+     $this->db->select('pagos_anticipo_url_comprobante');
+    $this->db->from('pagos_anticipo');
+    $this->db->where('id_pagos_anticipo',$id_pagos_anticipo);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Delete_Pay_anticipo($id_pagos_anticipo){
+    $this->db->where('id_pagos_anticipo', $id_pagos_anticipo);
+    $this->db->delete('pagos_anticipo');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
   
 }

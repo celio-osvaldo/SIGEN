@@ -95,54 +95,60 @@
   </div>
 </div>
 
-<!-- Modal Edit Product Anticipo -->
-<div class="modal fade" id="EditProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Edit Pay Anticipo -->
+<div class="modal fade" id="EditPayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="titleProductModal">Editar Producto</h5>
+        <h5 class="modal-title" id="titleProductModal">Editar Pago</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <label>Cantidad</label>
-        <input type="number" min="0" id="edit_cant" class="form-control input-sm">
-        <label>Precio de Venta</label>
-        <input type="number" min="0" id="edit_precio" class="form-control input-sm">
+        <label>Fecha de Pago</label>
+        <input type="date" id="edit_fecha" class="form-control input-sm">
+        <label>Cantidad Pagada</label>
+        <input type="number" min="0" id="edit_cantidad" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
-        <input type="text" id="edit_id_prod_ant" hidden="true">
+        <label>Comprobante de Pago</label><br>
+        <!-- Form -->
+        <form method='post'  enctype="multipart/form-data">
+          <input type="file" id="edit_pago_imagen" accept="application/pdf, image/*" class="form-control"><br>
+        </form>
+        <input type="text" id="edit_id_pay_ant" hidden="true">
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="UpdateProduct" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="UpdatePay" data-dismiss="modal">Actualizar</button>
       </div>
     </div>
   </div>
 </div>
 
 
-<!-- Modal Delete Product Anticipo -->
-<div class="modal fade" id="DeleteProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal Delete Pay Anticipo -->
+<div class="modal fade" id="DeletePayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header bg-danger">
-        <h5 class="modal-title" id="titleDeleteProductModal">Eliminar Producto</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <h5 class="modal-title" id="titleDeleteProductModal">Eliminar Pago</h5>
+        <button type="button" class="close" onclick="limpiar_modal()" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-        <h6><label>Cantidad: </label><span class="badge badge-danger" id="delete_cant"></span></h6>
-        <h6><label>Precio de Venta: $</label><span class="badge badge-danger" id="delete_precio"></span></h6>
+      <div id="modal_body_delete" class="modal-body">
+        <input type="text" id="delete_id_pagos_anticipo" hidden="true">
+        <h6><label>Fecha: </label><span class="badge badge-danger" id="delete_fecha"></span></h6>
+        <h6><label>Cantidad: $</label><span class="badge badge-danger" id="delete_cantidad"></span></h6>
         <h6><label>Comentarios: </label><span class="badge badge-danger" id="delete_coment"></span></h6>
-        <input type="text" id="delete_id_prod_ant" hidden="true">
-        <h6 class="bg-warning"><p>Al eliminar el producto, la cantidad de este se agregará nuevamente al almacen como existencia.</p></h6>
+        <h6 class="bg-warning"><p>Al eliminar el pago, será borrada toda la información de este</p></h6>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-danger" id="Delete_Product" data-dismiss="modal">Eliminar</button>
+        <button type="button" class="btn btn-primary" onclick="limpiar_modal()" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="Delete_Pay" data-dismiss="modal">Eliminar</button>
       </div>
     </div>
   </div>
@@ -153,62 +159,61 @@
   $(document).ready(function(){
     $('#table_anticipo_prod_list').DataTable();
 
-        //Función para actualizar el registro de un Producto
-        $('#UpdateProduct').click(function(){
-          id_prod_ant=$("#edit_id_prod_ant").val();
-          id_anticipo=$("#id_anticipo"+id_prod_ant).text();
-          act_cantidad=$("#edit_cant").val();
-          cant_anterior=$("#cantidad"+id_prod_ant).text();
-          act_precio_venta=$("#edit_precio").val();
-          precio_anterior=$("#precio"+id_prod_ant).text().split('$');
-          act_coment=$("#edit_coment").val();
-          id_producto=$("#id_producto"+id_prod_ant).text();
-   //alert(id_anticipo+" "+id_prod_ant+" "+act_cantidad+" "+cant_anterior+" "+precio_anterior[1]+" idprod "+id_producto+" "+act_precio_venta);
-      if (act_cantidad>0&&act_precio_venta>0) {//Verificamos que los campos no estén vacíos
+        //Función para actualizar el registro de un Pago
+        $('#UpdatePay').click(function(){
+          id_pagos_anticipo=$("#edit_id_pay_ant").val();
+          fecha=$("#edit_fecha").val();
+          cantidad=$("#edit_cantidad").val();
+          coment=$("#edit_coment").val();
+          id_anticipo=<?php echo $anticipo_info->id_anticipo; ?>;
+          var datos = new FormData();
+              var files = $('#edit_pago_imagen')[0].files[0];
+              datos.append('file',files);
+              datos.append('id_anticipo',id_anticipo);
+              datos.append('cantidad',cantidad);
+              datos.append('fecha',fecha);
+              datos.append('coment',coment);
+              datos.append('id_pagos_anticipo',id_pagos_anticipo);
+   //alert(id_anticipo+" "+id_pagos_anticipo+" "+fecha+" "+cantidad+" "+coment);
+       if(cantidad>0&&fecha!=""){
         $.ajax({
-          type:"POST",
-          url:"<?php echo base_url();?>Iluminacion/EditProduct_Anticipo",
-          data:{id_anticipo:id_anticipo, id_prod_ant:id_prod_ant, id_producto:id_producto, act_cantidad:act_cantidad, cant_anterior:cant_anterior, act_precio_venta:act_precio_venta, precio_anterior:precio_anterior[1], act_coment:act_coment},
+          url: '<?php echo base_url();?>Iluminacion/EditPay_Anticipo',
+          type: 'post',
+          data: datos,
+          contentType: false,
+          processData: false,
           success:function(result){
             //alert(result);
-            if(result){
-              alert('Registro Actualizado');
-            }else{
-              alert('Falló el servidor. Registro no actualizado');
-            }
+            alert("Datos Actualizados");
+            Update_Page(id_anticipo); 
           }
         });
       }else{
-        alert("Debe ingresar por lo menos 1 producto");
-      }
+        alert("Debe Ingresar una cantidad mayor a 0 (cero) y una fecha válida");
+      }     
       Update_Page(id_anticipo); 
     });
 
         
-        $('#Delete_Product').click(function(){
-          id_prod_ant=$("#delete_id_prod_ant").val();
-          id_anticipo=$("#id_anticipo"+id_prod_ant).text();
-          cantidad=$("#delete_cant").text();
-          precio_venta=$("#delete_precio").text();
-          coment=$("#delete_coment").text();
-          id_producto=$("#id_producto"+id_prod_ant).text();
-          alert(id_anticipo+" "+id_prod_ant+" "+cantidad+" "+precio_venta+" "+coment+" idprod "+id_producto);
+        $('#Delete_Pay').click(function(){
+          id_pagos_anticipo=$("#delete_id_pagos_anticipo").val();
+          id_anticipo=<?php echo $anticipo_info->id_anticipo; ?>;
+         // alert(id_anticipo+" id_pagos: "+id_pagos_anticipo);
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Iluminacion/DeleteProduct_Anticipo",
-          data:{id_anticipo:id_anticipo, id_prod_ant:id_prod_ant, id_producto:id_producto, cantidad:cantidad, precio_venta:precio_venta, coment:coment},
+          url:"<?php echo base_url();?>Iluminacion/DeletePay_Anticipo",
+          data:{id_anticipo:id_anticipo, id_pagos_anticipo:id_pagos_anticipo},
           success:function(result){
             //alert(result);
             if(result){
-              alert('Producto Eliminado');
+              alert('Pago Eliminado');
             }else{
-              alert('Falló el servidor. Producto no eliminado');
+              alert('Falló el servidor. Pago no eliminado');
             }
           }
         });
       Update_Page(id_anticipo); 
     });
-
   });
 
   function ver_comprobante($id_pagos_anticipo){
@@ -223,51 +228,62 @@
         $('#modal-body').append("<embed id='imagen_modal' frameborder='0' width='100%'' height='400px'>");    
       $('#imagen_modal').attr({"src" : url});
     }
-
   }
 
 
-  function EditProduct($id_prod_anticipo){
-    var id_prod_ant=$id_prod_anticipo;
-    var nombre_prod=$("#nombre"+id_prod_ant).text();
-    var cantidad=$("#cantidad"+id_prod_ant).text();
-    var precio_venta=$("#precio"+id_prod_ant).text().split('$');
-    var coment=$("#coment"+id_prod_ant).text();
-    var id_producto=$("#id_producto"+id_prod_ant).text();
+  function EditPay($id_pagos_anticipo){
+    var id_pagos_anticipo=$id_pagos_anticipo;
+    var fecha=$("#fecha"+id_pagos_anticipo).text();
+    var cantidad=$("#cantidad"+id_pagos_anticipo).text().split('$');
+    var coment=$("#coment"+id_pagos_anticipo).text();
     //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
-   
-      var existencia=parseInt(existencia)+parseInt(cantidad);
-    $('#EditProductModal').modal();
-     $("#titleProductModal").text("Editar Producto: "+nombre_prod);
-     $("#edit_cant").val(cantidad);
-     $("#edit_cant").attr({"max" : existencia});
-     $("#edit_precio").val(parseFloat(precio_venta[1]));
+    $('#EditPayModal').modal();
+     $("#edit_fecha").val(fecha);
+     $("#edit_cantidad").val(parseFloat(cantidad[1]));
      $("#edit_coment").val(coment);
-     $("#edit_id_prod_ant").val(id_prod_ant);
+     $("#edit_id_pay_ant").val(id_pagos_anticipo);
   }
 
-  function DeleteProduct($id_prod_anticipo){
-    var id_prod_ant=$id_prod_anticipo;
-    var nombre_prod=$("#nombre"+id_prod_ant).text();
-    var cantidad=$("#cantidad"+id_prod_ant).text();
-    var precio_venta=$("#precio"+id_prod_ant).text().split('$');
-    var coment=$("#coment"+id_prod_ant).text();
-    //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
-    $('#DeleteProductModal').modal();
-     $("#titleDeleteProductModal").text("Eliminar Producto: "+nombre_prod)
-     $("#delete_cant").text(cantidad);
-     $("#delete_precio").text(parseFloat(precio_venta[1]));
+  function DeletePay($id_pagos_anticipo){
+    var id_pagos_anticipo=$id_pagos_anticipo;
+    var fecha=$("#fecha"+id_pagos_anticipo).text();
+    var cantidad=$("#cantidad"+id_pagos_anticipo).text().split('$');
+    var coment=$("#coment"+id_pagos_anticipo).text();
+    var comprobante=$("#url_"+$id_pagos_anticipo).text().split(".");
+    var url=$("#url_"+$id_pagos_anticipo).text();
+    var base_url="<?php echo base_url()?>";
+    //alert(comprobante[0].length+" url: "+url+" base url: "+base_url.length);
+    $('#DeletePayModal').modal();
+    $('#delete_id_pagos_anticipo').text(id_pagos_anticipo);
+     $("#delete_fecha").text(fecha);
+     $("#delete_cantidad").text(cantidad[1]);
      $("#delete_coment").text(coment);
-     $("#delete_id_prod_ant").val(id_prod_ant);
+     if (comprobante[0].length==base_url.length) {
+      $('#modal_body_delete').append("<div id='sin_comprobante'><h6><label id='lbl_comprobante1'>Comprobante: </label><span class='badge badge-danger' id='delete_comprobante_1'></span></h6></div>");    
+      $('#delete_comprobante_1').text("No se Adjuntó Comprobante");
+      $('#delete_comprobante_2').remove();
+      $('#lbl_comprobante2').text("");
+    }else{
+      $('#modal_body_delete').append("<div id='con_comprobante'><label id='lbl_comprobante2'>Comprobante: </label><embed id='delete_comprobante_2' frameborder='0' width='100%'' height='400px'></div>");    
+      $('#delete_comprobante_2').attr({"src" : url});
+      $('#delete_comprobante_1').remove();
+      $('#lbl_comprobante1').text("");
+    }
+     
+     $("#delete_id_pagos_anticipo").val(id_pagos_anticipo);
   }
 
   function Update_Page($id_anticipo){
     id_anticipo=$id_anticipo;
-    $("#page_content").load("Anticipo_Prod_List",{id_anticipo:id_anticipo});
+    $("#page_content").load("Anticipo_Pagos_List",{id_anticipo:id_anticipo});
   }
 
   function Lista_Anticipos(){
     $("#page_content").load("Anticipos");
+  }
+  function limpiar_modal(){
+    $('#sin_comprobante').remove();
+    $('#con_comprobante').remove();
   }
 
 </script>

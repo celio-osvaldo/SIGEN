@@ -657,7 +657,7 @@ class Iluminacion extends CI_Controller {
 			if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
 
 				$data = array('pagos_anticipo_url_comprobante' => $url_imagen);
-				$this->Iluminacion_model->Url_Pay_Anticipo($data,$id_pagos_anticipo);
+				$this->Iluminacion_model->UpdatePay_Anticipo($data,$id_pagos_anticipo);
 				$result = "ok-ok";
 			}else{
 				$result="error-ok";
@@ -676,6 +676,105 @@ class Iluminacion extends CI_Controller {
 		$data = array('anticipo_pagos' => $this->Iluminacion_model->Get_Anticipo_Pay_List($id_anticipo),
 					  'anticipo_info' => $this->Iluminacion_model->Get_Anticipo_Info($id_anticipo));
 		$this->load->view('Iluminacion/AnticipoPay_List',$data);
+	}
+
+	public function EditPay_Anticipo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_anticipo=$_POST['id_anticipo'];
+		$cantidad=$_POST["cantidad"];
+		$fecha=$_POST["fecha"];
+		$coment=$_POST["coment"];
+		$id_pagos_anticipo=$_POST["id_pagos_anticipo"];
+
+		if (isset($_FILES['file']['name'])) {
+			$filename = $_FILES['file']['name'];
+		} else {
+			$filename="";
+		}
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Pagos_Anticipo/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$data = array('pagos_anticipo_fecha' => $fecha,
+					  'pagos_anticipo_cantidad' => $cantidad,
+					  'pagos_anticipo_coment' => $coment);
+
+		$this->Iluminacion_model->UpdatePay_Anticipo($data,$id_pagos_anticipo);
+
+		$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
+		$pagado=$this->Iluminacion_model->Get_Pagos($id_anticipo);
+		$fecha_pago=$this->Iluminacion_model->Get_Fecha_pago($id_anticipo);
+		$resto=(($total->total)-($pagado->total_pagos));
+		if($resto<=0){
+			$estado="Pagado";
+		}else{
+			$estado="Activo";
+		}
+		$data2 = array('anticipo_pago' => round($pagado->total_pagos,2),
+						'anticipo_resto' => round($resto,2),
+						'anticipo_status' => $estado,
+						'anticipo_fecha_deposito' => $fecha_pago->pagos_anticipo_fecha);
+		$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
+
+		$url_imagen='Resources/Pagos_Anticipo/Iluminacion/Anticipo_Pago_'.$id_pagos_anticipo.'.'.$file_extension;
+		
+		$ruta='Resources/Pagos_Anticipo/Iluminacion/';
+
+		if(in_array($file_extension,$image_ext)&&$id_pagos_anticipo!=""){
+  			// Upload file
+  			foreach ($image_ext as $ext) {
+  				$url_imagen2='Resources/Pagos_Anticipo/Iluminacion/Anticipo_Pago_'.$id_pagos_anticipo.'.'.$ext;
+  				if (file_exists($url_imagen2)){
+  					unlink($url_imagen2);
+  				}  				
+  			}		
+
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
+
+				$data = array('pagos_anticipo_url_comprobante' => $url_imagen);
+				$this->Iluminacion_model->UpdatePay_Anticipo($data,$id_pagos_anticipo);
+				$result = "ok-ok";
+			}
+		}
+		echo true;
+	}
+
+	public function DeletePay_Anticipo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_anticipo=$_POST["id_anticipo"];
+		$id_pagos_anticipo=$_POST["id_pagos_anticipo"];
+
+		$url_comprobante=$this->Iluminacion_model->Get_url_comprobante_Pago($id_pagos_anticipo);
+
+		if($this->Iluminacion_model->Delete_Pay_anticipo($id_pagos_anticipo)){
+			if (file_exists($url_comprobante->pagos_anticipo_url_comprobante)){
+  					unlink($url_comprobante->pagos_anticipo_url_comprobante);
+  				}
+  			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
+			$pagado=$this->Iluminacion_model->Get_Pagos($id_anticipo);
+			$fecha_pago=$this->Iluminacion_model->Get_Fecha_pago($id_anticipo);
+			$resto=(($total->total)-($pagado->total_pagos));
+			if($resto<=0){
+				$estado="Pagado";
+			}else{
+				$estado="Activo";
+			}
+			$data2 = array('anticipo_pago' => round($pagado->total_pagos,2),
+						'anticipo_resto' => round($resto,2),
+						'anticipo_status' => $estado,
+						'anticipo_fecha_deposito' => $fecha_pago->pagos_anticipo_fecha);
+			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
+			echo true;
+		}else{
+			echo false;
+		}
 	}
 
 

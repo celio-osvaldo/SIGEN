@@ -79,6 +79,13 @@
 				});
 			});
 	</script>
+	<script>
+		$(document).ready(function(){
+			$("#SFV").click(function(){
+				$("#page_content").load("Pagos_SFV");
+			});
+		});
+	</script>
 
 	</body>
 </html> 

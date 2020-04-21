@@ -478,7 +478,25 @@ class Iluminacion_model extends CI_Model
       return false;
     }
   }
-  
+
+  public function GetAll_Pagos_SFV($id_empresa){
+    $this->db->select('id_pago_sfv, pago_sfv_id_cliente, catalogo_cliente_empresa, (select count(id_lista_pago_sfv) from lista_pago_sfv where pago_sfv_id_pago_sfv=id_pago_sfv)as pagos_realizados, pago_sfv_id_empresa, pago_sfv_kwh, pago_sfv_estado, pago_sfv_cant_pagos, pago_sfv_fecha_ult_pago, pago_sfv_coment, pago_sfv_pagado, pago_sfv_saldo, pago_sfv_imp_total');
+    $this->db->from('pago_sfv');
+    $this->db->join('catalogo_cliente','pago_sfv_id_cliente=id_catalogo_cliente');
+    $this->db->where('pago_sfv_id_empresa',$id_empresa);
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function New_SFV($data){
+       $this->db->insert('pago_sfv',$data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+        } else{
+        return false;
+        }
+    }
+ 
 }
 
 

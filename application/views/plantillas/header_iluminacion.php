@@ -43,7 +43,7 @@
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" id="Anticipos">Anticipos</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Pagos SFV</a>
+							<a class="dropdown-item" id="SFV">Pagos SFV</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Cotizaciones</a>
 							<div class="dropdown-divider"></div>

@@ -777,6 +777,34 @@ class Iluminacion extends CI_Controller {
 		}
 	}
 
+	public function Pagos_SFV(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data=array('catalogo_cliente'=>$this->Iluminacion_model->GetAll_Customer($idcomp->id_empresa),
+					'lista_pagos_sfv'=>$this->Iluminacion_model->GetAll_Pagos_SFV($idcomp->id_empresa));
+		$this->load->view('Iluminacion/Lista_SFV',$data);
+	}
+
+	public function NewSFV(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('pago_sfv_id_cliente' => $this->input->post('cliente') ,
+					  'pago_sfv_id_empresa' => $idcomp->id_empresa,
+					  'pago_sfv_kwh'=> $this->input->post('kwh'),
+					  'pago_sfv_estado' => 'Activo',
+					  'pago_sfv_cant_pagos' => $this->input->post('cant_pagos'),
+					  'pago_sfv_coment' =>$this->input->post('coment'),
+					  'pago_sfv_imp_total' => $this->input->post('imp_total'),
+					  'pago_sfv_saldo' => $this->input->post('imp_total'),);
+		if($this->Iluminacion_model->New_SFV($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
 
 }
  

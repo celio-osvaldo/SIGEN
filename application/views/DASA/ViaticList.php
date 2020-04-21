@@ -91,7 +91,7 @@
                         </div>
 
                         <div class="col-md-2">
-                            <input class="form-control" type="hidden" name="totalDays" id="totalDays">
+                            <input class="form-control" type="text" name="totalDays" id="totalDays">
                             <input type="hidden" name="addMoney" id="addMoney" class="form-control">
                         </div>
    
@@ -169,14 +169,29 @@ function CloseModal(){
     function DateObtain(e)
     {
       var date = moment(e.value);
+
+      var date1 = $("#addStartDate");
+      var date2 = $("#AddDateEnd");
+
+      var nacimiento = moment(date1.val());
+      var hoy = moment(date2.val());
+
+
+
+      var anios = hoy.diff(nacimiento,"days");
+      $("#totalDays").val(anios);
+
       console.log("Original Date:" + e.value);
-      console.log("Out Date: " + fecha.format("YYYY/MM/DD"));
+      console.log("Out Date: " + date.format("YYYY/MM/DD"));
+      console.log("res1 " + nacimiento);
+      console.log("res2 " + hoy);
+      console.log("diff " + anios);
     }
 </script>
 
 <script type="text/javascript">
     function Details($id) {
-   alert('Ver Detalles');
+   // alert('Ver Detalles');
    var id_viatico=$id;
    $("#page_content").load("DeatailsOfViatic",{id_viatico:id_viatico});
                       

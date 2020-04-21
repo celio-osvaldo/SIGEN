@@ -84,7 +84,7 @@
                         <div class="col-md-6"></div>
                         <div class="col-md-3">
                             <label class="label-control">Fecha de emisión:</label>
-                            <input class="form-control" type="date" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+                            <input class="form-control" type="text" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                         </div>
                         <div class="col-md-12">
                             <label class = "control-label">Cliente:</label>
@@ -98,12 +98,12 @@
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
-                            <input type="aria-hidden" id="addCompany" name="addCompany" value="2">
+                            <input type="hidden" id="addCompany" name="addCompany" value="2">
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <label for="">Monto:
-                            <input type="number" class="form-control" name="addAmount" id="addAmount" required="true">
+                            <input type="text" class="form-control" name="addAmount" id="addAmount" required="true">
                         </div>
                         <div class="col-md-6">
                             <label for="">Comentario:</label>
@@ -120,7 +120,7 @@
                             <label for="">Fecha de pago:</label>
                             <input type="date" id="addDate" name="addDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                             <label for="">Factura:</label>
-                            <input type="file" class="form-control" name="addBill" id="addBill" accept="application/pdf">
+                            <input type="file" class="form-control" name="addBill" id="addBill" accept="application/pdf" required="true">
                         </div>
                     </div>
                   </div>
@@ -219,7 +219,7 @@
 
       var date = moment(e.value);
       console.log("Original Date:" + e.value);
-      console.log("Out Date: " + fecha.format("YYYY/MM/DD"));
+      console.log("Out Date: " + date.format("YYYY/MM/DD"));
     }
 </script>
 

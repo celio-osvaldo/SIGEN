@@ -87,7 +87,7 @@ class DASA extends CI_Controller {
 		$data=array('cost_sale'=>$this->Dasa_model->GetAllCostOfSale($idcompany->id_empresa),
 					'woks'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
-		$this->load->view('Dasa/CostOfSale-List', $data);
+		$this->load->view('DASA/CostOfSale-List', $data);
 	}
 
 	public function GetAllViatics(){
@@ -96,7 +96,7 @@ class DASA extends CI_Controller {
 		$idcompany=$this->Dasa_model->IdCompany($company);
 		$data = array('report_viatics' => $this->Dasa_model->GetAllViaticsReports($idcompany->id_empresa),
 						'works'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa));
-		$this->load->view('Dasa/ViaticList',$data);
+		$this->load->view('DASA/ViaticList',$data);
 	}
 
 	public function DeatailsOfViatic(){
@@ -108,7 +108,7 @@ class DASA extends CI_Controller {
 		$data=array('viatico'=>$data2,
 						'detail' =>$this->Dasa_model->GetDetailsOfViatics($id_viatico),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
-		$this->load->view('Dasa/DetailsViaticReport', $data);
+		$this->load->view('DASA/DetailsViaticReport', $data);
 	}
 
 	public function PettyCash(){
@@ -117,7 +117,7 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		$data=array('cash' => $this->Dasa_model->GetAllReportsOfPettyCash(),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
-		$this->load->view('Dasa/PettyCash', $data);
+		$this->load->view('DASA/PettyCash', $data);
 	}
 
 	public function Catalogo_Proveedor(){
@@ -334,7 +334,7 @@ class DASA extends CI_Controller {
 		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
 						'obra_cliente_empresa_id_empresa'=> $idcompany,
 						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
-						'gasto_venta_factura'=> $this->input->post('billE'),
+						'gasto_venta_factura'=> $this->input->post('folioE'),
 						'gasto_venta_monto'=> $this->input->post('amountE'),
 						'gasto_venta_concepto' => $this->input->post('conceptE'),
 						'gasto_venta_observacion' => $this->input->post('commentE'),

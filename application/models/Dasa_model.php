@@ -179,11 +179,7 @@ class Dasa_model extends CI_Model
     $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
     $this->db->where('empresa_id_empresa', $idcompany);
     $query = $this->db->get();
-    if($query -> num_rows() >0){
-      return $query;
-    }else{
-      return $query;
-    }
+    return $query;
   }
 
   public function UpdateCostSale($id, $data){
@@ -230,11 +226,7 @@ class Dasa_model extends CI_Model
     $cash = 1;
     $this->db->where('caja_chica_id_caja_chica', $cash);
     $q = $this->db->get('lista_caja_chica');
-    if($q -> num_rows() >0){
-      return $q;
-    }else{
-      return $q;
-    }
+    return $q;
   }
 
   public function GetAllViaticsReports($idcompany){

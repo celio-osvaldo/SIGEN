@@ -71,10 +71,7 @@
     </table>
   </div>
 </div>
-              <!--
-// Show image preview
-          $('#preview').append("<a href='<?php echo base_url() ?>"+response+"' target='_blank'><img src='<?php echo base_url() ?>"+response+"' width='100' height='100' style='display: inline-block;'></a>");
-        -->
+
 <!-- Modal Ver Comprobante de Pago -->
 <div class="modal fade" id="ver_comprobanteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">

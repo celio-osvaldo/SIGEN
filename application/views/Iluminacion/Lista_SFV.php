@@ -9,6 +9,7 @@
   </div>
 </div>
 
+
 <div class="card bg-card">
   <div class="table-responsive">
     <table id="table_sfv" class="table table-striped table-hover display" style="font-size: 10pt;">
@@ -39,9 +40,9 @@
           }
          ?>
          <tr>
-          <td hidden="true"> id="<?php echo "id_pago_sfv".$row->id_pago_sfv;?>"><?php echo "".$row->id_pago_sfv.""; ?></td>
+          <td hidden="true" id="<?php echo "id_pago_sfv".$row->id_pago_sfv;?>"><?php echo "".$row->id_pago_sfv.""; ?></td>
           <td id="<?php echo "nom_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
-          <td hidden="true"> id="<?php echo "id_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_id_cliente.""; ?></td>
+          <td hidden="true" id="<?php echo "id_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_id_cliente.""; ?></td>
           <td id="<?php echo "kwh_totales".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_kwh.""; ?></td>
           <td id="<?php echo "imp_total".$row->id_pago_sfv;?>">$<?php echo "".$row->pago_sfv_imp_total.""; ?></td>
           <td id="<?php echo "total_pagado".$row->id_pago_sfv;?>">$<?php echo "".$row->pago_sfv_pagado.""; ?></td>
@@ -163,7 +164,7 @@
       cant_pagos=$('#new_cant_pagos').val();
       imp_total=$('#new_imp_total').val();
       coment=$('#new_coment').val();
-      alert(cliente+kwh+cant_pagos+imp_total+coment);
+      //alert(cliente+kwh+cant_pagos+imp_total+coment);
       $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/NewSFV",
@@ -183,6 +184,7 @@
 
     $('#Add_SFV_Pay').click(function(){
       var id_pago_sfv=$("#id_pago_sfv").val();
+      var num_pago=$("#title_num_pago").text().split(': ');
       var fecha=$("#pago_fecha").val();
       var importe_total=$("#imp_total"+id_pago_sfv).text().split('$');
       var pago_total=$("#pago_total").val();
@@ -194,6 +196,11 @@
       var files = $('#comprobante_sfv')[0].files[0];
       datos.append('file',files);
       datos.append('id_pago_sfv',id_pago_sfv);
+      if(num_pago[1]){
+         datos.append('num_pago',num_pago[1]);
+      }else{
+         datos.append('num_pago',num_pago[0]);
+      }     
       datos.append('importe_total',importe_total[1]);
       datos.append('fecha',fecha);
       datos.append('pago_total',pago_total);
@@ -278,7 +285,7 @@ function Add_Pago($id_pago_sfv){
   if(num_pago==0){
     $("#title_num_pago").text("ENGANCHE");
   }else{
-    $("#title_num_pago").text("Numero de Pago: "+num_pago);  
+    $("#title_num_pago").text("Número de Pago: "+num_pago);  
   }
 }
 
@@ -288,6 +295,10 @@ function Calcula(){
   var iva=(pago_total*0.16).toFixed(2);
   $('#subtotal').val(sub);
   $('#iva').val(iva);
+}
+function Pago_SFV_Details($id_pago_sfv){
+  var id_pago_sfv=$id_pago_sfv;
+  $("#page_content").load("SFV_Pay_List",{id_pago_sfv:id_pago_sfv});
 }
 
 

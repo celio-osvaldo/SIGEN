@@ -805,6 +805,86 @@ class Iluminacion extends CI_Controller {
 		}
 	}
 
+	public function Add_Pay_SFV(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_pago_sfv=$_POST["id_pago_sfv"];
+		$fecha=$_POST["fecha"];
+		$importe_total=$_POST["importe_total"];
+		$pago_total=$_POST["pago_total"];
+		$subtotal=$_POST["subtotal"];
+		$iva=$_POST["iva"];
+		$kwh_total=$_POST["kwh_total"];
+		$coment=$_POST["coment"];
+		$result="ok";
+
+
+		if (isset($_FILES['file']['name'])) {
+			$filename = $_FILES['file']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/SFV/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		$saldo=($importe_total-$pago_total);
+		$data = array('pago_sfv_id_pago_sfv' => $id_pago_sfv,
+					  'lista_pago_sfv_fecha' => $fecha,
+					  'lista_pago_sfv_sub_total' => $subtotal,
+					  'lista_pago_sfv_iva' => $iva,
+					  'lista_pago_sfv_total' => $pago_total,
+					  'lista_pago_sfv_saldo' => $saldo,
+				      'lista_pago_sfv_kwh_factu' => $kwh_total,
+					  'lista_pago_sfv_coment' => $coment);
+
+		$id_lista_pago_sfv=$this->Iluminacion_model->AddPay_SFV($data);
+
+
+		$suma_pagos=$this->Iluminacion_model->Get_Total_Pagos_SFV($id_pago_sfv); //total_pagos
+
+		$fecha_pago=$this->Iluminacion_model->Get_last_pago_SFV($id_pago_sfv);//última fecha de pago
+		$resto=($importe_total-($suma_pagos->total_pagos));
+
+		if($resto<=0){
+			$estado="Pagado";
+		}else{
+			$estado="Activo";
+		}
+
+
+		$data2 = array('pago_sfv_fecha_ult_pago' => $fecha_pago->lista_pago_sfv_fecha,
+						'pago_sfv_saldo' => $resto,
+						'pago_sfv_estado' => $estado,
+						'pago_sfv_pagado' => $suma_pagos->total_pagos);
+
+
+		$update=$this->Iluminacion_model->Update_SFV($data2,$id_pago_sfv);
+		$url_imagen='Resources/SFV/Iluminacion/SFV_Pago_'.$id_lista_pago_sfv.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_lista_pago_sfv!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
+
+				$data = array('lista_pago_sfv_url_comprobante' => $url_imagen);
+				$this->Iluminacion_model->UpdatePay_SFV($data,$id_lista_pago_sfv);
+				$result = "ok-ok";
+			}else{
+				$result="error-ok";
+			}
+		}else{
+			$result="ok";
+		}
+		echo $result;
+	}
+
 
 }
  

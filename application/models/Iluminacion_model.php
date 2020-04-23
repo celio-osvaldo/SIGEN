@@ -495,7 +495,55 @@ class Iluminacion_model extends CI_Model
         } else{
         return false;
         }
+  }
+
+  public function AddPay_SFV($data){
+     $this->db->insert('lista_pago_sfv',$data);
+      if ($this->db->affected_rows() > 0) {
+      $id=$this->db->insert_id();
+      return $id;
+    } else{
+      return false;
     }
+  }
+
+  public function Get_Total_Pagos_SFV($id_pago_sfv){
+    $this->db->select_sum('lista_pago_sfv_total','total_pagos');
+    $this->db->from('lista_pago_sfv');
+    $this->db->where('pago_sfv_id_pago_sfv',$id_pago_sfv);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_last_pago_SFV($id_pago_sfv){
+    $this->db->select_max('lista_pago_sfv_fecha');
+    $this->db->from('lista_pago_sfv');
+    $this->db->where('pago_sfv_id_pago_sfv',$id_pago_sfv );
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Update_SFV($data2,$id_pago_sfv){
+    $this->db->where('id_pago_sfv', $id_pago_sfv);
+    $this->db->update('pago_sfv', $data2);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function UpdatePay_SFV($data,$id_lista_pago_sfv){
+    $this->db->where('id_lista_pago_sfv', $id_lista_pago_sfv);
+    $this->db->update('lista_pago_sfv', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
  
 }
 

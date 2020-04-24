@@ -106,12 +106,12 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-9">
-                        <input type="text" name="addexpendId" id="addexpendId">
+                        <input type="hidden" name="addexpendId" id="addexpendId">
                         <?php foreach ($max->result() as $row){ ?>
-                                <input class="form-control" type="text" name="maxid" id="maxid" value="<?php echo "".($row->id_lista_viatico + 1).""; ?>" required="true">
+                                <input class="form-control" type="hidden" name="maxid" id="maxid" value="<?php echo "".($row->id_lista_viatico + 1).""; ?>" required="true">
                             <?php } ?>
                             <?php foreach ($viatico->result() as $row) {?>
-                            <input type="text" id="idViatic" name="idViatic" value="<?php echo $row->id_viaticos; ?>">
+                            <input type="hidden" id="idViatic" name="idViatic" value="<?php echo $row->id_viaticos; ?>">
                             <?php } ?>
                     </div>
                     <div class="col-md-3">
@@ -142,7 +142,7 @@
                     <div class="col-md-6">
                         <label>Evidencia</label>
                         <input type="file" class="form-control" id="addEvidence" name="addEvidence" required="true" accept="application/pdf">
-                        <input type="text" name="" value="<?php echo $total->sumPayment ?>">
+                        <input type="hidden" name="" value="<?php echo $total->sumPayment ?>">
                     </div>
                 </div>
             </div>

@@ -74,15 +74,15 @@
 
   <!--Datos de Egresos Viaticos-->
   <?php  $no=1; foreach ($egresos_viatico->result() as $row) {
-    $saldo_total-=$row->viaticos_total;?>
+    $saldo_total-=$row->lista_viatico_importe;?>
     <tr>
      <!--       <td id="<?php// echo "no".$no;?>"><?php echo $no; ?>  </td> -->
-     <td id="<?php echo "fecha".$row->id_viaticos;?>"><?php echo "".$row->viaticos_fecha.""; ?> </td>
-     <td id="<?php echo "concepto".$row->id_viaticos;?>"><?php echo "Viáticos"; ?>
-     <td id="<?php echo "cliente".$row->id_viaticos;?>"><?php echo "".$row->obra_cliente_nombre.""; ?>
-     <td id="<?php echo "cargo".$row->id_viaticos;?>">$<?php echo "".$row->viaticos_total.""; ?>
+     <td id="<?php echo "fecha".$row->id_lista_viatico;?>"><?php echo "".$row->lista_viatico_fecha.""; ?> </td>
+     <td id="<?php echo "concepto".$row->id_lista_viatico;?>"><?php echo "Empleado: ".$row->empleado."<br>Concepto:".$row->lista_viatico_concepto; ?>
+     <td id="<?php echo "cliente".$row->id_lista_viatico;?>"><?php echo "".$row->obra_cliente_nombre.""; ?>
+     <td id="<?php echo "cargo".$row->id_lista_viatico;?>">$<?php echo "".$row->lista_viatico_importe.""; ?>
      <td></td>
-     <td id="<?php echo "proyecto".$row->id_viaticos;?>"><?php echo "".$row->obra_cliente_nombre.""; ?>
+     <td id="<?php echo "proyecto".$row->id_lista_viatico;?>"><?php echo "".$row->obra_cliente_nombre.""; ?>
    </td>
    <td></td>
  </tr>

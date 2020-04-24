@@ -466,8 +466,9 @@ class Dasa_model extends CI_Model
   }
 
     public function Get_Egresos_Gasto_Viatico($idcompany,$anio,$mes){
-    $this->db->select('id_viaticos, obra_cliente_id_obra_cliente, obra_cliente_nombre, obra_cliente_empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total');
-    $this->db->from('viaticos');
+    $this->db->select('id_lista_viatico, viaticos_id_viaticos, lista_viatico_fecha, empleado, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, obra_cliente_empresa_id_empresa, obra_cliente_nombre');
+    $this->db->from('lista_viatico');
+    $this->db->join('viaticos','viaticos_id_viaticos=id_viaticos');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->where('MONTH(viaticos_fecha)',$mes);
     $this->db->where('YEAR(viaticos_fecha)',$anio);

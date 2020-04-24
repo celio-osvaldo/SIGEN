@@ -22,6 +22,7 @@
 		                            <th>Fecha fin</th>
 		                            <th></th>
 		                            <th>Total Gasto</th>
+                                    <th>Editar</th>
 		                        </tr>
 		                    </thead>
 		                    <tbody>
@@ -32,7 +33,9 @@
 		                            <td><?php echo $row->viaticos_fecha_ini; ?></td>
 		                            <td><?php echo $row->viaticos_fecha_fin; ?></td>
 		                            <td>$</td>
-		                            <td><?php echo $row->viaticos_total; ?></td>
+                                    <td><?php echo $total->sumPayment ?></td>
+                                    <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                                    </td>
 		                        </tr><?php } ?>
 		                    </tbody>
                 		</table>
@@ -68,15 +71,9 @@
 			                            <th>Evidencia</th>
 			                        </tr>
 			                    </thead>
-			                    <tfoot>
-							        <tr>
-							            <td colspan=4>Total</td>
-							            <td></td>
-							        </tr>
-							    </tfoot>
 			                    <tbody>
 			                        <tr><?php foreach ($detail->result() as $row) {?>
-			                            <td><?php echo $row->viaticos_empleado; ?></td>
+			                            <td><?php echo $row->empleado; ?></td>
 			                            <td><?php echo $row->lista_viatico_fecha; ?></td>
 			                            <td><?php echo $row->lista_viatico_concepto; ?></td>
 			                            <td>$</td>
@@ -91,18 +88,6 @@
 				</div>
 			<div class="col-md-1"></div>
 		</div>
-
-
-<script type="text/javascript">
-    $(document).ready( function () {
-        $('#table_id').DataTable();
-        var suma = 0;
-		$('#table_id tr.dato').each(function(){ //filas con clase 'dato', especifica una clase, asi no tomas el nombre de las columnas
-		 suma += doubleval($(this).find('td').eq(4).text()||0,10) //numero de la celda 3
-		})
-		alert(suma)
-    } );
-</script>
 
 
 <!-- new report of viatics modal -->

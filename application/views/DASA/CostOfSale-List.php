@@ -244,7 +244,7 @@ $(document).ready(function(e){
                 if(data == 1){
                     $('#addcostSale')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                    alert('Producto agregado');
+                    alert('Costo agregado correctamente');
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');
@@ -329,7 +329,7 @@ function CloseModal(){
                 if(data == 1){
                     $('#editCost')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                    alert('Producto agregado');
+                    alert('Se modificó la información exitosamente.');
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');

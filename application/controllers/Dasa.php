@@ -105,9 +105,11 @@ class DASA extends CI_Controller {
 		$data2=$this->Dasa_model->GetViaticsById($id_viatico);
 		$table = 'lista_viatico';
 		$id = 'id_lista_viatico';
+		$data1 = $this->Dasa_model->ViaticPaymentsSum($id_viatico);
 		$data=array('viatico'=>$data2,
-						'detail' =>$this->Dasa_model->GetDetailsOfViatics($id_viatico),
-					'max'=>$this->Dasa_model->IDMAX($table, $id));
+					'detail' =>$this->Dasa_model->GetDetailsOfViatics($id_viatico),
+					'max'=>$this->Dasa_model->IDMAX($table, $id),
+					'total'=> $data1);
 		$this->load->view('DASA/DetailsViaticReport', $data);
 	}
 
@@ -294,7 +296,7 @@ class DASA extends CI_Controller {
 		$file = 'addBill';//The name of input that select file
         $config['upload_path'] = "./Resources/Bills/CostOfSale/DASA/";//Path of where uploadthe file
         $config['file_name'] = $this->input->post('addFolio');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['overwrite'] = false;//allow or not allow overwrite a file
         $config['allowed_types'] = "pdf";//type of files allowed to upload
         $config['max_size'] = "5000";//max size of the file allowed
 
@@ -702,7 +704,6 @@ class DASA extends CI_Controller {
 	}
 
 	public function AddViaticExpend(){
-		$this->load->model('Dasa_model');
 		$file = 'addEvidence';//The name of input that select file
         $config['upload_path'] = "./Resources/Bills/ViaticExpends/DASA/";//Path of where uploadthe file
         $config['file_name'] = $this->input->post('maxid');//name of file
@@ -731,8 +732,9 @@ class DASA extends CI_Controller {
 		if($this->Dasa_model->Insert($table, $data)){
 			$data['uploadSuccess'] = $this->upload->data();
         	echo true;
-        }else{
-        	echo false;
+        	$this->UpdateBalancesInViatics();
+	    }else{
+	        echo false;
 		}
 	}
 

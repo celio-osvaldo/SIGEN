@@ -20,12 +20,10 @@
                             <thead class="bg-primary" style="color: #FFFFFF;" align="center">
                                 <tr>
                                     <th>Fecha de reporte</th>
-                                    <th>Proyecto/Motivo</th>
+                                    <th>Proyecto</th>
                                     <th>Total de días</th>
                                     <th>Fecha inicio</th>
                                     <th>Fecha fin</th>
-                                    <th></th>
-                                    <th>Total Gasto</th>
                                     <th>Detalles</th>
                                 </tr>
                             </thead>
@@ -36,8 +34,6 @@
                                     <td><?php echo "".$row->viaticos_total_días.""; ?></td>
                                     <td><?php echo "".$row->viaticos_fecha_ini.""; ?></td>
                                     <td><?php echo "".$row->viaticos_fecha_fin.""; ?></td>
-                                    <td>$</td>
-                                    <td><?php echo "".$row->viaticos_total.""; ?></td>
                                     <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>"><img src="..\Resources\Icons\lupa.ico" alt="Editar" style="filter: invert(100%)" /></a>
                                     </td>
                                 </tr><?php } ?>

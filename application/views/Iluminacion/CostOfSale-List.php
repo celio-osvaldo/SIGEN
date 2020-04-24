@@ -90,7 +90,7 @@
                             <label class = "control-label">Cliente:</label>
                             <select class="form-control" type="text" name="addClientName" id="addClientName" required="true">
                                 <option selected>Seleccionar</option>
-                                <?php foreach ($woks->result() as $row){ ?>
+                                <?php foreach ($works->result() as $row){ ?>
                                     <option value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
                                 <?php } ?>
                             </select>
@@ -98,7 +98,7 @@
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
-                            <input type="hidden" id="addCompany" name="addCompany" value="2">
+                            <input type="hidden" id="addCompany" name="addCompany" value="1">
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
@@ -163,7 +163,7 @@
                         <label class = "control-label">Cliente:</label>
                         <select class="form-control" type="text" name="clientNameE" id="clientNameE" required="true">
                             <option>Seleccionar</option>
-                            <?php foreach ($woks->result() as $row){ ?>
+                            <?php foreach ($works->result() as $row){ ?>
                                 <option value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
                             <?php } ?>
                         </select>
@@ -171,15 +171,15 @@
                     <div class="col-md-8">
                         <label for="">Concepto:</label>
                         <input type="text" id="conceptE" name="conceptE" class="form-control">
+                        <input type="hidden" id="Company" name="Company" value="1">
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col-md-3">
                         <label for="">Monto:</label><input type="text" class="form-control" name="amountE" id="amountE">
-                        <input type="hidden" id="Company" name="Company" value="1">
                     </div>
                     <div class="col-md-6">
                         <label for="">Comentario:</label>
-                        <textarea class="form-control" name="commentE" id="commentE" cols="10" rows="8"></textarea>
+                        <textarea class="form-control" name="commentE" id="commentE" cols="10" rows="8" required="true"></textarea>
                     </div>
                     <div class="col-md-6">
                         <label for="">Estatus:</label>
@@ -231,7 +231,7 @@ $(document).ready(function(e){
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/AddCostOfSale',
+            url: '<?php echo base_url(); ?>Iluminacion/AddCostOfSale',
             data: new FormData(this),
             contentType: false,
             cache: false,
@@ -316,7 +316,7 @@ function CloseModal(){
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/EditCostOfSale',
+            url: '<?php echo base_url(); ?>Iluminacion/EditCostOfSale',
             data: new FormData(this),
             contentType: false,
             cache: false,
@@ -379,7 +379,7 @@ function CloseModal(){
   function Display_bill($id){
     var invoice=$("#bill"+$id).text();
     var id=$id;
-    var url = "<?php echo base_url()?>Resources/Bills/CostOfSale/DASA/"+invoice+".pdf";
+    var url = "<?php echo base_url()?>Resources/Bills/CostOfSale/ILUMINACION/"+invoice+".pdf";
 
     $("#viewBill").modal();
     $("#folios").val(invoice);

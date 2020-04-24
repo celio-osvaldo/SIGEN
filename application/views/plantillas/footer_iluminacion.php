@@ -87,5 +87,13 @@
 		});
 	</script>
 
+	<script>
+		$(document).ready(function(){
+			$("#billsV").click(function(){
+				$("#page_content").load("GetListCostOfSale");
+			});
+		});
+	</script>
+
 	</body>
 </html> 

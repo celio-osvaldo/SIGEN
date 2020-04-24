@@ -78,12 +78,28 @@
     <tr>
      <!--       <td id="<?php// echo "no".$no;?>"><?php echo $no; ?>  </td> -->
      <td id="<?php echo "fecha".$row->id_viaticos;?>"><?php echo "".$row->viaticos_fecha.""; ?> </td>
-     <td id="<?php echo "concepto".$row->id_viaticos;?>"><?php echo "Viaticos: ".$row->viaticos_empleado.""; ?>
+     <td id="<?php echo "concepto".$row->id_viaticos;?>"><?php echo "Viáticos"; ?>
      <td id="<?php echo "cliente".$row->id_viaticos;?>"><?php echo "".$row->obra_cliente_nombre.""; ?>
      <td id="<?php echo "cargo".$row->id_viaticos;?>">$<?php echo "".$row->viaticos_total.""; ?>
      <td></td>
      <td id="<?php echo "proyecto".$row->id_viaticos;?>"><?php echo "".$row->obra_cliente_nombre.""; ?>
    </td>
+   <td></td>
+ </tr>
+ <?php 
+ $no++;
+} ?>
+
+  <!--Datos de Egresos Otros Gastos-->
+  <?php  $no=1; foreach ($egresos_otros_gastos->result() as $row) {
+    $saldo_total-=$row->saldo;?>
+    <tr>
+     <td id="<?php echo "fecha".$row->id_OGasto;?>"><?php echo "".$row->fecha_pago_factura.""; ?> </td>
+     <td id="<?php echo "concepto".$row->id_OGasto;?>"><?php echo "".$row->concepto.""; ?>
+     <td id="<?php echo "cliente".$row->id_OGasto;?>"><?php echo "".$row->concepto.""; ?>
+     <td id="<?php echo "cargo".$row->id_OGasto;?>">$<?php echo "".$row->saldo.""; ?>
+     <td></td>
+     <td id="<?php echo "proyecto".$row->id_OGasto;?>">Otros Gastos</td>
    <td></td>
  </tr>
  <?php 

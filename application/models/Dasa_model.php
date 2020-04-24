@@ -428,7 +428,6 @@ class Dasa_model extends CI_Model
 
   public function Get_Ingresos_Pagos($idcompany,$anio,$mes){
     $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa');
-    //$this->db->select_sum('venta_mov_monto','total_ingreso');
     $this->db->from('venta_movimiento');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
@@ -467,13 +466,25 @@ class Dasa_model extends CI_Model
   }
 
     public function Get_Egresos_Gasto_Viatico($idcompany,$anio,$mes){
-    $this->db->select('id_viaticos, obra_cliente_id_obra_cliente, obra_cliente_nombre, obra_cliente_empresa_id_empresa, viaticos_fecha, viaticos_empleado, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total');
+    $this->db->select('id_viaticos, obra_cliente_id_obra_cliente, obra_cliente_nombre, obra_cliente_empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total');
     $this->db->from('viaticos');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->where('MONTH(viaticos_fecha)',$mes);
     $this->db->where('YEAR(viaticos_fecha)',$anio);
     $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
     $this->db->order_by('viaticos_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Get_Egregos_Otros_Gastos($idcompany,$anio,$mes){
+     $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura');
+    $this->db->from('otros_gastos');
+    $this->db->join('empresa','empresa_id_empresa=id_empresa');
+    $this->db->where('MONTH(fecha_pago_factura)',$mes);
+    $this->db->where('YEAR(fecha_pago_factura)',$anio);
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->order_by('fecha_pago_factura');
     $result = $this->db->get();
     return $result;
   }

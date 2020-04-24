@@ -792,6 +792,7 @@ class DASA extends CI_Controller {
 			$mes_ant=$mes-1;
 			$anio_ant=$anio;
 		}
+
 		$saldo_ant=$this->Dasa_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant);
 		
 
@@ -801,6 +802,7 @@ class DASA extends CI_Controller {
 					      'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
 					      'egresos_gasto_venta' => $this->Dasa_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
 					      'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
+					      'egresos_otros_gastos' => $this->Dasa_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
 					      'mes'=>$mes_letra,
 					  	   'anio'=>$anio );
 		}else{
@@ -809,6 +811,7 @@ class DASA extends CI_Controller {
 					  	   'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
 					  	   'egresos_gasto_venta' => $this->Dasa_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
 					  	   'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_otros_gastos' => $this->Dasa_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
 					  	   'mes'=>$mes_letra,
 					  	   'anio'=>$anio );
 		}	

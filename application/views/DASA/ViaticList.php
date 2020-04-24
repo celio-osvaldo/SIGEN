@@ -63,7 +63,6 @@
                     <div class="row">
                         <div class="col-md-3">
                             <input class="form-control" type="hidden" name="idreport" id="idreport">
-                            <input type="hidden" name="employ" id="employ">
                         </div>
                         <div class="col-md-6"></div>
                         <div class="col-md-3">
@@ -87,7 +86,7 @@
                         </div>
 
                         <div class="col-md-2">
-                            <input class="form-control" type="text" name="totalDays" id="totalDays">
+                            <input class="form-control" type="hidden" name="totalDays" id="totalDays">
                             <input type="hidden" name="addMoney" id="addMoney" class="form-control">
                         </div>
    

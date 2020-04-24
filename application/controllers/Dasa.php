@@ -105,9 +105,12 @@ class DASA extends CI_Controller {
 		$data2=$this->Dasa_model->GetViaticsById($id_viatico);
 		$table = 'lista_viatico';
 		$id = 'id_lista_viatico';
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
 		$data1 = $this->Dasa_model->ViaticPaymentsSum($id_viatico);
 		$data=array('viatico'=>$data2,
 					'detail' =>$this->Dasa_model->GetDetailsOfViatics($id_viatico),
+					'works'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Dasa_model->IDMAX($table, $id),
 					'total'=> $data1);
 		$this->load->view('DASA/DetailsViaticReport', $data);
@@ -691,7 +694,6 @@ class DASA extends CI_Controller {
 						'obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
 						'obra_cliente_empresa_id_empresa' => $this->input->post('addCompany'),
 						'viaticos_fecha' => $this->input->post('addEmitionDate'),
-						'viaticos_empleado' => $this->input->post('employ'),
 						'viaticos_total_días' => $this->input->post('totalDays'),
 						'viaticos_fecha_ini' => $this->input->post('addStartDate'),
 						'viaticos_fecha_fin' => $this->input->post('AddDateEnd'),
@@ -704,11 +706,12 @@ class DASA extends CI_Controller {
 	}
 
 	public function AddViaticExpend(){
+		$this->load->model('Dasa_model');
 		$file = 'addEvidence';//The name of input that select file
         $config['upload_path'] = "./Resources/Bills/ViaticExpends/DASA/";//Path of where uploadthe file
         $config['file_name'] = $this->input->post('maxid');//name of file
         $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "*";//type of files allowed to upload
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
         $config['max_size'] = "5000";//max size of the file allowed
 
         $this->load->library('upload', $config);//use for allow the upload files at server
@@ -724,6 +727,7 @@ class DASA extends CI_Controller {
 		$data = array('id_lista_viatico' => $this->input->post('addexpendId'),
 						'viaticos_id_viaticos'=> $this->input->post('idViatic'),
 						'lista_viatico_fecha'=> $this->input->post('addDate'),
+						'empleado'=> $this->input->post('employ'),
 						'lista_viatico_concepto'=> $this->input->post('addconcept'),
 						'lista_viatico_importe'=> $this->input->post('addImport'),
 						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
@@ -732,10 +736,13 @@ class DASA extends CI_Controller {
 		if($this->Dasa_model->Insert($table, $data)){
 			$data['uploadSuccess'] = $this->upload->data();
         	echo true;
-        	$this->UpdateBalancesInViatics();
 	    }else{
 	        echo false;
 		}
+	}
+
+	public function EditViaticReport(){
+		
 	}
 
 	public function Reporte_flujo_efectivo(){

@@ -1018,7 +1018,16 @@ class Iluminacion extends CI_Controller {
 		}else{
 			echo false;
 		}
+	}
 
+	public function Cotizaciones(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('catalogo_cliente'=>$this->Iluminacion_model->GetAll_Customer($idcomp->id_empresa),
+					  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
+					  'lista_cotizaciones'=>$this->Iluminacion_model->GetCotizaciones_List($idcomp->id_empresa));
+		$this->load->view('Iluminacion/Cotizaciones_List',$data);
 	}
 
 }

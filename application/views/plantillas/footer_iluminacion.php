@@ -86,6 +86,13 @@
 			});
 		});
 	</script>
+	<script>
+		$(document).ready(function(){
+			$("#Cotizaciones").click(function(){
+				$("#page_content").load("Cotizaciones");
+			});
+		});
+	</script>
 
 	</body>
 </html> 

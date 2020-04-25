@@ -580,6 +580,16 @@ class Iluminacion_model extends CI_Model
     $result=$query->row();
     return $result;
   }
+
+  public function GetCotizaciones_List($idcomp){
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, catalogo_cliente_empresa, cotizacion_fecha, cotizacion_id_cliente, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado');
+    $this->db->from('cotizacion');
+    $this->db->join('empresa','cotizacion_id_empresa=id_empresa');
+    $this->db->join('catalogo_cliente','cotizacion_id_cliente=id_catalogo_cliente');
+    $this->db->where('cotizacion_id_empresa',$idcomp);
+    $result=$this->db->get();
+    return $result;
+  }
  
 }
 

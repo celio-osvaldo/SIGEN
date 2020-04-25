@@ -45,7 +45,7 @@
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" id="SFV">Pagos SFV</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" href="#">Cotizaciones</a>
+							<a class="dropdown-item" id="Cotizaciones">Cotizaciones</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="#">Recibo de entrega</a>
 						</div>					

@@ -3,58 +3,59 @@ if(! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Iluminacion_model extends CI_Model
 {
+
 	public function __Construct(){
 		parent::__construct();
 	}
 
 	public function IdCompany($company){
-	   	$this->db->select('id_empresa');//the name of fields to query in the login
-      	$this->db->from('us_empresa');#name of first table
-      	$this->db->join('empresa','empresa_id_empresa=id_empresa');
-      	$this->db->where('empresa_nom', $company);#the field must match the entered parameter of password
-      	$query = $this->db->get();#the query is obtained and stored within the variable
-      	$result = $query->row();#the result displays in a row
-      	return $result;#if the query has data, returns the data query
-      }
+    $this->db->select('id_empresa');//the name of fields to query in the login
+    $this->db->from('us_empresa');#name of first table
+    $this->db->join('empresa','empresa_id_empresa=id_empresa');
+    $this->db->where('empresa_nom', $company);#the field must match the entered parameter of password
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
 
-      public function GetAllMeasurements(){
-      	$q = $this->db->get('unidades_de_medida');
-      	if($q -> num_rows() >0){
-      		return $q;
-      	}else{
-      		return false;
-      	}
-      }
+  public function GetAllMeasurements(){
+    $q = $this->db->get('unidades_de_medida');
+    if($q -> num_rows() >0){
+      return $q;
+    }else{
+      return false;
+    }
+  }
 
-      public function GetInventorie_Products($idcompany){
-      	$this->db->select('id_prod_alm, prod_alm_nom, unidad_medida, prod_alm_modelo, prod_alm_prec_unit, prod_alm_precio_venta, prod_alm_exist, prod_alm_codigo, prod_alm_descripcion, prod_alm_coment');
-      	$this->db->from('producto_almacen');
-      	$this->db->join('unidades_de_medida','prod_alm_medida=id_uMedida');
-      	$this->db->where('empresa_id_empresa',$idcompany);
-      	$result=$this->db->get();
-      	return $result;
-      }
+  public function GetInventorie_Products($idcompany){
+    $this->db->select('id_prod_alm, prod_alm_nom, unidad_medida, prod_alm_modelo, prod_alm_prec_unit, prod_alm_precio_venta, prod_alm_exist, prod_alm_codigo, prod_alm_descripcion, prod_alm_coment');
+    $this->db->from('producto_almacen');
+    $this->db->join('unidades_de_medida','prod_alm_medida=id_uMedida');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $result=$this->db->get();
+    return $result;
+  }
 
-      public function Edit_Product($id_prod,$data){
-      	$this->db->where('id_prod_alm',$id_prod);
-      	$this->db->update('producto_almacen', $data);
-      	if ($this->db->affected_rows() > 0) {
-      		return true;
-      	} else{
-      		return false;
-      	}
-      }
+  public function Edit_Product($id_prod,$data){
+    $this->db->where('id_prod_alm',$id_prod);
+    $this->db->update('producto_almacen', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
-      public function New_Product($data){
-      	$this->db->insert('producto_almacen', $data);
-      	if ($this->db->affected_rows() > 0) {
-      		return true;
-      	} else{
-      		return false;
-      	}
-      }
+  public function New_Product($data){
+    $this->db->insert('producto_almacen', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
-      public function GetInventorie_Office($idcompany){
+  public function GetInventorie_Office($idcompany){
       	$this->db->select('id_prod, producto_consu_nom, unidad_medida, producto_consu_prec_unit, producto_consu_exist, producto_consu_ult_compra, producto_consu_periodicidad, producto_consu_prox_compra, catalogo_proveedor_empresa');
       	$this->db->from('producto_consumible');
       	$this->db->join('unidades_de_medida','producto_consu_medida=id_uMedida');
@@ -62,17 +63,17 @@ class Iluminacion_model extends CI_Model
       	$this->db->where('producto_consumible.empresa_id_empresa',$idcompany);
       	$result=$this->db->get();
       	return $result;
-      }
+  }
 
-      public function GetAll_Provider($idcompany){
+  public function GetAll_Provider($idcompany){
       	$this->db->select('id_catalogo_proveedor, catalogo_proveedor_nom_fiscal, catalogo_proveedor_empresa, rfc, catalogo_proveedor_contacto1, catalogo_proveedor_contacto2, catalogo_proveedor_puesto1, catalogo_proveedor_puesto2, catalogo_proveedor_tel1, catalogo_proveedor_tel2, catalogo_proveedor_cel1, catalogo_proveedor_cel2, catalogo_proveedor_email1, catalogo_proveedor_email2, catalogo_proveedor_coment');
       	$this->db->from('catalogo_proveedor');
       	$this->db->where('empresa_id_empresa', $idcompany);
       	$result=$this->db->get();
       	return $result;
-      }
+  }
 
-      public function   Update_Consumible($id, $data){
+  public function   Update_Consumible($id, $data){
       	$this->db->where('id_prod', $id);
       	$this->db->update('producto_consumible', $data);
       	if ($this->db->affected_rows() > 0) {
@@ -80,16 +81,16 @@ class Iluminacion_model extends CI_Model
       	} else{
       		return false;
       	}
-      }
+  }
 
-      public function New_Consumible($data){
+  public function New_Consumible($data){
       	$this->db->insert('producto_consumible', $data);
       	if ($this->db->affected_rows() > 0) {
       		return true;
       	} else{
       		return false;
       	}
-      }
+  }
 
 
   public function GetAllCustomer_Project($idcompany){
@@ -130,9 +131,9 @@ class Iluminacion_model extends CI_Model
   public function Edit_CustomerProject($id,$data){
     $this->db->where('id_obra_cliente', $id);
     $this->db->update('obra_cliente', $data);
-    if ($this->db->affected_rows() > 0) {
+    if ($this->db->affected_rows() > 0){
       return 1;
-    } else{
+    }else{
       return 2;
     }
   }
@@ -544,6 +545,7 @@ class Iluminacion_model extends CI_Model
       return false;
     }
   }
+
   public function Get_SFV_Pay_List($id_pago_sfv){
     $this->db->select('id_lista_pago_sfv, pago_sfv_id_pago_sfv, lista_pago_sfv_num_pago, lista_pago_sfv_fecha, lista_pago_sfv_sub_total, lista_pago_sfv_iva, lista_pago_sfv_total, lista_pago_sfv_kwh_factu, lista_pago_sfv_saldo, lista_pago_sfv_coment, lista_pago_sfv_url_comprobante');
     $this->db->from('lista_pago_sfv');
@@ -581,6 +583,7 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+
   public function GetCotizaciones_List($idcomp){
     $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, catalogo_cliente_empresa, cotizacion_fecha, cotizacion_id_cliente, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado');
     $this->db->from('cotizacion');
@@ -591,6 +594,36 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
  
+
+  public function GetAllCostOfSale($idcompany){
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago');
+    $this->db->from('obra_cliente');
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $query = $this->db->get();
+    // $result=$query->row();
+    return $query;
+  }
+
+  function IDMAX($table, $id){
+    $this->db->select_max($id);
+    $q = $this->db->get($table);
+    return $q;
+  }
+
+  public function GetAllWorks_Client($IdCompany){
+    $this->db->where('empresa_id_empresa', $IdCompany);
+    $q = $this->db->get('obra_cliente');
+    return $q;
+  }
+
+  
+
+
+
+#end model
+
 }
 
 

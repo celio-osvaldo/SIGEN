@@ -1030,5 +1030,90 @@ class Iluminacion extends CI_Controller {
 		$this->load->view('Iluminacion/Cotizaciones_List',$data);
 	}
 
+	public function GetListCostOfSale(){
+		$this->load->model('Iluminacion_model');
+		$table = 'gasto_venta';
+		$id = 'id_gasto_venta';
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$data=array('cost_sale'=>$this->Iluminacion_model->GetAllCostOfSale($idcompany->id_empresa),
+					'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa),
+					'max'=>$this->Iluminacion_model->IDMAX($table, $id));
+		$this->load->view('Iluminacion/CostOfSale-List', $data);
+	}
+
+	public function Insert($table, $data){
+	    $this->db->insert($table, $data);
+	    if ($this->db->affected_rows() > 0) {
+	      return true;
+	    } else{
+	      return false;
+	    }
+	 }
+
+	 public function AddCostOfSale(){
+		$this->load->model('Dasa_model');
+
+		$file = 'addBill';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/CostOfSale/ILUMINACION/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('addFolio');//name of file
+        $config['overwrite'] = false;//allow or not allow overwrite a file
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+		$upload_file = $config['file_name'] = $this->input->post('addFolio');
+		$table = 'gasto_venta';
+		$data = array('id_gasto_venta' => $this->input->post('idCost'),
+						'obra_cliente_id_obra_cliente'=> $this->input->post('addClientName'),
+						'obra_cliente_empresa_id_empresa'=> $this->input->post('addCompany'),
+						'gasto_venta_fecha'=> $this->input->post('addEmitionDate'),
+						'gasto_venta_factura'=> $upload_file,
+						'gasto_venta_monto'=> $this->input->post('addAmount'),
+						'gasto_venta_concepto' => $this->input->post('addConcept'),
+						'gasto_venta_observacion' => $this->input->post('addComment'),
+						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
+						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
+
+		if($this->Dasa_model->Insert($table, $data)){
+			$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
+		}
+	}
+
+	public function EditCostOfSale(){
+		$this->load->model('Dasa_model');
+		$id = $_POST['idE'];
+		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
+						'obra_cliente_empresa_id_empresa'=> $this->input->post('Company'),
+						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
+						'gasto_venta_factura'=> $this->input->post('folioE'),
+						'gasto_venta_monto'=> $this->input->post('amountE'),
+						'gasto_venta_concepto' => $this->input->post('conceptE'),
+						'gasto_venta_observacion' => $this->input->post('commentE'),
+						'gasto_venta_estado_pago' => $this->input->post('statusE'),
+						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
+
+		if($this->Dasa_model->UpdateCostSale($id, $data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+
+
+
+
+#end controller
 }
  

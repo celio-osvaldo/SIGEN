@@ -334,10 +334,9 @@ class DASA extends CI_Controller {
 
 	public function EditCostOfSale(){
 		$this->load->model('Dasa_model');
-		$idcompany = 2;
 		$id = $_POST['idE'];
 		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
-						'obra_cliente_empresa_id_empresa'=> $idcompany,
+						'obra_cliente_empresa_id_empresa'=> $this->input->post('Company'),
 						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
 						'gasto_venta_factura'=> $this->input->post('folioE'),
 						'gasto_venta_monto'=> $this->input->post('amountE'),
@@ -742,7 +741,15 @@ class DASA extends CI_Controller {
 	}
 
 	public function EditViaticReport(){
-		
+		$this->load->model('Dasa_model');
+		$data = array('id_lista_viatico' => $this->input->post('addexpendId'),
+						'viaticos_id_viaticos'=> $this->input->post('idViatic'),
+						'lista_viatico_fecha'=> $this->input->post('addDate'),
+						'empleado'=> $this->input->post('employ'),
+						'lista_viatico_concepto'=> $this->input->post('addconcept'),
+						'lista_viatico_importe'=> $this->input->post('addImport'),
+						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
+						'lista_viatico_factura' => $upload_file);
 	}
 
 	public function Reporte_flujo_efectivo(){

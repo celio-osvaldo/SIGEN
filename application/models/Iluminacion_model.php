@@ -602,7 +602,6 @@ class Iluminacion_model extends CI_Model
     $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
     $this->db->where('empresa_id_empresa', $idcompany);
     $query = $this->db->get();
-    // $result=$query->row();
     return $query;
   }
 
@@ -616,6 +615,49 @@ class Iluminacion_model extends CI_Model
     $this->db->where('empresa_id_empresa', $IdCompany);
     $q = $this->db->get('obra_cliente');
     return $q;
+  }
+
+  public function GetAllReportsOfPettyCash($idCompany){
+    $this->db->select('id_caja_chica, empresa_id_empresa, caja_chica_total, caja_chica_saldo, caja_chica_mes');
+    $this->db->from('caja_chica');
+    $this->db->join('empresa', 'id_empresa = empresa_id_empresa');
+    $this->db->where('empresa_id_empresa', $idCompany);
+    $q = $this->db->get();
+    return $q;
+  }
+
+  public function GetPettyCashById($id_caja_chica){
+    $this->db->select('id_caja_chica, empresa_id_empresa, caja_chica_total, caja_chica_saldo, caja_chica_mes');
+    $this->db->from('caja_chica');
+    $this->db->join('empresa', 'id_empresa = empresa_id_empresa');
+    $this->db->where('id_caja_chica', $id_caja_chica);
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function ExpenceSum($id_caja_chica){
+    $this->db->select_sum('lista_viatico_importe','sumPayment');
+    $this->db->from('lista_caja_chica');
+    $this->db->set('caja_chica_id_caja_chica',$id_caja_chica);
+    $query = $this->db->get();
+    $result = $query->row();
+    return $result; 
+  }
+
+  public function GetOthersExpens($idcompany){
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $q = $this->db->get('otros_gastos');
+    return $q;
+  }
+
+  public function UpdateExpendInfo($id, $data){
+    $this->db->where('id_OGasto', $id);
+    $this->db->update('otros_gastos', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
   

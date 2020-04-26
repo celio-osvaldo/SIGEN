@@ -1042,17 +1042,8 @@ class Iluminacion extends CI_Controller {
 		$this->load->view('Iluminacion/CostOfSale-List', $data);
 	}
 
-	public function Insert($table, $data){
-	    $this->db->insert($table, $data);
-	    if ($this->db->affected_rows() > 0) {
-	      return true;
-	    } else{
-	      return false;
-	    }
-	 }
-
-	 public function AddCostOfSale(){
-		$this->load->model('Dasa_model');
+	public function AddCostOfSale(){
+		$this->load->model('Iluminacion_model');
 
 		$file = 'addBill';//The name of input that select file
         $config['upload_path'] = "./Resources/Bills/CostOfSale/ILUMINACION/";//Path of where uploadthe file
@@ -1082,7 +1073,7 @@ class Iluminacion extends CI_Controller {
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
 						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
 
-		if($this->Dasa_model->Insert($table, $data)){
+		if($this->Iluminacion_model->Insert($table, $data)){
 			$data['uploadSuccess'] = $this->upload->data();
         	echo true;
         }else{
@@ -1091,7 +1082,7 @@ class Iluminacion extends CI_Controller {
 	}
 
 	public function EditCostOfSale(){
-		$this->load->model('Dasa_model');
+		$this->load->model('Iluminacion_model');
 		$id = $_POST['idE'];
 		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
 						'obra_cliente_empresa_id_empresa'=> $this->input->post('Company'),
@@ -1103,7 +1094,134 @@ class Iluminacion extends CI_Controller {
 						'gasto_venta_estado_pago' => $this->input->post('statusE'),
 						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
 
-		if($this->Dasa_model->UpdateCostSale($id, $data)){
+		if($this->Iluminacion_model->UpdateCostSale($id, $data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function PettyCash(){
+		$this->load->model('Iluminacion_model');
+		$table = 'lista_caja_chica';
+		$id = 'id_lista_caja_chica';
+		$company='ILUMINACION';
+		$idCompany=$this->Iluminacion_model->IdCompany($company);
+		$this->load->model('Iluminacion_model');
+		$data=array('cash' => $this->Iluminacion_model->GetAllReportsOfPettyCash($idCompany->id_empresa));
+		$this->load->view('Iluminacion/PettyCash', $data);
+	}
+
+	public function PettyCashDetails(){
+		$this->load->model('Dasa_model');
+		$id_caja_chica=$_POST['id_caja_chica'];
+		$data2=$this->Dasa_model->GetPettyCashById($id_caja_chica);
+		$table = 'lista_caja_chica';
+		$id = 'id_lista_viatico';
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data1 = $this->Dasa_model->ExpenceSum($id_caja_chica);
+		$data=array('cash'=>$data2,
+					'detail' =>$this->Dasa_model->GetDetailsOfViatics($id_caja_chica),
+					'works'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa),
+					'max'=>$this->Dasa_model->IDMAX($table, $id),
+					'total'=> $data1);
+		$this->load->view('DASA/DetailsViaticReport', $data);
+	}
+
+	public function AddReportPettyCash(){
+		$this->load->model('Iluminacion_model');
+		$file = 'upBillI';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/PettyCash/ILUMINACION/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('folioBillI');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+        $upload_file = $config['file_name'] = $this->input->post('folioBillI');
+		$table = 'lista_caja_chica';
+		$cash = 2;
+		$data = array('id_lista_caja_chica' => $this->input->post('cashI'),
+						'caja_chica_id_caja_chica'=> $cash,
+						'lista_caja_chica_fecha'=> $this->input->post('dateI'),
+						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
+						'lista_caja_chica_reposicion'=> $this->input->post('moneyI'),
+						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'),
+						'lista_caja_chica_factura' => $upload_file,
+						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
+		if ($this->Iluminacion_model->Insert($table, $data)) {
+        	$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
+        }
+	}
+
+	public function OtherExpens(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$data=array('expens'=>$this->Iluminacion_model->GetOthersExpens($idcompany->id_empresa));
+		$this->load->view('Iluminacion/OtherCost', $data);
+	}
+
+	public function AddNewExpend(){
+		$this->load->model('Iluminacion_model');
+		$file = 'addBill';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/Expends/ILUMINACION/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('addFolio');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+        $upload_file = $config['file_name'] = $this->input->post('addFolio');
+		$table = 'otros_gastos';
+		$data = array('id_OGasto' => $this->input->post('cashI'),
+						'empresa_id_empresa'=> $this->input->post('addCompany'),
+						'fecha_emision'=> $this->input->post('addEmitionDate'),
+						'concepto'=> $this->input->post('addConcept'),
+						'saldo'=> $this->input->post('addAmount'),
+						'comentario'=> $this->input->post('addComment'),
+						'folio' => $this->input->post('addFolio'),
+						'factura' => $upload_file,
+						'fecha_pago_factura' => $this->input->post('addDate'));
+		if ($this->Iluminacion_model->Insert($table, $data)) {
+        	$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+        }else{
+        	echo false;
+        }
+	}
+
+	public function UpdateExpend(){
+		$this->load->model('Iluminacion_model');
+		$id = $_POST['idE'];
+		$data = array('empresa_id_empresa'=> $this->input->post('editCompany'),
+						'fecha_emision'=> $this->input->post('editEmitionDate'),
+						'concepto'=> $this->input->post('editConcept'),
+						'saldo'=> $this->input->post('editAmount'),
+						'comentario'=> $this->input->post('editComment'),
+						'folio' => $this->input->post('editFolio'),
+						'factura' => $this->input->post('editFolio'),
+						'fecha_pago_factura' => $this->input->post('editDate'));
+
+		if($this->Iluminacion_model->UpdateExpendInfo($id, $data)){
 			echo true;
 		}else{
 			echo false;

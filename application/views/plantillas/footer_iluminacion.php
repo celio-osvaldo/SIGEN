@@ -101,6 +101,20 @@
 			});
 		});
 	</script>
+	<script>//script to load the report of viatics of controller on click at the link with the id pettyCashV
+		$(document).ready(function(){
+			$("#pettyCashV").click(function(){
+				$("#page_content").load("PettyCash");
+			});
+		});
+	</script>
+	<script>//script to load Office Product Inventorie
+		$(document).ready(function(){
+			$("#other_expens").click(function(){
+				$("#page_content").load("OtherExpens");
+			});
+		});
+	</script>
 
 	</body>
 </html> 

@@ -85,7 +85,7 @@
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
-                            <input type="hidden" id="addCompany" name="addCompany" value="2">
+                            <input type="hidden" id="addCompany" name="addCompany" value="1">
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
@@ -141,7 +141,7 @@
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="editConcept" name="editConcept" class="form-control" required="true">
-                            <input type="hidden" id="editCompany" name="editCompany" value="2">
+                            <input type="hidden" id="editCompany" name="editCompany" value="1">
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
@@ -197,7 +197,7 @@
 
       var date = moment(e.value);
       console.log("Original Date:" + e.value);
-      console.log("Out Date: " + fecha.format("YYYY/MM/DD"));
+      console.log("Out Date: " + date.format("YYYY/MM/DD"));
     }
 </script>
 

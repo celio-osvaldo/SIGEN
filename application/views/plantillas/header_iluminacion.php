@@ -77,7 +77,7 @@
 							<a class="dropdown-item">Operativos</a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" id="pettyCashV">Caja Chica</a></li>
-								<li><a class="dropdown-item"  href="#">Otros Gastos</a></li>
+								<li><a class="dropdown-item" id="other_expens">Otros Gastos</a></li>
 								<li><a class="dropdown-item" id="viaticsV">Viaticos</a></li>
 							</ul>
 						</div>

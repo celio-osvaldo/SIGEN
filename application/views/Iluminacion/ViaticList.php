@@ -82,7 +82,7 @@
                         <div class="col-md-5">
                             <label for="">Fecha de inicio:</label>
                             <input type="date" id="addStartDate" name="addStartDate" class="form-control" required="true" onchange="DateObtain(this)" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-                            <input type="hidden" id="addCompany" name="addCompany" value="2">
+                            <input type="hidden" id="addCompany" name="addCompany" value="1">
                         </div>
 
                         <div class="col-md-2">
@@ -130,7 +130,7 @@ $(document).ready(function(e){
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/AddViaticReport',
+            url: '<?php echo base_url(); ?>Iluminacion/AddViaticReport',
             data: $(this).serialize(),
             beforeSend: function(){
                 $('.submitBtn').attr("disabled","disabled");

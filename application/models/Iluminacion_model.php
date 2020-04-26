@@ -660,6 +660,57 @@ class Iluminacion_model extends CI_Model
     }
   }
 
+  public function GetAllViaticsReports($idcompany){
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->from('viaticos');
+    $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function ViaticPaymentsSum($id_viatico){
+    $this->db->select_sum('lista_viatico_importe','sumPayment');
+    $this->db->from('lista_viatico');
+    $this->db->set('viaticos_id_viaticos',$id_viatico);
+    $query = $this->db->get();
+    $result = $query->row();
+    return $result; 
+  }
+
+  public function UpdateViaticBalance($id, $total){
+    $this->db->where('id_viaticos', $id);
+    $this->db->set('viaticos_total', $total);
+    $this->db->update('viaticos');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function GetViaticsById($id_viatico){
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->from('viaticos');
+    $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->where('id_viaticos', $id_viatico);
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function GetDetailsOfViatics($id_viatico){
+    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado');
+    $this->db->from('lista_viatico');
+    $this->db->join('viaticos', 'id_viaticos = viaticos_id_viaticos');
+    $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->where('id_viaticos', $id_viatico);
+    $q = $this->db->get();
+    return $q;
+  }
+
   
 
 

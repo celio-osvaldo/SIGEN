@@ -1113,20 +1113,20 @@ class Iluminacion extends CI_Controller {
 	}
 
 	public function PettyCashDetails(){
-		$this->load->model('Dasa_model');
+		$this->load->model('Iluminacion_model');
 		$id_caja_chica=$_POST['id_caja_chica'];
-		$data2=$this->Dasa_model->GetPettyCashById($id_caja_chica);
+		$data2=$this->Iluminacion_model->GetPettyCashById($id_caja_chica);
 		$table = 'lista_caja_chica';
 		$id = 'id_lista_viatico';
-		$company='DASA';
-		$idcompany=$this->Dasa_model->IdCompany($company);
-		$data1 = $this->Dasa_model->ExpenceSum($id_caja_chica);
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$data1 = $this->Iluminacion_model->ExpenceSum($id_caja_chica);
 		$data=array('cash'=>$data2,
-					'detail' =>$this->Dasa_model->GetDetailsOfViatics($id_caja_chica),
-					'works'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa),
-					'max'=>$this->Dasa_model->IDMAX($table, $id),
+					'detail' =>$this->Iluminacion_model->GetDetailsOfViatics($id_caja_chica),
+					'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa),
+					'max'=>$this->Iluminacion_model->IDMAX($table, $id),
 					'total'=> $data1);
-		$this->load->view('DASA/DetailsViaticReport', $data);
+		$this->load->view('Iluminacion/DetailsViaticReport', $data);
 	}
 
 	public function AddReportPettyCash(){
@@ -1225,6 +1225,86 @@ class Iluminacion extends CI_Controller {
 			echo true;
 		}else{
 			echo false;
+		}
+	}
+
+	public function GetAllViatics(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$data = array('report_viatics' => $this->Iluminacion_model->GetAllViaticsReports($idcompany->id_empresa),
+						'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa));
+		$this->load->view('Iluminacion/ViaticList',$data);
+	}
+
+	public function DeatailsOfViatic(){
+		$this->load->model('Iluminacion_model');
+		$id_viatico=$_POST['id_viatico'];
+		$data2=$this->Iluminacion_model->GetViaticsById($id_viatico);
+		$table = 'lista_viatico';
+		$id = 'id_lista_viatico';
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$data1 = $this->Iluminacion_model->ViaticPaymentsSum($id_viatico);
+		$data=array('viatico'=>$data2,
+					'detail' =>$this->Iluminacion_model->GetDetailsOfViatics($id_viatico),
+					'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa),
+					'max'=>$this->Iluminacion_model->IDMAX($table, $id),
+					'total'=> $data1);
+		$this->load->view('Iluminacion/DetailsViaticReport', $data);
+	}
+
+	public function AddViaticReport(){
+		$this->load->model('Iluminacion_model');
+		$table = 'viaticos';
+		$data = array('id_viaticos' => $this->input->post('idreport'),
+						'obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
+						'obra_cliente_empresa_id_empresa' => $this->input->post('addCompany'),
+						'viaticos_fecha' => $this->input->post('addEmitionDate'),
+						'viaticos_total_días' => $this->input->post('totalDays'),
+						'viaticos_fecha_ini' => $this->input->post('addStartDate'),
+						'viaticos_fecha_fin' => $this->input->post('AddDateEnd'),
+						'viaticos_total' => $this->input->post('addMoney'));
+		if ($this->Iluminacion_model->Insert($table, $data)) {
+        	echo true;
+        }else{
+        	echo false;
+        }
+	}
+
+	public function AddViaticExpend(){
+		$this->load->model('Iluminacion_model');
+		$file = 'addEvidence';//The name of input that select file
+        $config['upload_path'] = "./Resources/Bills/ViaticExpends/ILUMINACION/";//Path of where uploadthe file
+        $config['file_name'] = $this->input->post('maxid');//name of file
+        $config['overwrite'] = true;//allow or not allow overwrite a file
+        $config['allowed_types'] = "pdf";//type of files allowed to upload
+        $config['max_size'] = "5000";//max size of the file allowed
+
+        $this->load->library('upload', $config);//use for allow the upload files at server
+
+        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
+            $data['uploadError'] = $this->upload->display_errors();
+            echo $this->upload->display_errors();
+            return;
+        }
+
+		$upload_file = $config['file_name'] = $this->input->post('maxid');
+		$table = 'lista_viatico';
+		$data = array('id_lista_viatico' => $this->input->post('addexpendId'),
+						'viaticos_id_viaticos'=> $this->input->post('idViatic'),
+						'lista_viatico_fecha'=> $this->input->post('addDate'),
+						'empleado'=> $this->input->post('employ'),
+						'lista_viatico_concepto'=> $this->input->post('addconcept'),
+						'lista_viatico_importe'=> $this->input->post('addImport'),
+						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
+						'lista_viatico_factura' => $upload_file);
+
+		if($this->Iluminacion_model->Insert($table, $data)){
+			$data['uploadSuccess'] = $this->upload->data();
+        	echo true;
+	    }else{
+	        echo false;
 		}
 	}
 

@@ -197,7 +197,7 @@
 
       var date = moment(e.value);
       console.log("Original Date:" + e.value);
-      console.log("Out Date: " + fecha.format("YYYY/MM/DD"));
+      console.log("Out Date: " + date.format("YYYY/MM/DD"));
     }
 </script>
 

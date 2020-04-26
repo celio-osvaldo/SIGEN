@@ -96,22 +96,29 @@
 
 	<script>
 		$(document).ready(function(){
-			$("#billsV").click(function(){
+				$("#billsV").click(function(){
 				$("#page_content").load("GetListCostOfSale");
 			});
 		});
 	</script>
 	<script>//script to load the report of viatics of controller on click at the link with the id pettyCashV
 		$(document).ready(function(){
-			$("#pettyCashV").click(function(){
+				$("#pettyCashV").click(function(){
 				$("#page_content").load("PettyCash");
 			});
 		});
 	</script>
 	<script>//script to load Office Product Inventorie
 		$(document).ready(function(){
-			$("#other_expens").click(function(){
+				$("#other_expens").click(function(){
 				$("#page_content").load("OtherExpens");
+			});
+		});
+	</script>
+	<script>//script to load the report of viatics of controller on click at the link with the id viaticsV
+		$(document).ready(function(){
+				$("#viaticsV").click(function(){
+				$("#page_content").load("GetAllViatics");
 			});
 		});
 	</script>

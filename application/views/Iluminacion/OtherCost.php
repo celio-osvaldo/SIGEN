@@ -208,7 +208,7 @@ $(document).ready(function(e){
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/AddNewExpend',
+            url: '<?php echo base_url(); ?>Iluminacion/AddNewExpend',
             data: new FormData(this),
             contentType: false,
             cache: false,
@@ -290,7 +290,7 @@ function CloseModal(){
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/UpdateExpend',
+            url: '<?php echo base_url(); ?>Iluminacion/UpdateExpend',
             data: new FormData(this),
             contentType: false,
             cache: false,
@@ -341,7 +341,7 @@ function CloseModal(){
   function Display_bill($id){
     var invoice=$("#bill"+$id).text();
     var id=$id;
-    var url = "<?php echo base_url()?>Resources/Bills/Expends/DASA/"+invoice+".pdf";
+    var url = "<?php echo base_url()?>Resources/Bills/Expends/ILUMINACION/"+invoice+".pdf";
 
     $("#viewBill").modal();
     $("#folios").val(invoice);

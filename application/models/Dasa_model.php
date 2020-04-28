@@ -242,7 +242,7 @@ class Dasa_model extends CI_Model
   public function ViaticPaymentsSum($id_viatico){
     $this->db->select_sum('lista_viatico_importe','sumPayment');
     $this->db->from('lista_viatico');
-    $this->db->set('viaticos_id_viaticos',$id_viatico);
+    $this->db->where('viaticos_id_viaticos',$id_viatico);
     $query = $this->db->get();
     $result = $query->row();
     return $result; 

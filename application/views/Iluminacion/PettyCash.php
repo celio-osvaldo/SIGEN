@@ -15,7 +15,7 @@
                         <table  class="table table-hover" style="font-size: 10pt;">
                             <thead class="bg-primary" style="color: #FFFFFF;" align="center">
                                 <tr>
-                                    <th>No. Caja Chica</th>
+                                    <th style="display: none;">No. Caja Chica</th>
                                     <th>Caja Chica</th>
                                     <th></th>
                                     <th>Gasto de caja chica</th>
@@ -26,7 +26,7 @@
                             </thead>
                             <tbody>
                                 <tr><?php foreach ($cash->result() as $row) {?>
-                                    <td><?php echo $row->id_caja_chica; ?></td>
+                                    <td style="display: none;"><?php echo $row->id_caja_chica; ?></td>
                                     <td><?php echo $row->caja_chica_mes; ?></td>
                                     <td>$</td>
                                     <td><?php echo $row->caja_chica_total; ?></td>

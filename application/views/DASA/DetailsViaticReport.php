@@ -48,7 +48,7 @@
         <div class="row">
             <div class="col-md-1"></div>
             <div class="col-md-7">
-                <h3>Desglose de gastos</h3>
+                <h3>Detalles de viático</h3>
             </div>
             <div class="col-md-3">
                 <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newExpend"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Gasto</button>

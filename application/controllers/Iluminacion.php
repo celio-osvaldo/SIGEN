@@ -1030,6 +1030,91 @@ class Iluminacion extends CI_Controller {
 		$this->load->view('Iluminacion/Cotizaciones_List',$data);
 	}
 
+		public function New_Cotizacion(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('cotizacion_id_empresa' => $idcomp->id_empresa ,
+					  'cotizacion_folio' => $this->input->post('new_folio'),
+					  'cotizacion_fecha'=> $this->input->post('new_fecha_elabora'),
+					  'cotizacion_id_cliente' =>  $this->input->post('new_cliente'),
+					  'cotizacion_obra' => $this->input->post('new_obra'),
+					  'cotizacion_tiempo_entrega' =>$this->input->post('new_tiem_entrega'),
+					  'cotizacion_vigencia' => $this->input->post('new_vigencia'),
+					  'cotizacion_elabora' => $this->input->post('new_elabora'),
+					  'cotizacion_estado' => $this->input->post('new_estado'));
+		if($this->Iluminacion_model->New_Cotizacion($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Update_Cotizacion(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('cotizacion_folio' => $this->input->post('folio'),
+					  'cotizacion_fecha'=> $this->input->post('fecha_elabora'),
+					  'cotizacion_id_cliente' =>  $this->input->post('cliente'),
+					  'cotizacion_obra' => $this->input->post('obra'),
+					  'cotizacion_tiempo_entrega' =>$this->input->post('tiem_entrega'),
+					  'cotizacion_vigencia' => $this->input->post('vigencia'),
+					  'cotizacion_elabora' => $this->input->post('elabora'),
+					  'cotizacion_estado' => $this->input->post('estado'));
+		$id_cotizacion=$_POST["id_cotizacion"];
+		if($this->Iluminacion_model->Update_Cotizacion($id_cotizacion,$data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+
+	public function Add_Cotizacion_Product(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$prod_id_cotizacion=$_POST["prod_id_cotizacion"];
+		$data = array('lista_cotizacion_id_cotizacion' =>$this->input->post('prod_id_cotizacion') ,
+					  'lista_cotizacion_id_prod_alm' =>$this->input->post('id_producto') ,
+					  'lista_cotizacion_cantidad' =>$this->input->post('prod_cantidad') ,
+					  'lista_cotizacion_precio_unit' =>$this->input->post('prod_precio_venta') ,
+					  'lista_cotizacion_importe' =>$this->input->post('total'),
+					  'lista_cotizacion_descuento'=> $this->input->post('prod_descuento'));
+
+		if($this->Iluminacion_model->Add_Cotizacion_product($data)){
+
+			$subtotal=$this->Iluminacion_model->Get_Importe_Cotizaciones($prod_id_cotizacion);
+			$iva=round(($subtotal->importe_total*0.16),2);
+			$total=($subtotal->importe_total)+$iva;
+			$data2 = array('cotizacion_total' => $total ,
+					  'cotizacion_iva' => $iva ,
+					  'cotizacion_subtotal' => round($subtotal->importe_total,2));
+			$this->Iluminacion_model->Update_Cotizacion($prod_id_cotizacion,$data2);
+		}
+		echo true;
+	}
+
+	public function Cotizacion_Details(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_cotizacion=$_POST["id_cotizacion"];
+		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
+					  'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion));
+		$this->load->view('Iluminacion/Cotizacion_Product_List',$data);
+	}
+
+
+
+
+
+
+
+
+
+
 	public function GetListCostOfSale(){
 		$this->load->model('Iluminacion_model');
 		$table = 'gasto_venta';
@@ -1307,6 +1392,8 @@ class Iluminacion extends CI_Controller {
 	        echo false;
 		}
 	}
+
+
 
 
 

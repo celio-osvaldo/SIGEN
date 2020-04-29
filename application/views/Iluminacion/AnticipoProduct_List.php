@@ -54,9 +54,9 @@
         foreach ($anticipo_productos->result() as $row) {
           ?>
           <tr>
-            <td hidden="true"> id="<?php echo "id_anticipo".$row->id_prod_anticipo;?>"><?php echo "".$row->anticipo_id_anticipo.""; ?></td>
+            <td hidden="true" id="<?php echo "id_anticipo".$row->id_prod_anticipo;?>"><?php echo "".$row->anticipo_id_anticipo.""; ?></td>
             <td id="<?php echo "nombre".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
-            <td hidden="true"> id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
+            <td hidden="true" id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
             <td id="<?php echo "cantidad".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_anticipo_cantidad.""; ?></td>
             <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo "".$row->prod_anticipo_precio_venta.""; ?></td>
             <td id="<?php echo "coment".$row->id_prod_anticipo;?>"><?php echo $row->prod_anticipo_coment;?></td>

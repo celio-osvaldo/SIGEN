@@ -593,7 +593,70 @@ class Iluminacion_model extends CI_Model
     $result=$this->db->get();
     return $result;
   }
- 
+
+  public function New_Cotizacion($data){
+    $this->db->insert('cotizacion',$data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+        } else{
+        return false;
+        }
+  }
+
+  public function Update_Cotizacion($id_cotizacion,$data){
+    $this->db->where('id_cotizacion', $id_cotizacion);
+    $this->db->update('cotizacion', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Add_Cotizacion_product($data){
+    $this->db->insert('lista_cotizacion',$data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+        } else{
+        return false;
+        }
+  }
+
+  public function Get_Importe_Cotizaciones($prod_id_cotizacion){
+    $this->db->select_sum('lista_cotizacion_importe','importe_total');
+    $this->db->from('lista_cotizacion');
+    $this->db->where('lista_cotizacion_id_cotizacion',$prod_id_cotizacion);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function GetCotizacion_Info($id_cotizacion){
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cliente_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado');
+    $this->db->from('cotizacion');
+    $this->db->join('catalogo_cliente','cotizacion_id_cliente=id_catalogo_cliente');
+    $this->db->where('id_cotizacion',$id_cotizacion);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function GetCotizacion_Products($id_cotizacion){
+    $this->db->select('id_lista_cotizacion, lista_cotizacion_id_cotizacion, lista_cotizacion_id_prod_alm, prod_alm_nom,  prod_alm_modelo,  prod_alm_descripcion, lista_cotizacion_cantidad, lista_cotizacion_precio_unit, lista_cotizacion_descuento, lista_cotizacion_importe');
+    $this->db->from('lista_cotizacion');
+    $this->db->join('producto_almacen','lista_cotizacion_id_prod_alm=id_prod_alm ');
+    $this->db->where('lista_cotizacion_id_cotizacion',$id_cotizacion);
+    $result=$this->db->get();
+    return $result;
+  }
+
+
+
+
+
+
+
+
 
   public function GetAllCostOfSale($idcompany){
     $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago');
@@ -710,6 +773,8 @@ class Iluminacion_model extends CI_Model
     $q = $this->db->get();
     return $q;
   }
+
+
 
   
 

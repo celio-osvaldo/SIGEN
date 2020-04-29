@@ -699,12 +699,22 @@ class Iluminacion_model extends CI_Model
   }
 
   public function ExpenceSum($id_caja_chica){
-    $this->db->select_sum('lista_viatico_importe','sumPayment');
+    $this->db->select_sum('lista_caja_chica_gasto','sumPayment');
     $this->db->from('lista_caja_chica');
-    $this->db->set('caja_chica_id_caja_chica',$id_caja_chica);
+    $this->db->where('caja_chica_id_caja_chica', $id_caja_chica);
     $query = $this->db->get();
     $result = $query->row();
     return $result; 
+  }
+
+  public function GetDetailsOfPettyCash($id_viatico){
+    $this->db->select('id_lista_caja_chica, caja_chica_id_caja_chica, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura');
+    $this->db->from('lista_caja_chica');
+    $this->db->join('caja_chica', 'caja_chica_id_caja_chica = id_caja_chica');
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->where('id_caja_chica', $id_viatico);
+    $q = $this->db->get();
+    return $q;
   }
 
   public function GetOthersExpens($idcompany){
@@ -736,7 +746,7 @@ class Iluminacion_model extends CI_Model
   public function ViaticPaymentsSum($id_viatico){
     $this->db->select_sum('lista_viatico_importe','sumPayment');
     $this->db->from('lista_viatico');
-    $this->db->set('viaticos_id_viaticos',$id_viatico);
+    $this->db->where('viaticos_id_viaticos', $id_viatico);
     $query = $this->db->get();
     $result = $query->row();
     return $result; 

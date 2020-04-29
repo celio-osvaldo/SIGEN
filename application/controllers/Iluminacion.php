@@ -1188,8 +1188,6 @@ class Iluminacion extends CI_Controller {
 
 	public function PettyCash(){
 		$this->load->model('Iluminacion_model');
-		$table = 'lista_caja_chica';
-		$id = 'id_lista_caja_chica';
 		$company='ILUMINACION';
 		$idCompany=$this->Iluminacion_model->IdCompany($company);
 		$this->load->model('Iluminacion_model');
@@ -1202,16 +1200,16 @@ class Iluminacion extends CI_Controller {
 		$id_caja_chica=$_POST['id_caja_chica'];
 		$data2=$this->Iluminacion_model->GetPettyCashById($id_caja_chica);
 		$table = 'lista_caja_chica';
-		$id = 'id_lista_viatico';
+		$id = 'id_lista_caja_chica';
 		$company='ILUMINACION';
 		$idcompany=$this->Iluminacion_model->IdCompany($company);
 		$data1 = $this->Iluminacion_model->ExpenceSum($id_caja_chica);
 		$data=array('cash'=>$data2,
-					'detail' =>$this->Iluminacion_model->GetDetailsOfViatics($id_caja_chica),
+					'detail' =>$this->Iluminacion_model->GetDetailsOfPettyCash($id_caja_chica),
 					'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Iluminacion_model->IDMAX($table, $id),
 					'total'=> $data1);
-		$this->load->view('Iluminacion/DetailsViaticReport', $data);
+		$this->load->view('Iluminacion/PettyCash-Details', $data);
 	}
 
 	public function AddReportPettyCash(){
@@ -1233,9 +1231,8 @@ class Iluminacion extends CI_Controller {
 
         $upload_file = $config['file_name'] = $this->input->post('folioBillI');
 		$table = 'lista_caja_chica';
-		$cash = 2;
 		$data = array('id_lista_caja_chica' => $this->input->post('cashI'),
-						'caja_chica_id_caja_chica'=> $cash,
+						'caja_chica_id_caja_chica'=> $this->input->post('pettycash'),
 						'lista_caja_chica_fecha'=> $this->input->post('dateI'),
 						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
 						'lista_caja_chica_reposicion'=> $this->input->post('moneyI'),

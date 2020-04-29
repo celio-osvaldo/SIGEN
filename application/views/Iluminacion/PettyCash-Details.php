@@ -1,5 +1,38 @@
 <div class="row">
     <div class="col-md-1"></div>
+    <div class="col-md-10">
+        <div class="card bg-card">
+                <div class="margins">
+                    <div class="table-responsive-lg">
+                        <table  class="table table-hover" style="font-size: 10pt;">
+                            <thead class="bg-primary" style="color: #FFFFFF;" align="center">
+                                <tr>
+                                    <th>Caja Chica</th>
+                                    <th></th>
+                                    <th>Gasto de caja chica</th>
+                                    <th></th>
+                                    <th>Saldo Actual</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><?php foreach ($cash->result() as $row) {?>
+                                    <td><?php echo $row->caja_chica_mes; ?></td>
+                                    <td>$</td>
+                                    <td><?php echo $total->sumPayment; ?></td>
+                                    <td>$</td>
+                                    <td><?php echo $row->caja_chica_saldo; ?></td>
+                                </tr><?php } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
+    </div>
+    <div class="col-md-1"></div>
+</div>
+<br>
+<div class="row">
+    <div class="col-md-1"></div>
   <div class="col-md-7">
     <h3 align="center">Listado de reportes en caja chica</h3>
   </div>
@@ -34,7 +67,7 @@
                     </thead>
                     <tbody>
                         <tr><?php
-                        foreach ($cash->result() as $row) {?>
+                        foreach ($detail->result() as $row) {?>
                             <td id="<?php echo "dateR".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_fecha.""; ?></td>
                             <td id="<?php echo "concept".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_concepto.""; ?></td>
                             <?php if ($row->lista_caja_chica_reposicion != "0"){ ?>
@@ -79,7 +112,9 @@
       <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
-                        <!-- <label class="control-label">Caja chica</label> -->
+                        <?php foreach ($cash->result() as $row) { ?>
+                        <input type="text" name="pettycash" id="pettycash" value="<?php echo $row->id_caja_chica; ?>">
+                        <?php } ?>
                         <?php foreach ($max->result() as $row){ ?>
                         <input class="form-control" type="hidden" name="cashI" id="cashI" value="<?php echo "".($row->id_lista_caja_chica + 1).""; ?>">
                         <?php } ?>
@@ -168,7 +203,7 @@ $(document).ready(function(e){
         e.preventDefault();
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/AddReportPettyCash',
+            url: '<?php echo base_url(); ?>Iluminacion/AddReportPettyCash',
             data: new FormData(this),
             contentType: false,
             cache: false,
@@ -237,7 +272,7 @@ function CloseModal(){
   function Display_bill($id){
     var invoice=$("#bill"+$id).text();
     var id=$id;
-    var url = "<?php echo base_url()?>Resources/Bills/PettyCash/DASA/"+invoice+".pdf";
+    var url = "<?php echo base_url()?>Resources/Bills/PettyCash/ILUMINACION/"+invoice+".pdf";
 
     $("#viewBill").modal();
     $("#folios").val(invoice);

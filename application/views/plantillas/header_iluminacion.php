@@ -10,6 +10,7 @@
 	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\DataTables\datatables.min.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
+	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
 
 </head>
 <body>

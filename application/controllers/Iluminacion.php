@@ -1106,6 +1106,29 @@ class Iluminacion extends CI_Controller {
 		$this->load->view('Iluminacion/Cotizacion_Product_List',$data);
 	}
 
+	public function Cotizacion_formato(){
+		$this->load->view('Iluminacion/Cotizacion_Formato');
+	}
+
+	public function Genera_PDF_Cotizacion(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+
+		$css=file_get_contents('assets/Personalized/css/PDFStyles.css');
+		$mpdf = new \Mpdf\Mpdf([
+			"format" => "letter"
+		]);
+        $html = $this->load->view('Iluminacion/Cotizacion_Formato',[],true);
+
+       	$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
+		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
+        $mpdf->Output('Cotizacion'.$idcomp->id_empresa.'.pdf','D'); 
+
+
+		//$this->load->view('Iluminacion/Cotizaciones_List',$data);
+	}
+
 
 
 

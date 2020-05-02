@@ -3,6 +3,10 @@
 <div class="container">
   <button class="btn btn-success" onclick="Lista_Cotizaciones()">Regresar a Lista de Cotizaciones</button>
 </div>
+  <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Cotizacion" method="POST">
+   <!-- Enviar el id de la cotización para generar el PDF -->
+    <input class="btn btn-primary" type="submit" value="Generar PDF" name="btnDownload">
+  </form>
 <div class="card bg-card">
   <div class="table-responsive">
     <table id="table_cotizacion_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
@@ -47,17 +51,17 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Tiempo de Entrega (días):<hr><?php echo $cotizacion_info->cotizacion_tiempo_entrega; ?>
+                Tiempo de <br>Entrega (días):<hr><?php echo $cotizacion_info->cotizacion_tiempo_entrega; ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Vigencia (días):<hr>$<?php echo $cotizacion_info->cotizacion_vigencia; ?>
+                Vigencia <br>(días):<hr><?php echo $cotizacion_info->cotizacion_vigencia; ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Elaboró:<hr>$<?php echo $cotizacion_info->cotizacion_elabora; ?>
+                Elaboró:<hr><?php echo $cotizacion_info->cotizacion_elabora; ?>
               </h6>
             </span>
           </div>
@@ -111,12 +115,9 @@
 
   });
   
-
-
-
-
   function Lista_Cotizaciones(){
     $("#page_content").load("Cotizaciones");
   }
+
 
 </script>

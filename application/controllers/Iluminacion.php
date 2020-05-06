@@ -1102,6 +1102,7 @@ class Iluminacion extends CI_Controller {
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_cotizacion=$_POST["id_cotizacion"];
 		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
+			 		  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
 					  'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion));
 		$this->load->view('Iluminacion/Cotizacion_Product_List',$data);
 	}
@@ -1113,22 +1114,73 @@ class Iluminacion extends CI_Controller {
 	public function Genera_PDF_Cotizacion(){
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
+		$id_cotizacion=$_POST["id_cotizacion"];
+		$folio=$_POST["folio"];
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
+			'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion));
 
 		$css=file_get_contents('assets/Personalized/css/PDFStyles.css');
 		$mpdf = new \Mpdf\Mpdf([
-			"format" => "letter"
+			"format" => "letter",
+			'pagenumPrefix' => 'Hoja ',
+			'nbpgPrefix' => ' de '
 		]);
-        $html = $this->load->view('Iluminacion/Cotizacion_Formato',[],true);
-
-       	$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
+		$html = $this->load->view('Iluminacion/Cotizacion_Formato',$data,true);
+		$mpdf->setFooter('{PAGENO}{nbpg}');
+		$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
 		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
-        $mpdf->Output('Cotizacion'.$idcomp->id_empresa.'.pdf','D'); 
-
-
-		//$this->load->view('Iluminacion/Cotizaciones_List',$data);
+		$mpdf->Output('Cotizacion_'.$folio.'.pdf','I'); 
 	}
 
+	public function Edit_Cotizacion_Product(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$edit_id_lista_cotizacion=$_POST["edit_id_lista_cotizacion"];
+		$id_cotizacion=$_POST["id_cotizacion"];
+		$data = array('lista_cotizacion_cantidad' =>$this->input->post('prod_cantidad') ,
+					  'lista_cotizacion_precio_unit' =>$this->input->post('prod_precio_venta') ,
+					  'lista_cotizacion_importe' =>$this->input->post('total'),
+					  'lista_cotizacion_descuento'=> $this->input->post('prod_descuento'));
+
+		if($this->Iluminacion_model->Update_Cotizacion_product($edit_id_lista_cotizacion,$data)){
+
+			$subtotal=$this->Iluminacion_model->Get_Importe_Cotizaciones($id_cotizacion);
+			$iva=round(($subtotal->importe_total*0.16),2);
+			$total=($subtotal->importe_total)+$iva;
+			$data2 = array('cotizacion_total' => $total ,
+					  'cotizacion_iva' => $iva ,
+					  'cotizacion_subtotal' => round($subtotal->importe_total,2));
+			$this->Iluminacion_model->Update_Cotizacion($id_cotizacion,$data2);
+			echo true;
+		}else{
+			echo false ;
+		}
+		
+	}
+
+	public function DeleteProduct_Cotizacion(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_lista_cotizacion=$_POST["id_lista_cotizacion"];
+		$id_cotizacion=$_POST["id_cotizacion"];
+		if($this->Iluminacion_model->Delete_Cotizacion_product($id_lista_cotizacion)){
+
+			$subtotal=$this->Iluminacion_model->Get_Importe_Cotizaciones($id_cotizacion);
+			$iva=round(($subtotal->importe_total*0.16),2);
+			$total=($subtotal->importe_total)+$iva;
+			$data2 = array('cotizacion_total' => $total ,
+					  'cotizacion_iva' => $iva ,
+					  'cotizacion_subtotal' => round($subtotal->importe_total,2));
+			$this->Iluminacion_model->Update_Cotizacion($id_cotizacion,$data2);
+			echo true;
+		}else{
+			echo false ;
+		}
+
+	}
 
 
 

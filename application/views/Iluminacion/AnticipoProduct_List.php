@@ -171,7 +171,7 @@
           precio_venta=$("#delete_precio").text();
           coment=$("#delete_coment").text();
           id_producto=$("#id_producto"+id_prod_ant).text();
-          alert(id_anticipo+" "+id_prod_ant+" "+cantidad+" "+precio_venta+" "+coment+" idprod "+id_producto);
+          //alert(id_anticipo+" "+id_prod_ant+" "+cantidad+" "+precio_venta+" "+coment+" idprod "+id_producto);
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Iluminacion/DeleteProduct_Anticipo",

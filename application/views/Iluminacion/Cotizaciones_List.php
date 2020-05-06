@@ -29,6 +29,7 @@
           <th>Elaboró</th>
           <th>Estado</th>
           <th>Acciones</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -50,18 +51,23 @@
           <td id="<?php echo "elabora".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_elabora.""; ?></td>
           <td id="<?php echo "estado".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_estado.""; ?></td>
 
-          <td>
+          <td style="text-align: right;">
             <a class="navbar-brand" href="#" onclick="EditCotizacion(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>">
               <button class="btn btn-outline-secondary " title="Editar Registro"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
               </button>
             </a>
             <a class="navbar-brand" href="#" onclick="Add_Product(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>"><button class="btn btn-outline-secondary" title="Agregar Producto"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" alt="Agregar" style="filter: invert(100%)"></button>
             </a>
+          </td>
+          <td style="text-align: left;">
             <a class="navbar-brand" href="#" onclick="Details_Cotizacion(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>"><button class="btn btn-outline-secondary" title="Ver Detalles de Cotización"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
             </a>
-            <a class="navbar-brand" href="#" onclick="Details_Cotizacion(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>"><button class="btn btn-outline-secondary" title="Imprimir Cotización"><img src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
-            </a>
-          </td>
+            <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Cotizacion" method="POST" target='_blank'>
+             <input type="text" hidden="true" id="id_cotizacion" name="id_cotizacion" value="<?php echo $row->id_cotizacion; ?>">
+              <input hidden="true" type="text" id="folio" name="folio" value="<?php echo $row->cotizacion_folio; ?>">
+             <button class="btn btn-outline-secondary" type="submit" title="Imprimir Cotización"><img src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
+           </form>
+         </td>
 
 
 
@@ -384,7 +390,7 @@
           url:"<?php echo base_url();?>Iluminacion/Add_Cotizacion_Product",
           data:{prod_id_cotizacion:prod_id_cotizacion, id_producto:id_producto, prod_cantidad:prod_cantidad, prod_precio_venta:prod_precio_venta, total:total, prod_descuento:prod_descuento},
           success:function(result){
-            alert(result);
+            //alert(result);
             if(result){
               alert('Producto Agregado a la Cotización.');
             }else{

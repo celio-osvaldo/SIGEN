@@ -650,6 +650,26 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+  public function Update_Cotizacion_product($prod_id_cotizacion,$data){
+    $this->db->where('id_lista_cotizacion', $prod_id_cotizacion);
+    $this->db->update('lista_cotizacion', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Delete_Cotizacion_product($id_lista_cotizacion){
+    $this->db->where('id_lista_cotizacion', $id_lista_cotizacion);
+    $this->db->delete('lista_cotizacion');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
 
 
 

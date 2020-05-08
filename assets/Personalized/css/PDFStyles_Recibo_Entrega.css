@@ -1,0 +1,18 @@
+.tab  {border-collapse:collapse;border-spacing:0;width: 100%;}
+.tab td{border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
+.tab th{border-width:1px;font-family:Arial, sans-serif;font-size:12px;font-weight:normal;overflow:hidden;padding:5px 19px;word-break:normal;}
+.tab .tab-logo{text-align:left;vertical-align:top}
+.tab .tab-datos{text-align:center;vertical-align:top;padding:0px 0px}
+.tab .tab-fecha{background-color:#7FBEEA;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-fecha2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-empresa{background-color:#7FBEEA;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:10px 5px}
+.tab .tab-empresa2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:10px 80px}
+.tab .tab-domicilio{background-color:#7FBEEA;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:20px 5px}
+.tab .tab-domicilio2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:20px 80px}
+.tab .tab-descripcion{background-color:#94C01E;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 80px}
+.tab .tab-cantidad{background-color:#94C01E;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 20px}
+.tab .tab-descripcion2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 80px}
+.tab .tab-cantidad2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 20px}
+.tab .tab-entrega{background-color:#FFFFFF;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-recibe{background-color:#FFFFFF;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-final{font-size:14px;background-color:#FFFFFF;color:black;text-align:left;vertical-align:top;padding:5px 5px}

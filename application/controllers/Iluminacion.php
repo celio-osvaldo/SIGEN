@@ -1179,7 +1179,44 @@ class Iluminacion extends CI_Controller {
 		}else{
 			echo false ;
 		}
+	}
 
+	public function Recibo_Entrega(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('catalogo_cliente'=>$this->Iluminacion_model->GetAll_Customer($idcomp->id_empresa),
+					  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
+					  'lista_anticipos'=>$this->Iluminacion_model->GetAll_Anticipos_activo(),
+					  'lista_cotizaciones'=>$this->Iluminacion_model->GetCotizaciones_List($idcomp->id_empresa),
+					  'recibo_entrega'=>$this->Iluminacion_model->Get_List_Recibo_entrega($idcomp->id_empresa));
+		$this->load->view('Iluminacion/Lista_Recibos_Entrega',$data);	
+	}
+
+
+
+
+
+		public function Genera_PDF_Recibo_Entrega(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$id_cotizacion='1';
+		$folio='R';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
+			'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion));
+
+		$css=file_get_contents('assets/Personalized/css/PDFStyles_Recibo_Entrega.css');
+		$mpdf = new \Mpdf\Mpdf([
+			"format" => "letter",
+			'pagenumPrefix' => 'Hoja ',
+			'nbpgPrefix' => ' de '
+		]);
+		$html = $this->load->view('Iluminacion/Recibo_Entrega_Formato',$data,true);
+		$mpdf->setFooter('{PAGENO}{nbpg}');
+		$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
+		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
+		$mpdf->Output('Cotizacion_'.$folio.'.pdf','I'); 
 	}
 
 

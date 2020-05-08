@@ -93,6 +93,13 @@
 			});
 		});
 	</script>
+	<script>
+		$(document).ready(function(){
+			$("#Recibo_Entrega").click(function(){
+				$("#page_content").load("Recibo_Entrega");
+			});
+		});
+	</script>
 
 	<script>
 		$(document).ready(function(){

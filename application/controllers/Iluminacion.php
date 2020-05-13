@@ -230,22 +230,26 @@ class Iluminacion extends CI_Controller {
 		$new_coment=$_POST["coment"];
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
+
 		$data = array('obra_cliente_empresa_id_empresa' => $idcomp->id_empresa,
 			'venta_mov_fecha' => $new_fecha,
 			'venta_mov_comentario' => $new_coment,
 			'venta_mov_monto' => $new_cant_pago,
 			'obra_cliente_id_obra_cliente' => $new_id_obra);
 		//var_dump($data);
+
 		$result=$this->Iluminacion_model->AddCustomer_Pay($data);
+
 		$sum_pagos=$this->Iluminacion_model->SumPagos_Obra($new_id_obra);
 		$total_obra=$this->Iluminacion_model->Total_obra($new_id_obra);
 		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
-		$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($new_id_obra);
+		$fecha_ult_pago=$this->Iluminacion_model->Fecha_Ult_Pago($new_id_obra);
+		//var_dump($fecha_ult_pago->venta_mov_fecha);
 		$saldo=array('obra_cliente_saldo' => $resta,
 					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
 					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
 		$actualiza=$this->Iluminacion_model->UpdatePaysCustomer($new_id_obra,$saldo);
-		//var_dump($total_obra);
+		//var_dump($saldo);
 		echo $result;
 	}
 
@@ -271,7 +275,7 @@ class Iluminacion extends CI_Controller {
 			$total_obra=$this->Iluminacion_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
 			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
 
-			$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
+			$fecha_ult_pago=$this->Iluminacion_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
 
 			$saldo=array('obra_cliente_saldo' => $resta,
 					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
@@ -1193,6 +1197,118 @@ class Iluminacion extends CI_Controller {
 		$this->load->view('Iluminacion/Lista_Recibos_Entrega',$data);	
 	}
 
+	public function NewReciboEntrega(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$folio=$_POST["folio"];
+		$fecha_ent=$_POST["fecha_ent"];
+		$origen_nuevo=$_POST["origen_nuevo"];
+		$origen_anticipo=$_POST["origen_anticipo"];
+		$origen_cotizacion=$_POST["origen_cotizacion"];
+		$cliente=$_POST["cliente"];
+		$anticipo=$_POST["anticipo"];
+		$cotizacion=$_POST["cotizacion"];
+		$domicilio=$_POST["domicilio"];
+
+		if($origen_nuevo=="nuevo"){
+			$id_cliente=$cliente;
+			$origen=$origen_nuevo;
+			$id_origen="";
+		}
+		if($origen_anticipo=="anticipo"){
+			$id_c=$this->Iluminacion_model->Get_Id_Cliente_anticipo($anticipo);
+			$id_cliente=$id_c->obra_cliente_id_obra_cliente;
+			$origen=$origen_anticipo;
+			$id_origen=$anticipo;
+		}
+		if($origen_cotizacion=="cotizacion"){
+			$id_c=$this->Iluminacion_model->Get_Id_Cliente_cotizacion($cotizacion);
+			$id_cliente=$id_c->cotizacion_id_cliente;
+			$origen=$origen_cotizacion;
+			$id_origen=$cotizacion;
+		}
+
+		$data = array('id_empresa' => $idcomp->id_empresa,
+			'recibo_entrega_folio' => $folio,
+			'recibo_entrega_id_cliente' => $id_cliente ,
+			'recibo_entrega_domicilio' => $domicilio,
+			'recibo_entrega_origen' => $origen,
+			'recibo_entrega_id_origen' => $id_origen,
+			'recibo_entrega_fecha' => $fecha_ent,
+			'recibo_entrega_estado' => "Entrega Pendiente");
+		$id_recibo_entrega=$this->Iluminacion_model->Add_Recibo_Entrega($data);
+		if($id_recibo_entrega!=false){
+			if($origen_anticipo=="anticipo"){
+				$lista_productos=$this->Iluminacion_model->Get_Anticipo_Product_List($id_origen);
+				foreach ($lista_productos->result() as $row) {
+					$productos = array('lista_recibo_entrega_id_recibo_entrega' => $id_recibo_entrega,
+						'lista_recibo_entrega_cantidad' => $row->prod_anticipo_cantidad,
+						'producto_almacen_id_prod_alm' => $row->producto_almacen_id_prod_alm);
+					$this->Iluminacion_model->Add_Product_Recibo_Entrega($productos);
+				}
+			}
+			if($origen_cotizacion=="cotizacion"){
+				$lista_productos=$this->Iluminacion_model->GetCotizacion_Products($id_origen);
+				foreach ($lista_productos->result() as $row) {
+					$productos = array('lista_recibo_entrega_id_recibo_entrega' => $id_recibo_entrega,
+						'lista_recibo_entrega_cantidad' => $row->lista_cotizacion_cantidad,
+						'producto_almacen_id_prod_alm' => $row->lista_cotizacion_id_prod_alm);
+					$this->Iluminacion_model->Add_Product_Recibo_Entrega($productos);
+				}
+			}
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Update_ReciboEntrega(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+		$folio=$_POST["folio"];
+		$fecha_ent=$_POST["fecha_entrega"];
+		$id_cliente=$_POST["id_empresa"];
+		$domicilio=$_POST["domicilio"];
+		$estado=$_POST["estado"];
+
+		$data = array('recibo_entrega_folio' => $folio,
+			'recibo_entrega_id_cliente' => $id_cliente ,
+			'recibo_entrega_domicilio' => $domicilio,
+			'recibo_entrega_fecha' => $fecha_ent,
+			'recibo_entrega_estado' => $estado);
+		if($this->Iluminacion_model->Update_Recibo_Entrega($id_recibo_entrega,$data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function Recibdo_Entrega_Lista_Producto(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+		$data = array('recibo_info'=>$this->Iluminacion_model->GetRecibo_Info($id_recibo_entrega),
+			 		  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
+					  'recibo_products' => $this->Iluminacion_model->GetRecibo_Products($id_recibo_entrega));
+		$this->load->view('Iluminacion/Recibo_Product_List',$data);
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1200,11 +1316,11 @@ class Iluminacion extends CI_Controller {
 		public function Genera_PDF_Recibo_Entrega(){
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
-		$id_cotizacion='1';
-		$folio='R';
+		$id_lista_recibo_entrega=$_POST["id_lista_recibo_entrega"];
+		$folio=$_POST["folio"];
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
-		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
-			'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion));
+		$data = array('recibo_info'=>$this->Iluminacion_model->GetRecibo_Info($id_lista_recibo_entrega),
+			'recibo_products' => $this->Iluminacion_model->GetRecibo_Products($id_lista_recibo_entrega));
 
 		$css=file_get_contents('assets/Personalized/css/PDFStyles_Recibo_Entrega.css');
 		$mpdf = new \Mpdf\Mpdf([
@@ -1216,7 +1332,7 @@ class Iluminacion extends CI_Controller {
 		$mpdf->setFooter('{PAGENO}{nbpg}');
 		$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
 		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
-		$mpdf->Output('Cotizacion_'.$folio.'.pdf','I'); 
+		$mpdf->Output('Recibo_Entrega_'.$folio.'.pdf','I'); 
 	}
 
 

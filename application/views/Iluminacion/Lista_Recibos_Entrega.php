@@ -16,9 +16,11 @@
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
           <th>Folio</th>
-          <th>Fecha</th>
           <th>Empresa</th>
-          <th>Id_empresa</th>
+          <th hidden="true">Id_empresa</th>
+          <th>Fecha de Entrega</th>
+          <th>Domicilio de Entrega</th>
+          <th>Estado de Entrega</th>
           <th>Editar</th>
           <th>Acciones</th>
         </tr>
@@ -29,17 +31,19 @@
          ?>
          <tr>
           <td id="<?php echo "folio".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_folio.""; ?></td>
-          <td id="<?php echo "fecha".$row->id_recibo_entrega;?>" hidden="true"><?php echo "".$row->recibo_entrega_fecha.""; ?></td>
-          <td id="<?php echo "empresa".$row->id_recibo_entrega;?>">$<?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
-          <td id="<?php echo "id_empresa".$row->id_recibo_entrega;?>">$<?php echo "".$row->recibo_entrega_id_cliente.""; ?></td>
+          <td id="<?php echo "empresa".$row->id_recibo_entrega;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
+          <td hidden="true" id="<?php echo "id_empresa".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_id_cliente.""; ?></td>
+          <td id="<?php echo "fecha".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_fecha.""; ?></td>
+          <td id="<?php echo "domicilio".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_domicilio.""; ?></td>
+          <td id="<?php echo "estado".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_estado.""; ?></td>
           <td>
-            <a class="navbar-brand" href="#" onclick="EditAnticipo(this.id)" role="button" id="<?php echo $row->id_anticipo; ?>">
+            <a class="navbar-brand" href="#" onclick="EditRecibo(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>">
               <button class="btn btn-outline-secondary " title="Editar Registro"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
               </button>
             </a>
-            <a class="navbar-brand" href="#" onclick="EditAnticipo(this.id)" role="button" id="<?php echo $row->id_anticipo; ?>">
-              <button class="btn btn-outline-secondary " title="Editar Registro"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
-              </button>
+          </td>
+          <td>
+            <a class="navbar-brand" href="#" onclick="Product_Details(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary" title="Ver Detalles de Productos"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
             </a>
           </td>
         </tr>
@@ -66,17 +70,17 @@
           <div class="form-row">
             <div class="form-group col-md-4">
               <b><label>Folio</label></b>
-              <input type="text" id="new_folio"  class="form-control">
+              <input type="text" id="new_folio"  class="form-control" required="true">
             </div>
             <div class="form-group col-md-6">
               <b><label>Fecha de Entrega</label></b>
-              <input type="date" id="new_fecha_entrega" class="form-control">
+              <input type="date" id="new_fecha_entrega" class="form-control" required="true">
             </div>
           </div>
           <b><label>Origen de la entrega</label></b><br>
             <input type="radio" name="radio" checked="true" id="radio_nuevo" value="nuevo"><label>Sin Origen</label><br>
-            <input type="radio" name="radio" id="radio_anticipo" value="anticipo"><label>Anticipo</label><br>
-            <input type="radio" name="radio" id="radio_cotizacion" value="cotizacion"><label>Cotización</label><br>
+            <input type="radio" name="radio" id="radio_anticipo" value=""><label>Anticipo</label><br>
+            <input type="radio" name="radio" id="radio_cotizacion" value=""><label>Cotización</label><br>
           <div id="cat_cliente">
             <b><label>Cliente</label></b>
             <select class="form-control" name="new_cliente" id="new_cliente">
@@ -106,11 +110,51 @@
           </div>
           <br>
           <b><label>Domicilio de Entrega</label></b>
-          <textarea id="new_domicilio" maxlength="150" class="form-control input-sm"></textarea>
+          <textarea id="new_domicilio" maxlength="150" class="form-control input-sm" required="true"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="NewAnticipo" data-dismiss="modal">Aceptar</button>
+        <button type="button" class="btn btn-primary" id="NewRecibo" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edith Recibo -->
+<div class="modal fade" id="EditReciboModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar Recibo de Entrega</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="edit_id_recibo_entrega" hidden="true">
+        <label>Folio</label>
+        <input type="text" id="edit_folio" class="form-control  input-sm col-md-4">
+        <label>Empresa</label>
+        <select class="form-control" id="edit_empresa">
+          <option disabled selected>----Seleccionar Cliente----</option>
+          <?php foreach ($catalogo_cliente->result() as $row){ ?>
+            <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+          <?php } ?>
+        </select>
+        <label>Estado</label>
+        <select class="form-control input-sm col-md-6" id="edit_estado">
+          <option value="Entrega Pendiente">Entrega Pendiente</option>
+          <option value="Entregado">Entregado</option>
+          <option value="Cancelado">Cancelado</option>
+        </select>
+        <label>Fecha de Entrega</label>
+        <input type="date" id="edit_fecha_entrega" class="form-control input-sm col-md-6">
+        <label>Domicilio de Entrega</label>
+        <textarea id="edit_domicilio" maxlength="150" class="form-control input-sm" required="true"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="UpdateRecibo" data-dismiss="modal">Actualizar</button>
       </div>
     </div>
   </div>
@@ -124,6 +168,9 @@
 
     $('#radio_anticipo').click(function(){
       if($("#radio_anticipo").is(":checked")){
+        $("#radio_anticipo").val("anticipo");
+        $("#radio_cotizacion").val("");        
+        $("#radio_nuevo").val("");
         $("#new_cliente").attr("disabled","true");
         $("#cat_cliente").attr("hidden","true");
         $("#cat_anticipo").removeAttr("hidden");
@@ -132,6 +179,9 @@
     });
     $('#radio_cotizacion').click(function(){
       if($("#radio_cotizacion").is(":checked")){
+        $("#radio_cotizacion").val("cotizacion");
+        $("#radio_anticipo").val("");
+        $("#radio_nuevo").val("");
         $("#new_cliente").attr("disabled","true");
         $("#cat_cliente").attr("hidden","true");
         $("#cat_anticipo").attr("hidden","true");
@@ -140,6 +190,9 @@
     });
     $('#radio_nuevo').click(function(){
       if($("#radio_nuevo").is(":checked")){
+        $("#radio_nuevo").val("nuevo");
+        $("#radio_cotizacion").val("");
+        $("#radio_anticipo").val("");
         $("#new_cliente").removeAttr("disabled");
         $("#cat_cliente").removeAttr("hidden");
         $("#cat_anticipo").attr("hidden","true");
@@ -147,5 +200,89 @@
       }      
     });
 
+    $('#NewRecibo').click(function(){
+      folio=$('#new_folio').val();
+      fecha_ent=$('#new_fecha_entrega').val();
+      origen_nuevo=$("#radio_nuevo").val();
+      origen_anticipo=$("#radio_anticipo").val();
+      origen_cotizacion=$("#radio_cotizacion").val();
+      cliente=$("#new_cliente").val();
+      anticipo=$("#new_anticipo").val();
+      cotizacion=$("#new_cotizacion").val();
+      domicilio=$("#new_domicilio").val();
+      alert(folio+" "+fecha_ent+" "+origen_nuevo+" "+origen_anticipo+" "+origen_cotizacion+" "+cliente+" "+anticipo+" "+cotizacion+" "+domicilio);
+      if(folio!=""&&fecha_ent!=""&&domicilio!=""){
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/NewReciboEntrega",
+          data:{folio:folio, fecha_ent:fecha_ent, origen_nuevo:origen_nuevo, origen_anticipo:origen_anticipo, origen_cotizacion:origen_cotizacion, cliente:cliente, anticipo:anticipo, cotizacion:cotizacion, domicilio:domicilio},
+          success:function(result){
+              //alert(result);
+              if(result){
+                alert('Nuevo Recibo de Entrega Agregado');
+              }else{
+                alert('Falló el servidor. Nuevo Recibo de Entrega no Agregado');
+              }
+              Update();
+            }
+          });
+        }else{
+          alert("Debe ingresar Folio, Fecha y domicilio");
+        }
+    });
+
+    $('#UpdateRecibo').click(function(){
+      id_recibo_entrega=$('#edit_id_recibo_entrega').val();
+      folio=$('#edit_folio').val();
+      fecha_entrega=$('#edit_fecha_entrega').val();
+      id_empresa=$('#edit_empresa').val();
+      estado=$('#edit_estado').val();
+      domicilio=$('#edit_domicilio').val();
+      //alert(cliente+estado+fecha_fin+fecha_ent+coment+id_anticipo);
+      $.ajax({
+        type:"POST",
+        url:"<?php echo base_url();?>Iluminacion/Update_ReciboEntrega",
+        data:{id_recibo_entrega:id_recibo_entrega, folio:folio, fecha_entrega:fecha_entrega, id_empresa:id_empresa, estado:estado, domicilio:domicilio},
+        success:function(result){
+            //alert(result);
+            if(result){
+              alert('Recibio de Entrega Actualizado');
+            }else{
+              alert('Falló el servidor. Recibio de Entrega no Actualizado');
+            }
+            Update();
+          }
+        });
+    });
+
 
     });
+
+
+function EditRecibo($id_recibo_entrega){
+  var id_recibo_entrega=$id_recibo_entrega;
+  var folio=$("#folio"+id_recibo_entrega).text();
+  var fecha_entrega=$("#fecha"+id_recibo_entrega).text();
+  var domicilio=$("#domicilio"+id_recibo_entrega).text();
+  var id_empresa=$("#id_empresa"+id_recibo_entrega).text();
+  var estado=$("#estado"+id_recibo_entrega).text();
+  $('#EditReciboModal').modal();
+  $("#edit_folio").val(folio);
+  $("#edit_empresa").val(id_empresa).attr('selected', true);
+  $("#edit_id_recibo_entrega").val(id_recibo_entrega);
+  $("#edit_estado").val(estado).attr('selected',true);
+  $("#edit_domicilio").val(domicilio);
+  $("#edit_fecha_entrega").val(fecha_entrega);
+}
+
+function Product_Details($id_recibo_entrega){
+  var id_recibo_entrega=$id_recibo_entrega;
+  $("#page_content").load("Recibdo_Entrega_Lista_Producto",{id_recibo_entrega:id_recibo_entrega});
+}
+
+
+function Update(){
+  $('#btncancelar').click();
+  $("#page_content").load("Recibo_Entrega");
+}
+  </script>

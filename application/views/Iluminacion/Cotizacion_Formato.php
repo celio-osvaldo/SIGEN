@@ -82,7 +82,7 @@
       <td><img height="20" width="20" src="Resources\Icons\anticipo.png">Anticipo 50%, contra entrega 50%, precios en moneda nacional</td>
     </tr>
     <tr>
-      <td><img height="20" width="20" src="Resources\Icons\entrega.png"> Entrega: <?php echo $cotizacion_info->cotizacion_tiempo_entrega;?> días</td>
+      <td><img height="20" width="20" src="Resources\Icons\entrega.png"> Entrega: <?php echo $cotizacion_info->cotizacion_tiempo_entrega;?> semanas</td>
     </tr>
     <tr>
       <td><img height="20" width="20" src="Resources\Icons\soporte.png">Soporte técnico a través de un sistema de reportes de daños o garantías vía web.</td>

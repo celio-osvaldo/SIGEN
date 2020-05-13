@@ -688,6 +688,74 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+  public function Get_Id_Cliente_anticipo($anticipo){
+    $this->db->select('obra_cliente_id_obra_cliente');
+    $this->db->from('anticipo');
+    $this->db->where('id_anticipo',$anticipo);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_Id_Cliente_cotizacion($cotizacion){
+    $this->db->select('cotizacion_id_cliente');
+    $this->db->from('cotizacion');
+    $this->db->where('id_cotizacion',$cotizacion);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Add_Recibo_Entrega($data){
+    $this->db->insert('recibo_entrega',$data);
+    if ($this->db->affected_rows() > 0) {
+      $id=$this->db->insert_id();
+      return $id;
+    } else{
+      return false;
+    }
+  }
+
+  public function Add_Product_Recibo_Entrega($productos){
+    $this->db->insert('lista_recibo_entrega',$productos);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+        } else{
+        return false;
+        }
+  }
+
+  public function Update_Recibo_Entrega($id_recibo_entrega,$data){
+    $this->db->where('id_recibo_entrega', $id_recibo_entrega);
+    $this->db->update('recibo_entrega', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function GetRecibo_Info($id_recibo_entrega){
+    $this->db->select('id_recibo_entrega,catalogo_cliente_empresa, id_empresa, recibo_entrega_folio, recibo_entrega_id_cliente, recibo_entrega_domicilio, recibo_entrega_origen, recibo_entrega_id_origen, recibo_entrega_fecha, recibo_entrega_estado');
+    $this->db->from('recibo_entrega');
+    $this->db->join('catalogo_cliente','recibo_entrega_id_cliente=id_catalogo_cliente');
+    $this->db->where('id_recibo_entrega',$id_recibo_entrega);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function GetRecibo_Products($id_recibo_entrega){
+    $this->db->select('id_lista_recibo_entrega, lista_recibo_entrega_id_recibo_entrega, lista_recibo_entrega_cantidad, producto_almacen_id_prod_alm, prod_alm_descripcion, prod_alm_modelo, prod_alm_nom');
+    $this->db->from('lista_recibo_entrega');
+    $this->db->join('producto_almacen','producto_almacen_id_prod_alm=id_prod_alm');
+    $this->db->where('lista_recibo_entrega_id_recibo_entrega',$id_recibo_entrega);
+    $result=$this->db->get();
+    return $result;
+  }
+
+
+
 
 
 

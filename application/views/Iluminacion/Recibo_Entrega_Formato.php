@@ -20,8 +20,8 @@
     <td></td>
     <td></td>
     <td></td>
-    <td class="tab-fecha2" colspan="1"></td>
-    <td class="tab-fecha2" colspan="3"></td>
+    <td class="tab-fecha2" colspan="1"><?php echo $recibo_info->recibo_entrega_fecha; ?></td>
+    <td class="tab-fecha2" colspan="3"><?php echo $recibo_info->recibo_entrega_folio; ?></td>
   </tr>
   <tr>
       <td></td>
@@ -35,11 +35,11 @@
 <table class="tab">
   <tr>
     <td class="tab-empresa">EMPRESA</td>
-    <td class="tab-empresa2" colspan="4"></td>
+    <td class="tab-empresa2" colspan="4"><?php echo $recibo_info->catalogo_cliente_empresa; ?></td>
   </tr>
   <tr>
     <td class="tab-domicilio">DOMICILIO</td>
-    <td class="tab-domicilio2" colspan="4"></td>
+    <td class="tab-domicilio2" colspan="4"><?php echo $recibo_info->recibo_entrega_domicilio; ?></td>
   </tr>
 </table>
 <br><br>
@@ -49,11 +49,11 @@
     <th class="tab-cantidad">Cantidad</th></b>
   </tr>
   <?php 
-  foreach ($cotizacion_products->result() as $row) {
+  foreach ($recibo_products->result() as $row) {
     ?>
       <tr>
         <td class="tab-descripcion2"><?php echo "".$row->prod_alm_descripcion.""; ?></td>
-        <td class="tab-cantidad2"><?php echo $row->lista_cotizacion_cantidad;?></td>
+        <td class="tab-cantidad2"><?php echo $row->lista_recibo_entrega_cantidad;?></td>
       </tr>
     <?php 
   }

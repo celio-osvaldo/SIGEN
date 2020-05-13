@@ -24,7 +24,7 @@
           <th>Subtotal</th>
           <th>IVA</th>
           <th>Total</th>
-          <th>Tiempo Entrega (días)</th>
+          <th>Tiempo Entrega (semanas)</th>
           <th>Vigencia (días)</th>
           <th>Elaboró</th>
           <th>Estado</th>

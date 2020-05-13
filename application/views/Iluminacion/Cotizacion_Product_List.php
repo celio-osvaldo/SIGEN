@@ -62,7 +62,7 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Tiempo de <br>Entrega (días):<hr><?php echo $cotizacion_info->cotizacion_tiempo_entrega; ?>
+                Tiempo de <br>Entrega (semanas):<hr><?php echo $cotizacion_info->cotizacion_tiempo_entrega; ?>
               </h6>
             </span>
             <span class="badge badge-info">

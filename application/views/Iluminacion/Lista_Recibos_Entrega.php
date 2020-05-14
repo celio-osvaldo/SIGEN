@@ -23,6 +23,7 @@
           <th>Estado de Entrega</th>
           <th>Editar</th>
           <th>Acciones</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -38,14 +39,22 @@
           <td id="<?php echo "estado".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_estado.""; ?></td>
           <td>
             <a class="navbar-brand" href="#" onclick="EditRecibo(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>">
-              <button class="btn btn-outline-secondary " title="Editar Registro"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
+              <button class="btn btn-outline-secondary " title="Editar Registro"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
               </button>
             </a>
+            <a class="navbar-brand" onclick="DeleteRecibo(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary"><img width="20px" src="..\Resources\Icons\delete.ico" title="Eliminar Recibo de Entrega" width="20px" style="filter: invert(100%)" /></button></a>
           </td>
-          <td>
-            <a class="navbar-brand" href="#" onclick="Product_Details(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary" title="Ver Detalles de Productos"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
+          <td style="text-align: right;">
+            <a class="navbar-brand" href="#" onclick="Product_Details(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary" title="Ver Detalles de Productos"><img width="20px" src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
             </a>
           </td>
+          <td style="text-align: left;"> 
+            <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Recibo_Entrega" method="POST" target='_blank'>
+             <input type="text" hidden="true" id="id_lista_recibo_entrega" name="id_lista_recibo_entrega" value="<?php echo $row->id_recibo_entrega; ?>">
+             <input hidden="true" type="text" id="folio" name="folio" value="<?php echo $row->recibo_entrega_folio; ?>">
+             <button class="btn btn-outline-secondary" type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
+           </form>
+         </td>
         </tr>
         <?php 
       }
@@ -160,6 +169,32 @@
   </div>
 </div>
 
+<!-- Modal Delete Recibo de Entrega -->
+<div class="modal fade" id="DeleteReciboModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-danger">
+        <h5 class="modal-title" id="titleDeleteReciboModal">Eliminar Recibo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6><label>Folio: </label><span class="badge badge-danger" id="delete_folio"></span></h6>
+        <h6><label>Empresa: </label><span class="badge badge-danger" id="delete_empresa"></span></h6>
+        <h6><label>Fecha de Entrega: </label><span class="badge badge-danger" id="delete_fecha_entrega"></span></h6>
+        <h6><label>Domicilio de Entrega: </label><span class="badge badge-danger" id="delete_domicilio"></span></h6>
+        <input type="text" id="delete_id_recibo_entrega" hidden="true">
+        <h6 class="bg-warning"><p>Al eliminar el Recibo de Entrega, la cantidad de productos que se encontraban listados en este se agregará nuevamente al almacen como existencia.</p></h6>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="Delete_Recibo" data-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script type="text/javascript">
 
@@ -210,7 +245,7 @@
       anticipo=$("#new_anticipo").val();
       cotizacion=$("#new_cotizacion").val();
       domicilio=$("#new_domicilio").val();
-      alert(folio+" "+fecha_ent+" "+origen_nuevo+" "+origen_anticipo+" "+origen_cotizacion+" "+cliente+" "+anticipo+" "+cotizacion+" "+domicilio);
+      //alert(folio+" "+fecha_ent+" "+origen_nuevo+" "+origen_anticipo+" "+origen_cotizacion+" "+cliente+" "+anticipo+" "+cotizacion+" "+domicilio);
       if(folio!=""&&fecha_ent!=""&&domicilio!=""){
         $.ajax({
           type:"POST",
@@ -255,6 +290,28 @@
         });
     });
 
+        $('#Delete_Recibo').click(function(){
+          id_recibo_entrega=$("#delete_id_recibo_entrega").val();
+          var folio=$("#folio"+id_recibo_entrega).text();
+          var fecha_entrega=$("#fecha"+id_recibo_entrega).text();
+          var domicilio=$("#domicilio"+id_recibo_entrega).text();
+          var empresa=$("#empresa"+id_recibo_entrega).text();
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/DeleteRecibo_Entrega",
+          data:{id_recibo_entrega:id_recibo_entrega},
+          success:function(result){
+            //alert(result);
+            if(result){
+              alert('Recibo de Entrega Eliminado');
+            }else{
+              alert('Falló el servidor. Recibo de Entrega No Eliminado');
+            }
+          }
+        });
+      Update(); 
+    });
+
 
     });
 
@@ -274,6 +331,22 @@ function EditRecibo($id_recibo_entrega){
   $("#edit_domicilio").val(domicilio);
   $("#edit_fecha_entrega").val(fecha_entrega);
 }
+
+  function DeleteRecibo($id_recibo_entrega){
+    var id_recibo_entrega=$id_recibo_entrega;
+    var folio=$("#folio"+id_recibo_entrega).text();
+    var fecha_entrega=$("#fecha"+id_recibo_entrega).text();
+    var domicilio=$("#domicilio"+id_recibo_entrega).text();
+    var empresa=$("#empresa"+id_recibo_entrega).text();
+    var estado=$("#estado"+id_recibo_entrega).text();
+    $('#DeleteReciboModal').modal();
+    $("#titleDeleteReciboModal").text("Eliminar Recibo de Entrega");
+    $("#delete_folio").text(folio);
+    $("#delete_empresa").text(empresa);
+    $("#delete_fecha_entrega").text(fecha_entrega);
+    $("#delete_domicilio").text(domicilio);
+    $("#delete_id_recibo_entrega").val(id_recibo_entrega);
+  }
 
 function Product_Details($id_recibo_entrega){
   var id_recibo_entrega=$id_recibo_entrega;

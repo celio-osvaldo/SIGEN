@@ -754,6 +754,49 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+  public function Delete_Product_Recibo($id_lista_recibo_entrega){
+    $this->db->where('id_lista_recibo_entrega', $id_lista_recibo_entrega);
+    $this->db->delete('lista_recibo_entrega');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Return_Product_Almacen($id_producto,$data){
+    $this->db->where('id_prod_alm', $id_producto);
+    $this->db->update('producto_almacen', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Delete_Lista_Recibo_Entrega($id_recibo_entrega){
+    $this->db->where('lista_recibo_entrega_id_recibo_entrega', $id_recibo_entrega);
+    $this->db->delete('lista_recibo_entrega');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Delete_Recibo_Entrega($id_recibo_entrega){
+    $this->db->where('id_recibo_entrega', $id_recibo_entrega);
+    $this->db->delete('recibo_entrega');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+
+
+
 
 
 

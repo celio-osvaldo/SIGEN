@@ -1246,6 +1246,12 @@ class Iluminacion extends CI_Controller {
 						'lista_recibo_entrega_cantidad' => $row->prod_anticipo_cantidad,
 						'producto_almacen_id_prod_alm' => $row->producto_almacen_id_prod_alm);
 					$this->Iluminacion_model->Add_Product_Recibo_Entrega($productos);
+					$cantidad_producto=$row->prod_anticipo_cantidad;
+					$id_producto=$row->producto_almacen_id_prod_alm;
+					$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
+					$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+					$data = array('prod_alm_exist' => $nueva_existencia, );
+					$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data);
 				}
 			}
 			if($origen_cotizacion=="cotizacion"){
@@ -1255,6 +1261,13 @@ class Iluminacion extends CI_Controller {
 						'lista_recibo_entrega_cantidad' => $row->lista_cotizacion_cantidad,
 						'producto_almacen_id_prod_alm' => $row->lista_cotizacion_id_prod_alm);
 					$this->Iluminacion_model->Add_Product_Recibo_Entrega($productos);
+					
+					$cantidad_producto=$row->lista_cotizacion_cantidad;
+					$id_producto=$row->lista_cotizacion_id_prod_alm;
+					$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
+					$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+					$data = array('prod_alm_exist' => $nueva_existencia, );
+					$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data);
 				}
 			}
 			echo true;
@@ -1295,8 +1308,55 @@ class Iluminacion extends CI_Controller {
 			 		  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
 					  'recibo_products' => $this->Iluminacion_model->GetRecibo_Products($id_recibo_entrega));
 		$this->load->view('Iluminacion/Recibo_Product_List',$data);
+	}
+
+	public function DeleteProduct_Recibo_Entrega(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_lista_recibo_entrega=$_POST["id_lista_recibo_entrega"];
+		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+		$cantidad=$_POST["cantidad"];
+		$id_producto=$_POST["id_producto"];
+
+		if($this->Iluminacion_model->Delete_Product_Recibo($id_lista_recibo_entrega)){ //Eliminarmos el producto del listado del recibio de entrega
+			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
+			$nueva_existencia=(($prod_inventario->prod_alm_exist)+($cantidad));
+			$data = array('prod_alm_exist' => $nueva_existencia, );
+			$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data); //Regresamos al inventario la cantidad de Productos
+			echo true;
+		}else{
+			echo false;
+		}
 
 	}
+
+	public function DeleteRecibo_Entrega(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+
+		$lista_productos=$this->Iluminacion_model->GetRecibo_Products($id_recibo_entrega);
+		foreach ($lista_productos->result() as $row) {
+			$cantidad_producto=$row->lista_recibo_entrega_cantidad; //Obtenemos la cantidad de producto en el recibo de entrega
+			$id_producto=$row->producto_almacen_id_prod_alm; //Obtenemos el id del producto
+			$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
+			$nueva_existencia=(($existencia_producto->prod_alm_exist)+($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+			$data = array('prod_alm_exist' => $nueva_existencia, );
+			$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data); //Regresamos al inventario la cantidad de Productos
+		}
+
+		//Eliminamos la lista de productos del Recibo de Entrega
+		$this->Iluminacion_model->Delete_Lista_Recibo_Entrega($id_recibo_entrega);
+		//Eliminamos el Recibo de Entrega
+		$this->Iluminacion_model->Delete_Recibo_Entrega($id_recibo_entrega);
+
+		echo true;
+
+
+	}
+
 
 
 

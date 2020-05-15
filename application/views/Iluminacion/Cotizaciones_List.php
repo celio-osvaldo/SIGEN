@@ -21,6 +21,8 @@
           <th>Cliente</th>
           <th hidden="true">id_cliente</th>
           <th>Obra</th>
+          <th>Empresa</th>
+          <th>Licitacion</th>
           <th>Subtotal</th>
           <th>IVA</th>
           <th>Total</th>
@@ -43,6 +45,8 @@
           <td id="<?php echo "cliente".$row->id_cotizacion;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td hidden="true" id="<?php echo "id_cliente".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_id_cliente.""; ?></td>
           <td id="<?php echo "obra".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_obra.""; ?></td>
+          <td id="<?php echo "empresa".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_empresa.""; ?></td>
+          <td id="<?php echo "licitacion".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_licitacion.""; ?></td>
           <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo "".$row->cotizacion_subtotal.""; ?></td>
           <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo "".$row->cotizacion_iva.""; ?></td>
           <td id="<?php echo "total".$row->id_cotizacion;?>">$<?php echo "".$row->cotizacion_total.""; ?></td>
@@ -110,9 +114,13 @@
         </select>
         <label>Obra</label><br>
         <input type="text" maxlength="200" id="new_obra" class="form-control input-sm">
+        <label>Empresa</label>
+        <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm">
+        <label>Licitación</label>
+        <input type="text" maxlength="200" id="new_licitacion" class="form-control input-sm">
         <div class="form-row">
           <div class="form-group col-md-5">
-            <label>Tiempo de Entrega (días)</label>
+            <label>Tiempo de Entrega (semanas)</label>
             <input type="number" id="new_tiem_entrega" class="form-control input-sm">
           </div>
           <div class="form-group col-md-4">
@@ -169,6 +177,10 @@
         </select>
         <label>Obra</label><br>
         <input type="text" maxlength="200" id="edit_obra" class="form-control input-sm">
+        <label>Empresa</label><br>
+        <input type="text" maxlength="200" id="edit_empresa" class="form-control input-sm">
+        <label>Licitación</label><br>
+        <input type="text" maxlength="200" id="edit_licitacion" class="form-control input-sm">
         <div class="form-row">
           <div class="form-group col-md-5">
             <label>Tiempo de Entrega (días)</label>
@@ -260,11 +272,13 @@
       new_vigencia=$('#new_vigencia').val();
       new_elabora=$('#new_elabora').val();
       new_estado=$('#new_estado').val();
+      new_empresa=$('#new_empresa').val();
+      new_licitacion=$('#new_licitacion').val();
       //alert(cliente+fecha_fin+fecha_ent+coment);
       $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/New_Cotizacion",
-        data:{new_folio:new_folio, new_fecha_elabora:new_fecha_elabora, new_cliente:new_cliente, new_obra:new_obra, new_tiem_entrega:new_tiem_entrega, new_vigencia:new_vigencia, new_elabora:new_elabora, new_estado:new_estado},
+        data:{new_folio:new_folio, new_fecha_elabora:new_fecha_elabora, new_cliente:new_cliente, new_obra:new_obra, new_tiem_entrega:new_tiem_entrega, new_vigencia:new_vigencia, new_elabora:new_elabora, new_estado:new_estado, new_empresa:new_empresa, new_licitacion:new_licitacion},
         success:function(result){
             //alert(result);
             if(result){
@@ -288,11 +302,13 @@
       vigencia=$('#edit_vigencia').val();
       elabora=$('#edit_elabora').val();
       estado=$('#edit_estado').val();
+      licitacion=$('#edit_licitacion').val();
+      empresa=$('#edit_empresa').val();
       //alert(cliente+estado+fecha_fin+fecha_ent+coment+id_anticipo);
       $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/Update_Cotizacion",
-        data:{id_cotizacion:id_cotizacion, folio:folio, fecha_elabora:fecha_elabora, cliente:cliente, obra:obra, tiem_entrega:tiem_entrega, vigencia:vigencia, elabora:elabora, estado:estado},
+        data:{id_cotizacion:id_cotizacion, folio:folio, fecha_elabora:fecha_elabora, cliente:cliente, obra:obra, tiem_entrega:tiem_entrega, vigencia:vigencia, elabora:elabora, estado:estado,licitacion:licitacion, empresa:empresa},
         success:function(result){
             //alert(result);
             if(result){
@@ -417,12 +433,16 @@
     vigencia=$('#vigencia'+id_cotizacion).text();
     elabora=$('#elabora'+id_cotizacion).text();
     estado=$('#estado'+id_cotizacion).text();
+    licitacion=$('#licitacion'+id_cotizacion).text();
+    empresa=$('#empresa'+id_cotizacion).text();
     $('#EditCotizacionModal').modal();
     $('#edit_id_cotizacion').val(id_cotizacion);
     $("#edit_folio").val(folio);
     $("#edit_fecha_elabora").val(fecha_elabora);
     $("#edit_cliente").val(cliente).attr('selected',true);
     $("#edit_obra").val(obra);
+    $("#edit_empresa").val(empresa);
+    $("#edit_licitacion").val(licitacion);
     $("#edit_tiem_entrega").val(tiem_entrega);
     $("#edit_vigencia").val(vigencia);
     $("#edit_elabora").val(elabora);

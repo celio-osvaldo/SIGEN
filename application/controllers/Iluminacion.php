@@ -1046,7 +1046,9 @@ class Iluminacion extends CI_Controller {
 					  'cotizacion_tiempo_entrega' =>$this->input->post('new_tiem_entrega'),
 					  'cotizacion_vigencia' => $this->input->post('new_vigencia'),
 					  'cotizacion_elabora' => $this->input->post('new_elabora'),
-					  'cotizacion_estado' => $this->input->post('new_estado'));
+					  'cotizacion_estado' => $this->input->post('new_estado'),
+					  'cotizacion_empresa' => $this->input->post('new_empresa'),
+					  'cotizacion_licitacion' => $this->input->post('new_licitacion'));
 		if($this->Iluminacion_model->New_Cotizacion($data)){
 			echo true;
 		}else{
@@ -1065,7 +1067,9 @@ class Iluminacion extends CI_Controller {
 					  'cotizacion_tiempo_entrega' =>$this->input->post('tiem_entrega'),
 					  'cotizacion_vigencia' => $this->input->post('vigencia'),
 					  'cotizacion_elabora' => $this->input->post('elabora'),
-					  'cotizacion_estado' => $this->input->post('estado'));
+					  'cotizacion_estado' => $this->input->post('estado'),
+					  'cotizacion_licitacion' => $this->input->post('licitacion'),
+					  'cotizacion_empresa'=> $this->input->post('empresa'));
 		$id_cotizacion=$_POST["id_cotizacion"];
 		if($this->Iluminacion_model->Update_Cotizacion($id_cotizacion,$data)){
 			echo true;

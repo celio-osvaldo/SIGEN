@@ -183,6 +183,7 @@
             }else{
               alert('Falló el servidor. Producto no eliminado');
             }
+            Update_Page(id_anticipo);
           }
         });
       Update_Page(id_anticipo); 
@@ -211,7 +212,7 @@
      $("#titleProductModal").text("Editar Producto: "+nombre_prod);
      $("#edit_cant").val(cantidad);
      $("#edit_cant").attr({"max" : existencia});
-     $("#edit_precio").val(parseFloat(precio_venta[1]));
+     $("#edit_precio").val(parseFloat(precio_venta));
      $("#edit_coment").val(coment);
      $("#edit_id_prod_ant").val(id_prod_ant);
   }

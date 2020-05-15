@@ -517,10 +517,10 @@ class Iluminacion extends CI_Controller {
 			$data2 = array('anticipo_total' => round($total->total,2),
 							'anticipo_resto' => $resto );
 			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
-			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
-			$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
-			$existencia = array('prod_alm_exist' => $nueva_existencia );
-			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+			//$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
+			//$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
+			//$existencia = array('prod_alm_exist' => $nueva_existencia );
+			//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			echo true;
 		}else{
 			echo false;
@@ -560,12 +560,12 @@ class Iluminacion extends CI_Controller {
 				$resta=$act_cantidad-$cant_anterior;
 				$nueva_existencia=($prod_inventario->prod_alm_exist)-$resta;
 				$existencia = array('prod_alm_exist' => $nueva_existencia );
-				$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+				//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			}else{
 				$suma=$cant_anterior-$act_cantidad;
 				$nueva_existencia=($prod_inventario->prod_alm_exist)+$suma;
 				$existencia = array('prod_alm_exist' => $nueva_existencia );
-				$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+				//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			}
 		}
 			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
@@ -592,7 +592,7 @@ class Iluminacion extends CI_Controller {
 			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
 			$nueva_existencia=($prod_inventario->prod_alm_exist)+$cantidad;
 			$existencia = array('prod_alm_exist' => $nueva_existencia );
-			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+			//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
 			$pagado=$this->Iluminacion_model->Get_Pagado_Anticipo($id_anticipo);
 			$resto=(($total->total)-($pagado->anticipo_pago));
@@ -1353,8 +1353,56 @@ class Iluminacion extends CI_Controller {
 		$this->Iluminacion_model->Delete_Recibo_Entrega($id_recibo_entrega);
 
 		echo true;
+	}
 
+	public function Add_Product_Recibo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+		$id_producto=$_POST["id_producto"];
+		$prod_cantidad=$_POST["prod_cantidad"];
 
+		$productos = array('lista_recibo_entrega_id_recibo_entrega' => $id_recibo_entrega,
+			'lista_recibo_entrega_cantidad' => $prod_cantidad,
+			'producto_almacen_id_prod_alm' => $id_producto);
+		if($this->Iluminacion_model->Add_Product_Recibo_Entrega($productos)){
+			$cantidad_producto=$prod_cantidad;
+			$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
+			$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+			$data2 = array('prod_alm_exist' => $nueva_existencia, );
+			$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data2);
+			echo true;
+			}else{
+				echo false;
+			}
+		}
+
+	public function UpdateProduct_Recibo_Entrega(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_lista_recibo_entrega=$_POST["id_lista_recibo_entrega"];
+		$cantidad=$_POST["cantidad"];
+		$cantidad_anterior=$_POST["cantidad_anterior"];
+		$id_producto=$_POST["id_producto"];
+
+		$data = array('lista_recibo_entrega_cantidad' => $cantidad );
+		$this->Iluminacion_model->Update_Product_Recibo($id_lista_recibo_entrega,$data);
+
+		$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
+		if($cantidad_anterior>$cantidad){
+			$cantidad_producto=($cantidad_anterior-$cantidad);
+			$nueva_existencia=(($existencia_producto->prod_alm_exist)+($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+		}else{
+			$cantidad_producto=($cantidad-$cantidad_anterior);
+			$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+		}	
+		
+		$data2 = array('prod_alm_exist' => $nueva_existencia, );
+		$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data2); //Regresamos al inventario la cantidad de Productos
+	
+		echo true;
 	}
 
 
@@ -1367,13 +1415,7 @@ class Iluminacion extends CI_Controller {
 
 
 
-
-
-
-
-
-
-		public function Genera_PDF_Recibo_Entrega(){
+	public function Genera_PDF_Recibo_Entrega(){
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
 		$id_lista_recibo_entrega=$_POST["id_lista_recibo_entrega"];

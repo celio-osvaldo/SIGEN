@@ -794,6 +794,16 @@ class Iluminacion_model extends CI_Model
     }
   }
 
+  public function Update_Product_Recibo($id_lista_recibo_entrega,$data){
+    $this->db->where('id_lista_recibo_entrega', $id_lista_recibo_entrega);
+    $this->db->update('lista_recibo_entrega', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
 
 
 

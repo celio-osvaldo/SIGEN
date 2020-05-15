@@ -268,6 +268,7 @@
             Update();
           }
         });
+      Update();
     });
 
     $('#AddProduct').click(function(){
@@ -286,7 +287,7 @@
           success:function(result){
             //alert(result);
             if(result){
-              alert('Producto Agregado al Anticipo. Almacen de Productos Actualizado.');
+              alert('Producto Agregado al Anticipo.');
             }else{
               alert('Falló el servidor. Producto no Agregado');
             }
@@ -343,7 +344,7 @@
           contentType: false,
           processData: false,
           success:function(result){
-            alert(result);
+            //alert(result);
             if(result=="ok-ok"){
               alert('Pago agregado. Imagen Guardada');
             }else{

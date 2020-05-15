@@ -9,8 +9,8 @@
      <input type="text" hidden="true" id="id_lista_recibo_entrega" name="id_lista_recibo_entrega" value="<?php echo $recibo_info->id_recibo_entrega; ?>">
      <input hidden="true" type="text" id="folio" name="folio" value="<?php echo $recibo_info->recibo_entrega_folio; ?>">
      <button class="btn btn-primary" type="submit" title="Imprimir Cotización">Imprimir Recibo de Entrega</button>
-    </form>
-  </div>
+   </form>
+ </div>
 </div>
 <div class="card bg-card">
   <div class="table-responsive">
@@ -44,14 +44,12 @@
                 Estado de Entrega:<hr><?php echo $recibo_info->recibo_entrega_estado; ?>
               </h6>
             </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                Agregar Producto al Recibo<hr><a class="navbar-brand" onclick="AddProduct(this.id)" role="button" id="<?php echo $recibo_info->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary btn-sm"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" height="20px" alt="Agregar Producto al Recibo" style="filter: invert(100%)"></button></a>
-              </h6>
-            </span>
           </div>
         </div>
       </div>
+      <div class="col align-self-end" align="right">
+        <a class="navbar-brand" onclick="AddProduct(this.id)" role="button" id="<?php echo $recibo_info->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary btn-sm"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="30px" height="30px" alt="Agregar Producto al Recibo" style="filter: invert(100%)">Agregar Nuevo Producto al Recibo de Entrega</button></a>
+      </div>        
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
           <th hidden="true">id_recibo_entrega</th>
@@ -131,7 +129,30 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="Delete_Product" data-dismiss="modal">Agregar</button>
+        <button type="button" class="btn btn-primary" id="Add_Product" data-dismiss="modal">Agregar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Edit Product Recibo Entrega -->
+<div class="modal fade" id="EditProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="titleDeleteProductModal">Editar Producto del Recibido de Entrega</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h6><label>Descripcion: </label></h6><h5><span class="badge badge-info" id="Edit_descripcion"></span></h5>
+        <h6><label>Cantidad: </label><input type="number" class="form-control col-4" min="0" id="Edit_cantidad"></h6>
+        <input type="text" id="Edit_id_lista_recibo_entrega" hidden="true">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-success" id="Update_Product" data-dismiss="modal">Actualizar</button>
       </div>
     </div>
   </div>
@@ -164,6 +185,55 @@
       Update_Page(id_recibo_entrega); 
     });
 
+    $('#Add_Product').click(function(){
+      id_recibo_entrega=<?php echo $recibo_info->id_recibo_entrega; ?>;
+      id_producto=$("#prod_nombre").val();
+      prod_cantidad=$("#prod_cantidad").val();
+     //alert(id_recibo_entrega+" "+id_producto+" "+prod_cantidad);
+      if(prod_cantidad>0&&id_producto!=null){
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/Add_Product_Recibo",
+          data:{id_recibo_entrega:id_recibo_entrega, id_producto:id_producto, prod_cantidad:prod_cantidad},
+          success:function(result){
+            //alert(result);
+            if(result){
+              alert('Producto Agregado al Recibo de Entrega. Almacen de Productos Actualizado.');
+            }else{
+              alert('Falló el servidor. Producto no Agregado');
+            }
+            Update_Page(id_recibo_entrega);
+          }
+        });
+      }else{
+        alert("Debe Ingresar por lo menos 1 producto");
+      }
+    });
+
+        $('#Update_Product').click(function(){
+          id_lista_recibo_entrega=$("#Edit_id_lista_recibo_entrega").val();
+          cantidad=$("#Edit_cantidad").val();
+          id_producto=$("#id_producto"+id_lista_recibo_entrega).text();
+          id_recibo_entrega=<?php echo $recibo_info->id_recibo_entrega; ?>;
+          cantidad_anterior=$("#cantidad"+id_lista_recibo_entrega).text();
+          //alert(id_lista_recibo_entrega+" "+cantidad+" "+cantidad_anterior+" "+id_producto+" "+id_recibo_entrega);
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/UpdateProduct_Recibo_Entrega",
+          data:{id_lista_recibo_entrega:id_lista_recibo_entrega, cantidad:cantidad, cantidad_anterior:cantidad_anterior, id_producto:id_producto, id_recibo_entrega:id_recibo_entrega},
+          success:function(result){
+            //alert(result);
+            if(result){
+              alert('Producto Actualizado');
+            }else{
+              alert('Falló el servidor. Producto no Actualizado');
+            }
+            Update_Page(id_recibo_entrega); 
+          }
+        });
+      Update_Page(id_recibo_entrega); 
+    });
+
   });
 
 
@@ -177,6 +247,17 @@
      $("#delete_descripcion").text(descripcion_producto);
      $("#delete_cantidad").text(cantidad);
      $("#delete_id_lista_recibo_entrega").val(id_lista_recibo_entrega);
+  }
+
+  function EditProduct($id_lista_recibo_entrega){
+    var id_lista_recibo_entrega=$id_lista_recibo_entrega;
+    var id_producto=$("#id_producto"+id_lista_recibo_entrega).text();
+    var descripcion_producto=$("#descripcion_producto"+id_lista_recibo_entrega).text();
+    var cantidad=$("#cantidad"+id_lista_recibo_entrega).text();
+    $('#EditProductModal').modal();
+     $("#Edit_descripcion").text(descripcion_producto);
+     $("#Edit_cantidad").val(cantidad);
+     $("#Edit_id_lista_recibo_entrega").val(id_lista_recibo_entrega);
   }
 
   function AddProduct($id_recibo_entrega){

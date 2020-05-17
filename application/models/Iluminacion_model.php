@@ -804,18 +804,6 @@ class Iluminacion_model extends CI_Model
     }
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
   public function GetAllCostOfSale($idcompany){
     $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago');
     $this->db->from('obra_cliente');
@@ -940,6 +928,55 @@ class Iluminacion_model extends CI_Model
     $this->db->where('id_viaticos', $id_viatico);
     $q = $this->db->get();
     return $q;
+  }
+
+  public function Get_sal_ban_ant($idcompany,$anio_ant,$mes_ant){
+    $this->db->select('flujo_efectivo_saldo_fin');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes_ant);
+    $this->db->where('flujo_efectivo_anio',$anio_ant);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_Ingresos_Pagos($idcompany,$anio,$mes){
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa');
+    $this->db->from('venta_movimiento');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
+    $this->db->where('MONTH(venta_mov_fecha)',$mes);
+    $this->db->where('YEAR(venta_mov_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->order_by('venta_mov_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Get_Ingresos_Anticipos($anio,$mes){
+    $this->db->select('id_pagos_anticipo, anticipo.id_anticipo, pagos_anticipo_fecha, pagos_anticipo_cantidad, pagos_anticipo_coment, pagos_anticipo_url_comprobante, catalogo_cliente_empresa');
+    $this->db->from('pagos_anticipo');
+    $this->db->join('anticipo','anticipo.id_anticipo=pagos_anticipo.id_anticipo');
+    $this->db->join('catalogo_cliente','obra_cliente_id_obra_cliente=id_catalogo_cliente');
+    $this->db->where('MONTH(pagos_anticipo_fecha)',$mes);
+    $this->db->where('YEAR(pagos_anticipo_fecha)',$anio);
+    $this->db->order_by('pagos_anticipo_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Get_Ingresos_SFV($idcompany,$anio,$mes){
+    $this->db->select('id_lista_pago_sfv, pago_sfv_id_pago_sfv, lista_pago_sfv_num_pago, lista_pago_sfv_fecha, lista_pago_sfv_sub_total, lista_pago_sfv_iva, lista_pago_sfv_total, lista_pago_sfv_kwh_factu, lista_pago_sfv_saldo, lista_pago_sfv_coment, lista_pago_sfv_url_comprobante, catalogo_cliente_empresa');
+    $this->db->from('lista_pago_sfv');
+    $this->db->join('pago_sfv','pago_sfv_id_pago_sfv=id_pago_sfv');
+    $this->db->join('catalogo_cliente','pago_sfv_id_cliente=id_catalogo_cliente');
+    $this->db->where('MONTH(lista_pago_sfv_fecha)',$mes);
+    $this->db->where('YEAR(lista_pago_sfv_fecha)',$anio);
+    $this->db->where('pago_sfv_id_empresa',$idcompany);
+    $this->db->order_by('lista_pago_sfv_fecha');
+    $result = $this->db->get();
+    return $result;
   }
 
 

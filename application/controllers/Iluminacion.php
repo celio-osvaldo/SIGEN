@@ -1409,16 +1409,6 @@ class Iluminacion extends CI_Controller {
 		echo true;
 	}
 
-
-
-
-
-
-
-
-
-
-
 	public function Genera_PDF_Recibo_Entrega(){
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
@@ -1439,6 +1429,99 @@ class Iluminacion extends CI_Controller {
 		$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
 		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
 		$mpdf->Output('Recibo_Entrega_'.$folio.'.pdf','I'); 
+	}
+
+	public function Flujo_Efectivo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		//$data = array('' => , );
+		$this->load->view('Iluminacion/Report_Flujo_Efectivo');
+	}
+
+public function Reporte_flujo_efectivo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$anio=$_POST["anio"];
+		$mes=$_POST["mes"];
+		switch ($mes) {
+			case '01':
+				$mes_letra="ENERO";
+				break;
+			case '02':
+				$mes_letra="FEBRERO";
+				break;
+			case '03':
+				$mes_letra="MARZO";
+				break;
+			case '04':
+				$mes_letra="ABRIL";
+				break;
+			case '05':
+				$mes_letra="MAYO";
+				break;
+			case '06':
+				$mes_letra="JUNIO";
+				break;
+			case '07':
+				$mes_letra="JULIO";
+				break;
+			case '08':
+				$mes_letra="AGOSTO";
+				break;
+			case '09':
+				$mes_letra="SEPTIEMBRE";
+				break;
+			case '10':
+				$mes_letra="OCTUBRE";
+				break;
+			case '11':
+				$mes_letra="NOVIEMBRE";
+				break;
+			case '12':
+				$mes_letra="DICIEMBRE";
+				break;			
+			default:
+				
+				break;
+		}
+		if($mes==01){
+			$mes_ant=12;
+			$anio_ant=$anio-1;
+		}else{
+			$mes_ant=$mes-1;
+			$anio_ant=$anio;
+		}
+
+		$saldo_ant=$this->Iluminacion_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant);
+		
+
+		if(is_null($saldo_ant)){
+			$data = array('ingresos_venta_mov' => $this->Iluminacion_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
+					      'sal_ban_ant'=>0,
+					      'ingresos_anticipos' => $this->Iluminacion_model->Get_Ingresos_Anticipos($anio,$mes),
+					      'ingresos_sfv' => $this->Iluminacion_model->Get_Ingresos_SFV($idcompany->id_empresa,$anio,$mes),
+					      //'egresos_caja_chica' => $this->Iluminacion_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					      //'egresos_gasto_venta' => $this->Iluminacion_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
+					      //'egresos_viatico' => $this->Iluminacion_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
+					      //'egresos_otros_gastos' => $this->Iluminacion_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
+					      'mes'=>$mes_letra,
+					  	   'anio'=>$anio );
+		}else{
+			$data = array('ingresos_venta_mov' => $this->Iluminacion_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
+					  	   'sal_ban_ant'=> $saldo_ant,
+					  	   'ingresos_anticipos' => $this->Iluminacion_model->Get_Ingresos_Anticipos($anio,$mes),
+					  	   'ingresos_sfv' => $this->Iluminacion_model->Get_Ingresos_SFV($idcompany->id_empresa,$anio,$mes),
+					  	   //'egresos_caja_chica' => $this->Iluminacion_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					  	   //'egresos_gasto_venta' => $this->Iluminacion_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
+					  	   //'egresos_viatico' => $this->Iluminacion_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
+					  	   //'egresos_otros_gastos' => $this->Iluminacion_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
+					  	   'mes'=>$mes_letra,
+					  	   'anio'=>$anio );
+		}	
+		//var_dump($data);
+		$this->load->view('Iluminacion/Tabla_flujo_efectivo', $data);
 	}
 
 

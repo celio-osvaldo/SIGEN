@@ -1,0 +1,49 @@
+
+
+
+
+
+
+.tab  {border-collapse:collapse;border-spacing:0;width: 100%;}
+.tab td{border-width:1px;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;word-break:normal;}
+.tab th{border-width:1px;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:5px 19px;word-break:normal;}
+.tab .tab-logo{text-align:left;vertical-align:top}
+.tab .tab-datos{text-align:center;vertical-align:top;padding:0px 0px}
+
+table{width: 100%}
+.tab2 {border-collapse:collapse;border-spacing:0;width: 100%;font-size:12px;}
+.tab2 td{width: 5%;border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
+.tab2 th{width: 5%;border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
+.tab2 .tab2-depositos{background-color:#92D050;border-style:solid;border-color:#D0CECE;color:white;text-align:center;vertical-align:middle;padding:0px 0px}
+.tab2 .tab2-depositos2{background-color:#FFFFFF;border-style:solid;border-color:#FFFFFF;color:blue;text-align:center;vertical-align:middle;padding:0px 0px}
+.tab2 .tab2-lista{background-color:#FFFFFF;border-style:solid;border-color:#D0CECE;color:black;text-align:center;vertical-align:middle;padding:0px 0px}
+.tab2 .tab2-lista2{background-color:#FFFFFF;border-style:solid;border-color:#FFFFFF;color:black;text-align:center;vertical-align:middle;padding:0px 0px}
+.tab2 .tab2-total{background-color:#FFFFFF;border-style:solid;border-color:black;color:black;text-align:center;vertical-align:middle;padding:0px 0px}
+
+
+
+
+.tab3 {border-collapse:collapse;border-spacing:0;width: 100%;font-size:12px;}
+.tab3 td{;border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
+.tab3 th{border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
+.tab3 .tab3-retiros{background-color:#FF7E79;border-style:solid;border-color:#D0CECE;color:white;text-align:center;vertical-align:top;padding:0px 0px}
+.tab3 .tab3-retiros2{background-color:#FFFFFF;border-style:solid;border-color:#FFFFFF;color:blue;text-align:center;vertical-align:top;padding:0px 0px}
+.tab3 .tab3-lista{background-color:#FFFFFF;border-style:solid;border-color:#D0CECE;color:black;text-align:center;vertical-align:top;padding:0px 0px}
+.tab3 .tab3-lista2{background-color:#FFFFFF;border-style:solid;border-color:#FFFFFF;color:black;text-align:center;vertical-align:top;padding:0px 0px}
+
+
+
+
+.tab .tab-fecha{background-color:#7FBEEA;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-fecha2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-empresa{background-color:#7FBEEA;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:10px 5px}
+.tab .tab-empresa2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:10px 80px}
+.tab .tab-domicilio{background-color:#7FBEEA;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:20px 5px}
+.tab .tab-domicilio2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:20px 80px}
+.tab .tab-descripcion{background-color:#94C01E;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 80px}
+.tab .tab-cantidad{background-color:#94C01E;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 20px}
+.tab .tab-descripcion2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 80px}
+.tab .tab-cantidad2{background-color:#FFFFFF;border-style:solid;border-color:#000000;color:black;text-align:center;vertical-align:top;padding:5px 20px}
+.tab .tab-entrega{background-color:#FFFFFF;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-recibe{background-color:#FFFFFF;color:black;text-align:center;vertical-align:top;padding:5px 5px}
+.tab .tab-final{font-size:14px;background-color:#FFFFFF;color:black;text-align:left;vertical-align:top;padding:5px 5px}

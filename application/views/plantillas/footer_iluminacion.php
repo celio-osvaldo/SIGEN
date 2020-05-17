@@ -100,6 +100,14 @@
 			});
 		});
 	</script>
+	
+	<script>
+		$(document).ready(function(){
+			$("#Flujo_Efectivo").click(function(){
+				$("#page_content").load("Flujo_Efectivo");
+			});
+		});
+	</script>
 
 	<script>
 		$(document).ready(function(){

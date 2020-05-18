@@ -1503,7 +1503,7 @@ public function Reporte_flujo_efectivo(){
 					      'ingresos_anticipos' => $this->Iluminacion_model->Get_Ingresos_Anticipos($anio,$mes),
 					      'ingresos_sfv' => $this->Iluminacion_model->Get_Ingresos_SFV($idcompany->id_empresa,$anio,$mes),
 					      //'egresos_caja_chica' => $this->Iluminacion_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
-					      //'egresos_gasto_venta' => $this->Iluminacion_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
+					      'egresos_gasto_venta' => $this->Iluminacion_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
 					      //'egresos_viatico' => $this->Iluminacion_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
 					      //'egresos_otros_gastos' => $this->Iluminacion_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
 					      'mes'=>$mes_letra,

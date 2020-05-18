@@ -6,7 +6,7 @@
     <td class="tab-logo"><img height="100" width="300" src="..\Resources\Logos\Logo_ISA.png"></td>
     <td class="tab-datos"><b>ILUMINACION SUSTENTABLE AGS, S DE RL DE CV <br> <?php echo $mes." DE ".$anio ?></b></td>
     <td class="tab-datos"><b><label style="text-align: right;">Saldo Inicial (En Banco Mes Anterior)</label> <br>
-       $<input type="number" id="saldo_mes_anterior" value="<?php echo $sal_ban_ant; ?>"></b></td>
+       $<input type="text" id="saldo_mes_anterior"  pattern="[0-9]*" value="<?php echo $sal_ban_ant; ?>"></b></td>
   </tr>
 </table>
 
@@ -29,12 +29,20 @@
   <body>
     <?php  //Lista de Pagos de Proyectos
     $suma_importes=0;
+    $saldo_final=0;
+    $saldo_final+=$sal_ban_ant;
       foreach ($ingresos_venta_mov->result() as $row) {
         $suma_importes+=$row->venta_mov_monto;
         ?>
         <tr>
           <td class="tab2-lista"><?php echo $row->venta_mov_fecha; ?></td>
-          <td class="tab2-lista"><input type="text" id="<?php echo "ref".$row->id_venta_mov;?>"></td>
+          <td class="tab2-lista">
+            <select id="<?php echo "ref".$row->id_venta_mov;?>">
+              <option value="Tranferencia">Tranferencia</option>
+              <option value="Deposito_cheque">Depósito en Cheque</option>
+              <option value="Efectivo">Efectivo</option>
+            </select>            
+          </td>
           <td class="tab2-lista"><?php echo number_format($row->venta_mov_monto, 2, '.', ',');?></td>
           <td class="tab2-lista"><?php echo number_format(($row->venta_mov_monto)/1.16, 2, '.', ',');?></td>
           <td class="tab2-lista"><?php echo number_format(($row->venta_mov_monto/1.16)*0.16, 2, '.', ',');?></td>
@@ -55,7 +63,13 @@
         ?>
         <tr>
           <td class="tab2-lista"><?php echo $row->pagos_anticipo_fecha; ?></td>
-          <td class="tab2-lista"><input type="text" id="<?php echo "ref".$row->id_pagos_anticipo;?>"></td>
+          <td class="tab2-lista">
+            <select id="<?php echo "ref".$row->id_pagos_anticipo;?>">
+              <option value="Tranferencia">Tranferencia</option>
+              <option value="Deposito_cheque">Depósito en Cheque</option>
+              <option value="Efectivo">Efectivo</option>
+            </select>            
+          </td>
           <td class="tab2-lista"><?php echo number_format($row->pagos_anticipo_cantidad, 2, '.', ',');?></td>
           <td class="tab2-lista"><?php echo number_format(($row->pagos_anticipo_cantidad)/1.16, 2, '.', ',');?></td>
           <td class="tab2-lista"><?php echo number_format(($row->pagos_anticipo_cantidad/1.16)*0.16, 2, '.', ',');?></td>
@@ -76,7 +90,13 @@
         ?>
         <tr>
           <td class="tab2-lista"><?php echo $row->lista_pago_sfv_fecha; ?></td>
-          <td class="tab2-lista"><input type="text" id="<?php echo "ref".$row->id_lista_pago_sfv;?>"></td>
+          <td class="tab2-lista">
+            <select id="<?php echo "ref".$row->id_lista_pago_sfv;?>">
+              <option value="Tranferencia">Tranferencia</option>
+              <option value="Deposito_cheque">Depósito en Cheque</option>
+              <option value="Efectivo">Efectivo</option>
+            </select>            
+          </td>
           <td class="tab2-lista"><?php echo number_format($row->lista_pago_sfv_total, 2, '.', ',');?></td>
           <td class="tab2-lista"><?php echo number_format(($row->lista_pago_sfv_total)/1.16, 2, '.', ',');?></td>
           <td class="tab2-lista"><?php echo number_format(($row->lista_pago_sfv_total/1.16)*0.16, 2, '.', ',');?></td>
@@ -106,6 +126,8 @@
     </tr>
   </tfoot>
 </table>
+<?php 
+$saldo_final+=($suma_importes+$suma_anticipos+$suma_sfv) ?>
 
 <table class="tab3">
   <head>
@@ -127,20 +149,124 @@
   <th class="tab3-retiros2">IVA</th>
   </head>
   <body>
+   <?php  //Lista de Pagos de Proyectos
+      $suma_gastos_venta=0;
+      foreach ($egresos_gasto_venta->result() as $row) {
+        $suma_gastos_venta+=$row->gasto_venta_monto;
+    ?>
     <tr>
-      <td class="tab3-lista">1</td>
-      <td class="tab3-lista">2</td>
-      <td class="tab3-lista">3</td>
-      <td class="tab3-lista">4</td>
-      <td class="tab3-lista">5</td>
-      <td class="tab3-lista">6</td>
-      <td class="tab3-lista">7</td>
-      <td class="tab3-lista">8</td>
-      <td class="tab3-lista">9</td>
-      <td class="tab3-lista">10</td>
-      <td class="tab3-lista2">11</td>
-      <td class="tab3-lista2">12</td>
-      <td class="tab3-lista2">13</td>
+      <td class="tab3-lista"><?php echo $row->gasto_venta_fecha_pago; ?></td>
+      <td class="tab3-lista">
+            <select id="<?php echo "ref".$row->id_gasto_venta;?>">
+              <option value="Tranferencia">Tranferencia</option>
+              <option value="Deposito_cheque">Depósito en Cheque</option>
+              <option value="Efectivo">Efectivo</option>
+            </select>            
+      </td>
+      <td class="tab3-lista"><?php echo number_format($row->gasto_venta_monto, 2, '.', ',');?></td>
+      <td class="tab3-lista"><?php echo number_format($row->gasto_venta_monto/1.16, 2, '.', ',');?></td>
+      <td class="tab3-lista"><?php echo number_format($row->gasto_venta_monto/1.16*0.16, 2, '.', ',');?></td>
+      <td class="tab3-lista"><input size="2" type="text" onblur="SeparaMiles(this.id)" id="<?php echo "ret_iva".$row->id_gasto_venta;?>"></td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" id="<?php echo "ret_isr".$row->id_gasto_venta;?>"></td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" id="<?php echo "ieps".$row->id_gasto_venta;?>"></td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" id="<?php echo "dap".$row->id_gasto_venta;?>"></td>
+      <td class="tab3-lista">Gasto Venta - <?php echo $row->gasto_venta_concepto ?></td>
+      <td class="tab3-lista2"></td>
+      <td class="tab3-lista2"></td>
+      <td class="tab3-lista2"></td>
     </tr>
+      <?php
+      }
+     ?>
   </body>
+  <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="tab3-total">$<?php echo number_format($suma_gastos_venta, 2, '.', ',');?></td>
+      <td class="tab3-total">$<?php echo number_format(($suma_gastos_venta)/1.16, 2, '.', ',');?></td>
+      <td class="tab3-total">$<?php echo number_format((($suma_gastos_venta)/1.16)*0.16, 2, '.', ',');?></td>
+    </tr>
+    <tr>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+      <td class="tab3-lista2"><hr></td>
+    </tr>
+    <?php 
+      $saldo_final-=$suma_gastos_venta;
+     ?>
+    <tr>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td class="tab3-lista2"><b>SALDO FINAL</b></td>
+      <td ><input class="tab3-final" type="text" disabled="true" id="saldo_final" value="<?php echo number_format($saldo_final, 2, '.', ',');?>"></td>
+      <td class="tab3-lista2"></td>
+      <td class="tab3-lista2"></td>
+    </tr>
+    <tr>
+      <td><input hidden="true" id="saldo_final_sin_formato" type="number" value="<?php echo $saldo_final ?>"></td>
+    </tr>
+  </tfoot>
 </table>
+
+
+<script type="text/javascript">
+ $(document).ready(function(){
+         //Función para actualizar el saldo final
+         $('#saldo_mes_anterior').change(function(){
+          var saldo=$('#saldo_mes_anterior').val();
+          if (saldo=="") {
+            saldo=0;
+          }
+          var saldo_total=$("#saldo_final_sin_formato").val();
+          var saldo2=parseFloat(saldo_total)+parseFloat(saldo); 
+          //alert(new Intl.NumberFormat("en-US").format(saldo2));
+          //saldo2=saldo2.toFixed(2);
+          var resultado=saldo2.toLocaleString("en");
+          $("#saldo_final").val("$"+parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        });
+  });
+
+ document.getElementById("saldo_mes_anterior").onblur =function (){    
+    this.value = parseFloat(this.value.replace(/,/g, ""))
+                    .toFixed(2)
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    
+   // document.getElementById("display").value = this.value.replace(/,/g, "")
+    
+}
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+  $("#"+$id).val(parseFloat(valor.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+
+}
+
+
+</script>

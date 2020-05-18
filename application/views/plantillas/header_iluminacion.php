@@ -12,6 +12,7 @@
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
 
+
 </head>
 <body>
 	<title> <?php echo $title ?></title>

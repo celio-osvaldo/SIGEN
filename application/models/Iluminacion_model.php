@@ -979,6 +979,18 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+    public function Get_Egresos_Gasto_Venta($idcompany,$anio,$mes){
+    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre');
+    $this->db->from('gasto_venta');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->where('MONTH(gasto_venta_fecha)',$mes);
+    $this->db->where('YEAR(gasto_venta_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->order_by('gasto_venta_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
 
 
   

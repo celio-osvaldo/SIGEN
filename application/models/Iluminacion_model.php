@@ -991,6 +991,19 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+    public function Get_Egresos_Caja_Chica($idcompany,$anio,$mes){
+    $this->db->select('id_lista_caja_chica, caja_chica_id_caja_chica,lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura');
+    //$this->db->select_sum('venta_mov_monto','total_ingreso');
+    $this->db->from('lista_caja_chica');
+    $this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
+    $this->db->where('MONTH(lista_caja_chica_fecha)',$mes);
+    $this->db->where('YEAR(lista_caja_chica_fecha)',$anio);
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->order_by('lista_caja_chica_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
 
 
   

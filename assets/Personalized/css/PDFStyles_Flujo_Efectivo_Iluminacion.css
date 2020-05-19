@@ -4,14 +4,14 @@
 
 
 
-.tab  {border-collapse:collapse;border-spacing:0;width: 100%;}
+.tab  {border-collapse:collapse;border-spacing:0;width: 100%;background-color:#FFFFFF;}
 .tab td{border-width:1px;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;word-break:normal;}
 .tab th{border-width:1px;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:5px 19px;word-break:normal;}
 .tab .tab-logo{text-align:left;vertical-align:top}
 .tab .tab-datos{text-align:center;vertical-align:top;padding:0px 0px}
 
 table{width: 100%}
-.tab2 {border-collapse:collapse;border-spacing:0;width: 100%;font-size:12px;}
+.tab2 {border-collapse:collapse;border-spacing:0;width: 100%;font-size:12px; background-color:#FFFFFF;}
 .tab2 td{width: 5%;border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
 .tab2 th{width: 5%;border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
 .tab2 .tab2-depositos{background-color:#92D050;border-style:solid;border-color:#D0CECE;color:white;text-align:center;vertical-align:middle;padding:0px 0px}
@@ -23,7 +23,7 @@ table{width: 100%}
 
 
 
-.tab3 {border-collapse:collapse;border-spacing:0;width: 100%;font-size:12px;}
+.tab3 {border-collapse:collapse;border-spacing:0;width: 100%;font-size:12px; background-color:#FFFFFF;}
 .tab3 td{;border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
 .tab3 th{border-width:1px;font-family:Arial, sans-serif;font-size:12px;overflow:hidden;word-break:normal;}
 .tab3 .tab3-retiros{background-color:#FF7E79;border-style:solid;border-color:#D0CECE;color:white;text-align:center;vertical-align:top;padding:0px 0px}

@@ -1004,6 +1004,31 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+    public function Get_Egresos_Gasto_Viatico($idcompany,$anio,$mes){
+    $this->db->select('id_lista_viatico, viaticos_id_viaticos, lista_viatico_fecha, empleado, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, obra_cliente_empresa_id_empresa, obra_cliente_nombre');
+    $this->db->from('lista_viatico');
+    $this->db->join('viaticos','viaticos_id_viaticos=id_viaticos');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->where('MONTH(viaticos_fecha)',$mes);
+    $this->db->where('YEAR(viaticos_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->order_by('viaticos_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Get_Egregos_Otros_Gastos($idcompany,$anio,$mes){
+     $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura');
+    $this->db->from('otros_gastos');
+    $this->db->join('empresa','empresa_id_empresa=id_empresa');
+    $this->db->where('MONTH(fecha_pago_factura)',$mes);
+    $this->db->where('YEAR(fecha_pago_factura)',$anio);
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->order_by('fecha_pago_factura');
+    $result = $this->db->get();
+    return $result;
+  }
+
 
 
   

@@ -39,10 +39,10 @@
                                 <td id="<?php echo "name".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_nombre.""; ?></td>
                                 <td id="<?php echo "medida".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->unidad_medida.""; ?></td>
                                 <td>$</td>
-                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_precio.""; ?></td>
+                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo "".number_format($row->catalogo_producto_precio, 2, '.', ',').""; ?></td>
                                 <td id="<?php echo "provider".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td id="<?php echo "date".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
-                                <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><a role="button" class="btn btn-outline-dark" onclick="Display_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#imgProduct"><img src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
+                                <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><a role="button" class="btn btn-outline-dark" onclick="Display_product(this.id)" id="<?php echo "".$row->catalogo_producto_url_imagen.""; ?>" data-toggle="modal" data-target="#imgProduct"><img src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
                                 <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                             </tr>
                         <?php } ?>
@@ -66,58 +66,52 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <form class="form-group" id="addproduct" enctype="multipart/form-data">
-          <div class="modal-body">
-                    <div class="row">
-                      <?php foreach ($max->result() as $row){ ?>
-                      <input class="form-control" type="hidden" id="idInsert" name="idInsert" value="<?php echo "".($row->id_catalogo_producto + 1).""; ?>">
-                      <?php } ?>
-                      <div class="col-md-6">
-                        <label class="label-control">Nombre del producto</label>
-                        <input class="form-control" type="text" id="nameProductInsert" name="nameProductInsert" required="true">
-                      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Nombre del producto</label>
+            <input class="form-control" type="text" id="nameProductInsert" name="nameProductInsert" required="true">
+          </div>
 
-                      <div class="col-md-4">
-                        <label class="label-control">Unidad de medida</label>
-                        <select class="custom-select" id="medidaInsert" name="medidaInsert" required="true">
-                          <option selected>Seleccionar</option>
-                          <?php foreach ($measure->result() as $row){ ?>
-                          <option value="<?php echo "".$row->id_uMedida.""; ?>"><?php echo "".$row->unidad_medida.""; ?></option>
-                          <?php } ?>
-                        </select> 
-                      </div>
+          <div class="col-md-4">
+            <label class="label-control">Unidad de medida</label>
+            <select class="custom-select" id="medidaInsert" name="medidaInsert" required="true">
+              <option selected>Seleccionar</option>
+              <?php foreach ($measure->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_uMedida.""; ?>"><?php echo "".$row->unidad_medida.""; ?></option>
+              <?php } ?>
+            </select> 
+          </div>
 
-                      <div class="col-md-2">
-                        <label class="label-control">Precio</label>
-                        <input class="form-control" type="number" id="priceInsert" name="priceInsert" required="true">
-                      </div>
+          <div class="col-md-2">
+            <label class="label-control">Precio</label>
+            <input class="form-control" type="text" onblur="Separa_Miles(this.id)" id="priceInsert" name="priceInsert" required="true">
+          </div>
 
-                      <div class="col-md-6">
-                        <label class="label-control">Proveedor</label>
-                        <select class="custom-select" id="providerInsert" name="providerInsert" required="true">
-                        <?php foreach ($providers->result() as $row){ ?>
-                            <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
-                        <?php } ?>
-                        </select>
-                        <input class="form-control" type="hidden" name="enterpriseIDInsert" id="enterpriseIDInsert" value="2">
-                      </div>
+          <div class="col-md-6">
+            <label class="label-control">Proveedor</label>
+            <select class="custom-select" id="providerInsert" name="providerInsert" required="true">
+              <?php foreach ($providers->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
+              <?php } ?>
+            </select>
+          </div>
 
-                      <div class="col-md-6">
-                        <label>Imágen</label>
-                        <input type="hidden" id="dateInsert" name="dateInsert" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-                        <input class="form-control" type="file" name="imageInsert" id="imageInsert" required="true" accept="image/jpeg">
-                      </div>
+          <div class="col-md-6">
+            <label>Imagen</label>
+            <input type="hidden" id="dateInsert" name="dateInsert" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+            <input class="form-control" type="file" name="imageInsert" id="imageInsert" accept="application/pdf, image/*">
+          </div>
 
-                </div>
-              </div>
-                <div class="modal-footer">
-                  <button type="submit" class="btn btn-outline-success submitBtn" id="saveProduct">Guardar</button>
-                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
-                </div>
-        </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success submitBtn" id="saveProduct">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
       </div>
     </div>
   </div>
+</div>
 <!-- end modal -->
 
 <!-- modal edit product -->
@@ -125,7 +119,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edición de los datos de produto</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edición de los datos de producto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -166,7 +160,7 @@
                       <input type="hidden" id="dateE" name="dateE" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
 
                       <div class="col-md-6">
-                        <label>Imágen</label>
+                        <label>Imagen</label>
                         <input class="form-control" type="file" name="imageE" id="imageE" >
                       </div>
 
@@ -174,7 +168,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="submit" class="btn btn-outline-success submitBtn" id="editProduct">Guardar</button>
-                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
+                  <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelarEdit">Cancelar</button>
                 </div>
         </form>
     </div>
@@ -183,20 +177,21 @@
 <!-- end modal -->
 
 <!-- modal image product -->
-<div class="modal fade" id="imgProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<!-- Modal Ver Comprobante de Pago -->
+<div class="modal fade" id="Img_Product_Modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 id="nameproduct"></h5>
+        <h5 class="modal-title" id="titlecomprobanteModal">Imagen de Producto</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">
-          <!-- <input type="text" name="imageV" id="imageV"> -->
-          <img id="productImg" class="img-fluid rounded">
+      <div class="modal-body" id="modal-body">
+
       </div>
       <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cerrar</button>
       </div>
     </div>
   </div>
@@ -206,62 +201,58 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#tableProductCatalog_id').DataTable();
+
+$('#saveProduct').click(function(){
+  nameProductInsert=$("#nameProductInsert").val();
+  medidaInsert=$("#medidaInsert").val();
+  priceInsert=$("#priceInsert").val().replace(/\,/g, '');
+  providerInsert=$("#providerInsert").val();
+  dateInsert=$("#dateInsert").val();
+   //alert(priceInsert);
+
+  var datos = new FormData();
+  var files = $('#imageInsert')[0].files[0];
+  datos.append('file',files);
+  datos.append('nameProductInsert',nameProductInsert);
+  datos.append('medidaInsert',medidaInsert);
+  datos.append('priceInsert',priceInsert);
+  datos.append('providerInsert',providerInsert);
+  datos.append('dateInsert',dateInsert);
+   //alert(nameProductInsert+" "+medidaInsert+" "+priceInsert+" "+providerInsert+" "+dateInsert);
+   if(nameProductInsert!=""&&priceInsert!=""){
+    $.ajax({
+      url: '<?php echo base_url();?>Dasa/AddProduct',
+      type: 'post',
+      data: datos,
+      contentType: false,
+      processData: false,
+      success:function(result){
+            //alert(result);
+            if(result){
+            alert("Producto Agregado");
+            Update_Page();      
+            }else{
+              alert("Error del Servidor. Producto no Agregado. Intentelo nuevamente");
+            }
+
+          }
+        });
+  }else{
+    alert("Debe ingresar un nombre de producto e indicar su precio");
+  }     
+  Update_Page(); 
+  CloseModal();
+});
+
+
+
   });
 </script>
 
 <!-- new product script -->
 <script>
-$(document).ready(function(e){
-    $("#addproduct").on('submit', function(e){
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/AddProduct',
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData:false,
-            beforeSend: function(){
-                $('.submitBtn').attr("disabled","disabled");
-                $('#addproduct').css("opacity",".5");
-            },
-            success: function(data){
-                // $('.statusMsg').html('');
-                if(data == 1){
-                    $('#addproduct')[0].reset();
-                    // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                    alert('Producto agregado');
-                    CloseModal();
-                }else{
-                  alert('Falló el servidor. Verifique que la información sea correcta');
-                }
-                $('#addproduct').css("opacity","");
-                $(".submitBtn").removeAttr("disabled");
-            }
-        });
-    });
-    
-    //file type validation
-    $("#imageInsert").change(function() {
-        var file = this.files[0];
-        var imagefile = file.type;
-        var match= ["image/jpg"];
-        if(!((imagefile==match[0]))){
-            alert('Selecciona el formato de imagen válido (JPG).');
-            $("#imageInsert").val('');
-            return false;
-        }else{
-          // alert('imagen subida');
-        }
-    });
-});
 
-function CloseModal(){
-    $('#btncancelar').click();
-    $('#NewClientModal').modal("hide");
-    $('.modal-backdrop').remove();
-    $("#page_content").load("GetInventories");
-  }
+
 </script>
 
 
@@ -283,33 +274,26 @@ $(document).ready(function(e){
             },
             success: function(data){
                 // $('.statusMsg').html('');
-                if(data == 1){
+                //alert(data);
+                if(data){
                     $('#editproduct')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                    alert('Información del costo de venta actualizada');
-                    CloseModal();
+                    alert('Información del producto actualizada');
+                   // CloseModal();
+                   // Update_Page(); 
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');
+                  //CloseModal();
                 }
-                $('#editproduct').css("opacity","");
-                $(".submitBtn").removeAttr("disabled");
+                $("#btncancelarEdit").click();
+                Update_Page();
+                  //CloseModal();
+                  //Update_Page(); 
             }
         });
     });
-    
-    //file type validation
-    $("#imageInsert").change(function() {
-        var file = this.files[0];
-        var imagefile = file.type;
-        var match= ["image/jpeg","image/png","image/jpg"];
-        if(!((imagefile==match[0]) || (imagefile==match[1]) || (imagefile==match[2]))){
-            alert('Please select a valid image file (JPEG/JPG/PNG).');
-            $("#imageInsert").val('');
-            return false;
-        }else{
-          alert('imagen subida');
-        }
-    });
+
+
 });
 
 function CloseModal(){
@@ -351,16 +335,45 @@ function CloseModal(){
 
 <!-- image of product selected script -->
 <script>
+  /*
   function Display_product($id){
     var image=$("#image"+$id).text();
     var name_product=$("#name"+$id).text();
     var id=$id;
-    var url = "<?php echo base_url()?>Resources/Products&Services/DASA/"+id+".jpg";
+    var url = $id;
 
-    $("#imgProduct").modal();
+    $("#Img_Product_Modal").modal();
     $("#imageV").val(image);
     $("#imageV").val(id);
     $("#nameproduct").val(name_product);
     $("#productImg").prop("src", url);
+    }*/
+
+  function Display_product($id){
+    //var id_pagos_anticipo=$id_pagos_anticipo;
+    //var comprobante=$("#url_"+$id_pagos_anticipo).text().split(".");
+    var url="<?php echo base_url()?>"+$id;
+    //alert($id);
+    //alert(comprobante[0]+" "+comprobante[1]);
+    if ($id==""||$id=="N/A") {
+      alert("No se adjuntó Imagen");
+    }else{
+      $('#Img_Product_Modal').modal();
+        $('#modal-body').append("<embed id='imagen_modal' frameborder='0' width='100%'' height='400px'>");    
+      $('#imagen_modal').attr({"src" : url});
+    }
+  }
+
+
+   function Separa_Miles($id){
+      valor=$("#"+$id).val();
+      valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+      if(valor==""||isNaN(valor)){
+        //alert("entro");
+          valor=0.00;
+          //alert(valor);
+        }
+        var resultado=valor.toLocaleString("en");
+        $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     }
 </script>

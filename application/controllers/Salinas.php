@@ -233,37 +233,49 @@ class Salinas extends CI_Controller {
 
 	public function AddProduct(){
 		$this->load->model('Salinas_model');
-		$file = 'imageInsert';//The name of input that select file
-        $config['upload_path'] = "./Resources/Products&Services/Salinas";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('idInsert');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "jpg";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='SALINAS';
+		$idcomp=$this->Salinas_model->IdCompany($company);
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
+		if (isset($_FILES['file']['name'])) {
+			$filename = $_FILES['file']['name'];
+		} else {
+			$filename="";
+		}
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Products&Services/Salinas/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
 
-        $upload_file = $config['file_name'] = $this->input->post('idInsert');
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
 		$table = 'catalogo_producto';
-		$data = array('id_catalogo_producto' => $this->input->post('idInsert'),
-			'catalogo_producto_nombre'=> $this->input->post('nameProductInsert'),
+		$data = array('catalogo_producto_nombre'=> $this->input->post('nameProductInsert'),
 			'catalogo_producto_umedida'=> $this->input->post('medidaInsert'),
 			'catalogo_producto_precio'=> $this->input->post('priceInsert'),
 			'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerInsert'),
-			'catalogo_proveedor_empresa_id_empresa'=> $this->input->post('enterpriseIDInsert'),
-			'catalogo_producto_fecha_actualizacion' => $this->input->post('dateInsert'),
-			'catalogo_producto_url_imagen' => $upload_file);
-		if ($this->Salinas_model->Insert($table, $data)) {
-        	$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
-        	echo false;
-        }
+			'catalogo_proveedor_empresa_id_empresa'=> $idcomp->id_empresa,
+			'catalogo_producto_fecha_actualizacion' => $this->input->post('dateInsert'));
+
+		$id_producto=$this->Salinas_model->Insert($table, $data);
+
+		$url_imagen='Resources/Products&Services/Salinas/Product_Service_'.$id_producto.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_producto!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
+
+				$data2 = array('catalogo_producto_url_imagen' => $url_imagen);
+				$this->Salinas_model->UpdateProduct($id_producto, $data2);
+				echo true;
+			}else{
+				echo false;
+			}
+    	}
+    	echo true;
     }
 
 	public function AddCustomersPay(){
@@ -593,40 +605,66 @@ class Salinas extends CI_Controller {
 		}
 	}
 
-	public function AddNewExpend(){
+	public function UpdateInfoProduct(){
 		$this->load->model('Salinas_model');
-		$file = 'addBill';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/Expends/Salinas/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('addFolio');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='SALINAS';
+		$idcomp=$this->Salinas_model->IdCompany($company);
+		$id = $_POST["idE"];
+		$priceE=$_POST["priceE"];
+		//$priceE=$priceE.replace(/\,/g, '');
+		$priceE = str_replace(',', '', $priceE); 
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
+		if (isset($_FILES['imageE']['name'])) {
+			$filename = $_FILES['imageE']['name'];//imageE
+		} else {
+			$filename="";
+		}
 
-        $upload_file = $config['file_name'] = $this->input->post('addFolio');
-		$table = 'otros_gastos';
-		$data = array('id_OGasto' => $this->input->post('cashI'),
-						'empresa_id_empresa'=> $this->input->post('addCompany'),
-						'fecha_emision'=> $this->input->post('addEmitionDate'),
-						'concepto'=> $this->input->post('addConcept'),
-						'saldo'=> $this->input->post('addAmount'),
-						'comentario'=> $this->input->post('addComment'),
-						'folio' => $this->input->post('addFolio'),
-						'factura' => $upload_file,
-						'fecha_pago_factura' => $this->input->post('addDate'));
-		if ($this->Salinas_model->Insert($table, $data)) {
-        	$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
-        	echo false;
-        }
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Products&Services/Salinas/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
+
+		$url_imagen='Resources/Products&Services/Salinas/Product_Service_'.$id.'.'.$file_extension;
+
+		if ($filename=="") {
+			$id = $_POST["idE"];
+			$data = array(
+				'catalogo_producto_nombre' => $this->input->post('nameProductE'),
+				'catalogo_producto_umedida' => $this->input->post('medidaE'),
+				'catalogo_producto_precio'=>$priceE,
+				'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
+				'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
+				'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
+			$this->Salinas_model->UpdateProduct($id, $data);
+			echo true;
+		}else{
+			if(in_array($file_extension,$image_ext)&&$id!=""){
+					// Upload file
+				if(move_uploaded_file($_FILES['imageE']['tmp_name'],$url_imagen)){
+					$id = $_POST["idE"];
+					$data = array(
+						'catalogo_producto_nombre' => $this->input->post('nameProductE'),
+						'catalogo_producto_umedida' => $this->input->post('medidaE'),
+						'catalogo_producto_precio'=>$priceE,
+						'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
+						'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
+						'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'),
+						'catalogo_producto_url_imagen' => $url_imagen);
+					$this->Salinas_model->UpdateProduct($id, $data);
+					echo true;
+				}else{
+					echo false;
+				}
+			}
+		}
 	}
 	
 	public function NewAlm_Consumible(){

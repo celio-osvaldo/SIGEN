@@ -699,6 +699,8 @@ if(identifica_id[2]=="iva"){ //Verificamos si en la posicion 2 del arreglo el st
 
 function GuardarReporte(){        //Función para guardar los datos del flujo de efectivo
 
+  alert("Opción de guardado aun está en desarrollo. Disculpe las demoras"); 
+
   mes="<?php echo $mes ?>";
   anio="<?php echo $anio ?>";
   saldo_inicial=$("#saldo_mes_anterior").val();
@@ -726,18 +728,18 @@ function GuardarReporte(){        //Función para guardar los datos del flujo de
   depositos_cliente
   depositos_concepto
 
-*/
+
     <?php
     foreach ($ingresos_venta_mov->result() as $row) {
 
-      }      $depositos = array('fecha' => $depositos_fecha_proy$row->id_venta_mov);
+      }      $depositos = array('fecha' => $depositos_fecha_proy.$row->id_venta_mov);
      ?>
 
      valor=<?php echo $depositos[0]->fecha ?>;
      alert(valor);
 
 
-
+*/
 
   //alert(mes+anio+" "+saldo_inicial+" "+saldo_final[1]+" tdep: "+total_depositos[1]+"iva "+iva_depositos[1]+" "+subtotal_depositos[1]+" tret: "+total_retiros[1]+" subt: "+subtotal_retiros[1]+" ivaret: "+iva_retiros[1]);
   //alert(neto_iva+" "+tipo_iva+" "+iva_cargo_favor+" "+iva_retencion+" "+iva_total_cargo+" "+iva_favor_periodos_anteriores+" "+iva_neto_cargo);

@@ -501,6 +501,7 @@ class Iluminacion extends CI_Controller {
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		
 		$id_anticipo=$_POST["id_anticipo"];
 		$id_producto=$_POST["id_producto"];
 		$data = array('anticipo_id_anticipo' =>$this->input->post('id_anticipo') ,

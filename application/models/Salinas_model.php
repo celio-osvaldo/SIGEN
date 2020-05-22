@@ -83,7 +83,8 @@ class Salinas_model extends CI_Model
   public function Insert($table, $data){
     $this->db->insert($table, $data);
     if ($this->db->affected_rows() > 0) {
-      return true;
+       $id=$this->db->insert_id();
+      return $id;
     } else{
       return false;
     }

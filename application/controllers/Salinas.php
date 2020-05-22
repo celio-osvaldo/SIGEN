@@ -262,6 +262,14 @@ class Salinas extends CI_Controller {
 
 		$id_producto=$this->Salinas_model->Insert($table, $data);
 
+		$data_historial = array('id_producto' => $id_producto,
+								'historial_fecha_actualizacion' => $this->input->post('dateInsert'),
+								'historial_id_proveedor'=> $this->input->post('providerInsert'),
+								'historial_precio_producto_precio' => $this->input->post('priceInsert'));
+		$tabla_historial='historial_precio_producto';
+
+		$this->Salinas_model->Insert($tabla_historial,$data_historial);
+
 		$url_imagen='Resources/Products&Services/Salinas/Product_Service_'.$id_producto.'.'.$file_extension;
 
 		if(in_array($file_extension,$image_ext)&&$id_producto!=""&&$filename!=""){
@@ -590,24 +598,6 @@ class Salinas extends CI_Controller {
 
 	public function UpdateInfoProduct(){
 		$this->load->model('Salinas_model');
-		$id = $_POST["idE"];
-    	$data = array(
-    					'catalogo_producto_nombre' => $this->input->post('nameProductE'),
-				        'catalogo_producto_umedida' => $this->input->post('medidaE'),
-				        'catalogo_producto_precio'=>$this->input->post('priceE'),
-				        'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
-				        'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
-				        'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'),
-				        'catalogo_producto_url_imagen' => $this->input->post('imageE'));
-		if($this->Salinas_model->UpdateProduct($id, $data)){
-			echo true;
-		}else{
-			echo false;
-		}
-	}
-
-	public function UpdateInfoProduct(){
-		$this->load->model('Salinas_model');
 		$company='SALINAS';
 		$idcomp=$this->Salinas_model->IdCompany($company);
 		$id = $_POST["idE"];
@@ -645,6 +635,15 @@ class Salinas extends CI_Controller {
 				'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
 				'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
 			$this->Salinas_model->UpdateProduct($id, $data);
+
+                $data_historial = array('id_producto' => $id,
+                'historial_fecha_actualizacion' => $this->input->post('dateE'),
+                'historial_id_proveedor'=> $this->input->post('providerE'),
+            	'historial_precio_producto_precio' => $priceE);
+    			$tabla_historial='historial_precio_producto';
+
+    			$this->Salinas_model->Insert($tabla_historial,$data_historial);
+
 			echo true;
 		}else{
 			if(in_array($file_extension,$image_ext)&&$id!=""){
@@ -666,6 +665,15 @@ class Salinas extends CI_Controller {
 				}
 			}
 		}
+	}
+
+	public function Product_Record(){
+		$this->load->model('Salinas_model');
+		$id_producto=$_POST['id_product'];
+		$data = array('record_product' => $this->Salinas_model->Get_Product_Record($id_producto),
+					  'product_info' => $this->Salinas_model->Get_Product_Info($id_producto));
+		$this->load->view('Salinas/Record_Product', $data);
+
 	}
 	
 	public function NewAlm_Consumible(){

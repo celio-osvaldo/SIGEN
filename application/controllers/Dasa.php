@@ -263,6 +263,14 @@ class DASA extends CI_Controller {
 
 		$id_producto=$this->Dasa_model->Insert($table, $data);
 
+		$data_historial = array('id_producto' => $id_producto,
+								'historial_fecha_actualizacion' => $this->input->post('dateInsert'),
+								'historial_id_proveedor'=> $this->input->post('providerInsert'),
+								'historial_precio_producto_precio' => $this->input->post('priceInsert'));
+		$tabla_historial='historial_precio_producto';
+
+		$this->Dasa_model->Insert($tabla_historial,$data_historial);
+
 		$url_imagen='Resources/Products&Services/DASA/Product_Service_'.$id_producto.'.'.$file_extension;
 
 		if(in_array($file_extension,$image_ext)&&$id_producto!=""&&$filename!=""){
@@ -628,6 +636,15 @@ class DASA extends CI_Controller {
 				'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
 				'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
 			$this->Dasa_model->UpdateProduct($id, $data);
+
+                $data_historial = array('id_producto' => $id,
+                'historial_fecha_actualizacion' => $this->input->post('dateE'),
+                'historial_id_proveedor'=> $this->input->post('providerE'),
+            	'historial_precio_producto_precio' => $priceE);
+    			$tabla_historial='historial_precio_producto';
+
+    			$this->Dasa_model->Insert($tabla_historial,$data_historial);
+
 			echo true;
 		}else{
 			if(in_array($file_extension,$image_ext)&&$id!=""){
@@ -650,6 +667,16 @@ class DASA extends CI_Controller {
 			}
 		}
 	}
+
+	public function Product_Record(){
+		$this->load->model('Dasa_model');
+		$id_producto=$_POST['id_product'];
+		$data = array('record_product' => $this->Dasa_model->Get_Product_Record($id_producto),
+					  'product_info' => $this->Dasa_model->Get_Product_Info($id_producto));
+		$this->load->view('DASA/Record_Product', $data);
+
+	}
+
 
 	public function AddNewExpend(){
 		$this->load->model('Dasa_model');

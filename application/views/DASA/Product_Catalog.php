@@ -22,13 +22,14 @@
                         <tr>
                             <th>Código</th>
                             <th>Nombre</th>
-                            <th>ud. medida</th>
+                            <th>Unidad de medida</th>
                             <th></th>
                             <th>Precio</th>
                             <th>Proveedor</th>
                             <th>Fecha de act.</th>
                             <th>Imágen</th>
                             <th>Modificar</th>
+                            <th>Historial de Precios</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -43,7 +44,11 @@
                                 <td id="<?php echo "provider".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td id="<?php echo "date".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
                                 <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><a role="button" class="btn btn-outline-dark" onclick="Display_product(this.id)" id="<?php echo "".$row->catalogo_producto_url_imagen.""; ?>" data-toggle="modal" data-target="#imgProduct"><img src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
-                                <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
+                                <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                                </td>
+                                <td>
+                                  <a role="button" class="btn btn-outline-dark" onclick="Record_Product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>"><img src="..\Resources\Icons\historial.ico" alt="Historial" style="filter: invert(100%)" /></a>
+                                </td>
                             </tr>
                         <?php } ?>
                     </tbody>
@@ -328,6 +333,11 @@ function CloseModal(){
     $("#idE").val(id);
     }
 
+    function Record_Product($id_product){
+      id_product=$id_product;
+      $("#page_content").load("Product_Record",{id_product:id_product});
+    }
+
   function Update_Page(){
     $("#page_content").load("GetInventories");
   }
@@ -335,19 +345,7 @@ function CloseModal(){
 
 <!-- image of product selected script -->
 <script>
-  /*
-  function Display_product($id){
-    var image=$("#image"+$id).text();
-    var name_product=$("#name"+$id).text();
-    var id=$id;
-    var url = $id;
 
-    $("#Img_Product_Modal").modal();
-    $("#imageV").val(image);
-    $("#imageV").val(id);
-    $("#nameproduct").val(name_product);
-    $("#productImg").prop("src", url);
-    }*/
 
   function Display_product($id){
     //var id_pagos_anticipo=$id_pagos_anticipo;

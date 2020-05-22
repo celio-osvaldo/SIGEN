@@ -450,7 +450,7 @@ class Salinas extends CI_Controller {
 		$this->load->model('Salinas_model');
 		$id_prov=$_POST["id_cat"];
 		$data = array('catalogo_proveedor_nom_fiscal' => $this->input->post('nom_fiscal') ,
-						'catalogo_proveedor_empresa' => $this->input->post('nom_comer'),
+						'catalogo_proveedor_id_giro' => $this->input->post('id_giro_proveedor'),
 						'rfc' => $this->input->post('rfc'),
 						'catalogo_proveedor_contacto1' => $this->input->post('cont1') ,
 						'catalogo_proveedor_puesto1' => $this->input->post('puesto1') ,
@@ -478,6 +478,7 @@ class Salinas extends CI_Controller {
 						'catalogo_proveedor_nom_fiscal' => $this->input->post('nom_fiscal') ,
 						'catalogo_proveedor_empresa' => $this->input->post('nom_comer'),
 						'rfc' => $this->input->post('rfc'),
+						'catalogo_proveedor_id_giro' => $this->input->post('giro'),
 						'catalogo_proveedor_contacto1' => $this->input->post('cont1') ,
 						'catalogo_proveedor_puesto1' => $this->input->post('puesto1') ,
 						'catalogo_proveedor_tel1' => $this->input->post('tel1') ,

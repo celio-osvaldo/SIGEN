@@ -131,7 +131,8 @@ class DASA extends CI_Controller {
 		//var_dump($company);
 		$idcompany=$this->Dasa_model->IdCompany($company);
 		//var_dump($idcompany);
-		$data=array('catalogo_proveedor'=>$this->Dasa_model->GetAll_Provider($idcompany->id_empresa));
+		$data=array('catalogo_proveedor'=>$this->Dasa_model->GetAll_Provider($idcompany->id_empresa),
+					'catalogo_giro'=>$this->Dasa_model->Get_Giros());
 		$this->load->view('DASA/Cat_Provider',$data);
 		//var_dump($data);
 	}
@@ -450,7 +451,7 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		$id_prov=$_POST["id_cat"];
 		$data = array('catalogo_proveedor_nom_fiscal' => $this->input->post('nom_fiscal') ,
-						'catalogo_proveedor_empresa' => $this->input->post('nom_comer'),
+						'catalogo_proveedor_id_giro' => $this->input->post('id_giro_proveedor'),
 						'rfc' => $this->input->post('rfc'),
 						'catalogo_proveedor_contacto1' => $this->input->post('cont1') ,
 						'catalogo_proveedor_puesto1' => $this->input->post('puesto1') ,
@@ -478,6 +479,7 @@ class DASA extends CI_Controller {
 						'catalogo_proveedor_nom_fiscal' => $this->input->post('nom_fiscal') ,
 						'catalogo_proveedor_empresa' => $this->input->post('nom_comer'),
 						'rfc' => $this->input->post('rfc'),
+						'catalogo_proveedor_id_giro' => $this->input->post('giro'),
 						'catalogo_proveedor_contacto1' => $this->input->post('cont1') ,
 						'catalogo_proveedor_puesto1' => $this->input->post('puesto1') ,
 						'catalogo_proveedor_tel1' => $this->input->post('tel1') ,

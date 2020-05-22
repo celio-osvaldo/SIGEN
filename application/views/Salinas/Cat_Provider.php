@@ -17,7 +17,8 @@
         <tr>
           <th>Editar</th>
           <th>Nombre Fiscal</th>
-          <th>Proveedor</th>
+          <th>Giro</th>
+          <th hidden="true">id_giro_proveedor</th>
           <th>RFC</th>
           <th>Contactos</th>
           <th>Puestos</th>
@@ -37,7 +38,8 @@
             </button>
           </a></td>
            <td id="<?php echo "nom_fiscal".$row->id_catalogo_proveedor;?>"><?php echo "".$row->catalogo_proveedor_nom_fiscal.""; ?></td>
-           <td id="<?php echo "proveedor".$row->id_catalogo_proveedor;?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
+           <td id="<?php echo "giro".$row->id_catalogo_proveedor;?>"><?php echo "".$row->nombre_giro.""; ?></td>
+           <td hidden="true" id="<?php echo "id_giro_proveedor".$row->catalogo_proveedor_id_giro;?>"><?php echo "".$row->catalogo_proveedor_id_giro.""; ?></td>
            <td id="<?php echo "rfc".$row->id_catalogo_proveedor;?>"><?php echo "".$row->rfc.""; ?></td>
            <td id="<?php echo "contactos".$row->id_catalogo_proveedor;?>"><?php echo "".$row->catalogo_proveedor_contacto1 ?><hr><?php echo "*". $row->catalogo_proveedor_contacto2; ?></td>
            <td id="<?php echo "puestos".$row->id_catalogo_proveedor;?>"><?php echo "".$row->catalogo_proveedor_puesto1?><hr><?php echo "*".$row->catalogo_proveedor_puesto2; ?></td>
@@ -72,6 +74,13 @@
         <input type="text" id="new_nom_comer" class="form-control input-sm">
         <label>RFC</label><br>   
         <input type="text" maxlength="13" id="new_rfc" class="form-control input-sm"><br>
+        <label>Giro</label>
+        <select class="form-control" type="text" name="new_giro" id="new_giro" required="true">
+          <option selected>Seleccionar Giro</option>
+          <?php foreach ($catalogo_giro->result() as $row){ ?>
+            <option value="<?php echo "".$row->id_catalogo_giro.""; ?>"><?php echo "".$row->nombre_giro.""; ?></option>
+          <?php } ?>
+        </select>
         <label>Contacto 1</label><br>
         <input type="text" id="new_cont1" class="form-control input-sm"><br>
         <label>Puesto 1</label><br>
@@ -97,7 +106,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="NewProvider" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="NewProvider" data-dismiss="modal">Agregar</button>
       </div>
     </div>
   </div>
@@ -117,8 +126,13 @@
       <div class="modal-body">
         <label>Nombre Fiscal</label>
         <input type="text" id="edit_nom_fiscal" class="form-control input-sm">
-        <label>Nombre Comercial</label>
-        <input type="text" id="edit_nom_comer" class="form-control input-sm">
+        <label>Giro</label>
+        <select class="form-control" type="text" name="edit_id_giro" id="edit_id_giro" required="true">
+          <option selected>Seleccionar Giro</option>
+          <?php foreach ($catalogo_giro->result() as $row){ ?>
+            <option value="<?php echo "".$row->id_catalogo_giro.""; ?>"><?php echo "".$row->nombre_giro.""; ?></option>
+          <?php } ?>
+        </select>
         <label>RFC</label><br>   
         <input type="text" maxlength="13" id="edit_rfc" class="form-control input-sm"><br>
         <label>Contacto 1</label><br>
@@ -162,7 +176,7 @@
 
     $('#UpdateProvider').click(function(){
       nom_fiscal=$("#edit_nom_fiscal").val();
-      nom_comer=$("#edit_nom_comer").val();
+      id_giro_proveedor=$("#edit_id_giro").val();
       rfc=$("#edit_rfc").val();
       cont1=$("#edit_cont1").val();
       puesto1=$("#edit_puesto1").val();
@@ -181,7 +195,7 @@
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Salinas/UpdateProvider",
-          data:{nom_fiscal:nom_fiscal, nom_comer:nom_comer, rfc:rfc,cont1:cont1, puesto1:puesto1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, puesto2:puesto2, tel2:tel2, cel2:cel2, email2:email2, coment:coment,id_cat:id_cat},
+          data:{nom_fiscal:nom_fiscal, id_giro_proveedor:id_giro_proveedor, rfc:rfc,cont1:cont1, puesto1:puesto1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, puesto2:puesto2, tel2:tel2, cel2:cel2, email2:email2, coment:coment,id_cat:id_cat},
           success:function(result){
             //alert(result);
             if(result){
@@ -201,6 +215,7 @@
       nom_fiscal=$("#new_nom_fiscal").val();
       nom_comer=$("#new_nom_comer").val();
       rfc=$("#new_rfc").val();
+      giro=$("#new_giro").val();
       cont1=$("#new_cont1").val();
       puesto1=$("#new_puesto1").val();
       tel1=$("#new_tel1").val();
@@ -217,7 +232,7 @@
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Salinas/NewProvider",
-          data:{nom_fiscal:nom_fiscal, nom_comer:nom_comer, rfc:rfc,cont1:cont1, puesto1:puesto1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, puesto2:puesto2, tel2:tel2, cel2:cel2,email2:email2,coment:coment},
+          data:{nom_fiscal:nom_fiscal, nom_comer:nom_comer, rfc:rfc, giro:giro, cont1:cont1, puesto1:puesto1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, puesto2:puesto2, tel2:tel2, cel2:cel2,email2:email2,coment:coment},
           success:function(result){
             //alert(result);
             if(result){
@@ -242,7 +257,8 @@
     //alert("Editar "+$id_catalogo_proveedor);
     var id_cat=$id_catalogo_proveedor;
     var nom_fiscal=$('#nom_fiscal'+id_cat).text();
-    var nom_comer=$('#proveedor'+id_cat).text();
+    var giro=$('#giro'+id_cat).text();
+    var id_giro_proveedor=$('#id_giro_proveedor').text();
     var rfc=$('#rfc'+id_cat).text();
     var contactos = $('#contactos'+id_cat).text().split("*");
     var puestos=$('#puestos'+id_cat).text().split("*");
@@ -252,7 +268,7 @@
     var coment=$('#coment'+id_cat).text();
     $("#EditProviderModal").modal();
     $("#edit_nom_fiscal").val(nom_fiscal);
-    $("#edit_nom_comer").val(nom_comer);
+    $("#edit_id_giro option:contains("+giro+")").attr('selected', true);
     $("#edit_rfc").val(rfc);
     $("#edit_cont1").val(contactos[0]);
     $("#edit_puesto1").val(puestos[0]);

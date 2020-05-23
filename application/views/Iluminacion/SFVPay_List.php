@@ -17,7 +17,7 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                KWh totales:<hr>$<?php echo $sfv_info->pago_sfv_kwh; ?>
+                KWh totales:<hr><?php echo $sfv_info->pago_sfv_kwh; ?>
               </h6>
             </span>
             <span class="badge badge-info">

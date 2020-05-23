@@ -317,61 +317,102 @@ class DASA extends CI_Controller {
 
 	public function AddCostOfSale(){
 		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		$id_gasto_venta=$_POST['idCost'];
+		$monto=$_POST["addAmount"];
+		$monto=str_replace(',', '', $monto);
 
-		$file = 'addBill';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/CostOfSale/DASA/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('addFolio');//name of file
-        $config['overwrite'] = false;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];
+		} else {
+			$filename="";
+		}
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/CostOfSale/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 
-		$upload_file = $config['file_name'] = $this->input->post('addFolio');
 		$table = 'gasto_venta';
-		$data = array('id_gasto_venta' => $this->input->post('idCost'),
+		$data = array('id_gasto_venta' => $id_gasto_venta,
 						'obra_cliente_id_obra_cliente'=> $this->input->post('addClientName'),
-						'obra_cliente_empresa_id_empresa'=> $this->input->post('addCompany'),
+						'obra_cliente_empresa_id_empresa'=> $idcomp->id_empresa,
 						'gasto_venta_fecha'=> $this->input->post('addEmitionDate'),
-						'gasto_venta_factura'=> $upload_file,
-						'gasto_venta_monto'=> $this->input->post('addAmount'),
+						'gasto_venta_factura'=> $this->input->post('addFolio'),
+						'gasto_venta_monto'=> $monto,
 						'gasto_venta_concepto' => $this->input->post('addConcept'),
 						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
 						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
 
-		if($this->Dasa_model->Insert($table, $data)){
-			$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
-        	echo false;
-		}
+		$this->Dasa_model->Insert($table, $data);
+
+		$url_imagen='Resources/Bills/CostOfSale/DASA/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_gasto_venta!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_venta_url_factura' => $url_imagen);
+				$this->Dasa_model->UpdateCostSale($id_gasto_venta, $data2);
+			}
+    	}
+    	var_dump($id_gasto_venta);
+		echo true;		
 	}
 
 	public function EditCostOfSale(){
 		$this->load->model('Dasa_model');
-		$id = $_POST['idE'];
+       	$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		$id_gasto_venta=$_POST['idE'];
+		$monto=$_POST["amountE"];
+		$monto=str_replace(',', '', $monto);
+
+		if (isset($_FILES['billE']['name'])) {
+			$filename = $_FILES['billE']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/CostOfSale/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
+
 		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
-						'obra_cliente_empresa_id_empresa'=> $this->input->post('Company'),
+						'obra_cliente_empresa_id_empresa'=> $idcomp->id_empresa,
 						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
 						'gasto_venta_factura'=> $this->input->post('folioE'),
-						'gasto_venta_monto'=> $this->input->post('amountE'),
+						'gasto_venta_monto'=> $monto,
 						'gasto_venta_concepto' => $this->input->post('conceptE'),
 						'gasto_venta_observacion' => $this->input->post('commentE'),
 						'gasto_venta_estado_pago' => $this->input->post('statusE'),
 						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
+		$this->Dasa_model->UpdateCostSale($id_gasto_venta, $data);
 
-		if($this->Dasa_model->UpdateCostSale($id, $data)){
-			echo true;
-		}else{
-			echo false;
-		}
+		$url_imagen='Resources/Bills/CostOfSale/DASA/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_gasto_venta!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['billE']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_venta_url_factura' => $url_imagen);
+				$this->Dasa_model->UpdateCostSale($id_gasto_venta, $data2);
+			}
+    	}
+
+    	echo true;
+				//var_dump($data);
 	}
 
 	public function UpdateExpend(){

@@ -19,7 +19,7 @@
                     <table id="table_id" class="table table-striped table-hover display" style="font-size: 10pt;">
                     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
                         <tr>
-                            <th>No. Folio</th>
+                            <th>Folio Factura</th>
                             <th>Fecha de emisión</th>
                             <th>Cliente</th>
                             <th></th>
@@ -28,6 +28,7 @@
                             <th>Observación</th>
                             <th>Factura</th>
                             <th>Estatus</th>
+                            <th hidden="true">url_factura</th>
                             <th>Fecha de Pago</th>
                             <th>Modificar</th>
                         </tr>
@@ -35,15 +36,16 @@
                     <tbody>
                         <tr><?php
                         foreach ($cost_sale->result() as $row) {?>
-                            <td  id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_factura.""; ?></td>
+                            <td  id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><?php echo $row->gasto_venta_factura.""; ?></td>
                             <td id="<?php echo "emition".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_fecha.""; ?></td>
                             <td id="<?php echo "client".$row->id_gasto_venta.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
                             <td>$</td>
-                            <td id="<?php echo "amount".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_monto.""; ?></td>
+                            <td id="<?php echo "amount".$row->id_gasto_venta.""; ?>"><?php echo number_format($row->gasto_venta_monto, 2, '.', ',').""; ?></td>
                             <td id="<?php echo "concept".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_concepto.""; ?></td>
                             <td id="<?php echo "comment".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_observacion.""; ?></td>
-                            <td align="center" id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#viewBill" onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
+                            <td align="center" id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_venta.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
                             <td id="<?php echo "status".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_estado_pago.""; ?></td>
+                            <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_url_factura.""; ?></td>
                             <td id="<?php echo "date".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_fecha_pago.""; ?></td>
                             <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                         </tr>
@@ -78,13 +80,13 @@
                              <?php foreach ($max->result() as $row){ ?>
                             <input type="hidden" name="idCost" id="idCost" value="<?php echo "".($row->id_gasto_venta + 1).""; ?>">
                             <?php } ?>
-                            <label class="control-label">Folio:</label>
+                            <label class="control-label">Folio Factura:</label>
                                 <input class="form-control" type="text" name="addFolio" id="addFolio" required="true">
                         </div>
                         <div class="col-md-6"></div>
                         <div class="col-md-3">
                             <label class="label-control">Fecha de emisión:</label>
-                            <input class="form-control" type="text" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+                            <input type="date" class="form-control" name="addEmitionDate" id="addEmitionDate" >
                         </div>
                         <div class="col-md-12">
                             <label class = "control-label">Cliente:</label>
@@ -103,7 +105,7 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <label for="">Monto:
-                            <input type="text" class="form-control" name="addAmount" id="addAmount" required="true">
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
                         </div>
                         <div class="col-md-6">
                             <label for="">Comentario:</label>
@@ -120,7 +122,7 @@
                             <label for="">Fecha de pago:</label>
                             <input type="date" id="addDate" name="addDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                             <label for="">Factura:</label>
-                            <input type="file" class="form-control" name="addBill" id="addBill" accept="application/pdf" required="true">
+                            <input type="file" class="form-control" name="addBill" id="addBill" accept="application/pdf, image/*">
                         </div>
                     </div>
                   </div>
@@ -150,8 +152,8 @@
       <div class="modal-body">
                 <div class="row">
                     <div class="col-md-3">
-                        <label class="control-label">Folio:</label>
-                            <input class="form-control" type="hidden" name="idE" id="idE">
+                        <label class="control-label">Folio Factura:</label>
+                            <input class="form-control" type="text" hidden="true" name="idE" id="idE">
                         <input type="text" class="form-control" name="folioE" id="folioE">
                     </div>
                     <div class="col-md-6"></div>
@@ -174,8 +176,8 @@
                     </div>
                     <div class="col-md-1"></div>
                     <div class="col-md-3">
-                        <label for="">Monto:</label><input type="text" class="form-control" name="amountE" id="amountE">
-                        <input type="hidden" id="Company" name="Company" value="1">
+                        <label for="">Monto:</label><input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="amountE" id="amountE">
+                        <input type="hidden" id="Company" name="Company" value="2">
                     </div>
                     <div class="col-md-6">
                         <label for="">Comentario:</label>
@@ -192,7 +194,7 @@
                         <label for="">Fecha de pago:</label>
                         <input type="date" id="dateE" name="dateE" class="form-control" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                         <label for="">Factura:</label>
-                        <input class="form-control" name="billE" id="billE" type="file">
+                        <input type="file" class="form-control" name="billE" id="billE" accept="application/pdf, image/*">
                         
                     </div>
                 </div>
@@ -242,9 +244,11 @@ $(document).ready(function(e){
             },
             success: function(data){
                 // $('.statusMsg').html('');
-                if(data == 1){
+
+                if(data){
                     $('#addcostSale')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
+                                alert(data);
                     alert('Costo agregado correctamente');
                     CloseModal();
                 }else{
@@ -291,6 +295,8 @@ function CloseModal(){
     var status=$("#status"+$id).text();
     var date=$("#date"+$id).text();
 
+
+
     $("#editCostSale").modal();
     $("#idE").val(id);
     $("#folioE").val(bill);
@@ -299,7 +305,7 @@ function CloseModal(){
     $("#amountE").val(amount);
     $("#conceptE").val(concept);
     $("#commentE").val(comment);
-    $("#billE").val(bill);
+    //$("#billE").val(bill);
     $("#statusE option:contains("+status+")").attr('selected', true);
     $("#dateE").val(date);
     }
@@ -327,7 +333,8 @@ function CloseModal(){
             },
             success: function(data){
                 // $('.statusMsg').html('');
-                if(data == 1){
+                //alert(data);
+                if(data){
                     $('#editCost')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
                     alert('Se modificó la información exitosamente.');
@@ -377,13 +384,29 @@ function CloseModal(){
 <!-- view bill script -->
 <script>
   function Display_bill($id){
-    var invoice=$("#bill"+$id).text();
+    var invoice=$id;
     var id=$id;
-    var url = "<?php echo base_url()?>Resources/Bills/CostOfSale/Salinas/"+invoice+".pdf";
-
-    $("#viewBill").modal();
-    $("#folios").val(invoice);
-    // $("#folios").val(id);
-    $("#showbill").prop("src", url);
+    var url = "<?php echo base_url()?>"+$("#url_factura"+id).text();
+    //alert(url);
+    if(url== "<?php echo base_url()?>"){
+        alert("No se adjuntó Factura");
+    }else{
+        $("#viewBill").modal();
+        $("#folios").val(invoice);
+        // $("#folios").val(id);
+        $("#showbill").prop("src", url);
     }
+}
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
 </script>

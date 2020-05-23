@@ -37,12 +37,22 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Cliente:<hr><?php echo $cotizacion_info->catalogo_cliente_empresa; ?>
+                Empresa:<hr><?php echo $cotizacion_info->catalogo_cliente_empresa; ?>
+              </h6>
+            </span>
+            <span class="badge badge-info">
+              <h6 align="center">
+                Cliente:<hr><?php echo $cotizacion_info->cotizacion_empresa; ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
                 Obra:<hr><?php echo $cotizacion_info->cotizacion_obra; ?>
+              </h6>
+            </span>
+            <span class="badge badge-info">
+              <h6 align="center">
+                Licitación:<hr><?php echo $cotizacion_info->cotizacion_licitacion; ?>
               </h6>
             </span>
             <span class="badge badge-info">

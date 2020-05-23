@@ -16,3 +16,5 @@
 .tab .tab-entrega{background-color:#FFFFFF;color:black;text-align:center;vertical-align:top;padding:5px 5px}
 .tab .tab-recibe{background-color:#FFFFFF;color:black;text-align:center;vertical-align:top;padding:5px 5px}
 .tab .tab-final{font-size:14px;background-color:#FFFFFF;color:black;text-align:left;vertical-align:top;padding:5px 5px}
+.tab .tab-soporte{background-color:#FFFFFF;color:black;text-align:right;vertical-align:top;padding:5px 10px}
+.tab .tab-soporte_text{background-color:#FFFFFF;border-style:solid;border-color:#92D050;color:black;text-align:center;vertical-align:top;padding:5px 5px}

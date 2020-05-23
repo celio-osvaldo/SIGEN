@@ -18,10 +18,10 @@
           <th hidden="true">id_cotización</th>
           <th>Folio</th>
           <th>Fecha</th>
-          <th>Cliente</th>
+          <th>Empresa</th>
           <th hidden="true">id_cliente</th>
           <th>Obra</th>
-          <th>Empresa</th>
+          <th>Cliente</th>
           <th>Licitacion</th>
           <th>Subtotal</th>
           <th>IVA</th>
@@ -105,16 +105,16 @@
             <input type="date" id="new_fecha_elabora" class="form-control">
           </div>
         </div>
-        <label>Atención (Cliente)</label>
+        <label>Empresa</label>
         <select class="form-control" id="new_cliente">
-          <option disabled selected>----Seleccionar Cliente----</option>
+          <option disabled selected>----Seleccionar Empresa----</option>
           <?php foreach ($catalogo_cliente->result() as $row){ ?>
             <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
           <?php } ?>
         </select>
         <label>Obra</label><br>
         <input type="text" maxlength="200" id="new_obra" class="form-control input-sm">
-        <label>Empresa</label>
+        <label>Atención (Cliente)</label>
         <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm">
         <label>Licitación</label>
         <input type="text" maxlength="200" id="new_licitacion" class="form-control input-sm">
@@ -168,16 +168,16 @@
             <input type="date" id="edit_fecha_elabora" class="form-control">
           </div>
         </div>
-        <label>Atención (Cliente)</label>
+        <label>Empresa</label>
         <select class="form-control" id="edit_cliente">
-          <option disabled selected>----Seleccionar Cliente----</option>
+          <option disabled selected>----Seleccionar Empresa----</option>
           <?php foreach ($catalogo_cliente->result() as $row){ ?>
             <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
           <?php } ?>
         </select>
         <label>Obra</label><br>
         <input type="text" maxlength="200" id="edit_obra" class="form-control input-sm">
-        <label>Empresa</label><br>
+        <label>Atención (Cliente)</label><br>
         <input type="text" maxlength="200" id="edit_empresa" class="form-control input-sm">
         <label>Licitación</label><br>
         <input type="text" maxlength="200" id="edit_licitacion" class="form-control input-sm">
@@ -314,7 +314,7 @@
             if(result){
               alert('Cotización Actualizada');
             }else{
-              alert('Falló el servidor. Cotizción no Actualizada');
+              alert('Falló el servidor. Cotización no Actualizada');
             }
             Update();
           }

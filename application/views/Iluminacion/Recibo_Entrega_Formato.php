@@ -60,7 +60,17 @@
   ?>
 </table>
 
-<br><br><br>
+<br><br>
+
+<table class="tab">
+    <tr>
+      <td class="tab-soporte">
+        <img height="30" width="30" src="Resources\Icons\soporte.png">
+      </td>
+      <td class="tab-soporte_text" colspan="3">Contamos con Soporte técnico a través de nuestro sistema de reportes o garantías vía web <br><a href="www.iluminaags.com">www.iluminaags.com</a></td>
+    </tr>
+</table>
+<br>
 <table class="tab">
   <tr>
     <td class="tab-entrega">ENTREGA</td>

@@ -37,10 +37,10 @@
     <td class="tg-obra">Atención</td>
     <td></td>
     <td class="tg-obra" rowspan="2">Empresa</td>
-    <td class="tg-obra2" rowspan="2"><?php echo $cotizacion_info->cotizacion_empresa; ?></td>
+    <td class="tg-obra2" rowspan="2"><?php echo $cotizacion_info->catalogo_cliente_empresa; ?></td>
   </tr>
   <tr>
-    <td class="tg-obra2"><?php echo $cotizacion_info->catalogo_cliente_empresa; ?></td>
+    <td class="tg-obra2"><?php echo $cotizacion_info->cotizacion_empresa; ?></td>
   </tr>
   <tr>
     <td></td>

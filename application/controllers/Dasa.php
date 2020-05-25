@@ -117,10 +117,12 @@ class DASA extends CI_Controller {
 	}
 
 	public function PettyCash(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
 		$table = 'lista_caja_chica';
 		$id = 'id_lista_caja_chica';
-		$this->load->model('Dasa_model');
-		$data=array('cash' => $this->Dasa_model->GetAllReportsOfPettyCash(),
+		$data=array('cash' => $this->Dasa_model->GetAllReportsOfPettyCash($idcompany->id_empresa),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
 		$this->load->view('DASA/PettyCash', $data);
 	}
@@ -212,10 +214,10 @@ class DASA extends CI_Controller {
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
 		$sum_pagos=$this->Dasa_model->SumPagos_Obra($id);
-		if(is_null($sum_pagos->suma_pagos)){
+		if(is_null($sum_pagos->sum_pagos)){
 			$suma_pagos=0;
 		}else{
-			$suma_pagos=$sum_pagos->suma_pagos;
+			$suma_pagos=$sum_pagos->sum_pagos;
 		}
 		$saldo=($act_imp-$suma_pagos);
 		$data = array(
@@ -303,12 +305,14 @@ class DASA extends CI_Controller {
 		//var_dump($data);
 		$result=$this->Dasa_model->AddCustomer_Pay($data);
 		$sum_pagos=$this->Dasa_model->SumPagos_Obra($new_id_obra);
+
 		$total_obra=$this->Dasa_model->Total_obra($new_id_obra);
-		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+		
+		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->sum_pagos);
 		$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($new_id_obra);
 		//var_dump($fecha_ult_pago);
 		$saldo=array('obra_cliente_saldo' => $resta,
-					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+					'obra_cliente_pagado'=>$sum_pagos->sum_pagos,
 					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
 		$actualiza=$this->Dasa_model->UpdatePaysCustomer($new_id_obra,$saldo);
 		//var_dump($total_obra);
@@ -417,58 +421,178 @@ class DASA extends CI_Controller {
 
 	public function UpdateExpend(){
 		$this->load->model('Dasa_model');
-		$idcompany = 2;
-		$id = $_POST['idE'];
-		$data = array('empresa_id_empresa'=> $this->input->post('editCompany'),
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		$id_otros_gastos=$_POST["idE"];
+
+		$monto=$_POST["editAmount"];
+		$monto=str_replace(',', '', $monto); 
+
+
+		if (isset($_FILES['editBill']['name'])) {
+			$filename = $_FILES['editBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Expends/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$url_imagen='Resources/Bills/Expends/DASA/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
+
+		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
 						'fecha_emision'=> $this->input->post('editEmitionDate'),
 						'concepto'=> $this->input->post('editConcept'),
-						'saldo'=> $this->input->post('editAmount'),
+						'saldo'=> $monto,
 						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
-						'factura' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'));
+		        $this->Dasa_model->UpdateExpendInfo($id_otros_gastos, $data);
 
-		if($this->Dasa_model->UpdateExpendInfo($id, $data)){
-			echo true;
+		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['editBill']['tmp_name'],$url_imagen)){
+				$data2 = array('factura' => $url_imagen );
+				$this->Dasa_model->UpdateExpendInfo($id_otros_gastos, $data2);
+			}				
+        }
+
+
+        echo true;
+
+
+	}
+
+	public function AddReportPettyCash(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		$radio=$_POST["exampleRadios"];
+		$ingreso=$this->input->post('moneyI');
+		$egreso=$this->input->post('moneyEI');
+		$ingreso=str_replace(',', '', $ingreso);//Eliminamos las comas de la cantidad ingresada
+		$egreso=str_replace(',', '', $egreso);//Eliminamos las comas de la cantidad ingresada
+		//var_dump($radio);
+
+		if($radio=="option1"){
+			$reposicion=0;
+			$gasto=$egreso;
+		}else{
+			$reposicion=$ingreso;
+			$gasto=0;
+		}
+
+		if (isset($_FILES['upBillI']['name'])) {
+			$filename = $_FILES['upBillI']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/PettyCash/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		//$saldo_caja=  Verificar si se obtendrá un saldo de caja chica
+
+		$table = 'lista_caja_chica';
+		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
+						'lista_caja_chica_fecha'=> $this->input->post('dateI'), //fecha de emisión
+						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
+						'lista_caja_chica_reposicion'=> $reposicion,
+						'lista_caja_chica_gasto'=> $gasto,
+						'lista_caja_chica_factura' => $this->input->post('folioBillI'),
+						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI')/*,
+						'lista_caja_chica_saldo' => $saldo_caja*/);
+		$id_caja_chica=$this->Dasa_model->Insert($table, $data);
+
+
+		if(!is_null($id_caja_chica)){
+			if(in_array($file_extension,$image_ext)&&$id_caja_chica!=""&&$filename!=""){
+				$url_imagen='Resources/Bills/PettyCash/DASA/caja_chica_'.$id_caja_chica.'.'.$file_extension;
+  					// Upload file
+				if(move_uploaded_file($_FILES['upBillI']['tmp_name'],$url_imagen)){
+					$data2 = array('lista_caja_chica_url_factura' => $url_imagen);//nombre del url
+					$this->Dasa_model->Update_Caja_Chica($id_caja_chica, $data2);
+					echo $radio;
+				}				
+        	}else{
+        	echo false;
+        	}
 		}else{
 			echo false;
 		}
 	}
 
-	public function AddReportPettyCash(){
+	public function UpdateReportPettyCash(){
 		$this->load->model('Dasa_model');
-		$file = 'upBillI';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/PettyCash/DASA/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('folioBillI');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+		$edit_id_lista_caja_chica=$_POST["edit_id_lista_caja_chica"];
+     	$edit_dateI=$_POST["edit_dateI"];
+     	$edit_conceptI=$_POST["edit_conceptI"];
+     	$tipo=$_POST["edit_radio"];
+     	$edit_money=$_POST["edit_money"];
+     	$edit_money=str_replace(',', '', $edit_money);//Eliminamos las comas de la cantidad ingresada
+     	$edit_folioBillI=$_POST["edit_folioBillI"];
+     	$edit_dateBillI=$_POST["edit_dateBillI"];
+     	if($tipo=="option2"){//Verificamos si el radio seleccionado es el de la opción 2 (Ingreso)
+        	$monto_ingreso=$edit_money;
+        	$monto_egreso=0;
+     	}else{
+       		$monto_ingreso=0;
+        	$monto_egreso=$edit_money;
+     	}
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
+     	if (isset($_FILES['edit_upBillI']['name'])) {
+			$filename = $_FILES['edit_upBillI']['name'];
+		} else {
+			$filename="";
+		}
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/PettyCash/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		if(in_array($file_extension,$image_ext)&&$edit_id_lista_caja_chica!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+			$url_imagen='Resources/Bills/PettyCash/DASA/caja_chica_'.$edit_id_lista_caja_chica.'.'.$file_extension;
+  				// Upload file
+			if(move_uploaded_file($_FILES['edit_upBillI']['tmp_name'],$url_imagen)){
+				$data2 = array('lista_caja_chica_url_factura' => $url_imagen);//nombre del url
+				$this->Dasa_model->Update_Caja_Chica($edit_id_lista_caja_chica, $data2);
+			}				
         }
 
-        $upload_file = $config['file_name'] = $this->input->post('folioBillI');
-		$table = 'lista_caja_chica';
-		$cash = 1;
-		$data = array('id_lista_caja_chica' => $this->input->post('cashI'),
-						'caja_chica_id_caja_chica'=> $cash,
-						'lista_caja_chica_fecha'=> $this->input->post('dateI'),
-						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
-						'lista_caja_chica_reposicion'=> $this->input->post('moneyI'),
-						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'),
-						'lista_caja_chica_factura' => $upload_file,
-						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
-		if ($this->Dasa_model->Insert($table, $data)) {
-        	$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
-        	echo false;
-        }
+		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
+						'lista_caja_chica_fecha'=> $edit_dateI, //fecha de emisión
+						'lista_caja_chica_concepto'=> $edit_conceptI,
+						'lista_caja_chica_reposicion'=> $monto_ingreso,
+						'lista_caja_chica_gasto'=> $monto_egreso,
+						'lista_caja_chica_factura' => $edit_folioBillI,
+						'lista_caja_chica_fecha_factura' => $edit_dateBillI);
+     $this->Dasa_model->Update_Caja_Chica($edit_id_lista_caja_chica, $data);
+
+
+     echo true;  
 	}
 
 	public function EditCustomerPay(){
@@ -482,12 +606,12 @@ class DASA extends CI_Controller {
 			$id_obra=$this->Dasa_model->Id_Proyecto($id_movimiento);
 			$sum_pagos=$this->Dasa_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
 			$total_obra=$this->Dasa_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
-			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->sum_pagos);
 
 			$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
 			
 			$saldo=array('obra_cliente_saldo' => $resta,
-					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+					'obra_cliente_pagado'=>$sum_pagos->sum_pagos,
 					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
 			$actualiza=$this->Dasa_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
 			echo 'actualizado';
@@ -721,38 +845,50 @@ class DASA extends CI_Controller {
 
 	public function AddNewExpend(){
 		$this->load->model('Dasa_model');
-		$file = 'addBill';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/Expends/DASA/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('addFolio');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$monto=$_POST["addAmount"];
+		$monto=str_replace(',', '', $monto); 
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
 
-        $upload_file = $config['file_name'] = $this->input->post('addFolio');
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Expends/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 		$table = 'otros_gastos';
-		$data = array('id_OGasto' => $this->input->post('cashI'),
-						'empresa_id_empresa'=> $this->input->post('addCompany'),
+		$data = array('empresa_id_empresa'=> $idcompany->id_empresa,
 						'fecha_emision'=> $this->input->post('addEmitionDate'),
 						'concepto'=> $this->input->post('addConcept'),
-						'saldo'=> $this->input->post('addAmount'),
+						'saldo'=> $monto,
 						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
-						'factura' => $upload_file,
 						'fecha_pago_factura' => $this->input->post('addDate'));
-		if ($this->Dasa_model->Insert($table, $data)) {
-        	$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
-        	echo false;
+
+		$id_otros_gastos=$this->Dasa_model->Insert($table, $data);
+		$url_imagen='Resources/Bills/Expends/DASA/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('factura' => $url_imagen);//nombre del url
+				$this->Dasa_model->UpdateExpendInfo($id_otros_gastos, $data2);
+			}				
         }
+        echo true;		
 	}
 	
 	public function NewAlm_Consumible(){
@@ -934,12 +1070,68 @@ class DASA extends CI_Controller {
 			$anio_ant=$anio;
 		}
 
-		$saldo_ant=$this->Dasa_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant);
+		switch ($mes_ant) {
+			case '01':
+				$mes_ant_letra="ENERO";
+				break;
+			case '02':
+				$mes_ant_letra="FEBRERO";
+				break;
+			case '03':
+				$mes_ant_letra="MARZO";
+				break;
+			case '04':
+				$mes_ant_letra="ABRIL";
+				break;
+			case '05':
+				$mes_ant_letra="MAYO";
+				break;
+			case '06':
+				$mes_ant_letra="JUNIO";
+				break;
+			case '07':
+				$mes_ant_letra="JULIO";
+				break;
+			case '08':
+				$mes_ant_letra="AGOSTO";
+				break;
+			case '09':
+				$mes_ant_letra="SEPTIEMBRE";
+				break;
+			case '10':
+				$mes_ant_letra="OCTUBRE";
+				break;
+			case '11':
+				$mes_ant_letra="NOVIEMBRE";
+				break;
+			case '12':
+				$mes_ant_letra="DICIEMBRE";
+				break;			
+			default:
+				# code...
+				break;
+		}
+
+
+		if(is_null($this->Dasa_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes_letra))){
+			$saldo_ant=$this->Dasa_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant_letra);//Si no existe un registro de flujo de efectivo para el mes actual, entonces busca el saldo en banco del mes anterior
+			if(isset($saldo_ant->flujo_efectivo_saldo_fin)){
+				$saldo_anterior=$saldo_ant->flujo_efectivo_saldo_fin;
+			}else{
+				$saldo_anterior=0.00;
+			}				
+				$tipo_saldo="anterior";
+			
+		}else{
+			$saldo_guardado=$this->Dasa_model->Get_sal_ban_guardado($idcompany->id_empresa,$anio,$mes_letra);//si ya existe un registro del mes actual, entonces toma el último saldo de banco guardado en el registro del flujo de efectivo
+			//$saldo_ant=0.99;
+			$tipo_saldo="guardado";
+		}	
 		
 
-		if(is_null($saldo_ant)){
+		if($tipo_saldo=="anterior"){
 			$data = array('ingresos_venta_mov' => $this->Dasa_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
-					      'sal_ban_ant'=>0,
+					      'sal_ban_ant'=>$saldo_anterior,
 					      'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
 					      'egresos_gasto_venta' => $this->Dasa_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
 					      'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
@@ -948,7 +1140,7 @@ class DASA extends CI_Controller {
 					  	   'anio'=>$anio );
 		}else{
 			$data = array('ingresos_venta_mov' => $this->Dasa_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
-					  	   'sal_ban_ant'=> $saldo_ant,
+					  	   'sal_ban_ant'=> $saldo_guardado->flujo_efectivo_saldo_ini,
 					  	   'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
 					  	   'egresos_gasto_venta' => $this->Dasa_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
 					  	   'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
@@ -973,10 +1165,15 @@ class DASA extends CI_Controller {
 						  'flujo_efectivo_saldo_ini' =>$this->input->post('saldo_ini') ,
 						  'flujo_efectivo_saldo_fin' =>$this->input->post('saldo_fin') ,
 						  'flujo_efectivo_total_ingreso' =>$this->input->post('ingreso') ,
-						  'flujo_efectivo_total_egreso' =>$this->input->post('egresos') , );
+						  'flujo_efectivo_total_egreso' =>$this->input->post('egresos'));
 			$result=$this->Dasa_model->Guarda_Flujo($data);
 			echo $result;
 		}else{
+			$data = array('flujo_efectivo_saldo_ini' =>$this->input->post('saldo_ini') ,
+						  'flujo_efectivo_saldo_fin' =>$this->input->post('saldo_fin') ,
+						  'flujo_efectivo_total_ingreso' =>$this->input->post('ingreso') ,
+						  'flujo_efectivo_total_egreso' =>$this->input->post('egresos'));
+			$this->Dasa_model->Update_Flujo($mes,$anio,$idcompany->id_empresa,$data);
 			echo "existe";
 		}
 

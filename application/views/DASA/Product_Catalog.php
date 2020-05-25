@@ -150,7 +150,7 @@
 
                       <div class="col-md-2">
                         <label class="label-control">Precio</label>
-                        <input class="form-control" type="text" id="priceE" name="priceE" required="true">
+                        <input class="form-control" type="text" onblur="Separa_Miles(this.id)" id="priceE" name="priceE" required="true">
                       </div>
 
                       <div class="col-md-6">
@@ -316,6 +316,7 @@ function CloseModal(){
     var name_product=$("#name"+$id).text();
     var uds_medida=$("#medida"+$id).text();
     var price=$("#price"+$id).text();
+    price=price.replace(/\,/g, '');
     var provider=$("#provider"+$id).text();
     // var company=$("#company"+$id).val();
     var image=$("#image"+$id).text();

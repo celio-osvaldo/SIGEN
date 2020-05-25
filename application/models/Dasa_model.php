@@ -223,11 +223,21 @@ class Dasa_model extends CI_Model
     }
   }
 
-  public function GetAllReportsOfPettyCash(){
-    $cash = 1;
-    $this->db->where('caja_chica_id_caja_chica', $cash);
+  public function GetAllReportsOfPettyCash($id_empresa){
+
+    $this->db->where('empresa_id_empresa', $id_empresa);
     $q = $this->db->get('lista_caja_chica');
     return $q;
+  }
+
+  public function Update_Caja_Chica($id_caja_chica, $data2){
+    $this->db->where('id_lista_caja_chica', $id_caja_chica);
+    $this->db->update('lista_caja_chica', $data2);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
   public function GetAllViaticsReports($idcompany){
@@ -470,10 +480,10 @@ class Dasa_model extends CI_Model
   }
 
     public function Get_Egresos_Caja_Chica($idcompany,$anio,$mes){
-    $this->db->select('id_lista_caja_chica, caja_chica_id_caja_chica,lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura');
+    $this->db->select('id_lista_caja_chica, empresa_id_empresa, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura, lista_caja_chica_url_factura, lista_caja_chica_saldo');
     //$this->db->select_sum('venta_mov_monto','total_ingreso');
     $this->db->from('lista_caja_chica');
-    $this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
+    //$this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
     $this->db->where('MONTH(lista_caja_chica_fecha)',$mes);
     $this->db->where('YEAR(lista_caja_chica_fecha)',$anio);
     $this->db->where('empresa_id_empresa',$idcompany);
@@ -531,6 +541,17 @@ class Dasa_model extends CI_Model
     return $result;
   }
 
+  public function Get_sal_ban_guardado($idcompany,$anio,$mes_letra){
+    $this->db->select('flujo_efectivo_saldo_ini');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes_letra);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
   public function Verifica_Flujo($idcompany,$anio,$mes){
     $this->db->select('id_flujo_efectivo');
     $this->db->from('flujo_efectivo');
@@ -549,6 +570,18 @@ class Dasa_model extends CI_Model
     } else{
       return false;
     }
+  }
+
+  public function Update_Flujo($mes,$anio,$id_empresa,$data){
+    $this->db->where('flujo_efectivo_mes',$mes);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $this->db->where('empresa_id_empresa',$id_empresa);
+      $this->db->update('flujo_efectivo', $data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+      } else{
+        return false;
+      }
   }
 
 

@@ -12,7 +12,7 @@
 <div class="row">
     
     <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-12">
             <div class="card bg-card">
             <div class="margins">
                 <div class="table-responsive-lg">
@@ -26,10 +26,10 @@
                             <th>Monto</th>
                             <th>Concepto</th>
                             <th>Observación</th>
-                            <th>Factura</th>
                             <th>Estatus</th>
-                            <th hidden="true">url_factura</th>
                             <th>Fecha de Pago</th>
+                            <th>Factura</th>
+                            <th hidden="true">url_factura</th>
                             <th>Modificar</th>
                         </tr>
                     </thead>
@@ -43,10 +43,10 @@
                             <td id="<?php echo "amount".$row->id_gasto_venta.""; ?>"><?php echo number_format($row->gasto_venta_monto, 2, '.', ',').""; ?></td>
                             <td id="<?php echo "concept".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_concepto.""; ?></td>
                             <td id="<?php echo "comment".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_observacion.""; ?></td>
-                            <td align="center" id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_venta.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
                             <td id="<?php echo "status".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_estado_pago.""; ?></td>
-                            <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_url_factura.""; ?></td>
                             <td id="<?php echo "date".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_fecha_pago.""; ?></td>
+                            <td align="center" id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_venta.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
+                             <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_url_factura.""; ?></td>
                             <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                         </tr>
                         <?php } ?>
@@ -159,8 +159,7 @@
                     <div class="col-md-6"></div>
                     <div class="col-md-3">
                         <label class="label-control">Fecha de emisión:</label>
-                        <input class="form-control" type="text" name="emitionDateE" id="emitionDateE"  value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-                    </div>
+                        <input class="form-control" type="date" name="emitionDateE" id="emitionDateE" >  </div>
                     <div class="col-md-12">
                         <label class = "control-label">Cliente:</label>
                         <select class="form-control" type="text" name="clientNameE" id="clientNameE" required="true">

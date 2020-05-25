@@ -33,9 +33,9 @@
                <tr>
                  <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
                  <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
-                 <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_imp_total.""; ?></td>
-                 <td id="<?php echo "pagado_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_pagado.""; ?></td>
-                 <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo "".$row->obra_cliente_saldo.""; ?></td>
+                 <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_imp_total,2,'.',',').""; ?></td>
+                 <td id="<?php echo "pagado_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_pagado,2,'.',',').""; ?></td>
+                 <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_saldo,2,'.',',').""; ?></td>
                  <td id="<?php echo "ult_pago_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_ult_pago.""; ?></td>
                  <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
                  <td>
@@ -67,7 +67,7 @@
       </div>
       <div class="modal-body">
         <label>Cantidad de Pago</label>
-        <input type="number" min="0" name="" id="pago_obra" class="form-control input-sm" required="true">
+        <input type="text" min="0" onblur="SeparaMiles(this.id)" id="pago_obra" class="form-control input-sm" required="true">
         <label>Fecha de Pago</label>
         <input type="date" id="fecha_pago" class="form-control input-sm" required="true">
         <label>Comentario del Pago</label>
@@ -91,6 +91,7 @@
     $('#guardarpago').click(function(){
       id_obra=$('#id_obra').val();
       cant_pago=$('#pago_obra').val();
+      cant_pago=cant_pago.replace(/\,/g, '');
       fecha=$('#fecha_pago').val();
       coment=$('#coment_obra').val();
       //alert(id_obra+" "+cant_pago+" "+fecha+" "+coment);
@@ -132,9 +133,23 @@
   function Details($id) {
    //alert('Ver Detalles');
    var id_obra=$id;
-   $("#page_content").load("Payments_List",{id_obra:id_obra});
-                      
+   $("#page_content").load("Payments_List",{id_obra:id_obra});                
  }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
+
+
 </script>
 
 

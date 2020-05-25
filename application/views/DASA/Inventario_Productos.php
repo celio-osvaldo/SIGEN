@@ -38,7 +38,7 @@
           <td id="<?php echo "nom_prod".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
           <td id="<?php echo "unid_med".$row->id_prod_alm;?>"><?php echo "".$row->unidad_medida.""; ?></td>
           <td id="<?php echo "modelo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_modelo.""; ?></td>
-          <td id="<?php echo "precio".$row->id_prod_alm;?>">$<?php echo "".$row->prod_alm_prec_unit.""; ?></td>
+          <td id="<?php echo "precio".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_prec_unit,2,'.',',').""; ?></td>
           <td id="<?php echo "existencia".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_exist.""; ?></td>
           <td id="<?php echo "codigo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_codigo.""; ?></td>
           <td id="<?php echo "descripcion".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_descripcion.""; ?></td>
@@ -75,7 +75,7 @@
         <label>Modelo</label><br>   
         <input type="text" id="new_model" class="form-control input-sm"><br>
         <label>Precio Unitario</label><br>
-        <input type="number" id="new_prec" class="form-control input-sm"><br>
+        <input type="text" onblur="SeparaMiles(this.id)" id="new_prec" class="form-control input-sm"><br>
         <label>Existencia</label><br>
         <input type="number" id="new_exist" class="form-control input-sm"><br>
         <label>Cógido de Producto</label><br>
@@ -117,7 +117,7 @@
         <label>Modelo</label><br>   
         <input type="text" id="edit_model" class="form-control input-sm"><br>
         <label>Precio Unitario</label><br>
-        <input type="number" id="edit_prec" class="form-control input-sm"><br>
+        <input type="text" onblur="SeparaMiles(this.id)" id="edit_prec" class="form-control input-sm"><br>
         <label>Existencia</label><br>
         <input type="number" id="edit_exist" class="form-control input-sm"><br>
         <label>Cógido de Producto</label><br>
@@ -148,6 +148,7 @@
       unid_med=$("#edit_unid_med").val();
       modelo=$("#edit_model").val();
       precio=$("#edit_prec").val();
+      precio=precio.replace(/\,/g, '');
       existencia=$("#edit_exist").val();
       codigo=$("#edit_cod").val();
       descripcion=$("#edit_descrip").val();
@@ -179,6 +180,7 @@
       unid_med=$("#new_unid_med").val();
       modelo=$("#new_model").val();
       precio=$("#new_prec").val();
+      precio=precio.replace(/\,/g, '');
       existencia=$("#new_exist").val();
       codigo=$("#new_cod").val();
       descripcion=$("#new_descrip").val();
@@ -216,6 +218,7 @@
     var unid_med=$("#unid_med"+id_producto).val();
     var modelo=$("#modelo"+id_producto).text();
     var precio=$("#precio"+id_producto).text().split('$');
+    precio[1]=precio[1].replace(/\,/g, '');
     var existencia=$("#existencia"+id_producto).text();
     var codigo=$("#codigo"+id_producto).text();
     var descripcion=$("#descripcion"+id_producto).text();
@@ -237,5 +240,19 @@
     $('#btncancelar').click();
     $("#page_content").load("InventarioProductos");
   }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
+
 
 </script>

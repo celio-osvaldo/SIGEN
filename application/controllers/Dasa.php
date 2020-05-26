@@ -951,12 +951,16 @@ class DASA extends CI_Controller {
 
 	public function AddViaticReport(){
 		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$totalDays=$_POST["totalDays"];
+		$totalDays++;
+
 		$table = 'viaticos';
-		$data = array('id_viaticos' => $this->input->post('idreport'),
-						'obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
-						'obra_cliente_empresa_id_empresa' => $this->input->post('addCompany'),
+		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
+						'obra_cliente_empresa_id_empresa' => $idcompany->id_empresa,
 						'viaticos_fecha' => $this->input->post('addEmitionDate'),
-						'viaticos_total_días' => $this->input->post('totalDays'),
+						'viaticos_total_dias' => $totalDays,
 						'viaticos_fecha_ini' => $this->input->post('addStartDate'),
 						'viaticos_fecha_fin' => $this->input->post('AddDateEnd'),
 						'viaticos_total' => $this->input->post('addMoney'));
@@ -967,40 +971,155 @@ class DASA extends CI_Controller {
         }
 	}
 
+	public function UpdateViaticReport(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$id_viatico=$_POST["edit_idreport"];
+
+		$date1 = new DateTime($_POST["edit_addStartDate"]); 
+		$date2 =  new DateTime($_POST["edit_AddDateEnd"]);
+
+		$totalDays = $date1->diff($date2);
+		$dias=$totalDays->days;
+		$dias++;
+				var_dump($dias);
+		$table = 'viaticos';
+		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('edit_addClientName'),
+						'obra_cliente_empresa_id_empresa' => $idcompany->id_empresa,
+						'viaticos_fecha' => $this->input->post('edit_addEmitionDate'),
+						'viaticos_total_dias' => $dias,
+						'viaticos_fecha_ini' => $this->input->post('edit_addStartDate'),
+						'viaticos_fecha_fin' => $this->input->post('edit_AddDateEnd'));
+
+		if ($this->Dasa_model->Update_Viatic($id_viatico, $data)) {
+        	echo true;
+        }else{
+        	echo false;
+        }
+	}
+
+
 	public function AddViaticExpend(){
 		$this->load->model('Dasa_model');
-		$file = 'addEvidence';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/ViaticExpends/DASA/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('maxid');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$id_viatico=$_POST["idViatic"];
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
+		$monto=$_POST["addImport"];
+		$monto=str_replace(',', '', $monto); 
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
 
-		$upload_file = $config['file_name'] = $this->input->post('maxid');
+		if (isset($_FILES['addEvidence']['name'])) {
+			$filename = $_FILES['addEvidence']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/ViaticExpends/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
 		$table = 'lista_viatico';
-		$data = array('id_lista_viatico' => $this->input->post('addexpendId'),
-						'viaticos_id_viaticos'=> $this->input->post('idViatic'),
+		$data = array('viaticos_id_viaticos'=> $this->input->post('idViatic'),
 						'lista_viatico_fecha'=> $this->input->post('addDate'),
 						'empleado'=> $this->input->post('employ'),
 						'lista_viatico_concepto'=> $this->input->post('addconcept'),
-						'lista_viatico_importe'=> $this->input->post('addImport'),
+						'lista_viatico_importe'=> $monto,
 						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
-						'lista_viatico_factura' => $upload_file);
+						'lista_viatico_factura' => $this->input->post('idComprobante'));
 
-		if($this->Dasa_model->Insert($table, $data)){
-			$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-	    }else{
-	        echo false;
+		$id_lista_viatico=$this->Dasa_model->Insert($table, $data);
+
+		$url_imagen='Resources/Bills/ViaticExpends/DASA/viaticos_'.$id_lista_viatico.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_lista_viatico!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['addEvidence']['tmp_name'],$url_imagen)){
+				$data2 = array('lista_viatico_url_comprobante' => $url_imagen);//nombre del url
+				$this->Dasa_model->UpdateViaticList($id_lista_viatico, $data2);
+			}				
+        }
+        	//realizar la suma de los viaticos 
+		$Suma_viaticos = $this->Dasa_model->ViaticPaymentsSum($id_viatico);      
+
+		$datos_suma = array('viaticos_total' => $Suma_viaticos->sumPayment , ); 
+
+		$this->Dasa_model->Update_Viatic($id_viatico,$datos_suma); 
+
+		echo true;
+	}
+
+
+	public function UpdateViaticExpend(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$id_viatico=$_POST["edit_idViatic"];
+		$id_lista_viatico=$_POST["edit_id_lista_viatico"];
+
+		$monto=$_POST["edit_addImport"];
+		$monto=str_replace(',', '', $monto); 
+
+
+		if (isset($_FILES['edit_addEvidence']['name'])) {
+			$filename = $_FILES['edit_addEvidence']['name'];//imageE
+		} else {
+			$filename="";
 		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/ViaticExpends/DASA/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
+		$table = 'lista_viatico';
+		$data = array('viaticos_id_viaticos'=> $id_viatico,
+						'lista_viatico_fecha'=> $this->input->post('edit_addDate'),
+						'empleado'=> $this->input->post('edit_employ'),
+						'lista_viatico_concepto'=> $this->input->post('edit_addconcept'),
+						'lista_viatico_importe'=> $monto,
+						'lista_viatico_comprobante'=> $this->input->post('edit_addTypeVoucher'),
+						'lista_viatico_factura' => $this->input->post('edit_idComprobante'));
+
+		$this->Dasa_model->UpdateViaticList($id_lista_viatico, $data);
+
+		$url_imagen='Resources/Bills/ViaticExpends/DASA/viaticos_'.$id_lista_viatico.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_lista_viatico!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['edit_addEvidence']['tmp_name'],$url_imagen)){
+				$data2 = array('lista_viatico_url_comprobante' => $url_imagen);//nombre del url
+				$this->Dasa_model->UpdateViaticList($id_lista_viatico, $data2);
+			}				
+        }
+        	//realizar la suma de los viaticos 
+		$Suma_viaticos = $this->Dasa_model->ViaticPaymentsSum($id_viatico);      
+
+		$datos_suma = array('viaticos_total' => $Suma_viaticos->sumPayment , ); 
+
+		$this->Dasa_model->Update_Viatic($id_viatico,$datos_suma); 
+
+		echo true;
 	}
 
 	public function EditViaticReport(){
@@ -1013,6 +1132,7 @@ class DASA extends CI_Controller {
 						'lista_viatico_importe'=> $this->input->post('addImport'),
 						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
 						'lista_viatico_factura' => $upload_file);
+
 	}
 
 	public function Reporte_flujo_efectivo(){

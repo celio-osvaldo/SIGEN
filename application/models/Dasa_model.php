@@ -241,13 +241,23 @@ class Dasa_model extends CI_Model
   }
 
   public function GetAllViaticsReports($idcompany){
-    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_dias, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre,');
     $this->db->from('viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
-    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
-    $this->db->where('empresa_id_empresa', $idcompany);
+    $this->db->join('empresa', 'obra_cliente_empresa_id_empresa = id_empresa');
+    $this->db->where('obra_cliente_empresa_id_empresa', $idcompany);
     $result=$this->db->get();
     return $result;
+  }
+
+  public function UpdateViaticList($id_lista_viatico, $data2){
+    $this->db->where('id_lista_viatico', $id_lista_viatico);
+    $this->db->update('lista_viatico', $data2);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
   public function ViaticPaymentsSum($id_viatico){
@@ -257,6 +267,16 @@ class Dasa_model extends CI_Model
     $query = $this->db->get();
     $result = $query->row();
     return $result; 
+  }
+
+  public function Update_Viatic($id_viatico,$datos_suma){
+    $this->db->where('id_viaticos', $id_viatico);
+    $this->db->update('viaticos', $datos_suma);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
   public function UpdateViaticBalance($id, $total){
@@ -440,7 +460,7 @@ class Dasa_model extends CI_Model
   }
 
   public function GetViaticsById($id_viatico){
-    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_dias, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
     $this->db->from('viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
@@ -450,7 +470,7 @@ class Dasa_model extends CI_Model
   }
 
   public function GetDetailsOfViatics($id_viatico){
-    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado');
+    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado, lista_viatico_url_comprobante');
     $this->db->from('lista_viatico');
     $this->db->join('viaticos', 'id_viaticos = viaticos_id_viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');

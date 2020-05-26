@@ -12,7 +12,7 @@
 <div class="row">
     
     <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-12">
             <div class="card bg-card">
             <div class="margins">
                 <br>
@@ -166,7 +166,7 @@
 
                       <div class="col-md-6">
                         <label>Imagen</label>
-                        <input class="form-control" type="file" name="imageE" id="imageE" >
+                        <input class="form-control" type="file" name="imageE" id="imageE" accept="application/pdf, image/*" >
                       </div>
 
                 </div>

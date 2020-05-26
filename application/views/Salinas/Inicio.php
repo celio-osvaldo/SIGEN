@@ -2,7 +2,7 @@
 <html>
   <head>
      <title> <?php echo $title ?> | Inico de sesión </title>
-    <meta name="viewport" content="initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta charset="utf-8">
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="<?php echo base_url()?>css/bootstrap.min.css">

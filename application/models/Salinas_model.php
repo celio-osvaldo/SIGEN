@@ -1,13 +1,13 @@
-<?php		
+<?php   
 if(! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Salinas_model extends CI_Model
 {
-	public function __Construct(){
-		parent::__construct();
-	}
+  public function __Construct(){
+    parent::__construct();
+  }
 
-	public function GetAllProducts($idcompany){
+  public function GetAllProducts($idcompany){
     $this->db->select('id_catalogo_producto, catalogo_producto_nombre, catalogo_producto_umedida, catalogo_producto_precio, catalogo_proveedor_empresa, catalogo_producto_fecha_actualizacion, empresa_id_empresa, unidad_medida, catalogo_proveedor_empresa_id_empresa, catalogo_producto_url_imagen');
     $this->db->from('catalogo_producto');
     $this->db->join('unidades_de_medida', 'id_uMedida = catalogo_producto_umedida');
@@ -22,23 +22,23 @@ class Salinas_model extends CI_Model
     }
   }
 
-	public function IdCompany($company){
-	   	$this->db->select('id_empresa');//the name of fields to query in the login
-      	$this->db->from('us_empresa');#name of first table
-      	$this->db->join('empresa','empresa_id_empresa=id_empresa');
-      	$this->db->where('empresa_nom', $company);#the field must match the entered parameter of password
-      	$query = $this->db->get();#the query is obtained and stored within the variable
-      	$result = $query->row();#the result displays in a row
-      	return $result;#if the query has data, returns the data query
-  		}
+  public function IdCompany($company){
+      $this->db->select('id_empresa');//the name of fields to query in the login
+        $this->db->from('us_empresa');#name of first table
+        $this->db->join('empresa','empresa_id_empresa=id_empresa');
+        $this->db->where('empresa_nom', $company);#the field must match the entered parameter of password
+        $query = $this->db->get();#the query is obtained and stored within the variable
+        $result = $query->row();#the result displays in a row
+        return $result;#if the query has data, returns the data query
+      }
 
   public function GetAllCustomer_Project($idcompany){
-  		$this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios');
-  		$this->db->from('obra_cliente');
+      $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios');
+      $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
-  		$this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
-  		$query = $this->db->get();
-  		return $query;			
+      $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
+      $query = $this->db->get();
+      return $query;      
   }
 
   public function Get_Customer_List($idcompany){
@@ -50,14 +50,14 @@ class Salinas_model extends CI_Model
   }
 
 
-	public function AddCustomer_Project($data){
-		$this->db->insert('obra_cliente',$data);
+  public function AddCustomer_Project($data){
+    $this->db->insert('obra_cliente',$data);
     if ($this->db->affected_rows() > 0) {
       return 1;
     } else{
       return 2;
     }
-	}
+  }
 
   public function Edit_CustomerProject($id,$data){
     $this->db->where('id_obra_cliente', $id);
@@ -90,16 +90,16 @@ class Salinas_model extends CI_Model
     }
   }
 
-	public function GetAllMeasurements(){
-		$q = $this->db->get('unidades_de_medida');
-		if($q -> num_rows() >0){
-			return $q;
-		}else{
-			return false;
-		}
-	}
+  public function GetAllMeasurements(){
+    $q = $this->db->get('unidades_de_medida');
+    if($q -> num_rows() >0){
+      return $q;
+    }else{
+      return false;
+    }
+  }
 
-	 public function GetAllCustomer_Payments($idcompany){
+   public function GetAllCustomer_Payments($idcompany){
     $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios');
       $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
@@ -110,12 +110,12 @@ class Salinas_model extends CI_Model
   }
 
   public function AddCustomer_Pay($data){
-  	$this->db->insert('venta_movimiento', $data);
-  	if ($this->db->affected_rows() > 0) {
-			return 1;
-		} else{
-			return 2;
-		}
+    $this->db->insert('venta_movimiento', $data);
+    if ($this->db->affected_rows() > 0) {
+      return 1;
+    } else{
+      return 2;
+    }
   }
 
   public function SumPagos_Obra($id_obra){
@@ -156,21 +156,21 @@ class Salinas_model extends CI_Model
   }
 
   public function Datos_obra($id_obra){
-  	$this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
-  	$this->db->from('obra_cliente');
-  	$this->db->Where('id_obra_cliente',$id_obra);
-  	$query=$this->db->get();
-  	$result=$query->row();
-  	return $result;
+    $this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
+    $this->db->from('obra_cliente');
+    $this->db->Where('id_obra_cliente',$id_obra);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
   }
 
   public function GetPayments_List($id_obra){
-  	$this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto');
-  	$this->db->from('venta_movimiento');
-  	$this->db->where('obra_cliente_id_obra_cliente',$id_obra);
-  	$this->db->order_by('venta_mov_fecha');
-  	$result=$this->db->get();
-  	return $result;
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto');
+    $this->db->from('venta_movimiento');
+    $this->db->where('obra_cliente_id_obra_cliente',$id_obra);
+    $this->db->order_by('venta_mov_fecha');
+    $result=$this->db->get();
+    return $result;
   }
 
   public function GetAllCostOfSale($idcompany){
@@ -223,21 +223,41 @@ class Salinas_model extends CI_Model
     }
   }
 
-  public function GetAllReportsOfPettyCash(){
-    $cash = 1;
-    $this->db->where('caja_chica_id_caja_chica', $cash);
+  public function GetAllReportsOfPettyCash($id_empresa){
+
+    $this->db->where('empresa_id_empresa', $id_empresa);
     $q = $this->db->get('lista_caja_chica');
     return $q;
   }
 
+  public function Update_Caja_Chica($id_caja_chica, $data2){
+    $this->db->where('id_lista_caja_chica', $id_caja_chica);
+    $this->db->update('lista_caja_chica', $data2);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
   public function GetAllViaticsReports($idcompany){
-    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_dias, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre,');
     $this->db->from('viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
-    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
-    $this->db->where('empresa_id_empresa', $idcompany);
+    $this->db->join('empresa', 'obra_cliente_empresa_id_empresa = id_empresa');
+    $this->db->where('obra_cliente_empresa_id_empresa', $idcompany);
     $result=$this->db->get();
     return $result;
+  }
+
+  public function UpdateViaticList($id_lista_viatico, $data2){
+    $this->db->where('id_lista_viatico', $id_lista_viatico);
+    $this->db->update('lista_viatico', $data2);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
   public function ViaticPaymentsSum($id_viatico){
@@ -247,6 +267,16 @@ class Salinas_model extends CI_Model
     $query = $this->db->get();
     $result = $query->row();
     return $result; 
+  }
+
+  public function Update_Viatic($id_viatico,$datos_suma){
+    $this->db->where('id_viaticos', $id_viatico);
+    $this->db->update('viaticos', $datos_suma);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
   public function UpdateViaticBalance($id, $total){
@@ -430,7 +460,7 @@ class Salinas_model extends CI_Model
   }
 
   public function GetViaticsById($id_viatico){
-    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_dias, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
     $this->db->from('viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
@@ -440,7 +470,7 @@ class Salinas_model extends CI_Model
   }
 
   public function GetDetailsOfViatics($id_viatico){
-    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado');
+    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado, lista_viatico_url_comprobante');
     $this->db->from('lista_viatico');
     $this->db->join('viaticos', 'id_viaticos = viaticos_id_viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
@@ -470,10 +500,10 @@ class Salinas_model extends CI_Model
   }
 
     public function Get_Egresos_Caja_Chica($idcompany,$anio,$mes){
-    $this->db->select('id_lista_caja_chica, caja_chica_id_caja_chica,lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura');
+    $this->db->select('id_lista_caja_chica, empresa_id_empresa, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura, lista_caja_chica_url_factura, lista_caja_chica_saldo');
     //$this->db->select_sum('venta_mov_monto','total_ingreso');
     $this->db->from('lista_caja_chica');
-    $this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
+    //$this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
     $this->db->where('MONTH(lista_caja_chica_fecha)',$mes);
     $this->db->where('YEAR(lista_caja_chica_fecha)',$anio);
     $this->db->where('empresa_id_empresa',$idcompany);
@@ -531,6 +561,17 @@ class Salinas_model extends CI_Model
     return $result;
   }
 
+  public function Get_sal_ban_guardado($idcompany,$anio,$mes_letra){
+    $this->db->select('flujo_efectivo_saldo_ini');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes_letra);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
   public function Verifica_Flujo($idcompany,$anio,$mes){
     $this->db->select('id_flujo_efectivo');
     $this->db->from('flujo_efectivo');
@@ -549,6 +590,18 @@ class Salinas_model extends CI_Model
     } else{
       return false;
     }
+  }
+
+  public function Update_Flujo($mes,$anio,$id_empresa,$data){
+    $this->db->where('flujo_efectivo_mes',$mes);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $this->db->where('empresa_id_empresa',$id_empresa);
+      $this->db->update('flujo_efectivo', $data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+      } else{
+        return false;
+      }
   }
 
 

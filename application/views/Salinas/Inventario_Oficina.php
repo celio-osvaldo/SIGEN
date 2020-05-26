@@ -38,7 +38,7 @@
           <td id="<?php echo "nom_prod".$row->id_prod;?>"><?php echo "".$row->producto_consu_nom.""; ?></td>
           <td id="<?php echo "unid_med".$row->id_prod;?>"><?php echo "".$row->unidad_medida.""; ?></td>
           <td id="<?php echo "existencia".$row->id_prod;?>"><?php echo "".$row->producto_consu_exist.""; ?></td>
-          <td id="<?php echo "precio".$row->id_prod;?>">$<?php echo "".$row->producto_consu_prec_unit.""; ?></td>
+          <td id="<?php echo "precio".$row->id_prod;?>">$<?php echo number_format($row->producto_consu_prec_unit,2,'.',',').""; ?></td>
           <td id="<?php echo "ult_compra".$row->id_prod;?>"><?php echo "".$row->producto_consu_ult_compra.""; ?></td>
           <td id="<?php echo "periodicidad".$row->id_prod;?>"><?php echo "".$row->producto_consu_periodicidad."-días"; ?></td>
           <td id="<?php echo "prox_compra".$row->id_prod;?>"><?php echo "".$row->producto_consu_prox_compra.""; ?></td>
@@ -75,7 +75,7 @@
         <label>Existencia</label><br>   
         <input type="number" id="new_exist" class="form-control input-sm"><br>
         <label>Precio Unitario</label><br>
-        <input type="number" id="new_prec" class="form-control input-sm"><br>
+        <input type="text" onblur="SeparaMiles(this.id)" id="new_prec" class="form-control input-sm"><br>
         <label>Fecha Última Compra</label><br>
         <input type="date" id="new_ult_comp" class="form-control input-sm"><br>
         <label>Periodicidad de Compra</label><br>
@@ -120,7 +120,7 @@
         <label>Existencia</label><br>   
         <input type="number" id="edit_exist" class="form-control input-sm"><br>
         <label>Precio Unitario</label><br>
-        <input type="number" id="edit_prec" class="form-control input-sm"><br>
+        <input type="text" onblur="SeparaMiles(this.id)" id="edit_prec" class="form-control input-sm"><br>
         <label>Fecha Última Compra</label><br>
         <input type="date" id="edit_ult_comp" class="form-control input-sm"><br>
         <label>Periodicidad de Compra</label><br>
@@ -154,6 +154,7 @@
       unid_med=$("#edit_unid_med").val();
       existencia=$("#edit_exist").val();
       precio=$("#edit_prec").val();
+      precio=precio.replace(/\,/g, '');
       ult_compra=$("#edit_ult_comp").val();
       periodicidad=$("#edit_periodic").val();
       proveedor=$("#edit_provider").val();
@@ -184,6 +185,7 @@
       unid_med=$("#new_unid_med").val();
       existencia=$("#new_exist").val();
       precio=$("#new_prec").val();
+      precio=precio.replace(/\,/g, '');
       ult_compra=$("#new_ult_comp").val();
       periodicidad=$("#new_periodic").val();
       proveedor=$("#new_provider").val();
@@ -220,6 +222,7 @@
     var unid_med=$("#unid_med"+id_producto).text();
     var existencia=$("#existencia"+id_producto).text();
     var precio=$("#precio"+id_producto).text().split('$');
+    precio[1]=precio[1].replace(/\,/g, '');
     var ult_compra=$("#ult_compra"+id_producto).text();
     var periodicidad=$("#periodicidad"+id_producto).text().split('-');
     var proveedor=$("#ult_proveed"+id_producto).text();
@@ -239,5 +242,19 @@
     $('#btncancelar').click();
     $("#page_content").load("InventarioOficina");
   }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
+
 
 </script>

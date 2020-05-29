@@ -11,17 +11,17 @@
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total de Obra:<hr>$<?php echo $obra->obra_cliente_imp_total; ?>
+          Total de Obra:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,2,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total Pagado:<hr>$<?php echo $obra->obra_cliente_pagado; ?>
+          Total Pagado:<hr>$<?php echo number_format($obra->obra_cliente_pagado,2,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Saldo:<hr>$<?php echo $obra->obra_cliente_saldo; ?>
+          Saldo:<hr>$<?php echo number_format($obra->obra_cliente_saldo,2,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
@@ -54,7 +54,7 @@
           ?>
           <tr>
             <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
-            <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo "".$row->venta_mov_monto.""; ?> </td>
+            <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?> </td>
             <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
           </td>
           <td>
@@ -85,7 +85,7 @@
         <label>Fecha de Pago</label>
         <input type="date" name="" id="edit_fecha" class="form-control input-sm">
         <label>Importe de Pago</label>
-        <input type="number" name="" id="edit_imp_pago" class="form-control input-sm">
+        <input type="text" onblur="SeparaMiles(this.id)" name="" id="edit_imp_pago" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_vent_mov" hidden="true">
@@ -108,6 +108,7 @@
         $('#UpdatePay').click(function(){
           act_fecha=$("#edit_fecha").val();
           act_imp=$("#edit_imp_pago").val();
+          act_imp=act_imp.replace(/\,/g, '');
           act_coment=$("#edit_coment").val();
           id=$("#edit_id_vent_mov").val();
     //alert(act_fecha+act_imp+act_coment+id);
@@ -141,6 +142,7 @@ function Edit_pay2($id){
     var fecha=$("#fecha"+$id).text();
     //alert(fecha);
     var pago=$("#pago"+$id).text().split('$');
+    pago[1]=pago[1].replace(/\,/g, '');
     //alert(pago);
     var coment=$("#coment"+$id).text();
     var id_venta_mov=$id;
@@ -155,4 +157,18 @@ function Edit_pay2($id){
   function Update_Page(){
     $("#page_content").load("CustomerPayments");
   }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
+
 </script>

@@ -810,6 +810,42 @@ class Iluminacion extends CI_Controller {
 		}
 	}
 
+	public function UpdateSFV(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_pago_sfv=$_POST["id_pago_sfv"];
+		$imp_total=$_POST["imp_total"];
+		$estado=$_POST["estado"];
+		$suma_pagos=$this->Iluminacion_model->Get_Total_Pagos_SFV($id_pago_sfv); //total_pagos
+
+		$resto=($imp_total-($suma_pagos->total_pagos));
+
+		if($estado!="Cancelado"){
+			if($resto<=0){
+				$estado="Pagado";
+			}else{
+				$estado="Activo";
+			}
+		}
+
+		$data = array('pago_sfv_id_cliente' => $this->input->post('cliente'),
+					  'pago_sfv_kwh'=> $this->input->post('kwh'),
+					  'pago_sfv_estado' => $estado,
+					  'pago_sfv_cant_pagos' => $this->input->post('cant_pagos'),
+					  'pago_sfv_coment' =>$this->input->post('coment'),
+					  'pago_sfv_imp_total' => $imp_total,
+					  'pago_sfv_saldo' => $resto);
+
+
+		if($this->Iluminacion_model->Update_SFV($data,$id_pago_sfv)){
+			echo true;
+		}else{
+			echo false;
+		}
+
+	}
+
 	public function Add_Pay_SFV(){
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
@@ -841,7 +877,7 @@ class Iluminacion extends CI_Controller {
 		// Valid image extensions
 		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 
-		$saldo=($importe_total-$pago_total);
+		$saldo=(($importe_total)-($pago_total));
 		$data = array('pago_sfv_id_pago_sfv' => $id_pago_sfv,
 					  'lista_pago_sfv_num_pago' => $num_pago,
 					  'lista_pago_sfv_fecha' => $fecha,
@@ -858,7 +894,7 @@ class Iluminacion extends CI_Controller {
 		$suma_pagos=$this->Iluminacion_model->Get_Total_Pagos_SFV($id_pago_sfv); //total_pagos
 
 		$fecha_pago=$this->Iluminacion_model->Get_last_pago_SFV($id_pago_sfv);//última fecha de pago
-		$resto=($importe_total-($suma_pagos->total_pagos));
+		$resto=(($importe_total)-($suma_pagos->total_pagos));
 
 		if($resto<=0){
 			$estado="Pagado";
@@ -1545,71 +1581,115 @@ public function Reporte_flujo_efectivo(){
 		$this->load->view('Iluminacion/CostOfSale-List', $data);
 	}
 
+
 	public function AddCostOfSale(){
 		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_gasto_venta=$_POST['idCost'];
+		$monto=$_POST["addAmount"];
+		$monto=str_replace(',', '', $monto);
 
-		$file = 'addBill';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/CostOfSale/ILUMINACION/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('addFolio');//name of file
-        $config['overwrite'] = false;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];
+		} else {
+			$filename="";
+		}
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/CostOfSale/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 
-		$upload_file = $config['file_name'] = $this->input->post('addFolio');
 		$table = 'gasto_venta';
-		$data = array('id_gasto_venta' => $this->input->post('idCost'),
+		$data = array('id_gasto_venta' => $id_gasto_venta,
 						'obra_cliente_id_obra_cliente'=> $this->input->post('addClientName'),
-						'obra_cliente_empresa_id_empresa'=> $this->input->post('addCompany'),
+						'obra_cliente_empresa_id_empresa'=> $idcomp->id_empresa,
 						'gasto_venta_fecha'=> $this->input->post('addEmitionDate'),
-						'gasto_venta_factura'=> $upload_file,
-						'gasto_venta_monto'=> $this->input->post('addAmount'),
+						'gasto_venta_factura'=> $this->input->post('addFolio'),
+						'gasto_venta_monto'=> $monto,
 						'gasto_venta_concepto' => $this->input->post('addConcept'),
 						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
 						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
 
-		if($this->Iluminacion_model->Insert($table, $data)){
-			$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
-        	echo false;
-		}
+		$this->Iluminacion_model->Insert($table, $data);
+
+		$url_imagen='Resources/Bills/CostOfSale/Iluminacion/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_gasto_venta!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_venta_url_factura' => $url_imagen);
+				$this->Iluminacion_model->UpdateCostSale($id_gasto_venta, $data2);
+			}
+    	}
+    	var_dump($id_gasto_venta);
+		echo true;		
 	}
 
 	public function EditCostOfSale(){
 		$this->load->model('Iluminacion_model');
-		$id = $_POST['idE'];
+       	$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_gasto_venta=$_POST['idE'];
+		$monto=$_POST["amountE"];
+		$monto=str_replace(',', '', $monto);
+
+		if (isset($_FILES['billE']['name'])) {
+			$filename = $_FILES['billE']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/CostOfSale/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
+
 		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
-						'obra_cliente_empresa_id_empresa'=> $this->input->post('Company'),
+						'obra_cliente_empresa_id_empresa'=> $idcomp->id_empresa,
 						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
 						'gasto_venta_factura'=> $this->input->post('folioE'),
-						'gasto_venta_monto'=> $this->input->post('amountE'),
+						'gasto_venta_monto'=> $monto,
 						'gasto_venta_concepto' => $this->input->post('conceptE'),
 						'gasto_venta_observacion' => $this->input->post('commentE'),
 						'gasto_venta_estado_pago' => $this->input->post('statusE'),
 						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
+		$this->Iluminacion_model->UpdateCostSale($id_gasto_venta, $data);
 
-		if($this->Iluminacion_model->UpdateCostSale($id, $data)){
-			echo true;
-		}else{
-			echo false;
-		}
+		$url_imagen='Resources/Bills/CostOfSale/Iluminacion/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_gasto_venta!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['billE']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_venta_url_factura' => $url_imagen);
+				$this->Iluminacion_model->UpdateCostSale($id_gasto_venta, $data2);
+			}
+    	}
+
+    	echo true;
+				//var_dump($data);
 	}
 
 	public function PettyCash(){
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';
-		$idCompany=$this->Iluminacion_model->IdCompany($company);
-		$this->load->model('Iluminacion_model');
-		$data=array('cash' => $this->Iluminacion_model->GetAllReportsOfPettyCash($idCompany->id_empresa));
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$table = 'lista_caja_chica';
+		$id = 'id_lista_caja_chica';
+		$data=array('cash' => $this->Iluminacion_model->GetAllReportsOfPettyCash($idcompany->id_empresa),
+					'max'=>$this->Iluminacion_model->IDMAX($table, $id));
 		$this->load->view('Iluminacion/PettyCash', $data);
 	}
 
@@ -1632,38 +1712,129 @@ public function Reporte_flujo_efectivo(){
 
 	public function AddReportPettyCash(){
 		$this->load->model('Iluminacion_model');
-		$file = 'upBillI';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/PettyCash/ILUMINACION/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('folioBillI');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$radio=$_POST["exampleRadios"];
+		$ingreso=$this->input->post('moneyI');
+		$egreso=$this->input->post('moneyEI');
+		$ingreso=str_replace(',', '', $ingreso);//Eliminamos las comas de la cantidad ingresada
+		$egreso=str_replace(',', '', $egreso);//Eliminamos las comas de la cantidad ingresada
+		//var_dump($radio);
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
+		if($radio=="option1"){
+			$reposicion=0;
+			$gasto=$egreso;
+		}else{
+			$reposicion=$ingreso;
+			$gasto=0;
+		}
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
+		if (isset($_FILES['upBillI']['name'])) {
+			$filename = $_FILES['upBillI']['name'];
+		} else {
+			$filename="";
+		}
 
-        $upload_file = $config['file_name'] = $this->input->post('folioBillI');
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/PettyCash/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		//$saldo_caja=  Verificar si se obtendrá un saldo de caja chica
+
 		$table = 'lista_caja_chica';
-		$data = array('id_lista_caja_chica' => $this->input->post('cashI'),
-						'caja_chica_id_caja_chica'=> $this->input->post('pettycash'),
-						'lista_caja_chica_fecha'=> $this->input->post('dateI'),
+		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
+						'lista_caja_chica_fecha'=> $this->input->post('dateI'), //fecha de emisión
 						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
-						'lista_caja_chica_reposicion'=> $this->input->post('moneyI'),
-						'lista_caja_chica_gasto'=> $this->input->post('moneyEI'),
-						'lista_caja_chica_factura' => $upload_file,
-						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'));
-		if ($this->Iluminacion_model->Insert($table, $data)) {
-        	$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
+						'lista_caja_chica_reposicion'=> $reposicion,
+						'lista_caja_chica_gasto'=> $gasto,
+						'lista_caja_chica_factura' => $this->input->post('folioBillI'),
+						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI')/*,
+						'lista_caja_chica_saldo' => $saldo_caja*/);
+		$id_caja_chica=$this->Iluminacion_model->Insert($table, $data);
+
+
+		if(!is_null($id_caja_chica)){
+			if(in_array($file_extension,$image_ext)&&$id_caja_chica!=""&&$filename!=""){
+				$url_imagen='Resources/Bills/PettyCash/Iluminacion/caja_chica_'.$id_caja_chica.'.'.$file_extension;
+  					// Upload file
+				if(move_uploaded_file($_FILES['upBillI']['tmp_name'],$url_imagen)){
+					$data2 = array('lista_caja_chica_url_factura' => $url_imagen);//nombre del url
+					$this->Iluminacion_model->Update_Caja_Chica($id_caja_chica, $data2);
+					echo $radio;
+				}				
+        	}else{
         	echo false;
-        }
+        	}
+		}else{
+			echo false;
+		}
 	}
+
+public function UpdateReportPettyCash(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$edit_id_lista_caja_chica=$_POST["edit_id_lista_caja_chica"];
+     	$edit_dateI=$_POST["edit_dateI"];
+     	$edit_conceptI=$_POST["edit_conceptI"];
+     	$tipo=$_POST["edit_radio"];
+     	$edit_money=$_POST["edit_money"];
+     	$edit_money=str_replace(',', '', $edit_money);//Eliminamos las comas de la cantidad ingresada
+     	$edit_folioBillI=$_POST["edit_folioBillI"];
+     	$edit_dateBillI=$_POST["edit_dateBillI"];
+     	if($tipo=="option2"){//Verificamos si el radio seleccionado es el de la opción 2 (Ingreso)
+        	$monto_ingreso=$edit_money;
+        	$monto_egreso=0;
+     	}else{
+       		$monto_ingreso=0;
+        	$monto_egreso=$edit_money;
+     	}
+
+
+     	if (isset($_FILES['edit_upBillI']['name'])) {
+			$filename = $_FILES['edit_upBillI']['name'];
+		} else {
+			$filename="";
+		}
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/PettyCash/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		if(in_array($file_extension,$image_ext)&&$edit_id_lista_caja_chica!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+			$url_imagen='Resources/Bills/PettyCash/Iluminacion/caja_chica_'.$edit_id_lista_caja_chica.'.'.$file_extension;
+  				// Upload file
+			if(move_uploaded_file($_FILES['edit_upBillI']['tmp_name'],$url_imagen)){
+				$data2 = array('lista_caja_chica_url_factura' => $url_imagen);//nombre del url
+				$this->Iluminacion_model->Update_Caja_Chica($edit_id_lista_caja_chica, $data2);
+			}				
+        }
+
+		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
+						'lista_caja_chica_fecha'=> $edit_dateI, //fecha de emisión
+						'lista_caja_chica_concepto'=> $edit_conceptI,
+						'lista_caja_chica_reposicion'=> $monto_ingreso,
+						'lista_caja_chica_gasto'=> $monto_egreso,
+						'lista_caja_chica_factura' => $edit_folioBillI,
+						'lista_caja_chica_fecha_factura' => $edit_dateBillI);
+     $this->Iluminacion_model->Update_Caja_Chica($edit_id_lista_caja_chica, $data);
+
+
+     echo true;  
+	}
+
+
 
 	public function OtherExpens(){
 		$this->load->model('Iluminacion_model');
@@ -1675,57 +1846,102 @@ public function Reporte_flujo_efectivo(){
 
 	public function AddNewExpend(){
 		$this->load->model('Iluminacion_model');
-		$file = 'addBill';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/Expends/ILUMINACION/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('addFolio');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$monto=$_POST["addAmount"];
+		$monto=str_replace(',', '', $monto); 
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
 
-        $upload_file = $config['file_name'] = $this->input->post('addFolio');
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Expends/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 		$table = 'otros_gastos';
-		$data = array('id_OGasto' => $this->input->post('cashI'),
-						'empresa_id_empresa'=> $this->input->post('addCompany'),
+		$data = array('empresa_id_empresa'=> $idcompany->id_empresa,
 						'fecha_emision'=> $this->input->post('addEmitionDate'),
 						'concepto'=> $this->input->post('addConcept'),
-						'saldo'=> $this->input->post('addAmount'),
+						'saldo'=> $monto,
 						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
-						'factura' => $upload_file,
 						'fecha_pago_factura' => $this->input->post('addDate'));
-		if ($this->Iluminacion_model->Insert($table, $data)) {
-        	$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-        }else{
-        	echo false;
+
+		$id_otros_gastos=$this->Iluminacion_model->Insert($table, $data);
+		$url_imagen='Resources/Bills/Expends/Iluminacion/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('factura' => $url_imagen);//nombre del url
+				$this->Iluminacion_model->UpdateExpendInfo($id_otros_gastos, $data2);
+			}				
         }
+        echo true;		
 	}
 
 	public function UpdateExpend(){
 		$this->load->model('Iluminacion_model');
-		$id = $_POST['idE'];
-		$data = array('empresa_id_empresa'=> $this->input->post('editCompany'),
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$id_otros_gastos=$_POST["idE"];
+
+		$monto=$_POST["editAmount"];
+		$monto=str_replace(',', '', $monto); 
+
+
+		if (isset($_FILES['editBill']['name'])) {
+			$filename = $_FILES['editBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Expends/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$url_imagen='Resources/Bills/Expends/Iluminacion/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
+
+		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
 						'fecha_emision'=> $this->input->post('editEmitionDate'),
 						'concepto'=> $this->input->post('editConcept'),
-						'saldo'=> $this->input->post('editAmount'),
+						'saldo'=> $monto,
 						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
-						'factura' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'));
+		        $this->Iluminacion_model->UpdateExpendInfo($id_otros_gastos, $data);
 
-		if($this->Iluminacion_model->UpdateExpendInfo($id, $data)){
-			echo true;
-		}else{
-			echo false;
-		}
+		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['editBill']['tmp_name'],$url_imagen)){
+				$data2 = array('factura' => $url_imagen );
+				$this->Iluminacion_model->UpdateExpendInfo($id_otros_gastos, $data2);
+			}				
+        }
+
+
+        echo true;
+
+
 	}
 
 	public function GetAllViatics(){
@@ -1756,12 +1972,16 @@ public function Reporte_flujo_efectivo(){
 
 	public function AddViaticReport(){
 		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$totalDays=$_POST["totalDays"];
+		$totalDays++;
+
 		$table = 'viaticos';
-		$data = array('id_viaticos' => $this->input->post('idreport'),
-						'obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
-						'obra_cliente_empresa_id_empresa' => $this->input->post('addCompany'),
+		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
+						'obra_cliente_empresa_id_empresa' => $idcompany->id_empresa,
 						'viaticos_fecha' => $this->input->post('addEmitionDate'),
-						'viaticos_total_días' => $this->input->post('totalDays'),
+						'viaticos_total_dias' => $totalDays,
 						'viaticos_fecha_ini' => $this->input->post('addStartDate'),
 						'viaticos_fecha_fin' => $this->input->post('AddDateEnd'),
 						'viaticos_total' => $this->input->post('addMoney'));
@@ -1772,40 +1992,153 @@ public function Reporte_flujo_efectivo(){
         }
 	}
 
+	public function UpdateViaticReport(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$id_viatico=$_POST["edit_idreport"];
+
+		$date1 = new DateTime($_POST["edit_addStartDate"]); 
+		$date2 =  new DateTime($_POST["edit_AddDateEnd"]);
+
+		$totalDays = $date1->diff($date2);
+		$dias=$totalDays->days;
+		$dias++;
+				var_dump($dias);
+		$table = 'viaticos';
+		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('edit_addClientName'),
+						'obra_cliente_empresa_id_empresa' => $idcompany->id_empresa,
+						'viaticos_fecha' => $this->input->post('edit_addEmitionDate'),
+						'viaticos_total_dias' => $dias,
+						'viaticos_fecha_ini' => $this->input->post('edit_addStartDate'),
+						'viaticos_fecha_fin' => $this->input->post('edit_AddDateEnd'));
+
+		if ($this->Iluminacion_model->Update_Viatic($id_viatico, $data)) {
+        	echo true;
+        }else{
+        	echo false;
+        }
+	}
+
 	public function AddViaticExpend(){
 		$this->load->model('Iluminacion_model');
-		$file = 'addEvidence';//The name of input that select file
-        $config['upload_path'] = "./Resources/Bills/ViaticExpends/ILUMINACION/";//Path of where uploadthe file
-        $config['file_name'] = $this->input->post('maxid');//name of file
-        $config['overwrite'] = true;//allow or not allow overwrite a file
-        $config['allowed_types'] = "pdf";//type of files allowed to upload
-        $config['max_size'] = "5000";//max size of the file allowed
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$id_viatico=$_POST["idViatic"];
 
-        $this->load->library('upload', $config);//use for allow the upload files at server
+		$monto=$_POST["addImport"];
+		$monto=str_replace(',', '', $monto); 
 
-        if (!$this->upload->do_upload($file)) {//if there is a error while upload. shows the error in the view
-            $data['uploadError'] = $this->upload->display_errors();
-            echo $this->upload->display_errors();
-            return;
-        }
 
-		$upload_file = $config['file_name'] = $this->input->post('maxid');
+		if (isset($_FILES['addEvidence']['name'])) {
+			$filename = $_FILES['addEvidence']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/ViaticExpends/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
 		$table = 'lista_viatico';
-		$data = array('id_lista_viatico' => $this->input->post('addexpendId'),
-						'viaticos_id_viaticos'=> $this->input->post('idViatic'),
+		$data = array('viaticos_id_viaticos'=> $this->input->post('idViatic'),
 						'lista_viatico_fecha'=> $this->input->post('addDate'),
 						'empleado'=> $this->input->post('employ'),
 						'lista_viatico_concepto'=> $this->input->post('addconcept'),
-						'lista_viatico_importe'=> $this->input->post('addImport'),
+						'lista_viatico_importe'=> $monto,
 						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
-						'lista_viatico_factura' => $upload_file);
+						'lista_viatico_factura' => $this->input->post('idComprobante'));
 
-		if($this->Iluminacion_model->Insert($table, $data)){
-			$data['uploadSuccess'] = $this->upload->data();
-        	echo true;
-	    }else{
-	        echo false;
+		$id_lista_viatico=$this->Iluminacion_model->Insert($table, $data);
+
+		$url_imagen='Resources/Bills/ViaticExpends/Iluminacion/viaticos_'.$id_lista_viatico.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_lista_viatico!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['addEvidence']['tmp_name'],$url_imagen)){
+				$data2 = array('lista_viatico_url_comprobante' => $url_imagen);//nombre del url
+				$this->Iluminacion_model->UpdateViaticList($id_lista_viatico, $data2);
+			}				
+        }
+        	//realizar la suma de los viaticos 
+		$Suma_viaticos = $this->Iluminacion_model->ViaticPaymentsSum($id_viatico);      
+
+		$datos_suma = array('viaticos_total' => $Suma_viaticos->sumPayment , ); 
+
+		$this->Iluminacion_model->Update_Viatic($id_viatico,$datos_suma); 
+
+		echo true;
+	}
+
+public function UpdateViaticExpend(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$id_viatico=$_POST["edit_idViatic"];
+		$id_lista_viatico=$_POST["edit_id_lista_viatico"];
+
+		$monto=$_POST["edit_addImport"];
+		$monto=str_replace(',', '', $monto); 
+
+
+		if (isset($_FILES['edit_addEvidence']['name'])) {
+			$filename = $_FILES['edit_addEvidence']['name'];//imageE
+		} else {
+			$filename="";
 		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/ViaticExpends/Iluminacion/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
+		$table = 'lista_viatico';
+		$data = array('viaticos_id_viaticos'=> $id_viatico,
+						'lista_viatico_fecha'=> $this->input->post('edit_addDate'),
+						'empleado'=> $this->input->post('edit_employ'),
+						'lista_viatico_concepto'=> $this->input->post('edit_addconcept'),
+						'lista_viatico_importe'=> $monto,
+						'lista_viatico_comprobante'=> $this->input->post('edit_addTypeVoucher'),
+						'lista_viatico_factura' => $this->input->post('edit_idComprobante'));
+
+		$this->Iluminacion_model->UpdateViaticList($id_lista_viatico, $data);
+
+		$url_imagen='Resources/Bills/ViaticExpends/Iluminacion/viaticos_'.$id_lista_viatico.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_lista_viatico!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['edit_addEvidence']['tmp_name'],$url_imagen)){
+				$data2 = array('lista_viatico_url_comprobante' => $url_imagen);//nombre del url
+				$this->Iluminacion_model->UpdateViaticList($id_lista_viatico, $data2);
+			}				
+        }
+        	//realizar la suma de los viaticos 
+		$Suma_viaticos = $this->Iluminacion_model->ViaticPaymentsSum($id_viatico);      
+
+		$datos_suma = array('viaticos_total' => $Suma_viaticos->sumPayment , ); 
+
+		$this->Iluminacion_model->Update_Viatic($id_viatico,$datos_suma); 
+
+		echo true;
 	}
 
 

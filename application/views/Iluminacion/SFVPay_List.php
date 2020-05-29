@@ -17,22 +17,22 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                KWh totales:<hr><?php echo $sfv_info->pago_sfv_kwh; ?>
+                KWh totales:<hr><?php echo number_format($sfv_info->pago_sfv_kwh,0,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Importe total:<hr>$<?php echo $sfv_info->pago_sfv_imp_total; ?>
+                Importe total:<hr>$<?php echo number_format($sfv_info->pago_sfv_imp_total,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total pagado:<hr>$<?php echo $sfv_info->pago_sfv_pagado; ?>
+                Total pagado:<hr>$<?php echo number_format($sfv_info->pago_sfv_pagado,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Saldo:<hr>$<?php echo $sfv_info->pago_sfv_saldo; ?>
+                Saldo:<hr>$<?php echo number_format($sfv_info->pago_sfv_saldo,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
@@ -79,10 +79,10 @@
             <td hidden="true" id="<?php echo "id_lista_pago_sfv".$row->id_lista_pago_sfv;?>"><?php echo "".$row->id_lista_pago_sfv.""; ?></td>
             <td id="<?php echo "num_pago".$row->id_lista_pago_sfv;?>"><?php echo "".$row->lista_pago_sfv_num_pago.""; ?></td>
             <td id="<?php echo "fecha".$row->id_lista_pago_sfv;?>"><?php echo "".$row->lista_pago_sfv_fecha.""; ?></td>
-            <td id="<?php echo "kwh_facturado".$row->id_lista_pago_sfv;?>"><?php echo "".$row->lista_pago_sfv_kwh_factu.""; ?></td>
-            <td id="<?php echo "total_pago".$row->id_lista_pago_sfv;?>">$<?php echo "".$row->lista_pago_sfv_total.""; ?></td>
-            <td id="<?php echo "subtotal".$row->id_lista_pago_sfv;?>">$<?php echo "".$row->lista_pago_sfv_sub_total.""; ?></td>
-            <td id="<?php echo "iva".$row->id_lista_pago_sfv;?>">$<?php echo "".$row->lista_pago_sfv_iva.""; ?></td>
+            <td id="<?php echo "kwh_facturado".$row->id_lista_pago_sfv;?>"><?php echo number_format($row->lista_pago_sfv_kwh_factu,0,'.',',').""; ?></td>
+            <td id="<?php echo "total_pago".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_total,2,'.',',').""; ?></td>
+            <td id="<?php echo "subtotal".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_sub_total,2,'.',',').""; ?></td>
+            <td id="<?php echo "iva".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_iva,2,'.',',').""; ?></td>
             <td id="<?php echo "coment".$row->id_lista_pago_sfv;?>"><?php echo "".$row->lista_pago_sfv_coment.""; ?></td>
             <td id="<?php echo "comprobante".$row->id_lista_pago_sfv;?>"><label hidden="true" id="<?php echo "url_".$row->id_lista_pago_sfv;?>"><?php echo base_url().$row->lista_pago_sfv_url_comprobante; ?></label> <a  onclick="ver_comprobante(this.id)" role="button" id="<?php echo $row->id_lista_pago_sfv;?>"><button class="btn btn-outline-secondary" title="Ver comprobante de pago"><img  width="25" src="..\Resources\Icons\frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" style="filter: invert(100%)" /></button></a>
             </td>
@@ -140,15 +140,15 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label>Total </label>
-            <input type="number" min="0" onchange="Calcula()" id="pago_total" class="form-control">
+            <input type="text" onblur="SeparaMiles(this.id)" onchange="Calcula()" id="pago_total" class="form-control">
           </div>
           <div class="form-group col-md-4">
             <label>SubTotal </label>
-            <input type="number" min="0" id="subtotal" class="form-control">
+            <input type="text" onblur="SeparaMiles(this.id)" id="subtotal" class="form-control">
           </div>
           <div class="form-group col-md-4">
             <label>IVA </label>
-            <input type="number" min="0" id="iva" class="form-control">
+            <input type="text" onblur="SeparaMiles(this.id)" id="iva" class="form-control">
           </div>
         </div>
         <label>KWh Totales</label><br>
@@ -212,8 +212,11 @@
       var importe_total=<?php echo $sfv_info->pago_sfv_imp_total;?>;
       var id_pago_sfv=<?php echo $sfv_info->id_pago_sfv;?>;
       var pago_total=$("#pago_total").val();
+      pago_total=pago_total.replace(/\,/g, '');
       var subtotal=$("#subtotal").val();
+      subtotal=subtotal.replace(/\,/g, '');
       var iva=$("#iva").val();
+      iva=iva.replace(/\,/g, '');
       var kwh_total=$("#kwh_total").val();
       var coment=$("#coment").val();
       var datos = new FormData();
@@ -298,7 +301,7 @@
       var id_lista_pago_sfv=$("#delete_id_lista_pago_sfv").val();
       var id_pago_sfv=<?php echo $sfv_info->id_pago_sfv;?>;
       var importe_total=<?php echo $sfv_info->pago_sfv_imp_total;?>;
-      alert(id_lista_pago_sfv+" id_pagos: "+id_pago_sfv+" total"+importe_total);
+      //alert(id_lista_pago_sfv+" id_pagos: "+id_pago_sfv+" total"+importe_total);
       $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/DeletePay_SFV",
@@ -338,9 +341,13 @@
     var num_pago=$("#num_pago"+id_lista_pago_sfv).text();
     var fecha=$("#fecha"+id_lista_pago_sfv).text();
     var kwh_facturado=$("#kwh_facturado"+id_lista_pago_sfv).text();
+    kwh_facturado=kwh_facturado.replace(/\,/g, '');
     var total_pago=$("#total_pago"+id_lista_pago_sfv).text().split('$');
+    total_pago[1]=total_pago[1].replace(/\,/g, '');
     var subtotal=$("#subtotal"+id_lista_pago_sfv).text().split('$');
+    subtotal[1]=subtotal[1].replace(/\,/g, '');
     var iva=$("#iva"+id_lista_pago_sfv).text().split('$');
+    iva[1]=iva[1].replace(/\,/g, '');
     var coment=$("#coment"+id_lista_pago_sfv).text();
     //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
     $('#EditPayModal').modal();
@@ -360,9 +367,13 @@
     var num_pago=$("#num_pago"+id_lista_pago_sfv).text();
     var fecha=$("#fecha"+id_lista_pago_sfv).text();
     var kwh_facturado=$("#kwh_facturado"+id_lista_pago_sfv).text();
+    kwh_facturado=kwh_facturado.replace(/\,/g, '');
     var total_pago=$("#total_pago"+id_lista_pago_sfv).text().split('$');
+    total_pago[1]=total_pago[1].replace(/\,/g, '');
     var subtotal=$("#subtotal"+id_lista_pago_sfv).text().split('$');
+    subtotal[1]=subtotal[1].replace(/\,/g, '');
     var iva=$("#iva"+id_lista_pago_sfv).text().split('$');
+    iva[1]=iva[1].replace(/\,/g, '');
     var coment=$("#coment"+id_lista_pago_sfv).text();
     var comprobante=$("#url_"+$id_lista_pago_sfv).text().split(".");
     var url=$("#url_"+$id_lista_pago_sfv).text();
@@ -395,10 +406,14 @@
 
   function Calcula(){
   var pago_total=$('#pago_total').val();
+  pago_total=pago_total.replace(/\,/g, '');
   var sub=(pago_total*0.84).toFixed(2);
   var iva=(pago_total*0.16).toFixed(2);
-  $('#subtotal').val(sub);
-  $('#iva').val(iva);
+  sub=sub.toLocaleString("en");
+  //alert(sub+" "+iva);
+  $("#subtotal").val(parseFloat(sub.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  iva=iva.toLocaleString("en");
+  $("#iva").val(parseFloat(iva.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   }
 
   function Lista_SFV(){
@@ -414,6 +429,18 @@
   $('#btncancelar').click();
   var id_pago_sfv=<?php echo $sfv_info->id_pago_sfv;?>;
   $("#page_content").load("SFV_Pay_List",{id_pago_sfv:id_pago_sfv});
+  }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   }
 
 

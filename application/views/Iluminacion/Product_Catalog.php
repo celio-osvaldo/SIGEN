@@ -146,7 +146,7 @@ function CloseModal(){
                                 <td id="<?php echo "name".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_nombre.""; ?></td>
                                 <td id="<?php echo "medida".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->unidad_medida.""; ?></td>
                                 <td>$</td>
-                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_precio.""; ?></td>
+                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo number_format($row->catalogo_producto_precio,2,'.',',').""; ?></td>
                                 <td id="<?php echo "provider".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td id="<?php echo "date".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
                                 <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_url_imagen.""; ?></td>

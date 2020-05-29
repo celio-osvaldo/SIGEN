@@ -17,17 +17,17 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total de Anticipo:<hr>$<?php echo $anticipo_info->anticipo_total; ?>
+                Total de Anticipo:<hr>$<?php echo number_format($anticipo_info->anticipo_total,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total Pagado:<hr>$<?php echo $anticipo_info->anticipo_pago; ?>
+                Total Pagado:<hr>$<?php echo number_format($anticipo_info->anticipo_pago,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Saldo:<hr>$<?php echo $anticipo_info->anticipo_resto; ?>
+                Saldo:<hr>$<?php echo number_format($anticipo_info->anticipo_resto,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
@@ -58,7 +58,7 @@
             <td id="<?php echo "nombre".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
             <td hidden="true" id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
             <td id="<?php echo "cantidad".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_anticipo_cantidad.""; ?></td>
-            <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo "".$row->prod_anticipo_precio_venta.""; ?></td>
+            <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo number_format($row->prod_anticipo_precio_venta,2,'.',',').""; ?></td>
             <td id="<?php echo "coment".$row->id_prod_anticipo;?>"><?php echo $row->prod_anticipo_coment;?></td>
             <td>
               <a class="navbar-brand" onclick="EditProduct(this.id)" role="button" id="<?php echo $row->id_prod_anticipo; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" title="Editar Producto" style="filter: invert(100%)" /></button></a>
@@ -88,7 +88,7 @@
         <label>Cantidad</label>
         <input type="number" min="0" id="edit_cant" class="form-control input-sm">
         <label>Precio de Venta</label>
-        <input type="number" min="0" id="edit_precio" class="form-control input-sm">
+        <input type="text" onblur="SeparaMiles(this.id)" id="edit_precio" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_prod_ant" hidden="true">
@@ -139,7 +139,9 @@
           act_cantidad=$("#edit_cant").val();
           cant_anterior=$("#cantidad"+id_prod_ant).text();
           act_precio_venta=$("#edit_precio").val();
+          act_precio_venta=act_precio_venta.replace(/\,/g, '');
           precio_anterior=$("#precio"+id_prod_ant).text().split('$');
+          precio_anterior[1]=precio_anterior[1].replace(/\,/g, '');
           act_coment=$("#edit_coment").val();
           id_producto=$("#id_producto"+id_prod_ant).text();
    //alert(id_anticipo+" "+id_prod_ant+" "+act_cantidad+" "+cant_anterior+" "+precio_anterior[1]+" idprod "+id_producto+" "+act_precio_venta);
@@ -169,6 +171,7 @@
           id_anticipo=$("#id_anticipo"+id_prod_ant).text();
           cantidad=$("#delete_cant").text();
           precio_venta=$("#delete_precio").text();
+          precio_venta=precio_venta.replace(/\,/g, '');
           coment=$("#delete_coment").text();
           id_producto=$("#id_producto"+id_prod_ant).text();
           //alert(id_anticipo+" "+id_prod_ant+" "+cantidad+" "+precio_venta+" "+coment+" idprod "+id_producto);
@@ -197,6 +200,7 @@
     var nombre_prod=$("#nombre"+id_prod_ant).text();
     var cantidad=$("#cantidad"+id_prod_ant).text();
     var precio_venta=$("#precio"+id_prod_ant).text().split('$');
+    //precio_venta=precio_venta.replace(/\,/g, '');
     var coment=$("#coment"+id_prod_ant).text();
     var id_producto=$("#id_producto"+id_prod_ant).text();
     //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
@@ -222,6 +226,7 @@
     var nombre_prod=$("#nombre"+id_prod_ant).text();
     var cantidad=$("#cantidad"+id_prod_ant).text();
     var precio_venta=$("#precio"+id_prod_ant).text().split('$');
+    precio_venta[1]=precio_venta[1].replace(/\,/g, '');
     var coment=$("#coment"+id_prod_ant).text();
     //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
     $('#DeleteProductModal').modal();
@@ -240,5 +245,18 @@
   function Lista_Anticipos(){
     $("#page_content").load("Anticipos");
   }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
 
 </script>

@@ -12,7 +12,7 @@
 <div class="row">
     
     <div class="col-md-1"></div>
-    <div class="col-md-10">
+    <div class="col-md-12">
         <div class="container">
             <div class="card bg-card">
             <div class="margins">
@@ -24,10 +24,11 @@
                             <th>Fecha de emisión</th>
                             <th>Concepto</th>
                             <th></th>
-                            <th>Saldo</th>
+                            <th>Monto</th>
                             <th>Comentario</th>
-                            <th>Factura</th>
                             <th>Fecha de Pago</th>
+                            <th>Factura</th>
+                            <th hidden="true">url_factura</th>
                             <th>Modificar</th>
                         </tr>
                     </thead>
@@ -38,10 +39,11 @@
                             <td id="<?php echo "emition".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_emision.""; ?></td>
                             <td id="<?php echo "concept".$row->id_OGasto.""; ?>"><?php echo "".$row->concepto.""; ?></td>
                             <td>$</td>
-                            <td id="<?php echo "expend".$row->id_OGasto.""; ?>"><?php echo "".$row->saldo.""; ?></td>
+                            <td id="<?php echo "expend".$row->id_OGasto.""; ?>"><?php echo number_format($row->saldo,2,'.',',').""; ?></td>
                             <td id="<?php echo "comment".$row->id_OGasto.""; ?>"><?php echo "".$row->comentario.""; ?></td>
-                            <td align="center" id="<?php echo "bill".$row->id_OGasto.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_OGasto.""; ?>" data-toggle="modal" data-target="#viewBill" onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
                             <td id="<?php echo "dateEx".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_pago_factura.""; ?></td>
+                            <td align="center" id="<?php echo "factura".$row->id_OGasto.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_OGasto.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
+                            <td hidden="true" id="<?php echo "url_factura".$row->id_OGasto.""; ?>"><?php echo $row->factura ?></td>
                             <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_OGasto.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                         </tr>
                         <?php } ?>
@@ -74,7 +76,7 @@
                     <div class="row">
                         <div class="col-md-3">
                             <input type="hidden" name="id" id="id">
-                            <label class="control-label">Folio:</label>
+                            <label class="control-label">Folio Factura/Comprobante:</label>
                             <input class="form-control" type="text" name="addFolio" id="addFolio" value="" required="true">
                         </div>
                         <div class="col-md-6"></div>
@@ -85,21 +87,24 @@
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
-                            <input type="hidden" id="addCompany" name="addCompany" value="1">
+                            <input type="hidden" id="addCompany" name="addCompany" value="2">
+                        </div>
+                        <div class="col-md-8">
+                            <label for="">Comentario:</label>
+                            <textarea id="addComment" name="addComment" class="form-control" required="true"></textarea>
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <label for="">Monto:
-                            <input type="number" class="form-control" name="addAmount" id="addAmount" required="true">
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
                         </div>
                         <div class="col-md-6">
-                            <input type="hidden" name="addComment" id="addComment">
                             <label for="">Fecha de pago:</label>
                             <input type="date" id="addDate" name="addDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                         </div>
                         <div class="col-md-6">
-                            <label for="">Factura:</label>
-                            <input class="form-control" name="addBill" id="addBill" type="file" accept="application/pdf" required="true">
+                            <label for="">Comprobante:</label>
+                            <input class="form-control" name="addBill" id="addBill" type="file" accept="application/pdf, image/*">
                         </div>
                     </div>
                   </div>
@@ -130,7 +135,7 @@
                 <div class="row">
                     <div class="col-md-3">
                             <input type="hidden" name="idE" id="idE">
-                            <label class="control-label">Folio:</label>
+                            <label class="control-label">Folio Factura/Comprobante:</label>
                             <input class="form-control" type="text" name="editFolio" id="editFolio" value="" required="true">
                         </div>
                         <div class="col-md-6"></div>
@@ -141,12 +146,12 @@
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="editConcept" name="editConcept" class="form-control" required="true">
-                            <input type="hidden" id="editCompany" name="editCompany" value="1">
+                            <input type="hidden" id="editCompany" name="editCompany" value="2">
                         </div>
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <label for="">Monto:
-                            <input type="number" class="form-control" name="editAmount" id="editAmount" required="true">
+                            <input type="text" class="form-control" onblur="SeparaMiles(this.id)" name="editAmount" id="editAmount" required="true">
                         </div>
                     <div class="col-md-6">
                         <label for="">Comentario:</label>
@@ -154,9 +159,9 @@
                     </div>
                     <div class="col-md-6">
                         <label for="">Fecha de pago:</label>
-                        <input type="date" id="editDate" nam="editDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
-                        <label for="">Factura:</label>
-                        <input class="form-control" name="editBill" id="editBill" type="text" accept="application/pdf" required="true">
+                        <input type="date" id="editDate" name="editDate" class="form-control" required="true" >
+                        <label for="">Comprobante:</label>
+                        <input class="form-control" name="editBill" id="editBill" type="file" accept="application/pdf, image/*">
                     </div>
                 </div>
       </div>
@@ -219,6 +224,7 @@ $(document).ready(function(e){
             },
             success: function(data){
                 // $('.statusMsg').html('');
+                alert(data);
                 if(data == 1){
                     $('#newExpend')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
@@ -273,9 +279,9 @@ function CloseModal(){
     $("#editEmitionDate").val(emition);
     $("#editConcept").val(concept);
     $("#editAmount").val(expend);
-    // $("#editComment").val(comment);
+    $("#editComment").val(comment);
     $("#editDate").val(dateEx);
-    $("#editBill").val(enviroment);
+   // $("#editBill").val(enviroment);
     }
 
   function Update_Page(){
@@ -288,6 +294,9 @@ function CloseModal(){
   $(document).ready(function(e){
     $("#editCost").on('submit', function(e){
         e.preventDefault();
+        //fecha=$("#editDate").val();
+        //fecha2=$("#editEmitionDate").val();
+        //alert(fecha+" "+fecha2);
         $.ajax({
             type: 'POST',
             url: '<?php echo base_url(); ?>Iluminacion/UpdateExpend',
@@ -301,6 +310,7 @@ function CloseModal(){
             },
             success: function(data){
                 // $('.statusMsg').html('');
+                //alert(data);
                 if(data == 1){
                     $('#editCost')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
@@ -339,13 +349,29 @@ function CloseModal(){
 <!-- view bill script -->
 <script>
   function Display_bill($id){
-    var invoice=$("#bill"+$id).text();
-    var id=$id;
-    var url = "<?php echo base_url()?>Resources/Bills/Expends/ILUMINACION/"+invoice+".pdf";
-
-    $("#viewBill").modal();
-    $("#folios").val(invoice);
-    // $("#folios").val(id);
-    $("#showbill").prop("src", url);
+    var url="<?php echo base_url()?>"+$("#url_factura"+$id).text();
+    var verifica=url.split(".");
+    //alert(verifica[1]);
+    if(verifica[1]){
+         $("#viewBill").modal();
+       // $("#folios").val(invoice);
+        // $("#folios").val(id);
+        $("#showbill").prop("src", url);
+    }else{
+        alert("No se adjuntó factura/comprobante");
     }
+}
+
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
 </script>

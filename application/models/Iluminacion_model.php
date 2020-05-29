@@ -270,6 +270,27 @@ class Iluminacion_model extends CI_Model
   public function Insert($table, $data){
     $this->db->insert($table, $data);
     if ($this->db->affected_rows() > 0) {
+       $id=$this->db->insert_id();
+      return $id;
+    } else{
+      return false;
+    }
+  }
+
+  public function Update_Viatic($id_viatico,$datos_suma){
+    $this->db->where('id_viaticos', $id_viatico);
+    $this->db->update('viaticos', $datos_suma);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function UpdateViaticList($id_lista_viatico, $data2){
+    $this->db->where('id_lista_viatico', $id_lista_viatico);
+    $this->db->update('lista_viatico', $data2);
+    if ($this->db->affected_rows() > 0) {
       return true;
     } else{
       return false;
@@ -805,7 +826,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetAllCostOfSale($idcompany){
-    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago');
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura');
     $this->db->from('obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
     $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
@@ -817,23 +838,40 @@ class Iluminacion_model extends CI_Model
   function IDMAX($table, $id){
     $this->db->select_max($id);
     $q = $this->db->get($table);
-    return $q;
+    if($q->num_rows() > 0){
+      return $q;
+    }else{
+      return $q;
+    }
   }
 
   public function GetAllWorks_Client($IdCompany){
     $this->db->where('empresa_id_empresa', $IdCompany);
     $q = $this->db->get('obra_cliente');
+    if($q -> num_rows() >0){
+      return $q;
+    }else{
+      return false;
+    }
+  }
+
+  public function GetAllReportsOfPettyCash($id_empresa){
+
+    $this->db->where('empresa_id_empresa', $id_empresa);
+    $q = $this->db->get('lista_caja_chica');
     return $q;
   }
 
-  public function GetAllReportsOfPettyCash($idCompany){
-    $this->db->select('id_caja_chica, empresa_id_empresa, caja_chica_total, caja_chica_saldo, caja_chica_mes');
-    $this->db->from('caja_chica');
-    $this->db->join('empresa', 'id_empresa = empresa_id_empresa');
-    $this->db->where('empresa_id_empresa', $idCompany);
-    $q = $this->db->get();
-    return $q;
+  public function Update_Caja_Chica($id_caja_chica, $data2){
+    $this->db->where('id_lista_caja_chica', $id_caja_chica);
+    $this->db->update('lista_caja_chica', $data2);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
+
 
   public function GetPettyCashById($id_caja_chica){
     $this->db->select('id_caja_chica, empresa_id_empresa, caja_chica_total, caja_chica_saldo, caja_chica_mes');
@@ -880,7 +918,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetAllViaticsReports($idcompany){
-    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_dias, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
     $this->db->from('viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
@@ -910,7 +948,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetViaticsById($id_viatico){
-    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_días, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
+    $this->db->select('id_viaticos, empresa_id_empresa, viaticos_fecha, viaticos_total_dias, viaticos_fecha_ini, viaticos_fecha_fin, viaticos_total, obra_cliente_nombre');
     $this->db->from('viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
@@ -920,7 +958,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetDetailsOfViatics($id_viatico){
-    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado');
+    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado, lista_viatico_url_comprobante');
     $this->db->from('lista_viatico');
     $this->db->join('viaticos', 'id_viaticos = viaticos_id_viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
@@ -992,10 +1030,10 @@ class Iluminacion_model extends CI_Model
   }
 
     public function Get_Egresos_Caja_Chica($idcompany,$anio,$mes){
-    $this->db->select('id_lista_caja_chica, caja_chica_id_caja_chica,lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura');
+    $this->db->select('id_lista_caja_chica, empresa_id_empresa, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura, lista_caja_chica_url_factura, lista_caja_chica_saldo');
     //$this->db->select_sum('venta_mov_monto','total_ingreso');
     $this->db->from('lista_caja_chica');
-    $this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
+    //$this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
     $this->db->where('MONTH(lista_caja_chica_fecha)',$mes);
     $this->db->where('YEAR(lista_caja_chica_fecha)',$anio);
     $this->db->where('empresa_id_empresa',$idcompany);
@@ -1027,6 +1065,16 @@ class Iluminacion_model extends CI_Model
     $this->db->order_by('fecha_pago_factura');
     $result = $this->db->get();
     return $result;
+  }
+
+  public function UpdateCostSale($id, $data){
+    $this->db->where('id_gasto_venta', $id);
+    $this->db->update('gasto_venta', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
   }
 
 

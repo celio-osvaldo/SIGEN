@@ -28,7 +28,7 @@
                             <th>Comentario</th>
                             <th>Fecha de Pago</th>
                             <th>Factura</th>
-                            <th>url_factura</th>
+                            <th hidden="true">url_factura</th>
                             <th>Modificar</th>
                         </tr>
                     </thead>
@@ -43,7 +43,7 @@
                             <td id="<?php echo "comment".$row->id_OGasto.""; ?>"><?php echo "".$row->comentario.""; ?></td>
                             <td id="<?php echo "dateEx".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_pago_factura.""; ?></td>
                             <td align="center" id="<?php echo "factura".$row->id_OGasto.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_OGasto.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
-                            <td id="<?php echo "url_factura".$row->id_OGasto.""; ?>"><?php echo $row->factura ?></td>
+                            <td hidden="true" id="<?php echo "url_factura".$row->id_OGasto.""; ?>"><?php echo $row->factura ?></td>
                             <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_OGasto.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                         </tr>
                         <?php } ?>

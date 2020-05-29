@@ -43,10 +43,10 @@
           <td hidden="true" id="<?php echo "id_pago_sfv".$row->id_pago_sfv;?>"><?php echo "".$row->id_pago_sfv.""; ?></td>
           <td id="<?php echo "nom_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td hidden="true" id="<?php echo "id_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_id_cliente.""; ?></td>
-          <td id="<?php echo "kwh_totales".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_kwh.""; ?></td>
-          <td id="<?php echo "imp_total".$row->id_pago_sfv;?>">$<?php echo "".$row->pago_sfv_imp_total.""; ?></td>
-          <td id="<?php echo "total_pagado".$row->id_pago_sfv;?>">$<?php echo "".$row->pago_sfv_pagado.""; ?></td>
-          <td id="<?php echo "saldo".$row->id_pago_sfv;?>">$<?php echo "".$row->pago_sfv_saldo.""; ?></td>
+          <td id="<?php echo "kwh_totales".$row->id_pago_sfv;?>"><?php echo number_format($row->pago_sfv_kwh,0,'.',',').""; ?></td>
+          <td id="<?php echo "imp_total".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_imp_total,2,'.',',').""; ?></td>
+          <td id="<?php echo "total_pagado".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_pagado,2,'.',',').""; ?></td>
+          <td id="<?php echo "saldo".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_saldo,2,'.',',').""; ?></td>
           <td id="<?php echo "fecha_ult_pago".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_fecha_ult_pago.""; ?></td>
           <td id="<?php echo "estado".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_estado.""; ?></td>
           <td id="<?php echo "pagos_realizados".$row->id_pago_sfv;?>"><?php echo "".$pagos_realizados.""; ?></td>
@@ -57,6 +57,10 @@
             <a class="navbar-brand" onclick="Add_Pago(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>"><button class="btn btn-outline-secondary" title="Agregar Pago"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" alt="Agregar" style="filter: invert(100%)"></button>
             </a>
             <a class="navbar-brand" href="#" onclick="Pago_SFV_Details(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>"><button class="btn btn-outline-secondary" title="Ver detalles de Pagos"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
+            </a>
+            <a class="navbar-brand" href="#" onclick="EditRecibo(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>">
+              <button class="btn btn-outline-secondary " title="Editar Registro"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
+              </button>
             </a>
           </td>
         </tr>
@@ -91,7 +95,7 @@
         <label>Total de Pagos</label><br>
         <input type="number" min="1" id="new_cant_pagos" class="form-control input-sm"><br>
         <label>Importe Total</label><br>
-        <input type="number" min="0" id="new_imp_total" class="form-control input-sm"><br>
+        <input type="text" onblur="SeparaMiles(this.id)" id="new_imp_total" class="form-control input-sm"><br>
         <label>Comentarios</label><br>
         <textarea id="new_coment" maxlength="150" class="form-control input-sm"></textarea>
       </div>
@@ -123,15 +127,15 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label>Total </label>
-            <input type="number" min="0" onchange="Calcula()" id="pago_total" class="form-control">
+            <input type="text" onblur="SeparaMiles(this.id)" onchange="Calcula()" id="pago_total" class="form-control">
           </div>
           <div class="form-group col-md-4">
             <label>SubTotal </label>
-            <input type="number" min="0" id="subtotal" class="form-control">
+            <input type="text" onblur="SeparaMiles(this.id)" id="subtotal" class="form-control">
           </div>
           <div class="form-group col-md-4">
             <label>IVA </label>
-            <input type="number" min="0" id="iva" class="form-control">
+            <input type="text" onblur="SeparaMiles(this.id)" min="0" id="iva" class="form-control">
           </div>
         </div>
         <label>KWh Totales</label><br>
@@ -153,6 +157,48 @@
   </div>
 </div> 
 
+<!-- Modal Edit SFV -->
+<div class="modal fade" id="EditRegistroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar SFV</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="edit_id_pago_sfv" hidden="true">
+        <label>Cliente</label>
+        <select class="form-control" id="edit_cliente">
+          <option disabled selected>----Seleccionar Cliente----</option>
+          <?php foreach ($catalogo_cliente->result() as $row){ ?>
+            <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+          <?php } ?>
+        </select>
+        <label>KWh Totales</label><br>   
+        <input type="number" min="0" id="edit_kwh" class="form-control input-sm"><br>
+        <label>Total de Pagos</label><br>
+        <input type="number" min="1" id="edit_cant_pagos" class="form-control input-sm"><br>
+        <label>Importe Total</label><br>
+        <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_total" class="form-control input-sm"><br>
+        <label>Estado</label>
+        <select id="edit_estado" class="form-control">
+          <option value="Activo">Activo</option>
+          <option value="Pagado">Pagado</option>
+          <option value="Cancelado">Cancelado</option>
+        </select>
+        <label>Comentarios</label><br>
+        <textarea id="edit_coment" maxlength="150" class="form-control input-sm"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="UpdateSFV" data-dismiss="modal">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -163,6 +209,7 @@
       kwh=$('#new_kwh').val();
       cant_pagos=$('#new_cant_pagos').val();
       imp_total=$('#new_imp_total').val();
+      imp_total=imp_total.replace(/\,/g, '');
       coment=$('#new_coment').val();
       //alert(cliente+kwh+cant_pagos+imp_total+coment);
       $.ajax({
@@ -181,16 +228,48 @@
         });
     });
 
+    $('#UpdateSFV').click(function(){
+      id_pago_sfv=$('#edit_id_pago_sfv').val();
+      cliente=$('#edit_cliente').val();
+      kwh=$('#edit_kwh').val();
+      cant_pagos=$('#edit_cant_pagos').val();
+      imp_total=$('#edit_imp_total').val();
+      imp_total=imp_total.replace(/\,/g, '');
+      coment=$('#edit_coment').val();
+      estado=$('#edit_estado').val();
+      //alert(cliente+kwh+cant_pagos+imp_total+coment);
+      $.ajax({
+        type:"POST",
+        url:"<?php echo base_url();?>Iluminacion/UpdateSFV",
+        data:{cliente:cliente, kwh:kwh, cant_pagos:cant_pagos, imp_total:imp_total,estado:estado, coment:coment, id_pago_sfv:id_pago_sfv},
+        success:function(result){
+            //alert(result);
+            if(result){
+              alert('Registro SFV Actualizado');
+            }else{
+              alert('Falló el servidor. Registro SFV no Actualizado');
+            }
+            Update();
+          }
+        });
+    });
+
 
     $('#Add_SFV_Pay').click(function(){
       var id_pago_sfv=$("#id_pago_sfv").val();
       var num_pago=$("#title_num_pago").text().split(': ');
       var fecha=$("#pago_fecha").val();
       var importe_total=$("#imp_total"+id_pago_sfv).text().split('$');
+      importe_total[1]=importe_total[1].replace(/\,/g, '');
       var pago_total=$("#pago_total").val();
+      pago_total=pago_total.replace(/\,/g, '');
+            alert(pago_total);
       var subtotal=$("#subtotal").val();
+      subtotal=subtotal.replace(/\,/g, '');
       var iva=$("#iva").val();
+      iva=iva.replace(/\,/g, '');
       var kwh_total=$("#kwh_total").val();
+      //kwh_total=kwh_total.replace(/\,/g, '');
       var coment=$("#coment").val();
       var datos = new FormData();
       var files = $('#comprobante_sfv')[0].files[0];
@@ -291,11 +370,41 @@ function Add_Pago($id_pago_sfv){
 
 function Calcula(){
   var pago_total=$('#pago_total').val();
+  pago_total=pago_total.replace(/\,/g, '');
   var sub=(pago_total*0.84).toFixed(2);
   var iva=(pago_total*0.16).toFixed(2);
-  $('#subtotal').val(sub);
-  $('#iva').val(iva);
+  sub=sub.toLocaleString("en");
+  //alert(sub+" "+iva);
+  $("#subtotal").val(parseFloat(sub.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  iva=iva.toLocaleString("en");
+  $("#iva").val(parseFloat(iva.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 }
+
+function EditRecibo($id_pago_sfv){
+  var id_pago_sfv=$id_pago_sfv;
+  nom_cliente=$("#nom_cliente"+id_pago_sfv).text();
+  id_cliente=$("#id_cliente"+id_pago_sfv).text();
+  kwh_totales=$("#kwh_totales"+id_pago_sfv).text().replace(/\,/g, '');
+  imp_total=$("#imp_total"+id_pago_sfv).text().split('$');
+  total_pagado=$("#total_pagado"+id_pago_sfv).text().split('$');
+  saldo=$("#saldo"+id_pago_sfv).text().split('$');
+  fecha_ult_pago=$("#fecha_ult_pago"+id_pago_sfv).text();
+  estado=$("#estado"+id_pago_sfv).text();
+  pagos_realizados=$("#pagos_realizados"+id_pago_sfv).text();
+  total_pagos=$("#total_pagos"+id_pago_sfv).text();
+  coment=$("#coment"+id_pago_sfv).text();
+
+  $('#EditRegistroModal').modal();
+  $('#edit_cliente').val(id_cliente).attr('selected', true);
+  $('#edit_kwh').val(kwh_totales);
+  $('#edit_cant_pagos').val(total_pagos);
+  $('#edit_imp_total').val(imp_total[1]);
+  $('#edit_coment').val(coment);
+  $('#edit_estado').val(estado).attr('selected',true);
+  $('#edit_id_pago_sfv').val(id_pago_sfv);
+
+}
+
 function Pago_SFV_Details($id_pago_sfv){
   var id_pago_sfv=$id_pago_sfv;
   $("#page_content").load("SFV_Pay_List",{id_pago_sfv:id_pago_sfv});
@@ -306,5 +415,19 @@ function Update(){
   $('#btncancelar').click();
   $("#page_content").load("Pagos_SFV");
 }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
+
 
 </script>

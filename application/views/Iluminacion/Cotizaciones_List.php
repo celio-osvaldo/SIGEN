@@ -47,9 +47,9 @@
           <td id="<?php echo "obra".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_obra.""; ?></td>
           <td id="<?php echo "empresa".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_empresa.""; ?></td>
           <td id="<?php echo "licitacion".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_licitacion.""; ?></td>
-          <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo "".$row->cotizacion_subtotal.""; ?></td>
-          <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo "".$row->cotizacion_iva.""; ?></td>
-          <td id="<?php echo "total".$row->id_cotizacion;?>">$<?php echo "".$row->cotizacion_total.""; ?></td>
+          <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_subtotal,2,'.',',').""; ?></td>
+          <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_iva,2,'.',',').""; ?></td>
+          <td id="<?php echo "total".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_total,2,'.',',').""; ?></td>
           <td id="<?php echo "tiempo_entrega".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_tiempo_entrega.""; ?></td>
           <td id="<?php echo "vigencia".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_vigencia.""; ?></td>
           <td id="<?php echo "elabora".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_elabora.""; ?></td>
@@ -236,7 +236,7 @@
           </div>
           <div class="form-group col-md-4">
             <label>Precio Venta</label>
-            <input type="number" id="prod_precio" class="form-control input-sm">
+            <input type="text" onblur="SeparaMiles(this.id)" id="prod_precio" class="form-control input-sm">
           </div>
         </div>
         <div class="form-row">
@@ -246,7 +246,7 @@
           </div>
           <div class="form-group col-md-4">
             <label>Total</label>
-            <input type="number" id="prod_total" disabled="true" class="form-control input-sm">
+            <input type="text" onblur="SeparaMiles(this.id)" id="prod_total" disabled="true" class="form-control input-sm">
           </div>
         </div>
       </div>
@@ -464,5 +464,18 @@ function Update(){
   $('#btncancelar').click();
   $("#page_content").load("Cotizaciones");
 }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
 
 </script>

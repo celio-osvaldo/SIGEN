@@ -17,17 +17,17 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total de Anticipo:<hr>$<?php echo $anticipo_info->anticipo_total; ?>
+                Total de Anticipo:<hr>$<?php echo number_format($anticipo_info->anticipo_total,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total Pagado:<hr>$<?php echo $anticipo_info->anticipo_pago; ?>
+                Total Pagado:<hr>$<?php echo number_format($anticipo_info->anticipo_pago,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Saldo:<hr>$<?php echo $anticipo_info->anticipo_resto; ?>
+                Saldo:<hr>$<?php echo number_format($anticipo_info->anticipo_resto,2,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
@@ -55,7 +55,7 @@
           <tr>
             <td hidden="true" id="<?php echo "id_pagos_anticipo".$row->id_pagos_anticipo;?>"><?php echo "".$row->id_pagos_anticipo.""; ?></td>
             <td id="<?php echo "fecha".$row->id_pagos_anticipo;?>"><?php echo "".$row->pagos_anticipo_fecha.""; ?></td>
-            <td id="<?php echo "cantidad".$row->id_pagos_anticipo;?>">$<?php echo "".$row->pagos_anticipo_cantidad.""; ?></td>
+            <td id="<?php echo "cantidad".$row->id_pagos_anticipo;?>">$<?php echo number_format($row->pagos_anticipo_cantidad,2,'.',',').""; ?></td>
             <td id="<?php echo "coment".$row->id_pagos_anticipo;?>"><?php echo "".$row->pagos_anticipo_coment.""; ?></td>
             <td id="<?php echo "comprobante".$row->id_pagos_anticipo;?>"><label hidden="true" id="<?php echo "url_".$row->id_pagos_anticipo;?>"><?php echo base_url().$row->pagos_anticipo_url_comprobante; ?></label> <a  onclick="ver_comprobante(this.id)" role="button" id="<?php echo $row->id_pagos_anticipo;?>"><button class="btn btn-outline-secondary" title="Ver comprobante de pago"><img src="..\Resources\Icons\frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" style="filter: invert(100%)" /></button></a>
             </td>
@@ -106,7 +106,7 @@
         <label>Fecha de Pago</label>
         <input type="date" id="edit_fecha" class="form-control input-sm">
         <label>Cantidad Pagada</label>
-        <input type="number" min="0" id="edit_cantidad" class="form-control input-sm">
+        <input type="text" onblur="SeparaMiles(this.id)" id="edit_cantidad" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <label>Comprobante de Pago</label><br>
@@ -161,6 +161,7 @@
           id_pagos_anticipo=$("#edit_id_pay_ant").val();
           fecha=$("#edit_fecha").val();
           cantidad=$("#edit_cantidad").val();
+          cantidad=cantidad.replace(/\,/g, '');
           coment=$("#edit_coment").val();
           id_anticipo=<?php echo $anticipo_info->id_anticipo; ?>;
           var datos = new FormData();
@@ -232,6 +233,7 @@
     var id_pagos_anticipo=$id_pagos_anticipo;
     var fecha=$("#fecha"+id_pagos_anticipo).text();
     var cantidad=$("#cantidad"+id_pagos_anticipo).text().split('$');
+    cantidad[1]=cantidad[1].replace(/\,/g, '');
     var coment=$("#coment"+id_pagos_anticipo).text();
     //alert(nombre_prod+" "+cantidad+" "+precio_venta[1]+" "+coment);
     $('#EditPayModal').modal();
@@ -245,6 +247,7 @@
     var id_pagos_anticipo=$id_pagos_anticipo;
     var fecha=$("#fecha"+id_pagos_anticipo).text();
     var cantidad=$("#cantidad"+id_pagos_anticipo).text().split('$');
+    cantidad[1]=cantidad[1].replace(/\,/g, '');
     var coment=$("#coment"+id_pagos_anticipo).text();
     var comprobante=$("#url_"+$id_pagos_anticipo).text().split(".");
     var url=$("#url_"+$id_pagos_anticipo).text();
@@ -282,5 +285,18 @@
     $('#sin_comprobante').remove();
     $('#con_comprobante').remove();
   }
+
+function SeparaMiles($id){
+  valor=$("#"+$id).val();
+    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+  if(valor==""||isNaN(valor)){
+    //alert("entro");
+    valor=0.00;
+    //alert(valor);
+  }
+  var resultado=valor.toLocaleString("en");
+  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+  }
+
 
 </script>

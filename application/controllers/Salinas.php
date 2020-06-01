@@ -87,7 +87,13 @@ class Salinas extends CI_Controller {
 		$data=array('cost_sale'=>$this->Salinas_model->GetAllCostOfSale($idcompany->id_empresa),
 					'woks'=>$this->Salinas_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Salinas_model->IDMAX($table, $id));
-		$this->load->view('Salinas/CostOfSale-List', $data);
+		
+		if(isset($data->woks)){
+			$this->load->view('Salinas/CostOfSale-List', $data);
+		}else{
+			$this->load->view('Salinas/CostOfSale-Error',);
+		}
+		
 	}
 
 	public function GetAllViatics(){

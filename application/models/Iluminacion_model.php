@@ -382,7 +382,7 @@ class Iluminacion_model extends CI_Model
     $this->db->select('prod_alm_exist');
     $this->db->from('producto_almacen');
     $this->db->where('id_prod_alm',$id_producto);
-     $query=$this->db->get();
+    $query=$this->db->get();
     $result=$query->row();
     return $result;
   }
@@ -1075,6 +1075,15 @@ class Iluminacion_model extends CI_Model
     } else{
       return false;
     }
+  }
+
+  public function Get_MAXFOLIO($company){
+    $this->db->select_max('cotizacion_folio');//the name of fields to query in the login
+    $this->db->from('cotizacion');
+    $this->db->where('cotizacion_id_empresa', $company);#the field must match the entered parameter of password
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
   }
 
 

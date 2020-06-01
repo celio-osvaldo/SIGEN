@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Lista de Costo de Venta</h3>
+    <h3 align="center">Lista de Facturas Gasto de Obra</h3>
   </div>
   <div class="col-md-4">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewBill"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Costo</button>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewBill"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Gasto de Obra</button>
   </div>
   <div class="col-md-1"></div>
 </div>

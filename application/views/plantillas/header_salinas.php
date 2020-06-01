@@ -56,7 +56,7 @@
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" id="Cat_Proveedor">Proveedores</a>
 						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" id="Produc_inv">Productos</a>
+						<a class="dropdown-item" id="Produc_inv">Productos/Servicios</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" id="Cat_customer">Clientes</a>
 					</div>
@@ -70,7 +70,7 @@
 				<li class="nav-item dropdown">
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Egreso</a>
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" id="billsV">Costo de Ventas</a>	
+						<a class="dropdown-item" id="billsV">Gasto de Obra</a>	
 						<div class="dropdown-divider"></div>
 
 						<div class="dropdown-submenu">

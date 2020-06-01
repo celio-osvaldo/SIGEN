@@ -485,12 +485,36 @@ class Iluminacion extends CI_Controller {
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_anticipo=$_POST["id_anticipo"];
+		$estado_anterior=$_POST["estado_anterior"];
+		$estado_nuevo=$_POST["estado"];
 		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('cliente') ,
 					  'anticipo_status' => $this->input->post('estado'),
 					  'anticipo_fecha_finiquito'=> $this->input->post('fecha_fin'),
 					  'anticipo_fecha_entrega' => $this->input->post('fecha_ent'),
 					  'anticipo_coment' =>$this->input->post('coment'));
 		if($this->Iluminacion_model->Update_Anticipo($data,$id_anticipo)){
+			if($estado_anterior=="Activo"&&$estado_nuevo=="Cancelado"){//Si se cambia de estado de activo a Cancelado, se regresa la cantidad 															 	//de productos al almacen como invnetario.
+				$productos=$this->Iluminacion_model->Get_Anticipo_Product_List($id_anticipo);
+				//$resultado="entra1";
+				foreach ($productos->result() as $row) {
+					$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($row->producto_almacen_id_prod_alm);
+					$nueva_existencia=($prod_inventario->prod_alm_exist)+$row->prod_anticipo_cantidad;
+					$existencia = array('prod_alm_exist' => $nueva_existencia );
+					$this->Iluminacion_model->Actualiza_producto($row->producto_almacen_id_prod_alm,$existencia);
+				}
+			}
+
+			if($estado_anterior=="Cancelado"&&$estado_nuevo=="Activo"){
+				$productos=$this->Iluminacion_model->Get_Anticipo_Product_List($id_anticipo);
+				//$resultado="entra2";
+				foreach ($productos->result() as $row) {
+					$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($row->producto_almacen_id_prod_alm);
+					$nueva_existencia=($prod_inventario->prod_alm_exist)-$row->prod_anticipo_cantidad;
+					$existencia = array('prod_alm_exist' => $nueva_existencia );
+					$this->Iluminacion_model->Actualiza_producto($row->producto_almacen_id_prod_alm,$existencia);
+				}
+			}
+
 			echo true;
 		}else{
 			echo false;
@@ -518,10 +542,10 @@ class Iluminacion extends CI_Controller {
 			$data2 = array('anticipo_total' => round($total->total,2),
 							'anticipo_resto' => $resto );
 			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
-			//$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
-			//$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
-			//$existencia = array('prod_alm_exist' => $nueva_existencia );
-			//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
+			$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
+			$existencia = array('prod_alm_exist' => $nueva_existencia );
+			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			echo true;
 		}else{
 			echo false;
@@ -566,7 +590,7 @@ class Iluminacion extends CI_Controller {
 				$suma=$cant_anterior-$act_cantidad;
 				$nueva_existencia=($prod_inventario->prod_alm_exist)+$suma;
 				$existencia = array('prod_alm_exist' => $nueva_existencia );
-				//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+				$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			}
 		}
 			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
@@ -593,7 +617,7 @@ class Iluminacion extends CI_Controller {
 			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
 			$nueva_existencia=($prod_inventario->prod_alm_exist)+$cantidad;
 			$existencia = array('prod_alm_exist' => $nueva_existencia );
-			//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
 			$pagado=$this->Iluminacion_model->Get_Pagado_Anticipo($id_anticipo);
 			$resto=(($total->total)-($pagado->anticipo_pago));
@@ -1562,13 +1586,6 @@ public function Reporte_flujo_efectivo(){
 	}
 
 
-
-
-
-
-
-
-
 	public function GetListCostOfSale(){
 		$this->load->model('Iluminacion_model');
 		$table = 'gasto_venta';
@@ -1578,7 +1595,11 @@ public function Reporte_flujo_efectivo(){
 		$data=array('cost_sale'=>$this->Iluminacion_model->GetAllCostOfSale($idcompany->id_empresa),
 					'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Iluminacion_model->IDMAX($table, $id));
-		$this->load->view('Iluminacion/CostOfSale-List', $data);
+		if(isset($data->works)){
+			$this->load->view('Iluminacion/CostOfSale-List', $data);
+		}else{
+			$this->load->view('Iluminacion/CostOfSale-Error',);
+		}
 	}
 
 
@@ -2081,17 +2102,17 @@ public function UpdateReportPettyCash(){
 	}
 
 public function UpdateViaticExpend(){
-		$this->load->model('Iluminacion_model');
-		$company='ILUMINACION';
-		$idcompany=$this->Iluminacion_model->IdCompany($company);
-		$id_viatico=$_POST["edit_idViatic"];
-		$id_lista_viatico=$_POST["edit_id_lista_viatico"];
+	$this->load->model('Iluminacion_model');
+	$company='ILUMINACION';
+	$idcompany=$this->Iluminacion_model->IdCompany($company);
+	$id_viatico=$_POST["edit_idViatic"];
+	$id_lista_viatico=$_POST["edit_id_lista_viatico"];
 
-		$monto=$_POST["edit_addImport"];
-		$monto=str_replace(',', '', $monto); 
+	$monto=$_POST["edit_addImport"];
+	$monto=str_replace(',', '', $monto); 
 
 
-		if (isset($_FILES['edit_addEvidence']['name'])) {
+	if (isset($_FILES['edit_addEvidence']['name'])) {
 			$filename = $_FILES['edit_addEvidence']['name'];//imageE
 		} else {
 			$filename="";
@@ -2109,37 +2130,46 @@ public function UpdateViaticExpend(){
 
 		$table = 'lista_viatico';
 		$data = array('viaticos_id_viaticos'=> $id_viatico,
-						'lista_viatico_fecha'=> $this->input->post('edit_addDate'),
-						'empleado'=> $this->input->post('edit_employ'),
-						'lista_viatico_concepto'=> $this->input->post('edit_addconcept'),
-						'lista_viatico_importe'=> $monto,
-						'lista_viatico_comprobante'=> $this->input->post('edit_addTypeVoucher'),
-						'lista_viatico_factura' => $this->input->post('edit_idComprobante'));
+			'lista_viatico_fecha'=> $this->input->post('edit_addDate'),
+			'empleado'=> $this->input->post('edit_employ'),
+			'lista_viatico_concepto'=> $this->input->post('edit_addconcept'),
+			'lista_viatico_importe'=> $monto,
+			'lista_viatico_comprobante'=> $this->input->post('edit_addTypeVoucher'),
+			'lista_viatico_factura' => $this->input->post('edit_idComprobante'));
 
 		$this->Iluminacion_model->UpdateViaticList($id_lista_viatico, $data);
 
 		$url_imagen='Resources/Bills/ViaticExpends/Iluminacion/viaticos_'.$id_lista_viatico.'.'.$file_extension;
-	
+
 
 		if(in_array($file_extension,$image_ext)&&$id_lista_viatico!=""&&$filename!=""){
 			if (file_exists($url_imagen)){
-  				unlink($url_imagen);
-  			} 
+				unlink($url_imagen);
+			} 
   				// Upload file
 			if(move_uploaded_file($_FILES['edit_addEvidence']['tmp_name'],$url_imagen)){
 				$data2 = array('lista_viatico_url_comprobante' => $url_imagen);//nombre del url
 				$this->Iluminacion_model->UpdateViaticList($id_lista_viatico, $data2);
 			}				
-        }
+		}
         	//realizar la suma de los viaticos 
 		$Suma_viaticos = $this->Iluminacion_model->ViaticPaymentsSum($id_viatico);      
 
-		$datos_suma = array('viaticos_total' => $Suma_viaticos->sumPayment , ); 
+		$datos_suma = array('viaticos_total' => $Suma_viaticos->sumPayment ); 
 
 		$this->Iluminacion_model->Update_Viatic($id_viatico,$datos_suma); 
 
 		echo true;
 	}
+
+public function GETMAX_Folio(){
+	$this->load->model('Iluminacion_model');
+	$company='ILUMINACION';
+	$idcompany=$this->Iluminacion_model->IdCompany($company);
+	$max_folio=$this->Iluminacion_model->Get_MAXFOLIO($idcompany->id_empresa);
+	//var_dump($max_folio);
+	echo $max_folio->cotizacion_folio;
+}
 
 
 

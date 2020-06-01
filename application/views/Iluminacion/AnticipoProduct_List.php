@@ -1,14 +1,14 @@
 <!--Mostrar lista de Productos de Anticipo -->
 
 <div class="container">
-  <button class="btn btn-success" onclick="Lista_Anticipos()">Regresar a Lista de Anticipos</button>
+  <button class="btn btn-success" onclick="Lista_Anticipos()">Regresar a Lista de Proyectos en Tránsito</button>
 </div>
 <div class="card bg-card">
   <div class="table-responsive">
     <table id="table_anticipo_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
       <div class="row">
         <div class="col">
-          <h2 align="center">Lista de Productos en Anticipo </h2>
+          <h2 align="center">Lista de Productos del Proyecto en Tránsito </h2>
           <div class="col" align="center">
             <span class="badge badge-info">
               <h6 align="center">
@@ -17,10 +17,10 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total de Anticipo:<hr>$<?php echo number_format($anticipo_info->anticipo_total,2,'.',','); ?>
+                Importe total de Proyecto en Tránsito:<hr>$<?php echo number_format($anticipo_info->anticipo_total,2,'.',','); ?>
               </h6>
             </span>
-            <span class="badge badge-info">
+           <!-- <span class="badge badge-info">
               <h6 align="center">
                 Total Pagado:<hr>$<?php echo number_format($anticipo_info->anticipo_pago,2,'.',','); ?>
               </h6>
@@ -29,7 +29,7 @@
               <h6 align="center">
                 Saldo:<hr>$<?php echo number_format($anticipo_info->anticipo_resto,2,'.',','); ?>
               </h6>
-            </span>
+            </span> -->
             <span class="badge badge-info">
               <h6 align="center">
                 Comentarios:<hr><?php echo $anticipo_info->anticipo_coment; ?>
@@ -93,6 +93,7 @@
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_prod_ant" hidden="true">
       </div>
+      <h6 class="bg-warning"><p>Al eliminar/agregar el producto, la cantidad de este se agregará/descontará a la existenia en almacen.</p></h6>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
         <button type="button" class="btn btn-primary" id="UpdateProduct" data-dismiss="modal">Actualizar</button>

@@ -3,10 +3,10 @@
 
 <div class="row">
   <div class="col-9">
-    <h3 align="center">Lista de Anticipos</h3>
+    <h3 align="center">Lista de Proyectos en Tránsito</h3>
   </div>
   <div class="col-3">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewAnticipoModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Anticipo</button>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewAnticipoModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Proyecto en Tránsito</button>
   </div>
 </div>
 
@@ -17,16 +17,16 @@
         <tr>
           <th>Nombre del Cliente</th>
           <th hidden="true" >idcliente</th>
-          <th>Importe Total</th>
-          <th>Pagado</th>
-          <th>Saldo</th>
+          <th>Importe Total</th> 
+        <!--  <th>Pagado</th>  -->
+     <!--     <th>Saldo</th>   -->
           <th>Estado</th>
           <th>Fecha Finiquito</th>
           <th>Fecha de Entrega</th>
           <th>Comentarios</th>
           <th>Editar</th>
           <th>Acciones Productos</th>
-          <th>Acciones Pagos</th>
+        <!--  <th>Acciones Pagos</th>  -->
         </tr>
       </thead>
       <tbody>
@@ -37,8 +37,8 @@
           <td id="<?php echo "nom_cliente".$row->id_anticipo;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td id="<?php echo "id_cliente".$row->id_anticipo;?>" hidden="true"><?php echo "".$row->obra_cliente_id_obra_cliente.""; ?></td>
           <td id="<?php echo "importe_total".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_total,2,'.',',').""; ?></td>
-          <td id="<?php echo "pagado".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_pago,2,'.',',').""; ?></td>
-          <td id="<?php echo "saldo".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_resto,2,'.',',').""; ?></td>
+    <!--      <td id="<?php echo "pagado".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_pago,2,'.',',').""; ?></td>  -->
+    <!--      <td id="<?php echo "saldo".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_resto,2,'.',',').""; ?></td>  -->
           <td id="<?php echo "estado".$row->id_anticipo;?>"><?php echo "".$row->anticipo_status.""; ?></td>
           <td id="<?php echo "fecha_fin".$row->id_anticipo;?>"><?php echo "".$row->anticipo_fecha_finiquito.""; ?></td>
           <td id="<?php echo "fecha_ent".$row->id_anticipo;?>"><?php echo "".$row->anticipo_fecha_entrega.""; ?></td>
@@ -58,12 +58,12 @@
             </a>
           </td>
 
-          <td>
+      <!--    <td>
             <a class="navbar-brand" href="#" onclick="Add_Pago(this.id)" role="button" id="<?php echo $row->id_anticipo; ?>"><button class="btn btn-outline-secondary" title="Agregar Pago"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" alt="Agregar" style="filter: invert(100%)"></button>
             </a>
             <a class="navbar-brand" href="#" onclick="Pago_Details(this.id)" role="button" id="<?php echo $row->id_anticipo; ?>"><button class="btn btn-outline-secondary" title="Ver detalles de Pagos"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
             </a>
-          </td>
+          </td>   -->
 
         </tr>
         <?php 
@@ -79,7 +79,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nuevo Anticipo</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Proyecto en Tránsito</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -112,7 +112,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar Anticipo</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Editar Proyecto en Tránsito</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -175,6 +175,9 @@
         <input type="text" onchange="SeparaMiles(this.id)" id="prod_total" disabled="true"><br>
         <label>Comentarios</label><br>
         <textarea id="prod_coment" maxlength="150" class="form-control input-sm"></textarea>
+      </div>
+      <div class="bg-warning">
+        <p><b>Los productos ingresados serán descontados del inventario de almacen</b></p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -253,11 +256,16 @@
       fecha_ent=$('#edit_fecha_entrega').val();
       coment=$('#edit_coment').val();
       id_anticipo=$('#edit_id_anticipo').val();
+      estado_anterior=$('#estado'+id_anticipo).text();
+      //alert(estado_anterior+" id: "+id_anticipo);
       //alert(cliente+estado+fecha_fin+fecha_ent+coment+id_anticipo);
+      if(estado=="Cancelado"){
+        alert("Proyecto en Tránsito Cancelado, la cantidad de productos regresará al almacen como existencia");
+      }
       $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/Update_Anticipo",
-        data:{id_anticipo:id_anticipo, cliente:cliente, estado:estado, fecha_fin:fecha_fin, fecha_ent:fecha_ent, coment:coment},
+        data:{id_anticipo:id_anticipo, cliente:cliente, estado:estado, estado_anterior:estado_anterior, fecha_fin:fecha_fin, fecha_ent:fecha_ent, coment:coment},
         success:function(result){
             //alert(result);
             if(result){

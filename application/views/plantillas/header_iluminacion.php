@@ -44,7 +44,7 @@
 					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<a class="dropdown-item" id="Customers_Payments">Movimientos (Pagos)</a>
 							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" id="Anticipos">Anticipos</a>
+							<a class="dropdown-item" id="Anticipos">Proyectos en Tránsito</a>
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" id="SFV">Pagos SFV</a>
 							<div class="dropdown-divider"></div>

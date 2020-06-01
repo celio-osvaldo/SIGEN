@@ -1,11 +1,11 @@
 
 <div class="row">
   <div class="col">
-    <h2 align="center">Historial de Precio de Producto</h2>
+    <h2 align="center">Historial de Precio de Producto/Servicio</h2>
     <div class="col" align="center">
       <span class="badge badge-info">
         <h6 align="center">
-          Producto:<hr><?php echo $product_info->catalogo_producto_nombre; ?>
+          Producto/Servicio:<hr><?php echo $product_info->catalogo_producto_nombre; ?>
         </h6>
       </span>
       <span class="badge badge-info">
@@ -27,7 +27,7 @@
   </div>
 </div>
 <div align="center">
-<button type="button" onclick="Regresar()" class="btn btn-success" >Regresar al Catálogo de Productos</button>
+<button type="button" onclick="Regresar()" class="btn btn-success" >Regresar al Catálogo de Productos/Servicios</button>
 </div>
 
 <div class="row">
@@ -40,7 +40,7 @@
                     <table id="table_record_product" class="table table-hover display table-striped" style="font-size: 10pt;">
                     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
                         <tr>
-                            <th>Producto</th>
+                            <th>Producto/Servicio</th>
                             <th>Unidad de medida</th>
                             <th>Fecha de actualización</th>
                             <th>Proveedor</th>

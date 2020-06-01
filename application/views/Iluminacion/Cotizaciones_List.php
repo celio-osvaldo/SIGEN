@@ -6,7 +6,7 @@
     <h3 align="center">Lista de Cotizaciones</h3>
   </div>
   <div class="col-3">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewCotizacionModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nueva Cotización</button>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" onclick="Get_MAX_Folio()" data-target="#NewCotizacionModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nueva Cotización</button>
   </div>
 </div>
 
@@ -275,7 +275,8 @@
       new_empresa=$('#new_empresa').val();
       new_licitacion=$('#new_licitacion').val();
       //alert(cliente+fecha_fin+fecha_ent+coment);
-      $.ajax({
+      if(new_folio!=""&&new_fecha_elabora!=""&&new_cliente!=""){
+        $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/New_Cotizacion",
         data:{new_folio:new_folio, new_fecha_elabora:new_fecha_elabora, new_cliente:new_cliente, new_obra:new_obra, new_tiem_entrega:new_tiem_entrega, new_vigencia:new_vigencia, new_elabora:new_elabora, new_estado:new_estado, new_empresa:new_empresa, new_licitacion:new_licitacion},
@@ -289,6 +290,10 @@
             Update();
           }
         });
+      }else{
+        alert("Debe indicar Folio, fecha de elaboracion, cliente");
+      }
+
     });
 
 
@@ -475,7 +480,27 @@ function SeparaMiles($id){
   }
   var resultado=valor.toLocaleString("en");
   $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-  }
+}
+
+function Get_MAX_Folio(){
+  $.ajax({
+    type:"POST",
+    url:"<?php echo base_url();?>Iluminacion/GETMAX_Folio",
+     data:{},
+      success:function(max_folio){
+            if(max_folio){
+              folio=max_folio.split('-');
+              folio_sig=parseInt(folio[1]);
+              folio_sig++;
+              var anio = (new Date).getFullYear();
+              $("#new_folio").val("ISA"+anio+"-"+folio_sig);
+            }else{
+              alert('Error. Intente de nuevo para generar Folio');
+            }
+       }
+  });
+
+}
 
 
 </script>

@@ -87,7 +87,11 @@ class DASA extends CI_Controller {
 		$data=array('cost_sale'=>$this->Dasa_model->GetAllCostOfSale($idcompany->id_empresa),
 					'woks'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
-		$this->load->view('DASA/CostOfSale-List', $data);
+		if(isset($data->woks)){
+			$this->load->view('DASA/CostOfSale-List', $data);
+		}else{
+			$this->load->view('DASA/CostOfSale-Error',);
+		}
 	}
 
 	public function GetAllViatics(){

@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Lista de Costo de Venta</h3>
+    <h3 align="center">Lista de Gasto de Obra</h3>
   </div>
   <div class="col-md-4">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewBill"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Costo</button>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewBill"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Gasto de Obra</button>
   </div>
   <div class="col-md-1"></div>
 </div>
@@ -143,7 +143,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar costo de venta</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Editar Gasto de Obra</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -202,7 +202,7 @@
         <button type="submit" class="btn btn-outline-success" id="updateCost">Guardar</button>
         <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
       </div>
-                </form>
+    </form>
     </div>
   </div>
 </div>
@@ -248,7 +248,7 @@ $(document).ready(function(e){
                     $('#addcostSale')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
                                 alert(data);
-                    alert('Costo agregado correctamente');
+                    alert('Gasto de Obra agregado correctamente');
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');

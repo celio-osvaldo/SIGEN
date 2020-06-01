@@ -1,10 +1,10 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Catálogo de productos</h3>
+    <h3 align="center">Catálogo de productos/servicios</h3>
   </div>
   <div class="col-md-4">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewProduct"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar producto</button>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewProduct"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar producto/servicio</button>
   </div>
   <div class="col-md-1"></div>
 </div>
@@ -66,7 +66,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Agregar Producto</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Producto/Servicio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -74,7 +74,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-6">
-            <label class="label-control">Nombre del producto</label>
+            <label class="label-control">Nombre del producto/servicio</label>
             <input class="form-control" type="text" id="nameProductInsert" name="nameProductInsert" required="true">
           </div>
 
@@ -124,7 +124,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edición de los datos de producto</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Edición de los datos de producto/servicio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -135,7 +135,7 @@
                     <div class="row">
                       <input class="form-control" type="hidden" id="idE" name="idE">
                       <div class="col-md-6">
-                        <label class="label-control">Nombre del producto</label>
+                        <label class="label-control">Nombre del producto/servicio</label>
                         <input class="form-control" type="text" id="nameProductE" name="nameProductE" required="true">
                       </div>
 
@@ -187,7 +187,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="titlecomprobanteModal">Imagen de Producto</h5>
+        <h5 class="modal-title" id="titlecomprobanteModal">Imagen de Producto/servicio</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

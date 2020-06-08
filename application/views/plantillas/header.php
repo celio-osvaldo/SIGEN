@@ -12,6 +12,22 @@
 	<script type="text/javascript" src="..\assets\Personalized\js\smartmenus\addons\bootstrap-4\jquery.smartmenus.bootstrap-4.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\renderMenu.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\menuScript.js"></script>
+
+<?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+?>
+
+
+
+
+  <style type="text/css">
+ .modal-open {
+    overflow: scroll;
+}
+  </style>
+
 </head>
 <body>
 

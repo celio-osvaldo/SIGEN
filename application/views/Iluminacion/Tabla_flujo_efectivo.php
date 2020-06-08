@@ -11,7 +11,7 @@
     <td class="tab-logo"><img height="100" width="300" src="..\Resources\Logos\Logo_ISA.png"></td>
     <td class="tab-datos"><b>ILUMINACION SUSTENTABLE AGS, S DE RL DE CV <br> <?php echo $mes." DE ".$anio ?></b></td>
     <td class="tab-datos"><b><label style="text-align: right;">Saldo Inicial (En Banco Mes Anterior)</label> <br>
-       $<input type="text" id="saldo_mes_anterior"   value="<?php echo $sal_ban_ant; ?>"></b></td>
+       $<input type="text" id="saldo_mes_anterior"   value="<?php echo number_format($sal_ban_ant,2,'.',','); ?>"></b></td>
   </tr>
 </table>
 
@@ -37,7 +37,7 @@
     $saldo_final=0;
     $saldo_final+=$sal_ban_ant;
     $subtotal_depositos=0;
-    $subtotal_retitos=0;
+    $subtotal_retiros=0;
     $iva_depositos=0;
     $iva_retiros=0;
       foreach ($ingresos_venta_mov->result() as $row) {
@@ -699,41 +699,94 @@ if(identifica_id[2]=="iva"){ //Verificamos si en la posicion 2 del arreglo el st
 
 function GuardarReporte(){        //Función para guardar los datos del flujo de efectivo
 
-  alert("Opción de guardado aun está en desarrollo. Disculpe las demoras"); 
+  //alert("Opción de guardado aun está en desarrollo. Disculpe las demoras"); 
 
+  //Obtenemos los datos generales del reporte
   mes="<?php echo $mes ?>";
+
   anio="<?php echo $anio ?>";
-  saldo_inicial=$("#saldo_mes_anterior").val();
+
+  saldo_inicial=$("#saldo_mes_anterior").val().replace(/\,/g, '');
+
   saldo_final=$("#saldo_final").val().split("$");
+  saldo_final[1]=saldo_final[1].replace(/\,/g, '');
+  
   total_depositos=$("#total_depositos").text().split("$");
+  total_depositos[1]=total_depositos[1].replace(/\,/g, '');
+
   subtotal_depositos=$("#subtotal_depositos").text().split("$");
+  subtotal_depositos[1]=subtotal_depositos[1].replace(/\,/g, '');
+  
   iva_depositos=$("#iva_depositos").text().split("$");
+  iva_depositos[1]=iva_depositos[1].replace(/\,/g, '');
+  
   total_retiros=$("#total_retiros").text().split("$");
+  total_retiros[1]=total_retiros[1].replace(/\,/g, '');
+  
   subtotal_retiros=$("#subtotal_retiros").text().split("$");
+  subtotal_retiros[1]=subtotal_retiros[1].replace(/\,/g, '');
+  
   iva_retiros=$("#iva_retiros").text().split("$");
-  neto_iva=$("#neto_iva").val();
+  iva_retiros[1]=iva_retiros[1].replace(/\,/g, '');
+  
+  neto_iva=$("#neto_iva").val().replace(/\,/g, '');
+  
   tipo_iva=$("#tipo_iva").text();
-  iva_cargo_favor=$("#cargo_iva").val();
-  iva_retencion=$("#iva_retencion").text();
-  iva_total_cargo=$("#iva_total_cargo").text();
-  iva_favor_periodos_anteriores=$("#iva_favor_periodos_anteriores").val();
-  iva_neto_cargo=$("#iva_neto_cargo").val();
+
+  iva_cargo_favor=$("#cargo_iva").val().replace(/\,/g, '');
+
+  iva_retencion=$("#iva_retencion").text().replace(/\,/g, '');
+  iva_total_cargo=$("#iva_total_cargo").text().replace(/\,/g, '');
+  iva_favor_periodos_anteriores=$("#iva_favor_periodos_anteriores").val().replace(/\,/g, '');
+  if(iva_favor_periodos_anteriores==""){
+    iva_favor_periodos_anteriores=0.00;
+  }
+  iva_neto_cargo=$("#iva_neto_cargo").val().replace(/\,/g, '');
+
+  //alert(saldo_inicial);
+  //alert(mes+" "+anio+" "+saldo_inicial+" "+saldo_final[1]+" "+total_depositos[1]+" "+subtotal_depositos[1]+" "+iva_depositos[1]);
+  //alert(total_retiros[1]+" "+subtotal_retiros[1]+" "+iva_retiros[1]);
+  //alert(neto_iva+" "+tipo_iva+" "+iva_cargo_favor+" "+iva_retencion+" "+iva_total_cargo+" "+iva_favor_periodos_anteriores+" "+iva_neto_cargo);
+
+  $.ajax({
+    type:"POST",
+    url:"<?php echo base_url();?>Iluminacion/Save_Reporte_flujo",
+    data:{mes:mes, anio:anio, saldo_ini:saldo_inicial, saldo_fin:saldo_final[1], total_depositos:total_depositos[1], subtotal_depositos:subtotal_depositos[1], iva_depositos:iva_depositos[1], total_retiros:total_retiros[1], subtotal_retiros:subtotal_retiros[1], iva_retiros:iva_retiros[1], neto_iva:neto_iva, tipo_iva:tipo_iva, iva_cargo_favor:iva_cargo_favor, iva_retencion:iva_retencion, iva_total_cargo:iva_total_cargo, iva_favor_periodos_anteriores:iva_favor_periodos_anteriores, iva_neto_cargo:iva_neto_cargo},
+    success:function(result){
+      //alert(result);
+    if(result){
+      if (result=="existe") {
+        alert('Registro Actualizado');
+      }else{
+        alert('Registro Guardado');
+      }
+      
+    }else{
+        alert('Falló el servidor. Registro no actualizado');
+      }
+    }
+  });
+
+
+
+  /*
+  depositos_flujo_fecha
+  depositos_flujo_ref
+  depositos_flujo_importe
+  depositos_flujo_subtotal
+  depositos_flujo_iva
+  depositos_flujo_cliente
+  depositos_flujo_concepto
+  */  
 
 /*
-
-  depositos_ref
-  depositos_importe
-  depositos_subtotal
-  depositos_iva
-  depositos_cliente
-  depositos_concepto
-
-
     <?php
     foreach ($ingresos_venta_mov->result() as $row) {
+      $depositos = array('fecha' => $depositos_fecha_proy.$row->id_venta_mov);
 
-      }      $depositos = array('fecha' => $depositos_fecha_proy.$row->id_venta_mov);
-     ?>
+
+      }      
+     ?> 
 
      valor=<?php echo $depositos[0]->fecha ?>;
      alert(valor);

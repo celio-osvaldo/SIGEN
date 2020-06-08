@@ -87,11 +87,13 @@ class DASA extends CI_Controller {
 		$data=array('cost_sale'=>$this->Dasa_model->GetAllCostOfSale($idcompany->id_empresa),
 					'woks'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Dasa_model->IDMAX($table, $id));
-		if(isset($data->woks)){
+		if($data['woks']){
 			$this->load->view('DASA/CostOfSale-List', $data);
 		}else{
 			$this->load->view('DASA/CostOfSale-Error',);
 		}
+	//	var_dump($data['woks']);
+
 	}
 
 	public function GetAllViatics(){
@@ -100,7 +102,13 @@ class DASA extends CI_Controller {
 		$idcompany=$this->Dasa_model->IdCompany($company);
 		$data = array('report_viatics' => $this->Dasa_model->GetAllViaticsReports($idcompany->id_empresa),
 						'works'=>$this->Dasa_model->GetAllWorks_Client($idcompany->id_empresa));
-		$this->load->view('DASA/ViaticList',$data);
+		if($data['works']){
+			$this->load->view('DASA/ViaticList',$data);
+		}else{
+			$this->load->view('DASA/ViaticList-Error',);
+		}
+	//	var_dump($data['woks']);
+		
 	}
 
 	public function DeatailsOfViatic(){
@@ -1183,7 +1191,7 @@ class DASA extends CI_Controller {
 				$mes_letra="DICIEMBRE";
 				break;			
 			default:
-				# code...
+			
 				break;
 		}
 		if($mes==01){

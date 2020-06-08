@@ -1086,6 +1086,49 @@ class Iluminacion_model extends CI_Model
     return $result;#if the query has data, returns the data query
   }
 
+  public function Verifica_Flujo($idcompany,$anio,$mes){
+    $this->db->select('id_flujo_efectivo');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes);
+    $this->db->where('flujo_efectivo_anio',$anio);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Guarda_Flujo($data){
+    $this->db->insert('flujo_efectivo',$data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Update_Flujo($mes,$anio,$id_empresa,$data){
+    $this->db->where('flujo_efectivo_mes',$mes);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $this->db->where('empresa_id_empresa',$id_empresa);
+      $this->db->update('flujo_efectivo', $data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+      } else{
+        return false;
+      }
+  }
+
+  public function Get_sal_ban_guardado($idcompany,$anio,$mes_letra){
+    $this->db->select('flujo_efectivo_saldo_ini');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes_letra);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
 
 
   

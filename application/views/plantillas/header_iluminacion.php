@@ -11,6 +11,20 @@
 	<script type="text/javascript" src="..\assets\Personalized\DataTables\datatables.min.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
+<?php
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Cache-Control: post-check=0, pre-check=0", false);
+header("Pragma: no-cache");
+?>
+
+
+
+
+  <style type="text/css">
+ .modal-open {
+    overflow: scroll;
+}
+  </style>
 
 
 </head>

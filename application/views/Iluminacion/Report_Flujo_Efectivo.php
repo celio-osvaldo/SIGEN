@@ -23,7 +23,7 @@
  	function Genera_Reporte(){
  		fecha=$('#mes_reporte').val();
  		fecha_reporte=fecha.split('-');//posición 0 del arreglo=año, posición 1 del arrelgo=mes
- 		if(fecha!=""&&fecha_reporte[0]>2019&&fecha_reporte[1]>0&&fecha_reporte[1]<=12){
+ 		if(fecha!=""&&fecha_reporte[0]>2000&&fecha_reporte[1]>0&&fecha_reporte[1]<=12){
     		anio=fecha_reporte[0];
     		mes=fecha_reporte[1];
     		var datos_a_pasar = {

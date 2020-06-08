@@ -247,7 +247,7 @@ $(document).ready(function(e){
                 if(data){
                     $('#addcostSale')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                                alert(data);
+                    //alert(data);
                     alert('Costo agregado correctamente');
                     CloseModal();
                 }else{

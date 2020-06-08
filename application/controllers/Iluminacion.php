@@ -1554,13 +1554,67 @@ public function Reporte_flujo_efectivo(){
 			$mes_ant=$mes-1;
 			$anio_ant=$anio;
 		}
+		switch ($mes_ant) {
+			case '01':
+				$mes_ant_letra="ENERO";
+				break;
+			case '02':
+				$mes_ant_letra="FEBRERO";
+				break;
+			case '03':
+				$mes_ant_letra="MARZO";
+				break;
+			case '04':
+				$mes_ant_letra="ABRIL";
+				break;
+			case '05':
+				$mes_ant_letra="MAYO";
+				break;
+			case '06':
+				$mes_ant_letra="JUNIO";
+				break;
+			case '07':
+				$mes_ant_letra="JULIO";
+				break;
+			case '08':
+				$mes_ant_letra="AGOSTO";
+				break;
+			case '09':
+				$mes_ant_letra="SEPTIEMBRE";
+				break;
+			case '10':
+				$mes_ant_letra="OCTUBRE";
+				break;
+			case '11':
+				$mes_ant_letra="NOVIEMBRE";
+				break;
+			case '12':
+				$mes_ant_letra="DICIEMBRE";
+				break;			
+			default:
+				# code...
+				break;
+		}
 
-		$saldo_ant=$this->Iluminacion_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant);
+		if(is_null($this->Iluminacion_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes_letra))){
+			$saldo_ant=$this->Iluminacion_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant_letra);//Si no existe un registro de flujo de efectivo para el mes actual, entonces busca el saldo en banco del mes anterior
+			if(isset($saldo_ant->flujo_efectivo_saldo_fin)){
+				$saldo_anterior=$saldo_ant->flujo_efectivo_saldo_fin;
+			}else{
+				$saldo_anterior=0.00;
+			}				
+				$tipo_saldo="anterior";
+			
+		}else{
+			$saldo_guardado=$this->Iluminacion_model->Get_sal_ban_guardado($idcompany->id_empresa,$anio,$mes_letra);//si ya existe un registro del mes actual, entonces toma el último saldo de banco guardado en el registro del flujo de efectivo
+			//$saldo_ant=0.99;
+			$tipo_saldo="guardado";
+		}	
 		
 
-		if(is_null($saldo_ant)){
+		if($tipo_saldo=="anterior"){
 			$data = array('ingresos_venta_mov' => $this->Iluminacion_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
-					      'sal_ban_ant'=>0,
+					      'sal_ban_ant'=>$saldo_anterior,
 					      'ingresos_anticipos' => $this->Iluminacion_model->Get_Ingresos_Anticipos($anio,$mes),
 					      'ingresos_sfv' => $this->Iluminacion_model->Get_Ingresos_SFV($idcompany->id_empresa,$anio,$mes),
 					      'egresos_caja_chica' => $this->Iluminacion_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
@@ -1571,7 +1625,7 @@ public function Reporte_flujo_efectivo(){
 					  	   'anio'=>$anio );
 		}else{
 			$data = array('ingresos_venta_mov' => $this->Iluminacion_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
-					  	   'sal_ban_ant'=> $saldo_ant,
+					  	   'sal_ban_ant'=> $saldo_guardado->flujo_efectivo_saldo_ini,
 					  	   'ingresos_anticipos' => $this->Iluminacion_model->Get_Ingresos_Anticipos($anio,$mes),
 					  	   'ingresos_sfv' => $this->Iluminacion_model->Get_Ingresos_SFV($idcompany->id_empresa,$anio,$mes),
 					  	   'egresos_caja_chica' => $this->Iluminacion_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
@@ -1595,11 +1649,12 @@ public function Reporte_flujo_efectivo(){
 		$data=array('cost_sale'=>$this->Iluminacion_model->GetAllCostOfSale($idcompany->id_empresa),
 					'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Iluminacion_model->IDMAX($table, $id));
-		if(isset($data->works)){
+		if($data['works']){
 			$this->load->view('Iluminacion/CostOfSale-List', $data);
 		}else{
 			$this->load->view('Iluminacion/CostOfSale-Error',);
 		}
+		//var_dump($data['works']);
 	}
 
 
@@ -1971,7 +2026,13 @@ public function UpdateReportPettyCash(){
 		$idcompany=$this->Iluminacion_model->IdCompany($company);
 		$data = array('report_viatics' => $this->Iluminacion_model->GetAllViaticsReports($idcompany->id_empresa),
 						'works'=>$this->Iluminacion_model->GetAllWorks_Client($idcompany->id_empresa));
-		$this->load->view('Iluminacion/ViaticList',$data);
+		if($data['works']){
+			$this->load->view('Iluminacion/ViaticList',$data);
+		}else{
+			$this->load->view('Iluminacion/ViaticList-Error',);
+		}
+	//	var_dump($data['woks']);
+		
 	}
 
 	public function DeatailsOfViatic(){
@@ -2170,6 +2231,58 @@ public function GETMAX_Folio(){
 	//var_dump($max_folio);
 	echo $max_folio->cotizacion_folio;
 }
+
+	public function Save_Reporte_flujo(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+
+		$anio=$_POST["anio"];
+		$mes=$_POST["mes"];
+
+		if(is_null($this->Iluminacion_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes))){
+			$data = array('empresa_id_empresa' =>$idcompany->id_empresa ,
+						  'flujo_efectivo_mes' =>$mes ,
+						  'flujo_efectivo_anio' =>$anio ,
+						  'flujo_efectivo_saldo_ini' =>$this->input->post('saldo_ini') ,
+						  'flujo_efectivo_saldo_fin' =>$this->input->post('saldo_fin') ,
+						  'flujo_efectivo_total_ingreso' =>$this->input->post('total_depositos') ,
+						  'flujo_efectivo_total_egreso' =>$this->input->post('total_retiros'),
+						  'flujo_efectivo_subtotal_ingreso' => $this->input->post('subtotal_depositos'),
+						  'flujo_efectivo_subtotal_egreso' => $this->input->post('subtotal_retiros'),
+						  'flujo_efectivo_iva_ingreso' => $this->input->post('iva_depositos'),
+						  'flujo_efectivo_iva_egreso' => $this->input->post('iva_retiros'),
+						  'flujo_efectivo_neteo_iva' => $this->input->post('neto_iva'),
+						  'flujo_efectivo_tipo_iva' => $this->input->post('tipo_iva'),
+						  'flujo_efectivo_iva_cargo_favor' => $this->input->post('iva_cargo_favor'),
+						  'flujo_efectivo_iva_retencion' => $this->input->post('iva_retencion'),
+						  'flujo_efectivo_iva_total_cargo' => $this->input->post('iva_total_cargo'),
+						  'flujo_efectivo_iva_favor_panterior' => $this->input->post('iva_favor_periodos_anteriores'),
+						  'flujo_efectivo_iva_neto_cargo' => $this->input->post('iva_neto_cargo'));
+			$result=$this->Iluminacion_model->Guarda_Flujo($data);
+			echo $result;
+		}else{
+			$data = array('flujo_efectivo_saldo_ini' =>$this->input->post('saldo_ini') ,
+						  'flujo_efectivo_saldo_fin' =>$this->input->post('saldo_fin') ,
+						  'flujo_efectivo_total_ingreso' =>$this->input->post('total_depositos') ,
+						  'flujo_efectivo_total_egreso' =>$this->input->post('total_retiros'),
+						  'flujo_efectivo_subtotal_ingreso' => $this->input->post('subtotal_depositos'),
+						  'flujo_efectivo_subtotal_egreso' => $this->input->post('subtotal_retiros'),
+						  'flujo_efectivo_iva_ingreso' => $this->input->post('iva_depositos'),
+						  'flujo_efectivo_iva_egreso' => $this->input->post('iva_retiros'),
+						  'flujo_efectivo_neteo_iva' => $this->input->post('neto_iva'),
+						  'flujo_efectivo_tipo_iva' => $this->input->post('tipo_iva'),
+						  'flujo_efectivo_iva_cargo_favor' => $this->input->post('iva_cargo_favor'),
+						  'flujo_efectivo_iva_retencion' => $this->input->post('iva_retencion'),
+						  'flujo_efectivo_iva_total_cargo' => $this->input->post('iva_total_cargo'),
+						  'flujo_efectivo_iva_favor_panterior' => $this->input->post('iva_favor_periodos_anteriores'),
+						  'flujo_efectivo_iva_neto_cargo' => $this->input->post('iva_neto_cargo'));
+			$this->Iluminacion_model->Update_Flujo($mes,$anio,$idcompany->id_empresa,$data);
+			echo "existe";
+		}
+
+
+	}
 
 
 

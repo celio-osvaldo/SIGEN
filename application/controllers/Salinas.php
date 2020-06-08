@@ -88,11 +88,12 @@ class Salinas extends CI_Controller {
 					'woks'=>$this->Salinas_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Salinas_model->IDMAX($table, $id));
 		
-		if(isset($data->woks)){
+		if($data['woks']){
 			$this->load->view('Salinas/CostOfSale-List', $data);
 		}else{
 			$this->load->view('Salinas/CostOfSale-Error',);
 		}
+		//var_dump($data['woks']);
 		
 	}
 
@@ -102,7 +103,12 @@ class Salinas extends CI_Controller {
 		$idcompany=$this->Salinas_model->IdCompany($company);
 		$data = array('report_viatics' => $this->Salinas_model->GetAllViaticsReports($idcompany->id_empresa),
 						'works'=>$this->Salinas_model->GetAllWorks_Client($idcompany->id_empresa));
-		$this->load->view('Salinas/ViaticList',$data);
+		if($data['works']){
+			$this->load->view('Salinas/ViaticList',$data);
+		}else{
+			$this->load->view('Salinas/ViaticList-Error',);
+		}
+		//var_dump($data['woks']);
 	}
 
 	public function DeatailsOfViatic(){

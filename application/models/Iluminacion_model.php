@@ -1198,11 +1198,11 @@ class Iluminacion_model extends CI_Model
 
     public function Update_Ref_Otros_Gastos($id,$ref,$iva_ret,$isr_ret,$ieps,$dap){
     $this->db->where('id_OGasto ', $id);
-    $this->db->set('lista_viatico_referencia', $ref);
-    $this->db->set('lista_viatico_iva_ret', $iva_ret);
-    $this->db->set('lista_viatico_isr_ret', $isr_ret);
-    $this->db->set('lista_viatico_ieps', $ieps);
-    $this->db->set('lista_viatico_dap', $dap);
+    $this->db->set('otros_gastos_referencia', $ref);
+    $this->db->set('otros_gastos_iva_ret', $iva_ret);
+    $this->db->set('otros_gastos_isr_ret', $isr_ret);
+    $this->db->set('otros_gastos_ieps', $ieps);
+    $this->db->set('otros_gastos_dap', $dap);
     $this->db->update('otros_gastos');
     if ($this->db->affected_rows() > 0) {
       return true;

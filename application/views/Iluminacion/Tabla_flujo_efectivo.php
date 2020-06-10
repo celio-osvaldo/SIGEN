@@ -47,10 +47,25 @@
           <td class="tab2-lista" id="<?php echo "depositos_fecha_proy".$row->id_venta_mov;?>"><?php echo $row->venta_mov_fecha; ?></td>
           <td class="tab2-lista">
             <select id="<?php echo "depositos_ref_proy".$row->id_venta_mov;?>">
-              <option value="Tranferencia">Tranferencia</option>
-              <option value="Deposito_cheque">Depósito en Cheque</option>
-              <option value="Efectivo">Efectivo</option>
-            </select>            
+              <?php if ($row->venta_mov_referencia=="Tranferencia"){ ?>
+                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php } else{ ?>
+                <option value="Tranferencia">Tranferencia</option>
+              <?php } ?>
+
+              <?php if ($row->venta_mov_referencia=="Deposito_cheque"){ ?>
+                <option value="Deposito_cheque" selected="true">Depósito en Cheque</option>
+              <?php } else{ ?>
+                <option value="Deposito_cheque">Depósito en Cheque</option>
+              <?php } ?>
+
+              <?php if ($row->venta_mov_referencia=="Efectivo"){ ?>
+                <option value="Efectivo" selected="true">Efectivo</option>
+              <?php } else{ ?>
+                <option value="Efectivo">Efectivo</option>
+              <?php } ?>
+            </select>     
+
           </td>
           <td class="tab2-lista" onchange="Iva_Cargo()" id="<?php echo "depositos_importe_proy".$row->id_venta_mov;?>"><?php echo number_format($row->venta_mov_monto, 2, '.', ',');?></td>
           <td class="tab2-lista" id="<?php echo "depositos_subtotal_proy".$row->id_venta_mov;?>"><?php echo number_format(($row->venta_mov_monto)/1.16, 2, '.', ',');?></td>
@@ -68,7 +83,7 @@
     <?php //Lista de Pagos de Anticipos
       $suma_anticipos=0;
       foreach ($ingresos_anticipos->result() as $row) {
-        $suma_anticipos+=$row->pagos_anticipo_cantidad;
+        $suma_anticipos+=$row->pagos_anticipo_cantidad;//Anticipos ya no se manejan pagos
         ?>
         <tr>
           <td class="tab2-lista" id="<?php echo "depositos_fecha_anticipo".$row->id_pagos_anticipo;?>"><?php echo $row->pagos_anticipo_fecha; ?></td>
@@ -77,6 +92,7 @@
               <option value="Tranferencia">Tranferencia</option>
               <option value="Deposito_cheque">Depósito en Cheque</option>
               <option value="Efectivo">Efectivo</option>
+
             </select>            
           </td>
           <td class="tab2-lista" onchange="Iva_Cargo()" id="<?php echo "depositos_importe_anticipo".$row->id_pagos_anticipo;?>"><?php echo number_format($row->pagos_anticipo_cantidad, 2, '.', ',');?></td>
@@ -101,9 +117,23 @@
           <td class="tab2-lista" id="<?php echo "depositos_fecha_sfv".$row->id_lista_pago_sfv;?>"><?php echo $row->lista_pago_sfv_fecha; ?></td>
           <td class="tab2-lista">
             <select id="<?php echo "depositos_ref_sfv".$row->id_lista_pago_sfv;?>">
-              <option value="Tranferencia">Tranferencia</option>
-              <option value="Deposito_cheque">Depósito en Cheque</option>
-              <option value="Efectivo">Efectivo</option>
+              <?php if ($row->lista_pago_sfv_referencia=="Tranferencia"){ ?>
+                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php } else{ ?>
+                <option value="Tranferencia">Tranferencia</option>
+              <?php } ?>
+
+              <?php if ($row->lista_pago_sfv_referencia=="Deposito_cheque"){ ?>
+                <option value="Deposito_cheque" selected="true">Depósito en Cheque</option>
+              <?php } else{ ?>
+                <option value="Deposito_cheque">Depósito en Cheque</option>
+              <?php } ?>
+
+              <?php if ($row->lista_pago_sfv_referencia=="Efectivo"){ ?>
+                <option value="Efectivo" selected="true">Efectivo</option>
+              <?php } else{ ?>
+                <option value="Efectivo">Efectivo</option>
+              <?php } ?>
             </select>            
           </td>
           <td class="tab2-lista" onchange="Iva_Cargo()" id="<?php echo "depositos_importe_sfv".$row->id_lista_pago_sfv;?>"><?php echo number_format($row->lista_pago_sfv_total, 2, '.', ',');?></td>
@@ -172,18 +202,36 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_gastos".$row->id_gasto_venta;?>"><?php echo $row->gasto_venta_fecha_pago; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref".$row->id_gasto_venta;?>">
-              <option value="Tranferencia">Tranferencia</option>
-              <option value="Deposito_cheque">Depósito en Cheque</option>
-              <option value="Efectivo">Efectivo</option>
+              <?php if ($row->gasto_venta_referencia=="Tranferencia"){ ?>
+                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php } else{ ?>
+                <option value="Tranferencia">Tranferencia</option>
+              <?php } ?>
+
+              <?php if ($row->gasto_venta_referencia=="Deposito_cheque"){ ?>
+                <option value="Deposito_cheque" selected="true">Depósito en Cheque</option>
+              <?php } else{ ?>
+                <option value="Deposito_cheque">Depósito en Cheque</option>
+              <?php } ?>
+
+              <?php if ($row->gasto_venta_referencia=="Efectivo"){ ?>
+                <option value="Efectivo" selected="true">Efectivo</option>
+              <?php } else{ ?>
+                <option value="Efectivo">Efectivo</option>
+              <?php } ?>
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto, 2, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto/1.16, 2, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto/1.16*0.16, 2, '.', ',');?></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_iva_".$row->id_gasto_venta;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_isr_".$row->id_gasto_venta;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_ieps_".$row->id_gasto_venta;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_dap_".$row->id_gasto_venta;?>"></td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->gasto_venta_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_".$row->id_gasto_venta;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->gasto_venta_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_".$row->id_gasto_venta;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->gasto_venta_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_".$row->id_gasto_venta;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->gasto_venta_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_".$row->id_gasto_venta;?>">
+      </td>
       <td class="tab3-lista" id="<?php echo "retiros_concepto".$row->id_gasto_venta;?>">Costo Venta - <?php echo $row->gasto_venta_concepto ?></td>
       <td class="tab3-lista2"></td>
       <td class="tab3-lista2"></td>
@@ -203,19 +251,39 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_caja_chica".$row->id_lista_caja_chica;?>"><?php echo $row->lista_caja_chica_fecha; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref_caja_chica".$row->id_lista_caja_chica;?>">
-              <option value="Tranferencia">Tranferencia</option>
-              <option value="Deposito_cheque">Depósito en Cheque</option>
-              <option value="Efectivo">Efectivo</option>
+              <?php if ($row->lista_caja_chica_referencia=="Tranferencia"){ ?>
+                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php } else{ ?>
+                <option value="Tranferencia">Tranferencia</option>
+              <?php } ?>
+
+              <?php if ($row->lista_caja_chica_referencia=="Deposito_cheque"){ ?>
+                <option value="Deposito_cheque" selected="true">Depósito en Cheque</option>
+              <?php } else{ ?>
+                <option value="Deposito_cheque">Depósito en Cheque</option>
+              <?php } ?>
+
+              <?php if ($row->lista_caja_chica_referencia=="Efectivo"){ ?>
+                <option value="Efectivo" selected="true">Efectivo</option>
+              <?php } else{ ?>
+                <option value="Efectivo">Efectivo</option>
+              <?php } ?>
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto, 2, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto/1.16, 2, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_iva_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto/1.16*0.16, 2, '.', ',');?></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_iva_caja_chica".$row->id_lista_caja_chica;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_isr_caja_chica".$row->id_lista_caja_chica;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_ieps_caja_chica".$row->id_lista_caja_chica;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_dap_caja_chica".$row->id_lista_caja_chica;?>"></td>
-      <td class="tab3-lista" id="<?php echo "retiros_concepto_caja_chica".$row->id_lista_caja_chica;?>">Caja Chica - <?php echo $row->lista_caja_chica_concepto ?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_iva_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto/1.16*0.16, 2, '.', ',');?>
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_caja_chica_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_caja_chica".$row->id_lista_caja_chica;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_caja_chica_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_caja_chica".$row->id_lista_caja_chica;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_caja_chica_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_caja_chica".$row->id_lista_caja_chica;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_caja_chica_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_caja_chica".$row->id_lista_caja_chica;?>">
+      </td>
+      <td class="tab3-lista" id="<?php echo "retiros_concepto_caja_chica".$row->id_lista_caja_chica;?>">Caja Chica - <?php echo $row->lista_caja_chica_concepto ?>
+      </td>
       <td class="tab3-lista2"></td>
       <td class="tab3-lista2"></td>
       <td class="tab3-lista2"></td>
@@ -234,19 +302,38 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_viaticos".$row->id_lista_viatico;?>"><?php echo $row->lista_viatico_fecha; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref_viaticos".$row->id_lista_viatico;?>">
-              <option value="Tranferencia">Tranferencia</option>
-              <option value="Deposito_cheque">Depósito en Cheque</option>
-              <option value="Efectivo">Efectivo</option>
+              <?php if ($row->lista_viatico_referencia=="Tranferencia"){ ?>
+                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php } else{ ?>
+                <option value="Tranferencia">Tranferencia</option>
+              <?php } ?>
+
+              <?php if ($row->lista_viatico_referencia=="Deposito_cheque"){ ?>
+                <option value="Deposito_cheque" selected="true">Depósito en Cheque</option>
+              <?php } else{ ?>
+                <option value="Deposito_cheque">Depósito en Cheque</option>
+              <?php } ?>
+
+              <?php if ($row->lista_viatico_referencia=="Efectivo"){ ?>
+                <option value="Efectivo" selected="true">Efectivo</option>
+              <?php } else{ ?>
+                <option value="Efectivo">Efectivo</option>
+              <?php } ?>
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe, 2, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe/1.16, 2, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe/1.16*0.16, 2, '.', ',');?></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_iva_viaticos".$row->id_lista_viatico;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_isr_viaticos".$row->id_lista_viatico;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_ieps_viaticos".$row->id_lista_viatico;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_dap_viaticos".$row->id_lista_viatico;?>"></td>
-      <td class="tab3-lista" id="<?php echo "retiros_concepto_viaticos".$row->id_lista_viatico;?>">Viaticos - <?php echo $row->lista_viatico_concepto ?></td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_viatico_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_viaticos".$row->id_lista_viatico;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_viatico_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_viaticos".$row->id_lista_viatico;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_viatico_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_viaticos".$row->id_lista_viatico;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->lista_viatico_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_viaticos".$row->id_lista_viatico;?>">
+      </td>
+      <td class="tab3-lista" id="<?php echo "retiros_concepto_viaticos".$row->id_lista_viatico;?>">Viaticos - <?php echo $row->lista_viatico_concepto ?>
+      </td>
       <td class="tab3-lista2"></td>
       <td class="tab3-lista2"></td>
       <td class="tab3-lista2"></td>
@@ -265,18 +352,36 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_otros_gastos".$row->id_OGasto;?>"><?php echo $row->fecha_pago_factura; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref_otros_gastos".$row->id_OGasto;?>">
-              <option value="Tranferencia">Tranferencia</option>
-              <option value="Deposito_cheque">Depósito en Cheque</option>
-              <option value="Efectivo">Efectivo</option>
+              <?php if ($row->otros_gastos_referencia=="Tranferencia"){ ?>
+                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php } else{ ?>
+                <option value="Tranferencia">Tranferencia</option>
+              <?php } ?>
+
+              <?php if ($row->otros_gastos_referencia=="Deposito_cheque"){ ?>
+                <option value="Deposito_cheque" selected="true">Depósito en Cheque</option>
+              <?php } else{ ?>
+                <option value="Deposito_cheque">Depósito en Cheque</option>
+              <?php } ?>
+
+              <?php if ($row->otros_gastos_referencia=="Efectivo"){ ?>
+                <option value="Efectivo" selected="true">Efectivo</option>
+              <?php } else{ ?>
+                <option value="Efectivo">Efectivo</option>
+              <?php } ?>
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo, 2, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo/1.16, 2, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo/1.16*0.16, 2, '.', ',');?></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_iva_otros_gastos".$row->id_OGasto;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_reten_isr_otros_gastos".$row->id_OGasto;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_ieps_otros_gastos".$row->id_OGasto;?>"></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="0.00" id="<?php echo "retiros_dap_otros_gastos".$row->id_OGasto;?>"></td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->otros_gastos_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_otros_gastos".$row->id_OGasto;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->otros_gastos_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_otros_gastos".$row->id_OGasto;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->otros_gastos_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_otros_gastos".$row->id_OGasto;?>">
+      </td>
+      <td class="tab3-lista"><input size="6" type="text" onblur="SeparaMiles(this.id)" value="<?php echo number_format($row->otros_gastos_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_otros_gastos".$row->id_OGasto;?>">
+      </td>
       <td class="tab3-lista" id="<?php echo "retiros_concepto_otros_gastos".$row->id_OGasto;?>">Otros Gastos - <?php echo $row->concepto ?></td>
       <td class="tab3-lista2"></td>
       <td class="tab3-lista2"></td>
@@ -323,7 +428,7 @@
 
     </tr>
     <?php 
-      $saldo_final=$total_depositos+$suma_gastos_venta;
+      $saldo_final=$sal_ban_ant+$total_depositos-$suma_gastos_venta;
      ?>
     <tr>
       <td></td>
@@ -444,6 +549,9 @@
          $("#iva_total_cargo").text(parseFloat($suma.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }
       $iva_cargo_total=$("#iva_total_cargo").text();
+      if($iva_cargo_total==""){
+        $iva_cargo_total=0.00;
+      }
       $iva_favor_periodos_anteriores=$("#iva_favor_periodos_anteriores").val();
       if($iva_favor_periodos_anteriores==""){
         $iva_favor_periodos_anteriores=0;
@@ -472,10 +580,16 @@
   //Función para actualizar el saldo final
   $('#saldo_mes_anterior').change(function(){
     var saldo=$('#saldo_mes_anterior').val();
+         //alert(saldo);
+         saldo=saldo.replace(/,/g, "");
+         //alert(saldo);
     if (saldo==""||isNaN(saldo)) {
       saldo=0;
+      //alert("entró a cero");
      }
-    var saldo_total=$("#saldo_final_sin_formato").val();
+     //alert(saldo);
+    var saldo_total=<?php echo $total_depositos-$suma_gastos_venta ?>;
+
     var saldo2=parseFloat(saldo_total)+parseFloat(saldo); 
     //alert(new Intl.NumberFormat("en-US").format(saldo2));
     //saldo2=saldo2.toFixed(2);
@@ -605,6 +719,9 @@ function SeparaMiles($id){
       }
 
       $iva_cargo_total=$("#iva_total_cargo").text();
+      if($iva_cargo_total==""){
+        $iva_cargo_total="0,000.00";
+      }
       $iva_favor_periodos_anteriores=$("#iva_favor_periodos_anteriores").val();
       if($iva_favor_periodos_anteriores==""){
         $iva_favor_periodos_anteriores="0,000.00";
@@ -621,6 +738,9 @@ function SeparaMiles($id){
 
   if(identifica_id[1]=="favor"){  //iva_favor_periodos_anteriores
       $iva_cargo_total=$("#iva_total_cargo").text();
+      if($iva_cargo_total==""){
+         $iva_cargo_total="0,000.00";
+      }
       $iva_favor_periodos_anteriores=$("#iva_favor_periodos_anteriores").val();
       if($iva_favor_periodos_anteriores==""){
         $iva_favor_periodos_anteriores="0,000.00";
@@ -748,10 +868,110 @@ function GuardarReporte(){        //Función para guardar los datos del flujo de
   //alert(total_retiros[1]+" "+subtotal_retiros[1]+" "+iva_retiros[1]);
   //alert(neto_iva+" "+tipo_iva+" "+iva_cargo_favor+" "+iva_retencion+" "+iva_total_cargo+" "+iva_favor_periodos_anteriores+" "+iva_neto_cargo);
 
+  //************************************************************************************************************************************
+  i=0;
+  depositos_mov=[];
+  <?php 
+    foreach ($ingresos_venta_mov->result() as $row) {//Lista de Pagos de Proyectos
+       ?>
+      id_venta_mov=<?php echo $row->id_venta_mov?>;
+      referencia=$("#depositos_ref_proy"+id_venta_mov).val();
+      depositos_mov.push(id_venta_mov+"*"+referencia); //primer elemento es el id separado por * en seguida el tipo de referencia
+      //alert("i: "+i+" "+depositos_mov[i]);
+      i++;
+  <?php
+    }
+  ?>
+
+  depositos_sfv=[];
+  i=0;
+  <?php 
+    foreach ($ingresos_sfv->result() as $row) {//Lista de Pagos de SFV
+       ?>
+      id_lista_pago_sfv=<?php echo $row->id_lista_pago_sfv?>;
+      referencia=$("#depositos_ref_sfv"+id_lista_pago_sfv).val();
+      depositos_sfv.push(id_lista_pago_sfv+"*"+referencia); //primer elemento es el id separado por * en seguida el tipo de referencia
+      //alert("i: "+i+" "+depositos_sfv[i]);
+      i++;
+  <?php
+    }
+  ?>
+
+//******************************************************************************************************
+  retiros_gasto_venta=[];
+  i=0;
+  <?php 
+    foreach ($egresos_gasto_venta->result() as $row) {//Lista de egreso Costo de Venta
+       ?>
+      id_gasto_venta=<?php echo $row->id_gasto_venta?>;
+      referencia=$("#retiros_ref"+id_gasto_venta).val();
+      retencion_iva=$("#retiros_reten_iva_"+id_gasto_venta).val();
+      retencion_isr=$("#retiros_reten_isr_"+id_gasto_venta).val();
+      ieps=$("#retiros_ieps_"+id_gasto_venta).val();
+      dap=$("#retiros_dap_"+id_gasto_venta).val();
+      retiros_gasto_venta.push(id_gasto_venta+"*"+referencia+"*"+retencion_iva+"*"+retencion_isr+"*"+ieps+"*"+dap); //primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+      //alert("i: "+i+" "+retiros_gasto_venta[i]);
+      i++;
+  <?php
+    }
+  ?>
+    retiros_caja_chica=[];
+  i=0;
+  <?php 
+    foreach ($egresos_caja_chica->result() as $row) {//Lista de egreso Caja Chica
+       ?>
+      id_lista_caja_chica=<?php echo $row->id_lista_caja_chica?>;
+      referencia=$("#retiros_ref_caja_chica"+id_lista_caja_chica).val();
+      retencion_iva=$("#retiros_reten_iva_caja_chica"+id_lista_caja_chica).val();
+      retencion_isr=$("#retiros_reten_isr_caja_chica"+id_lista_caja_chica).val();
+      ieps=$("#retiros_ieps_caja_chica"+id_lista_caja_chica).val();
+      dap=$("#retiros_dap_caja_chica"+id_lista_caja_chica).val();
+      retiros_caja_chica.push(id_lista_caja_chica+"*"+referencia+"*"+retencion_iva+"*"+retencion_isr+"*"+ieps+"*"+dap); //primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+      //alert("i: "+i+" "+retiros_caja_chica[i]);
+      i++;
+  <?php
+    }
+  ?>
+
+  retiros_viaticos=[];
+  i=0;
+  <?php 
+    foreach ($egresos_viatico->result() as $row) {//Lista de egreso Viaticos
+       ?>
+      id_lista_viatico=<?php echo $row->id_lista_viatico?>;
+      referencia=$("#retiros_ref_viaticos"+id_lista_viatico).val();
+      retencion_iva=$("#retiros_reten_iva_viaticos"+id_lista_viatico).val();
+      retencion_isr=$("#retiros_reten_isr_viaticos"+id_lista_viatico).val();
+      ieps=$("#retiros_ieps_viaticos"+id_lista_viatico).val();
+      dap=$("#retiros_dap_viaticos"+id_lista_viatico).val();
+      retiros_viaticos.push(id_lista_viatico+"*"+referencia+"*"+retencion_iva+"*"+retencion_isr+"*"+ieps+"*"+dap); //primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+      //alert("i: "+i+" "+retiros_viaticos[i]);
+      i++;
+  <?php
+    }
+  ?>
+
+  retiros_otros_gastos=[];
+  i=0;
+  <?php 
+    foreach ($egresos_otros_gastos->result() as $row) {//Lista de egresos Otros Gastos
+       ?>
+      id_OGasto=<?php echo $row->id_OGasto?>;
+      referencia=$("#retiros_ref_otros_gastos"+id_OGasto).val();
+       retencion_iva=$("#retiros_reten_iva_otros_gastos"+id_OGasto).val();
+      retencion_isr=$("#retiros_reten_isr_otros_gastos"+id_OGasto).val();
+      ieps=$("#retiros_ieps_otros_gastos"+id_OGasto).val();
+      dap=$("#retiros_dap_otros_gastos"+id_OGasto).val();
+      retiros_otros_gastos.push(id_OGasto+"*"+referencia+"*"+retencion_iva+"*"+retencion_isr+"*"+ieps+"*"+dap); //primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+      //alert("i: "+i+" "+retiros_otros_gastos[i]);
+      i++;
+  <?php
+    }
+  ?>
   $.ajax({
     type:"POST",
     url:"<?php echo base_url();?>Iluminacion/Save_Reporte_flujo",
-    data:{mes:mes, anio:anio, saldo_ini:saldo_inicial, saldo_fin:saldo_final[1], total_depositos:total_depositos[1], subtotal_depositos:subtotal_depositos[1], iva_depositos:iva_depositos[1], total_retiros:total_retiros[1], subtotal_retiros:subtotal_retiros[1], iva_retiros:iva_retiros[1], neto_iva:neto_iva, tipo_iva:tipo_iva, iva_cargo_favor:iva_cargo_favor, iva_retencion:iva_retencion, iva_total_cargo:iva_total_cargo, iva_favor_periodos_anteriores:iva_favor_periodos_anteriores, iva_neto_cargo:iva_neto_cargo},
+    data:{mes:mes, anio:anio, saldo_ini:saldo_inicial, saldo_fin:saldo_final[1], total_depositos:total_depositos[1], subtotal_depositos:subtotal_depositos[1], iva_depositos:iva_depositos[1], total_retiros:total_retiros[1], subtotal_retiros:subtotal_retiros[1], iva_retiros:iva_retiros[1], neto_iva:neto_iva, tipo_iva:tipo_iva, iva_cargo_favor:iva_cargo_favor, iva_retencion:iva_retencion, iva_total_cargo:iva_total_cargo, iva_favor_periodos_anteriores:iva_favor_periodos_anteriores, iva_neto_cargo:iva_neto_cargo,depositos_mov:depositos_mov, depositos_sfv:depositos_sfv, retiros_gasto_venta:retiros_gasto_venta, retiros_caja_chica:retiros_caja_chica, retiros_viaticos:retiros_viaticos, retiros_otros_gastos:retiros_otros_gastos},
     success:function(result){
       //alert(result);
     if(result){
@@ -765,38 +985,7 @@ function GuardarReporte(){        //Función para guardar los datos del flujo de
         alert('Falló el servidor. Registro no actualizado');
       }
     }
-  });
-
-
-
-  /*
-  depositos_flujo_fecha
-  depositos_flujo_ref
-  depositos_flujo_importe
-  depositos_flujo_subtotal
-  depositos_flujo_iva
-  depositos_flujo_cliente
-  depositos_flujo_concepto
-  */  
-
-/*
-    <?php
-    foreach ($ingresos_venta_mov->result() as $row) {
-      $depositos = array('fecha' => $depositos_fecha_proy.$row->id_venta_mov);
-
-
-      }      
-     ?> 
-
-     valor=<?php echo $depositos[0]->fecha ?>;
-     alert(valor);
-
-
-*/
-
-  //alert(mes+anio+" "+saldo_inicial+" "+saldo_final[1]+" tdep: "+total_depositos[1]+"iva "+iva_depositos[1]+" "+subtotal_depositos[1]+" tret: "+total_retiros[1]+" subt: "+subtotal_retiros[1]+" ivaret: "+iva_retiros[1]);
-  //alert(neto_iva+" "+tipo_iva+" "+iva_cargo_favor+" "+iva_retencion+" "+iva_total_cargo+" "+iva_favor_periodos_anteriores+" "+iva_neto_cargo);
-   
+  });   
 }
 
 

@@ -1608,6 +1608,7 @@ public function Reporte_flujo_efectivo(){
 		}else{
 			$saldo_guardado=$this->Iluminacion_model->Get_sal_ban_guardado($idcompany->id_empresa,$anio,$mes_letra);//si ya existe un registro del mes actual, entonces toma el último saldo de banco guardado en el registro del flujo de efectivo
 			//$saldo_ant=0.99;
+			//$iva_favor_periodos_anteriores=$this->Iluminacion_model->Get_iva_favor_anteriores($idcompany->id_empresa,$anio,$mes_letra);
 			$tipo_saldo="guardado";
 		}	
 		
@@ -2239,6 +2240,77 @@ public function GETMAX_Folio(){
 
 		$anio=$_POST["anio"];
 		$mes=$_POST["mes"];
+
+		$depositos_mov=$_POST["depositos_mov"];//primer elemento es el id separado por * en seguida el tipo de referencia
+		foreach ($depositos_mov as $row) {
+			$mov=explode('*', $row);
+			//datos[0]= id
+			//datos[1]=referencia;
+			$this->Iluminacion_model->Update_Ref_Venta_Mov($mov[0],$mov[1]);
+		}
+
+		$depositos_sfv=$_POST["depositos_sfv"];//primer elemento es el id separado por * en seguida el tipo de referencia
+		foreach ($depositos_sfv as $row) {
+			$sfv=explode('*', $row);
+			//datos[0]= id
+			//datos[1]=referencia;
+			$this->Iluminacion_model->Update_Ref_SFV($sfv[0],$sfv[1]);
+		}
+
+		$retiros_gasto_venta=$_POST["retiros_gasto_venta"];//primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+		foreach ($retiros_gasto_venta as $row) {
+			$row=str_replace(',', '', $row);
+			$gasto_venta=explode('*', $row);
+			//datos[0]= id
+			//datos[1]=referencia
+			//datos[2]=retencion_iva
+			//datos[3]=retencion isr
+			//datos[4]=ieps
+			//datos[5]=dap
+			$this->Iluminacion_model->Update_Ref_Gasto_venta($gasto_venta[0],$gasto_venta[1],$gasto_venta[2],$gasto_venta[3], $gasto_venta[4], $gasto_venta[5]);
+		}
+
+		$retiros_caja_chica=$_POST["retiros_caja_chica"];//primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+		foreach ($retiros_caja_chica as $row) {
+			$row=str_replace(',', '', $row);
+			$caja_chica=explode('*', $row);
+			//datos[0]= id
+			//datos[1]=referencia
+			//datos[2]=retencion_iva
+			//datos[3]=retencion isr
+			//datos[4]=ieps
+			//datos[5]=dap
+			$this->Iluminacion_model->Update_Ref_Caja_Chica($caja_chica[0],$caja_chica[1],$caja_chica[2],$caja_chica[3], $caja_chica[4], $caja_chica[5]);
+		}
+
+		$retiros_viaticos=$_POST["retiros_viaticos"];//primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+		foreach ($retiros_viaticos as $row) {
+			$row=str_replace(',', '', $row);
+			$viaticos=explode('*', $row);
+			//datos[0]= id
+			//datos[1]=referencia
+			//datos[2]=retencion_iva
+			//datos[3]=retencion isr
+			//datos[4]=ieps
+			//datos[5]=dap
+			$this->Iluminacion_model->Update_Ref_Viaticos($viaticos[0],$viaticos[1],$viaticos[2],$viaticos[3], $viaticos[4], $viaticos[5]);
+		}
+
+		$retiros_otros_gastos=$_POST["retiros_otros_gastos"];//primer elemento es el id separado por * en seguida el tipo de referencia, retencion iva, retencion isr, ieps, dap
+		foreach ($retiros_otros_gastos as $row) {
+			$row=str_replace(',', '', $row);
+			$otros_gastos=explode('*', $row);
+			//datos[0]= id
+			//datos[1]=referencia
+			//datos[2]=retencion_iva
+			//datos[3]=retencion isr
+			//datos[4]=ieps
+			//datos[5]=dap
+			$this->Iluminacion_model->Update_Ref_Otros_Gastos($otros_gastos[0],$otros_gastos[1],$otros_gastos[2],$otros_gastos[3], $otros_gastos[4], $otros_gastos[5]);
+		}
+
+
+
 
 		if(is_null($this->Iluminacion_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes))){
 			$data = array('empresa_id_empresa' =>$idcompany->id_empresa ,

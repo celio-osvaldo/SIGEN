@@ -980,7 +980,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_Ingresos_Pagos($idcompany,$anio,$mes){
-    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa');
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa,venta_mov_referencia');
     $this->db->from('venta_movimiento');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
@@ -1005,7 +1005,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_Ingresos_SFV($idcompany,$anio,$mes){
-    $this->db->select('id_lista_pago_sfv, pago_sfv_id_pago_sfv, lista_pago_sfv_num_pago, lista_pago_sfv_fecha, lista_pago_sfv_sub_total, lista_pago_sfv_iva, lista_pago_sfv_total, lista_pago_sfv_kwh_factu, lista_pago_sfv_saldo, lista_pago_sfv_coment, lista_pago_sfv_url_comprobante, catalogo_cliente_empresa');
+    $this->db->select('id_lista_pago_sfv, pago_sfv_id_pago_sfv, lista_pago_sfv_num_pago, lista_pago_sfv_fecha, lista_pago_sfv_sub_total, lista_pago_sfv_iva, lista_pago_sfv_total, lista_pago_sfv_kwh_factu, lista_pago_sfv_saldo, lista_pago_sfv_coment, lista_pago_sfv_url_comprobante, catalogo_cliente_empresa, lista_pago_sfv_referencia');
     $this->db->from('lista_pago_sfv');
     $this->db->join('pago_sfv','pago_sfv_id_pago_sfv=id_pago_sfv');
     $this->db->join('catalogo_cliente','pago_sfv_id_cliente=id_catalogo_cliente');
@@ -1018,7 +1018,7 @@ class Iluminacion_model extends CI_Model
   }
 
     public function Get_Egresos_Gasto_Venta($idcompany,$anio,$mes){
-    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre');
+    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre, gasto_venta_referencia, gasto_venta_iva_ret, gasto_venta_isr_ret, gasto_venta_ieps, gasto_venta_dap');
     $this->db->from('gasto_venta');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->where('MONTH(gasto_venta_fecha)',$mes);
@@ -1030,7 +1030,7 @@ class Iluminacion_model extends CI_Model
   }
 
     public function Get_Egresos_Caja_Chica($idcompany,$anio,$mes){
-    $this->db->select('id_lista_caja_chica, empresa_id_empresa, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura, lista_caja_chica_url_factura, lista_caja_chica_saldo');
+    $this->db->select('id_lista_caja_chica, empresa_id_empresa, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura, lista_caja_chica_url_factura, lista_caja_chica_saldo, lista_caja_chica_referencia, lista_caja_chica_iva_ret, lista_caja_chica_isr_ret, lista_caja_chica_ieps, lista_caja_chica_dap');
     //$this->db->select_sum('venta_mov_monto','total_ingreso');
     $this->db->from('lista_caja_chica');
     //$this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
@@ -1043,7 +1043,7 @@ class Iluminacion_model extends CI_Model
   }
 
     public function Get_Egresos_Gasto_Viatico($idcompany,$anio,$mes){
-    $this->db->select('id_lista_viatico, viaticos_id_viaticos, lista_viatico_fecha, empleado, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, obra_cliente_empresa_id_empresa, obra_cliente_nombre');
+    $this->db->select('id_lista_viatico, viaticos_id_viaticos, lista_viatico_fecha, empleado, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, obra_cliente_empresa_id_empresa, obra_cliente_nombre, lista_viatico_referencia, lista_viatico_iva_ret, lista_viatico_isr_ret, lista_viatico_ieps, lista_viatico_dap');
     $this->db->from('lista_viatico');
     $this->db->join('viaticos','viaticos_id_viaticos=id_viaticos');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
@@ -1056,7 +1056,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_Egregos_Otros_Gastos($idcompany,$anio,$mes){
-     $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura');
+     $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura, otros_gastos_referencia, otros_gastos_iva_ret, otros_gastos_isr_ret, otros_gastos_ieps, otros_gastos_dap');
     $this->db->from('otros_gastos');
     $this->db->join('empresa','empresa_id_empresa=id_empresa');
     $this->db->where('MONTH(fecha_pago_factura)',$mes);
@@ -1129,8 +1129,87 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+  public function Update_Ref_Venta_Mov($id,$ref){
+    $this->db->where('id_venta_mov', $id);
+    $this->db->set('venta_mov_referencia', $ref);
+    $this->db->update('venta_movimiento');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
+  public function Update_Ref_SFV($id,$ref){
+    $this->db->where('id_lista_pago_sfv', $id);
+    $this->db->set('lista_pago_sfv_referencia', $ref);
+    $this->db->update('lista_pago_sfv');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
+    public function Update_Ref_Gasto_venta($id,$ref,$iva_ret,$isr_ret,$ieps,$dap){
+    $this->db->where('id_gasto_venta ', $id);
+    $this->db->set('gasto_venta_referencia', $ref);
+    $this->db->set('gasto_venta_iva_ret', $iva_ret);
+    $this->db->set('gasto_venta_isr_ret', $isr_ret);
+    $this->db->set('gasto_venta_ieps', $ieps);
+    $this->db->set('gasto_venta_dap', $dap);
+    $this->db->update('gasto_venta');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+    public function Update_Ref_Caja_Chica($id,$ref,$iva_ret,$isr_ret,$ieps,$dap){
+    $this->db->where('id_lista_caja_chica ', $id);
+    $this->db->set('lista_caja_chica_referencia', $ref);
+    $this->db->set('lista_caja_chica_iva_ret', $iva_ret);
+    $this->db->set('lista_caja_chica_isr_ret', $isr_ret);
+    $this->db->set('lista_caja_chica_ieps', $ieps);
+    $this->db->set('lista_caja_chica_dap', $dap);
+    $this->db->update('lista_caja_chica');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+    public function Update_Ref_Viaticos($id,$ref,$iva_ret,$isr_ret,$ieps,$dap){
+    $this->db->where('id_lista_viatico ', $id);
+    $this->db->set('lista_viatico_referencia', $ref);
+    $this->db->set('lista_viatico_iva_ret', $iva_ret);
+    $this->db->set('lista_viatico_isr_ret', $isr_ret);
+    $this->db->set('lista_viatico_ieps', $ieps);
+    $this->db->set('lista_viatico_dap', $dap);
+    $this->db->update('lista_viatico');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+    public function Update_Ref_Otros_Gastos($id,$ref,$iva_ret,$isr_ret,$ieps,$dap){
+    $this->db->where('id_OGasto ', $id);
+    $this->db->set('lista_viatico_referencia', $ref);
+    $this->db->set('lista_viatico_iva_ret', $iva_ret);
+    $this->db->set('lista_viatico_isr_ret', $isr_ret);
+    $this->db->set('lista_viatico_ieps', $ieps);
+    $this->db->set('lista_viatico_dap', $dap);
+    $this->db->update('otros_gastos');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
   
 
 

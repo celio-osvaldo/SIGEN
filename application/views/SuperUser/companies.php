@@ -3,10 +3,7 @@
   <div class="jumbotron jumbotron-fluid">
 
 <div class="row">
-    <div class="col-md-1"></div>
-      <div class="col-md-10">
-        <div class=" col-lg-12 card bg-card">
-          <br>        
+        <div class=" col-md-12 card bg-card">     
           <div class="container">
             <div class="row">
 
@@ -15,6 +12,16 @@
     $id_usuario=$this->session->userdata('id_usuario');
     $list_companies=$this->Login_model->UserCompanies($id_usuario);
 
+    if ($type==1) {
+      ?>
+      <div class="card text-center" style="width: 15rem;">
+        <div class="card-header"><b>Administrador</b></div>
+        <div class="card-body">
+          <a href="<?php echo base_url() ?>Welcome/LogSuperUser"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/Super_user.ico"></a>
+        </div>
+      </div>
+    <?php
+    }
 
     if (isset($list_companies)) {
       foreach ($list_companies as $key) {
@@ -22,9 +29,9 @@
         switch ($key['empresa_nom']) {
           case 'DASA':
           ?>
-            <div class="col-sm-1"></div>
+            <div style="width: 2em;"></div>
             <div class="card text-center" style="width: 15rem;">
-              <div class="card-header"></div>
+              <div class="card-header"><b>DASA</b></div>
               <div class="card-body">
                 <a href="<?php echo base_url() ?>Welcome/Dasa"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/DASA_logo.png"></a>
               </div>
@@ -34,9 +41,9 @@
           case 'ILUMINACION':
           ?>
 
-            <div class="col-md-1"></div>
+            <div style="width: 2rem;"></div>
             <div class="card text-center" style="width: 15rem;">
-              <div class="card-header"></div>
+              <div class="card-header"><b>ILUMINACIÓN</b></div>
               <div class="card-body">
                 <a href="<?php echo base_url() ?>Welcome/Iluminacion"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/Logo_ISA.png"></a> 
               </div>
@@ -46,9 +53,9 @@
           break;
           case 'SALINAS':
           ?>
-            <div class="col-md-1"></div>
+            <div style="width: 2rem;"></div>
             <div class="card text-center" style="width: 15rem;">
-              <div class="card-header"></div>
+              <div class="card-header"><b>SALINAS</b></div>
               <div class="card-body">
                 <a href="<?php echo base_url() ?>Welcome/Salinas"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/SALINAS.png"></a>
               </div>
@@ -73,7 +80,6 @@
     }
 
     ?>
-</div>
     <div class="col-md-1"></div>
 </div>
   </div>

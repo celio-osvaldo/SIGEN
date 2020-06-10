@@ -45,29 +45,11 @@ class Welcome extends CI_Controller {
    public function GetSession() {//function for redirect to users at respective interface
       switch($this->session->userdata('usuario_tipo')){//according to company that the user will redirect to interface that it belong
         case '1':
-               redirect('SuperUser/Companies');#rdirect to main view of super user
+               redirect('Welcome/Companies');#rdirect to main view of super user
          break;
         case '2':
                redirect('Welcome/Companies');#rdirect to main view of super user
          break;
-         case 'DASA'://if the user belon DASA option
-               redirect('Welcome/Companies');#rdirect to main view of super user
-            
-         break;
-
-         case 'ILUMINACION'://if the user belon Iluminacion option
-               redirect('Welcome/Companies');
-         break;
-
-         case 'SALINAS'://if the user belon salinas option
-            
-               redirect('Welcome/Companies');
-         break;
-
-         case 'CORP'://if the user belon the boss option
-               redirect('Welcome/Companies');
-         break;
-
          default:
          $this->session->set_flashdata('error', 'Usuario y/o contraseña incorrectos.');//if not exist the user, just show an error in the view
          redirect('/');//If doesn´t exist user will redirect to Index view
@@ -87,7 +69,7 @@ class Welcome extends CI_Controller {
 	}
 
    public function LogSuperUser(){
-      // redirect('SuperUser/Companies', 'refresh');
+       redirect('/SuperUser/Index', 'refresh');
    }
 
    public function Companies(){
@@ -97,12 +79,12 @@ class Welcome extends CI_Controller {
           $data['type'] = $this->session->userdata('usuario_tipo');#it will know who type of user 
 
 
-          if ($this->session->userdata('usuario_tipo') == "Super") { 
+          if ($this->session->userdata('usuario_tipo') == "1") { 
             $this->load->view('plantillas/header', $data);
             $this->load->view('SuperUser/companies');
             $this->load->view('plantillas/footer');
           }else{
-            $data['type'] = '1';
+            //$data['type'] = '2';
          $this->load->view('plantillas/header', $data);
          $this->load->view('SuperUser/companies');
          $this->load->view('plantillas/footer');

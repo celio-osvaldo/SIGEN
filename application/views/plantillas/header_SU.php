@@ -11,6 +11,9 @@
 	<script type="text/javascript" src="..\assets\Personalized\DataTables\datatables.min.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
+
+
+
 	<?php
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
@@ -43,9 +46,7 @@
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>Usuario</b></a>
 						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" id="Alm_Products">Productos</a>
-							<div class="dropdown-divider"></div>
-							<a class="dropdown-item" id="Alm_Oficina">Material Oficina</a>
+							<a class="dropdown-item" id="lista_usuario">Lista de Usuarios</a>
 						</div>
 					</li>
 

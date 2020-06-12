@@ -29,5 +29,34 @@ class SuperUser extends CI_Controller {
 		$this->LogIn();
 	}
 
+	public function Users_List(){
+		$this->load->model('SU_model');
+
+		$data = array('users' => $this->SU_model->Get_All_Users());
+		
+		$this->load->view('SuperUser/Lista_usuarios', $data);
+
+	}
+
+	public function Actualiza_Permiso(){
+		$this->load->model('SU_model');
+		$id_usuario=$_POST["user"];
+		$id_empresa=$_POST["id_empresa"];
+		$permiso=$_POST["permiso"];
+
+		if($permiso=="true"){
+			$data = array('usuario_id_usuario' => $id_usuario,
+			              'empresa_id_empresa' => $id_empresa,
+			          	  'perm_lectura'=>1,
+			          	  'perm_escri'=>1);
+			echo $this->SU_model->Agrega_Permiso($data);
+		}else{
+			echo $this->SU_model->Elimina_Permiso($id_usuario,$id_empresa);
+		}
+		echo true;
+		
+
+	}
+
 }
  

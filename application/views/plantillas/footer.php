@@ -1,6 +1,6 @@
 </div>
-		<div class="col-md-1"></div>
-	</div>
+<div class="col-md-1"></div>
+</div>
 
 <link href="../assets/Personalized/css/GeneralStyles.css" rel="stylesheet">
 
@@ -10,8 +10,15 @@
 		<h3>SiGeN<img src="<?php echo base_url() ?>Resources/Logos/grupo.ico"></h3>
 		<h6>Sistema de Gestión de Negocios</h6>
 	</nav>
-
 </div>
 
 </body>
 </html> 
+
+<script>//script to load the users list
+	$(document).ready(function(){
+		$("#lista_usuario").click(function(){
+			$("#page_content").load("Users_List");
+		});
+	});
+</script>

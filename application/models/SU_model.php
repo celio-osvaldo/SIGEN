@@ -8,7 +8,7 @@ class SU_model extends CI_Model
 	}
 
 	public function Get_All_Users(){
-    $this->db->select('id_usuario, usuario_tipo, usuario_nom, usuario_ap, usuario_am, usuario_tel, usuario_email, usuario_alias, usuario_pass');
+    $this->db->select('id_usuario, usuario_tipo, usuario_nom, usuario_ap, usuario_am, usuario_tel, usuario_email, usuario_alias');
      //empresa_id_empresa, perm_lectura, perm_escri, empresa_nom');
     $this->db->from('usuario');
    // $this->db->join('us_empresa', 'id_usuario=usuario_id_usuario');
@@ -37,6 +37,17 @@ class SU_model extends CI_Model
       return true;
     } else{
       return false;
+    }
+  }
+
+  public function Get_All_Permisos(){
+    $this->db->select('usuario_id_usuario, empresa_id_empresa, perm_lectura, perm_escri');
+    $this->db->from('us_empresa');
+     $query = $this->db->get();
+    if($query -> num_rows() >0){
+      return $query;
+    }else{
+      return $query;
     }
   }
 

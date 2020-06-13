@@ -24,14 +24,14 @@ body{
 .header_gral {
    /*position: fixed;
    left: 0;
-   top: 0;*/
-   width: 100%;
+   top: 0;
+   width: 100%;*/
    color: white;
 }
 
 .footer_gral {
-   position: fixed;
-   left: 0;
+    position: bottom;
+   /*left: 0;*/
    bottom: 0;
    width: 100%;
    color: white;

@@ -10,14 +10,26 @@
 	$("#salinas_check"+id_us).prop("disabled", true);
 }
 	function Verifica_CheckBox($id_usuario){
-	//alert("entró"+$id_usuario);
-	id_us=$id_usuario;
-	$("#dasa_check"+id_us).prop("checked", true);
-	$("#dasa_check"+id_us).prop("disabled", true);
-	$("#iluminacion_check"+id_us).prop("checked", true);
-	$("#iluminacion_check"+id_us).prop("disabled", true);
-	$("#salinas_check"+id_us).prop("checked", true);
-	$("#salinas_check"+id_us).prop("disabled", true);
+	//alert("usuario: "+$id_usuario);
+	//id_us=$id_usuario;
+	<?php 
+		foreach ($permisos->result() as $row2) {?> 
+			if ("<?php echo $row2->usuario_id_usuario; ?>"==$id_usuario) {
+				if("<?php echo $row2->empresa_id_empresa; ?>"==1){
+					$("#iluminacion_check"+$id_usuario).prop("checked",true);
+				}
+				if("<?php echo $row2->empresa_id_empresa; ?>"==2){
+					$("#dasa_check"+$id_usuario).prop("checked",true);
+				}
+				if("<?php echo $row2->empresa_id_empresa; ?>"==3){
+					$("#salinas_check"+$id_usuario).prop("checked",true);
+				}
+				
+			}
+				
+
+		<?php }
+	 ?>
 }
 </script>
 

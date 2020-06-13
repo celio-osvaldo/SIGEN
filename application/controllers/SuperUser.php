@@ -32,8 +32,8 @@ class SuperUser extends CI_Controller {
 	public function Users_List(){
 		$this->load->model('SU_model');
 
-		$data = array('users' => $this->SU_model->Get_All_Users());
-		
+		$data = array('users' => $this->SU_model->Get_All_Users(),
+					  'permisos' => $this->SU_model->Get_All_Permisos());
 		$this->load->view('SuperUser/Lista_usuarios', $data);
 
 	}

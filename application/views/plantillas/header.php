@@ -42,8 +42,38 @@ header("Pragma: no-cache");
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul id="<?php echo $type; ?>"></ul>
 		</div>
+		<a data-toggle="modal" href="#Change_Pass" style="color:blue;">Modificar Contraseña</a>
 		<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
 		<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>
 	</div>
+
+<!-- Modal Edit Product Anticipo -->
+<div class="modal fade" id="Change_Pass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" >Modificar Contraseña de Acceso</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <label>Contraseña Actual*</label>
+        <input type="password" id="actual" class="form-control col-md-8">
+      </div>
+      <div class="modal-body">
+        <label>Contraseña Nueva*</label>
+        <input type="password" id="nueva" class="form-control col-md-8">
+        <label>Confirme la Nueva Contraseña*</label>
+        <input type="password" id="nueva_2" class="form-control col-md-8">
+      </div>
+      <h6 class="bg-warning"><p>Al eliminar/agregar el producto, la cantidad de este se agregará/descontará a la existenia en almacen.</p></h6>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="UpdateProduct" data-dismiss="modal">Actualizar</button>
+      </div>
+    </div>
+  </div>
+</div>
 

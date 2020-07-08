@@ -1210,6 +1210,28 @@ class Iluminacion_model extends CI_Model
       return false;
     }
   }
+
+
+  public function Get_Product_Record($id_producto){
+    $this->db->select('id_historial_precio_producto, historial_precio_producto_precio, id_producto, catalogo_producto_nombre, catalogo_producto_umedida,unidad_medida, catalogo_producto_precio, historial_fecha_actualizacion, historial_id_proveedor, catalogo_proveedor_empresa');
+    $this->db->from('historial_precio_producto');
+    $this->db->join('catalogo_proveedor','historial_id_proveedor=id_catalogo_proveedor');
+    $this->db->join('catalogo_producto','id_producto=id_catalogo_producto');
+    $this->db->join('unidades_de_medida', 'id_uMedida=catalogo_producto_umedida');
+    $this->db->where('id_producto', $id_producto);
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function Get_Product_Info($id_producto){
+    $this->db->select('id_catalogo_producto, catalogo_producto_nombre, catalogo_producto_umedida, catalogo_producto_precio, catalogo_proveedor_id_catalogo_proveedor, catalogo_proveedor_empresa_id_empresa, catalogo_producto_fecha_actualizacion, catalogo_producto_url_imagen,catalogo_proveedor_empresa');
+    $this->db->from('catalogo_producto');
+    $this->db->join('catalogo_proveedor','catalogo_proveedor_id_catalogo_proveedor=id_catalogo_proveedor');
+    $this->db->where('id_catalogo_producto',$id_producto);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
   
 
 

@@ -42,7 +42,7 @@ header("Pragma: no-cache");
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul id="<?php echo $type; ?>"></ul>
 		</div>
-		<a data-toggle="modal" href="#Change_Pass" style="color:blue;">Modificar Contraseña</a>
+		<a data-toggle="modal" href="#Change_Pass" style="color:white;"><img height="20" width="20" src="<?php echo base_url() ?>Resources/Icons/key.ico">Modificar Contraseña</a>
 		<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
 		<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>
@@ -60,20 +60,84 @@ header("Pragma: no-cache");
       </div>
       <div class="modal-body">
         <label>Contraseña Actual*</label>
-        <input type="password" id="actual" class="form-control col-md-8">
+        <input type="password" id="actual" onkeyup="Minimo()" class="form-control col-md-8">
       </div>
       <div class="modal-body">
         <label>Contraseña Nueva*</label>
-        <input type="password" id="nueva" class="form-control col-md-8">
+        <input type="password" disabled="true" onkeyup="Minimo()" id="nueva" class="form-control col-md-8">
         <label>Confirme la Nueva Contraseña*</label>
-        <input type="password" id="nueva_2" class="form-control col-md-8">
+        <input type="password" onkeyup="Nueva2()" disabled="true" id="nueva_2" class="form-control col-md-8">
       </div>
-      <h6 class="bg-warning"><p>Al eliminar/agregar el producto, la cantidad de este se agregará/descontará a la existenia en almacen.</p></h6>
+      <h6 class="bg-warning"><p id="mensaje"></p></h6>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="UpdateProduct" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="UpdatePass_btn" disabled="true" data-dismiss="modal">Actualizar</button>
       </div>
     </div>
   </div>
 </div>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('#UpdatePass_btn').click(function(){
+      actual=$('#actual').val();
+      nueva=$('#nueva').val();
+      $.ajax({
+        type:"POST",
+        url:"<?php echo base_url();?>Iluminacion/ChangePass",
+        data:{actual:actual, nueva:nueva},
+        success:function(result){
+            //alert(result);
+            if(result=="pass_nuevo_actualizado"){
+              alert('Contraseña actualizada');
+            }else{
+              if(result=="Error"){
+                alert('Error del Servidor. Inténtelo nuevamente.');
+              }else{
+                alert('Error. Contraseña actual indicada es incorrecta.');
+              }
+
+            }
+            //Update();
+          }
+        });
+    });
+  });
+
+
+  function Minimo() {
+    if($("#actual").val()==$("#nueva").val()){
+      $("#mensaje").text("*La contraseña nueva no puede ser igual a la contraseña actual");
+       $("#nueva_2").attr('disabled','true');
+       $("#nueva_2").val("");
+    }else{
+      $("#nueva").removeAttr('disabled');
+      if($("#nueva").val().length>7){
+       $("#mensaje").text("");
+       $("#nueva_2").removeAttr('disabled');
+      }else{
+        $("#mensaje").text("*La contraseña nueva debe tener como mínimo 8 caracteres");
+        $("#nueva_2").val("");
+        $("#nueva_2").attr('disabled','true');
+      }
+    }
+  }
+  function Nueva2() {
+    nueva=$("#nueva").val();
+    nueva_2=$("#nueva_2").val();
+    if(nueva==nueva_2){
+      $("#UpdatePass_btn").removeAttr('disabled');
+      $("#mensaje").text("");
+    }else{
+      $("#UpdatePass_btn").attr('disabled', 'true');
+      $("#mensaje").text("*Confirmación de Contraseña no coincide con la Contraseña Nueva");
+    }
+  }
+
+
+</script>
+
+
 

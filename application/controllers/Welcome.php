@@ -76,6 +76,7 @@ class Welcome extends CI_Controller {
       if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
           $data['title']='SiGeN';#the title of the tab that you are.
           $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
+          $data['id_user'] = $this->session->userdata('id_usuario');
           $data['type'] = $this->session->userdata('usuario_tipo');#it will know who type of user 
 
 

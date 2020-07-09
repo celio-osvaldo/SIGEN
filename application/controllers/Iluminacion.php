@@ -2414,9 +2414,6 @@ public function GETMAX_Folio(){
 			$this->Iluminacion_model->Update_Ref_Otros_Gastos($otros_gastos[0],$otros_gastos[1],$otros_gastos[2],$otros_gastos[3], $otros_gastos[4], $otros_gastos[5]);
 		}
 
-
-
-
 		if(is_null($this->Iluminacion_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes))){
 			$data = array('empresa_id_empresa' =>$idcompany->id_empresa ,
 						  'flujo_efectivo_mes' =>$mes ,
@@ -2457,14 +2454,28 @@ public function GETMAX_Folio(){
 			$this->Iluminacion_model->Update_Flujo($mes,$anio,$idcompany->id_empresa,$data);
 			echo "existe";
 		}
-
-
 	}
 
+	public function ChangePass(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$pass_actual=$_POST["actual"];
+		$pass_nuevo=$_POST["nueva"];
+		$id_usuario= $this->session->userdata('id_usuario');
+		$mensaje="Error";
 
+		//Verificamos el password actual
+		if($this->Iluminacion_model->Check_Pass($id_usuario,$pass_actual)){
 
-
-
+			$data = array('usuario_pass' => $pass_nuevo );
+	        	$this->Iluminacion_model->Update_User($id_usuario,$data);
+	        $mensaje="pass_nuevo_actualizado";
+		}else{
+			$mensaje="pass_actual_incorrecto";
+		}
+		echo $mensaje;
+	}
 
 
 #end controller

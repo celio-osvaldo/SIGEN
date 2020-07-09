@@ -1232,6 +1232,29 @@ class Iluminacion_model extends CI_Model
     $result=$query->row();
     return $result;
   }
+
+  public function Check_Pass($id_usuario,$pass_actual){
+    $this->db->select('id_usuario');
+    $this->db->from('usuario');
+    $this->db->where('id_usuario',$id_usuario);
+    $this->db->where('usuario_pass',$pass_actual);
+    $query=$this->db->get();
+    if($query -> num_rows() >0){
+      return true;
+    }else{
+      return false;
+    }
+    }
+
+  public function Update_User($id_usuario,$data){
+    $this->db->where('id_usuario',$id_usuario);
+    $this->db->update('usuario', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
   
 
 

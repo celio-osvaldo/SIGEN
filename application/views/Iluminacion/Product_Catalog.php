@@ -27,7 +27,7 @@
                             <th>Precio</th>
                             <th>Proveedor</th>
                             <th>Fecha de act.</th>
-                            <th>Imágen</th>
+                            <th>Imagen</th>
                             <th>Modificar</th>
                             <th>Historial de Precios</th>
                         </tr>
@@ -160,7 +160,6 @@
                             <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
                         <?php } ?>
                         </select>
-                        <input class="form-control" type="hidden" name="EnterpriseIDE" name="EnterpriseIDE" id="EnterpriseIDE" value="2">
                       </div>
                       <input type="hidden" id="dateE" name="dateE" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
 
@@ -172,7 +171,7 @@
                 </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-outline-success submitBtn" id="editProduct">Guardar</button>
+                  <button type="submit" class="btn btn-outline-success submitBtn"  id="editProduct">Guardar</button>
                   <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelarEdit">Cancelar</button>
                 </div>
         </form>
@@ -291,11 +290,11 @@ $(document).ready(function(e){
                   //CloseModal();
                 }
                 $("#btncancelarEdit").click();
-                Update_Page();
-                  //CloseModal();
-                  //Update_Page(); 
+                //Update_Page();
+                CloseModal2();
             }
         });
+        Update_Page();
     });
 
 
@@ -303,7 +302,14 @@ $(document).ready(function(e){
 
 function CloseModal(){
     $('#btncancelar').click();
-    $('#NewClientModal').modal("hide");
+    $('#NewProduct').modal("hide");
+    $('.modal-backdrop').remove();
+    $("#page_content").load("GetInventories");
+  }
+
+function CloseModal2(){
+    $('#btncancelar').click();
+    $('#productE').modal("hide");
     $('.modal-backdrop').remove();
     $("#page_content").load("GetInventories");
   }

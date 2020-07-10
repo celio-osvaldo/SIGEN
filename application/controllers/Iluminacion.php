@@ -394,9 +394,9 @@ class Iluminacion extends CI_Controller {
 				'catalogo_producto_umedida' => $this->input->post('medidaE'),
 				'catalogo_producto_precio'=>$priceE,
 				'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
-				'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
 				'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
-			$this->Iluminacion_model->UpdateProduct($id, $data);
+
+				$this->Iluminacion_model->UpdateProduct($id, $data);
 
                 $data_historial = array('id_producto' => $id,
                 'historial_fecha_actualizacion' => $this->input->post('dateE'),
@@ -417,7 +417,6 @@ class Iluminacion extends CI_Controller {
 						'catalogo_producto_umedida' => $this->input->post('medidaE'),
 						'catalogo_producto_precio'=>$priceE,
 						'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
-						'catalogo_proveedor_empresa_id_empresa' => $this->input->post('EnterpriseIDE'),
 						'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'),
 						'catalogo_producto_url_imagen' => $url_imagen);
 					$this->Iluminacion_model->UpdateProduct($id, $data);
@@ -556,6 +555,19 @@ public function AddProduct(){
 			echo false;
 		}
 	}
+
+
+	public function Catalogo_Cotizante(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		//var_dump($company);
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		//var_dump($idcompany);
+		$data=array('catalogo_cotizante'=>$this->Iluminacion_model->GetAll_Cotizante($idcompany->id_empresa));
+		$this->load->view('Iluminacion/Cat_Cotizante',$data);
+		//var_dump($data);
+	}
+
 
 	public function Anticipos(){
 		$this->load->model('Iluminacion_model');

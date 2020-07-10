@@ -304,6 +304,14 @@ class Iluminacion_model extends CI_Model
     $result=$this->db->get();
     return $result;
   }
+
+  public function GetAll_Cotizante($idcompany){
+    $this->db->select('id_catalogo_cotizante, id_empresa, catalogo_cotizante_nombre, catalogo_cotizante_empresa, catalogo_cotizante_coment, catalogo_cotizante_tel, catalogo_cotizante_mail');
+    $this->db->from('catalogo_cotizante');
+    $this->db->where('id_empresa', $idcompany);
+    $result=$this->db->get();
+    return $result;
+  }
   
   public function GetAll_Anticipos(){
     $this->db->select('id_anticipo, obra_cliente_id_obra_cliente, catalogo_cliente_empresa, anticipo_fecha_deposito, anticipo_total, anticipo_pago, anticipo_resto, anticipo_status, anticipo_fecha_finiquito, anticipo_fecha_entrega, anticipo_coment');

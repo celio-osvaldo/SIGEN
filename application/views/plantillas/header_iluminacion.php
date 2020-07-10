@@ -75,6 +75,8 @@ header("Pragma: no-cache");
 						<a class="dropdown-item" id="Produc_inv">Productos</a>
 						<div class="dropdown-divider"></div>
 						<a class="dropdown-item" id="Cat_customer">Clientes</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" id="Cat_cotizante">Cotizantes</a>
 					</div>
 				</li>
 				<li class="nav-item dropdown">

@@ -11,17 +11,17 @@
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total de Obra:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,2,'.',','); ?>
+          Total de Obra:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,5,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total Pagado:<hr>$<?php echo number_format($obra->obra_cliente_pagado,2,'.',','); ?>
+          Total Pagado:<hr>$<?php echo number_format($obra->obra_cliente_pagado,5,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Saldo:<hr>$<?php echo number_format($obra->obra_cliente_saldo,2,'.',','); ?>
+          Saldo:<hr>$<?php echo number_format($obra->obra_cliente_saldo,5,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
@@ -54,7 +54,7 @@
           ?>
           <tr>
             <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
-            <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?> </td>
+            <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,5,'.',',').""; ?> </td>
             <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
           </td>
           <td>
@@ -85,7 +85,7 @@
         <label>Fecha de Pago</label>
         <input type="date" name="" id="edit_fecha" class="form-control input-sm">
         <label>Importe de Pago</label>
-        <input type="text" onblur="SeparaMiles(this.id)" name="" id="edit_imp_pago" class="form-control input-sm">
+        <input type="text" onblur="Separa_Miles(this.id)" name="" id="edit_imp_pago" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_vent_mov" hidden="true">
@@ -158,17 +158,7 @@ function Edit_pay2($id){
     $("#page_content").load("CustomerPayments");
   }
 
-function SeparaMiles($id){
-  valor=$("#"+$id).val();
-    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
-  if(valor==""||isNaN(valor)){
-    //alert("entro");
-    valor=0.00;
-    //alert(valor);
-  }
-  var resultado=valor.toLocaleString("en");
-  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-  }
+
 
 
 </script>

@@ -26,6 +26,7 @@
           <th>Subtotal</th>
           <th>IVA</th>
           <th>Total</th>
+          <th>Comentarios</th>
           <th>Tiempo Entrega (semanas)</th>
           <th>Vigencia (días)</th>
           <th>Elaboró</th>
@@ -47,9 +48,10 @@
           <td id="<?php echo "obra".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_obra.""; ?></td>
           <td id="<?php echo "empresa".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_empresa.""; ?></td>
           <td id="<?php echo "licitacion".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_licitacion.""; ?></td>
-          <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_subtotal,2,'.',',').""; ?></td>
-          <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_iva,2,'.',',').""; ?></td>
-          <td id="<?php echo "total".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_total,2,'.',',').""; ?></td>
+          <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_subtotal,5,'.',',').""; ?></td>
+          <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_iva,5,'.',',').""; ?></td>
+          <td id="<?php echo "total".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_total,5,'.',',').""; ?></td>
+          <td id="<?php echo "coment".$row->id_cotizacion;?>"><?php echo $row->cotizacion_comentario ?></td>
           <td id="<?php echo "tiempo_entrega".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_tiempo_entrega.""; ?></td>
           <td id="<?php echo "vigencia".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_vigencia.""; ?></td>
           <td id="<?php echo "elabora".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_elabora.""; ?></td>
@@ -118,6 +120,8 @@
         <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm">
         <label>Licitación</label>
         <input type="text" maxlength="200" id="new_licitacion" class="form-control input-sm">
+        <label>Comentarios</label>
+        <input type="text" maxlength="200" id="new_coment" class="form-control input-sm">
         <div class="form-row">
           <div class="form-group col-md-5">
             <label>Tiempo de Entrega (semanas)</label>
@@ -181,6 +185,8 @@
         <input type="text" maxlength="200" id="edit_empresa" class="form-control input-sm">
         <label>Licitación</label><br>
         <input type="text" maxlength="200" id="edit_licitacion" class="form-control input-sm">
+        <label>Comentarios</label>
+        <input type="text" maxlength="200" id="edit_coment" class="form-control input-sm">
         <div class="form-row">
           <div class="form-group col-md-5">
             <label>Tiempo de Entrega (días)</label>
@@ -236,7 +242,7 @@
           </div>
           <div class="form-group col-md-4">
             <label>Precio Venta</label>
-            <input type="text" onblur="SeparaMiles(this.id)" id="prod_precio" class="form-control input-sm">
+            <input type="text" onblur="Separa_Miles(this.id)" id="prod_precio" class="form-control input-sm">
           </div>
         </div>
         <div class="form-row">
@@ -246,7 +252,7 @@
           </div>
           <div class="form-group col-md-4">
             <label>Total</label>
-            <input type="text" onblur="SeparaMiles(this.id)" id="prod_total" disabled="true" class="form-control input-sm">
+            <input type="text" onblur="Separa_Miles(this.id)" id="prod_total" disabled="true" class="form-control input-sm">
           </div>
         </div>
       </div>
@@ -274,12 +280,13 @@
       new_estado=$('#new_estado').val();
       new_empresa=$('#new_empresa').val();
       new_licitacion=$('#new_licitacion').val();
+      new_coment=$('#new_coment').val();
       //alert(cliente+fecha_fin+fecha_ent+coment);
       if(new_folio!=""&&new_fecha_elabora!=""&&new_cliente!=""){
         $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/New_Cotizacion",
-        data:{new_folio:new_folio, new_fecha_elabora:new_fecha_elabora, new_cliente:new_cliente, new_obra:new_obra, new_tiem_entrega:new_tiem_entrega, new_vigencia:new_vigencia, new_elabora:new_elabora, new_estado:new_estado, new_empresa:new_empresa, new_licitacion:new_licitacion},
+        data:{new_folio:new_folio, new_fecha_elabora:new_fecha_elabora, new_cliente:new_cliente, new_obra:new_obra, new_tiem_entrega:new_tiem_entrega, new_vigencia:new_vigencia, new_elabora:new_elabora, new_estado:new_estado, new_empresa:new_empresa, new_licitacion:new_licitacion, new_coment:new_coment},
         success:function(result){
             //alert(result);
             if(result){
@@ -308,12 +315,13 @@
       elabora=$('#edit_elabora').val();
       estado=$('#edit_estado').val();
       licitacion=$('#edit_licitacion').val();
+      coment=$('#edit_coment').val()
       empresa=$('#edit_empresa').val();
       //alert(cliente+estado+fecha_fin+fecha_ent+coment+id_anticipo);
       $.ajax({
         type:"POST",
         url:"<?php echo base_url();?>Iluminacion/Update_Cotizacion",
-        data:{id_cotizacion:id_cotizacion, folio:folio, fecha_elabora:fecha_elabora, cliente:cliente, obra:obra, tiem_entrega:tiem_entrega, vigencia:vigencia, elabora:elabora, estado:estado,licitacion:licitacion, empresa:empresa},
+        data:{id_cotizacion:id_cotizacion, folio:folio, fecha_elabora:fecha_elabora, cliente:cliente, obra:obra, tiem_entrega:tiem_entrega, vigencia:vigencia, elabora:elabora, estado:estado,licitacion:licitacion, empresa:empresa, coment:coment},
         success:function(result){
             //alert(result);
             if(result){
@@ -339,7 +347,7 @@
       $("#prod_cantidad").val(0);
       $("#prod_precio").val(precio_venta);
       $("#prod_cantidad").attr({"max" : existencia});
-      $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val());
+      $("#prod_total").val($("#prod_cantidad").val()*$("#prod_precio").val().replace(/,/g, ""));
     });
 
     $( "#prod_cantidad" ).change(function() {
@@ -360,12 +368,12 @@
         }
       if (cantidad>existencia) {
         alert("Atención! \nCantidad no existente del producto! Existencia actual: "+existencia);
-        var total=($("#prod_cantidad").val()*$("#prod_precio").val()).toFixed(2);
-         total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#prod_cantidad").val()*$("#prod_precio").val().replace(/,/g, "")).toFixed(5);
+         total=((total*porcentaje)/100).toFixed(5);
         $("#prod_total").val(total);
       }else{
-        var total=($("#prod_cantidad").val()*$("#prod_precio").val()).toFixed(2);
-         total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#prod_cantidad").val()*$("#prod_precio").val().replace(/,/g, "")).toFixed(5);
+         total=((total*porcentaje)/100).toFixed(5);
         $("#prod_total").val(total);
       }
     });
@@ -378,8 +386,8 @@
         }else{
           porcentaje=100-porcentaje;
         }
-        var total=($("#prod_cantidad").val()*$("#prod_precio").val()).toFixed(2);
-         total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#prod_cantidad").val()*$("#prod_precio").val().replace(/,/g, "")).toFixed(5);
+         total=((total*porcentaje)/100).toFixed(5);
         $("#prod_total").val(total);
     });
 
@@ -391,8 +399,8 @@
         }else{
           porcentaje=100-porcentaje;
         }
-        var total=($("#prod_cantidad").val()*$("#prod_precio").val()).toFixed(2);
-        total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#prod_cantidad").val()*$("#prod_precio").val().replace(/,/g, "")).toFixed(5);
+        total=((total*porcentaje)/100).toFixed(5);
         $("#prod_total").val(total);
     });
 
@@ -440,6 +448,7 @@
     estado=$('#estado'+id_cotizacion).text();
     licitacion=$('#licitacion'+id_cotizacion).text();
     empresa=$('#empresa'+id_cotizacion).text();
+    coment=$('#coment'+id_cotizacion).text();
     $('#EditCotizacionModal').modal();
     $('#edit_id_cotizacion').val(id_cotizacion);
     $("#edit_folio").val(folio);
@@ -447,6 +456,7 @@
     $("#edit_cliente").val(cliente).attr('selected',true);
     $("#edit_obra").val(obra);
     $("#edit_empresa").val(empresa);
+    $("#edit_coment").val(coment);
     $("#edit_licitacion").val(licitacion);
     $("#edit_tiem_entrega").val(tiem_entrega);
     $("#edit_vigencia").val(vigencia);
@@ -470,17 +480,7 @@ function Update(){
   $("#page_content").load("Cotizaciones");
 }
 
-function SeparaMiles($id){
-  valor=$("#"+$id).val();
-    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
-  if(valor==""||isNaN(valor)){
-    //alert("entro");
-    valor=0.00;
-    //alert(valor);
-  }
-  var resultado=valor.toLocaleString("en");
-  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-}
+
 
 function Get_MAX_Folio(){
   $.ajax({

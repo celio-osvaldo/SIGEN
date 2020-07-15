@@ -146,5 +146,26 @@
 		});
 	</script>
 
+
+<script type="text/javascript">
+	   function Separa_Miles($id){  //Separador de Miles con 5 dígitos decimales
+      valor=$("#"+$id).val();
+      valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
+      if(valor==""||isNaN(valor)){
+        //alert("entro");
+          valor=0.00;
+          //alert(valor);
+        }
+      var resultado=valor.toLocaleString("en");
+      valor_final=parseFloat(resultado.replace(/,/g, "")).toFixed(5).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      valor_final=valor_final.split(".");
+      valor_final[1]=valor_final[1].replace(/,/g, "");
+
+      valor_completo=valor_final[0]+"."+valor_final[1];
+      $("#"+$id).val(valor_completo);
+    }
+</script>
+
+
 	</body>
 </html> 

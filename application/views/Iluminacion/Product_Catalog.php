@@ -40,7 +40,7 @@
                                 <td id="<?php echo "name".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_nombre.""; ?></td>
                                 <td id="<?php echo "medida".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->unidad_medida.""; ?></td>
                                 <td>$</td>
-                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo "".number_format($row->catalogo_producto_precio, 2, '.', ',').""; ?></td>
+                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo "".number_format($row->catalogo_producto_precio, 5, '.', ',').""; ?></td>
                                 <td id="<?php echo "provider".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td id="<?php echo "date".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
                                 <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><a role="button" class="btn btn-outline-dark" onclick="Display_product(this.id)" id="<?php echo "".$row->catalogo_producto_url_imagen.""; ?>" data-toggle="modal" data-target="#imgProduct"><img src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
@@ -370,15 +370,5 @@ function CloseModal2(){
   }
 
 
-   function Separa_Miles($id){
-      valor=$("#"+$id).val();
-      valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
-      if(valor==""||isNaN(valor)){
-        //alert("entro");
-          valor=0.00;
-          //alert(valor);
-        }
-        var resultado=valor.toLocaleString("en");
-        $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-    }
+
 </script>

@@ -39,8 +39,8 @@
           <td id="<?php echo "nom_prod".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
           <td id="<?php echo "unid_med".$row->id_prod_alm;?>"><?php echo "".$row->unidad_medida.""; ?></td>
           <td id="<?php echo "modelo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_modelo.""; ?></td>
-          <td id="<?php echo "precio".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_prec_unit,2,'.',',').""; ?></td>
-          <td id="<?php echo "precio_venta".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_precio_venta,2,'.',',').""; ?></td>
+          <td id="<?php echo "precio".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_prec_unit,5,'.',',').""; ?></td>
+          <td id="<?php echo "precio_venta".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_precio_venta,5,'.',',').""; ?></td>
           <td id="<?php echo "existencia".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_exist.""; ?></td>
           <td id="<?php echo "codigo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_codigo.""; ?></td>
           <td id="<?php echo "descripcion".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_descripcion.""; ?></td>
@@ -79,11 +79,11 @@
         <div class="row">
           <div  class="col-md-5">
             <label class="label-control">Precio Unitario</label>
-            <input type="text" id="new_prec" onblur="SeparaMiles(this.id)" class="form-control">
+            <input type="text" id="new_prec" onblur="Separa_Miles(this.id)" class="form-control">
           </div>
           <div class="col-md-5">
             <label class="label-control">Precio de Venta</label>
-            <input type="text" id="new_prec_venta" onblur="SeparaMiles(this.id)" class="form-control ">
+            <input type="text" id="new_prec_venta" onblur="Separa_Miles(this.id)" class="form-control ">
           </div>
         </div>
         <div class="row">
@@ -133,9 +133,9 @@
         <label>Modelo</label><br>   
         <input type="text" id="edit_model" class="form-control input-sm"><br>
         <label>Precio Unitario</label><br>
-        <input type="text" id="edit_prec" onblur="SeparaMiles(this.id)" class="form-control input-sm"><br>
+        <input type="text" id="edit_prec" onblur="Separa_Miles(this.id)" class="form-control input-sm"><br>
          <label>Precio de Venta</label><br>
-        <input type="text" id="edit_prec_venta" onblur="SeparaMiles(this.id)" class="form-control input-sm"><br>
+        <input type="text" id="edit_prec_venta" onblur="Separa_Miles(this.id)" class="form-control input-sm"><br>
         <label>Existencia</label><br>
         <input type="number" id="edit_exist" class="form-control input-sm"><br>
         <label>Cógido de Producto</label><br>
@@ -267,17 +267,6 @@
     $("#page_content").load("InventarioProductos");
   }
 
-function SeparaMiles($id){
-  valor=$("#"+$id).val();
-    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
-  if(valor==""||isNaN(valor)){
-    //alert("entro");
-    valor=0.00;
-    //alert(valor);
-  }
-  var resultado=valor.toLocaleString("en");
-  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-  }
 
 
 </script>

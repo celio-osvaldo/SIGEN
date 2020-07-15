@@ -57,17 +57,17 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Subtotal:<hr>$<?php echo number_format($cotizacion_info->cotizacion_subtotal,2,'.',','); ?>
+                Subtotal:<hr>$<?php echo number_format($cotizacion_info->cotizacion_subtotal,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                IVA:<hr>$<?php echo number_format($cotizacion_info->cotizacion_iva,2,'.',','); ?>
+                IVA:<hr>$<?php echo number_format($cotizacion_info->cotizacion_iva,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total:<hr>$<?php echo number_format($cotizacion_info->cotizacion_total,2,'.',','); ?>
+                Total:<hr>$<?php echo number_format($cotizacion_info->cotizacion_total,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
@@ -113,9 +113,9 @@
             <td id="<?php echo "modelo".$row->id_lista_cotizacion;?>"><?php echo "".$row->prod_alm_modelo.""; ?></td>
             <td id="<?php echo "descripcion".$row->id_lista_cotizacion;?>"><?php echo "".$row->prod_alm_descripcion.""; ?></td>
             <td id="<?php echo "cantidad".$row->id_lista_cotizacion;?>"><?php echo $row->lista_cotizacion_cantidad;?></td>
-            <td id="<?php echo "precio_unit".$row->id_lista_cotizacion;?>">$<?php echo number_format($row->lista_cotizacion_precio_unit,2,'.',',');?></td>
-            <td id="<?php echo "descuento".$row->id_lista_cotizacion;?>"><?php echo number_format($row->lista_cotizacion_descuento,2,'.',',');?>%</td>
-            <td id="<?php echo "importe".$row->id_lista_cotizacion;?>">$<?php echo number_format($row->lista_cotizacion_importe,2,'.',',');?></td>
+            <td id="<?php echo "precio_unit".$row->id_lista_cotizacion;?>">$<?php echo number_format($row->lista_cotizacion_precio_unit,5,'.',',');?></td>
+            <td id="<?php echo "descuento".$row->id_lista_cotizacion;?>"><?php echo number_format($row->lista_cotizacion_descuento,5,'.',',');?>%</td>
+            <td id="<?php echo "importe".$row->id_lista_cotizacion;?>">$<?php echo number_format($row->lista_cotizacion_importe,5,'.',',');?></td>
             <td>
               <a class="navbar-brand" onclick="EditProduct(this.id)" role="button" id="<?php echo $row->id_lista_cotizacion; ?>"><button class="btn btn-outline-secondary"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" title="Editar Producto" style="filter: invert(100%)" /></button></a>
               <a class="navbar-brand" onclick="DeleteProduct(this.id)" role="button" id="<?php echo $row->id_lista_cotizacion; ?>"><button class="btn btn-outline-secondary"><img width="20px" src="..\Resources\Icons\delete.ico" title="Eliminar Producto" style="filter: invert(100%)" /></button></a>
@@ -157,7 +157,7 @@
           </div>
           <div class="form-group col-md-4">
             <label>Precio Unitario</label>
-            <input type="number" id="edit_precio_unit" class="form-control input-sm">
+            <input type="text" onblur="Separa_Miles(this.id)" id="edit_precio_unit" class="form-control input-sm">
           </div>
         </div>
         <div class="form-row">
@@ -167,7 +167,7 @@
           </div>
           <div class="form-group col-md-4">
             <label>Importe</label>
-            <input type="number" id="edit_prod_total" disabled="true" class="form-control input-sm">
+            <input type="text" onblur="Separa_Miles(this.id)" id="edit_prod_total" disabled="true" class="form-control input-sm">
           </div>
         </div>
       </div>
@@ -223,7 +223,7 @@
       $("#edit_precio_unit").val(precio_venta);
       //$("#edit_prod_cantidad").val(0);
       $("#edit_prod_cantidad").attr({"max" : existencia});
-      $("#edit_prod_total").val($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val());
+      $("#edit_prod_total").val($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val().replace(/,/g, ""));
       var cantidad=$("#edit_prod_cantidad").val();
         var porcentaje=$("#edit_prod_descuento").val();
         if(porcentaje==""||porcentaje>100||porcentaje<0){
@@ -234,12 +234,12 @@
         }
       if (cantidad>existencia) {
         alert("Atención! \nCantidad no existente del producto! Existencia actual: "+existencia);
-        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val()).toFixed(2);
-         total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val().replace(/,/g, "")).toFixed(5);
+         total=((total*porcentaje)/100).toFixed(5);
         $("#edit_prod_total").val(total);
       }else{
-        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val()).toFixed(2);
-         total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val().replace(/,/g, "")).toFixed(5);
+         total=((total*porcentaje)/100).toFixed(5);
         $("#edit_prod_total").val(total);
       }
     });
@@ -252,8 +252,8 @@
         }else{
           porcentaje=100-porcentaje;
         }
-        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val()).toFixed(2);
-         total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val().replace(/,/g, "")).toFixed(5);
+         total=((total*porcentaje)/100).toFixed(5);
         $("#edit_prod_total").val(total);
     });
 
@@ -265,8 +265,8 @@
         }else{
           porcentaje=100-porcentaje;
         }
-        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val()).toFixed(2);
-        total=((total*porcentaje)/100).toFixed(2);
+        var total=($("#edit_prod_cantidad").val()*$("#edit_precio_unit").val().replace(/,/g, "")).toFixed(5);
+        total=((total*porcentaje)/100).toFixed(5);
         $("#edit_prod_total").val(total);
     });
 
@@ -276,7 +276,7 @@
       id_cotizacion=<?php echo $cotizacion_info->id_cotizacion; ?>;
       id_producto=$("#edit_prod_nombre").val();
       prod_cantidad=$("#edit_prod_cantidad").val();
-      prod_precio_venta=$("#edit_precio_unit").val();
+      prod_precio_venta=$("#edit_precio_unit").val().replace(/,/g, "");
       prod_descuento=$("#edit_prod_descuento").val();
       total=$("#edit_prod_total").val();
       //alert(prod_id_cotizacion+" "+id_producto+" "+prod_cantidad+" "+prod_precio_venta+" "+total+" "+prod_descuento);

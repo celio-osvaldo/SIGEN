@@ -1226,7 +1226,8 @@ public function AddProduct(){
 					  'cotizacion_elabora' => $this->input->post('new_elabora'),
 					  'cotizacion_estado' => $this->input->post('new_estado'),
 					  'cotizacion_empresa' => $this->input->post('new_empresa'),
-					  'cotizacion_licitacion' => $this->input->post('new_licitacion'));
+					  'cotizacion_licitacion' => $this->input->post('new_licitacion'),
+					  'cotizacion_comentario' => $this->input->post('new_coment'));
 		if($this->Iluminacion_model->New_Cotizacion($data)){
 			echo true;
 		}else{
@@ -1247,7 +1248,8 @@ public function AddProduct(){
 					  'cotizacion_elabora' => $this->input->post('elabora'),
 					  'cotizacion_estado' => $this->input->post('estado'),
 					  'cotizacion_licitacion' => $this->input->post('licitacion'),
-					  'cotizacion_empresa'=> $this->input->post('empresa'));
+					  'cotizacion_empresa'=> $this->input->post('empresa'),
+					  'cotizacion_comentario' => $this->input->post('coment'));
 		$id_cotizacion=$_POST["id_cotizacion"];
 		if($this->Iluminacion_model->Update_Cotizacion($id_cotizacion,$data)){
 			echo true;

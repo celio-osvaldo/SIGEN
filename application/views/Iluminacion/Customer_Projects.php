@@ -32,9 +32,9 @@
               <tr>          
                 <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
                 <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
-                <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_imp_total,2,'.',',').""; ?></td>
-                <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_pagado,2,'.',',').""; ?> </td>
-                <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_saldo,2,'.',',').""; ?></td>
+                <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_imp_total,5,'.',',').""; ?></td>
+                <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_pagado,5,'.',',').""; ?> </td>
+                <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_saldo,5,'.',',').""; ?></td>
 
                 <td id="<?php echo "estado_obra".$row->id_obra_cliente;?>" hidden="true"><?php echo "".$row->obra_cliente_estado.""; ?></td>
 
@@ -93,7 +93,7 @@
                   <?php } ?>
                   </select>
         <label>Importe Total</label>
-        <input type="text" onblur="SeparaMiles(this.id)" name="" id="imp_obra" class="form-control input-sm">
+        <input type="text" onblur="Separa_Miles(this.id)" name="" id="imp_obra" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="coment_obra" class="form-control input-sm" maxlength="200"></textarea>
       </div>
@@ -127,7 +127,7 @@
                   <?php } ?>
                   </select>
         <label>Importe Total</label>
-        <input type="text" onblur="SeparaMiles(this.id)" name="" id="edit_imp_obra" class="form-control input-sm">
+        <input type="text" onblur="Separa_Miles(this.id)" name="" id="edit_imp_obra" class="form-control input-sm">
         <label>Estado</label><br>   
         <select id="edit_estado_obra">
           <option value="1">Activo</option>
@@ -249,17 +249,6 @@
     $("#edit_id_obra").val(id);
     }
 
-function SeparaMiles($id){
-  valor=$("#"+$id).val();
-    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
-  if(valor==""||isNaN(valor)){
-    //alert("entro");
-    valor=0.00;
-    //alert(valor);
-  }
-  var resultado=valor.toLocaleString("en");
-  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-  }
 
 
 </script>

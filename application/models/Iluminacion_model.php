@@ -301,6 +301,7 @@ class Iluminacion_model extends CI_Model
     $this->db->select('id_catalogo_cliente, catalogo_cliente_nom_fiscal, catalogo_cliente_empresa, catalogo_cliente_rfc, catalogo_cliente_contacto1, catalogo_cliente_contacto2, catalogo_cliente_puesto1, catalogo_cliente_puesto2, catalogo_cliente_tel1, catalogo_cliente_tel2, catalogo_cliente_cel1, catalogo_cliente_cel2, catalogo_cliente_email1, catalogo_cliente_email2, catalogo_cliente_coment');
     $this->db->from('catalogo_cliente');
     $this->db->where('empresa_id_empresa', $idcompany);
+    $this->db->order_by('catalogo_cliente_empresa', 'ASC');
     $result=$this->db->get();
     return $result;
   }
@@ -309,6 +310,7 @@ class Iluminacion_model extends CI_Model
     $this->db->select('id_catalogo_cotizante, id_empresa, catalogo_cotizante_nombre, catalogo_cotizante_empresa, catalogo_cotizante_coment, catalogo_cotizante_tel, catalogo_cotizante_mail');
     $this->db->from('catalogo_cotizante');
     $this->db->where('id_empresa', $idcompany);
+    $this->db->order_by('catalogo_cotizante_nombre', 'ASC');
     $result=$this->db->get();
     return $result;
   }
@@ -614,7 +616,7 @@ class Iluminacion_model extends CI_Model
 
 
   public function GetCotizaciones_List($idcomp){
-    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, catalogo_cliente_empresa, cotizacion_fecha, cotizacion_id_cliente, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, catalogo_cliente_empresa, cotizacion_fecha, cotizacion_id_cliente, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
     $this->db->from('cotizacion');
     $this->db->join('empresa','cotizacion_id_empresa=id_empresa');
     $this->db->join('catalogo_cliente','cotizacion_id_cliente=id_catalogo_cliente');

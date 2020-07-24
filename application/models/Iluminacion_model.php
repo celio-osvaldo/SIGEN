@@ -616,10 +616,9 @@ class Iluminacion_model extends CI_Model
 
 
   public function GetCotizaciones_List($idcomp){
-    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, catalogo_cliente_empresa, cotizacion_fecha, cotizacion_id_cliente, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
     $this->db->from('cotizacion');
     $this->db->join('empresa','cotizacion_id_empresa=id_empresa');
-    $this->db->join('catalogo_cliente','cotizacion_id_cliente=id_catalogo_cliente');
     $this->db->where('cotizacion_id_empresa',$idcomp);
     $result=$this->db->get();
     return $result;
@@ -671,6 +670,48 @@ class Iluminacion_model extends CI_Model
     $result=$query->row();
     return $result;
   }
+
+    public function GetCotizacion_Info_cotizante($id_cotizacion,$id_cliente){
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cotizante_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
+    $this->db->from('cotizacion');
+    $this->db->join('catalogo_cotizante','id_catalogo_cotizante='.($id_cliente));
+    $this->db->where('id_cotizacion',$id_cotizacion);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Coti_Client($id_cotizacion){
+    $this->db->select('cotizacion_id_cliente');
+    $this->db->from('cotizacion');
+    $this->db->where('id_cotizacion',$id_cotizacion);
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   public function GetCotizacion_Products($id_cotizacion){
     $this->db->select('id_lista_cotizacion, lista_cotizacion_id_cotizacion, lista_cotizacion_id_prod_alm, prod_alm_nom,  prod_alm_modelo,  prod_alm_descripcion, lista_cotizacion_cantidad, lista_cotizacion_precio_unit, lista_cotizacion_descuento, lista_cotizacion_importe');
@@ -1262,6 +1303,25 @@ class Iluminacion_model extends CI_Model
     if ($this->db->affected_rows() > 0) {
       return true;
     } else{
+      return false;
+    }
+  }
+
+  public function New_Cotizante($data){
+    $this->db->insert('catalogo_cotizante', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Update_Cotizante($id_cot,$data){
+    $this->db->where('id_catalogo_cotizante', $id_cot);
+    $this->db->update('catalogo_cotizante', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+      } else{
       return false;
     }
   }

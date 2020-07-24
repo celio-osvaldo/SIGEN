@@ -36,7 +36,7 @@
          <tr>
           <td id="<?php echo "nom_cliente".$row->id_anticipo;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td id="<?php echo "id_cliente".$row->id_anticipo;?>" hidden="true"><?php echo "".$row->obra_cliente_id_obra_cliente.""; ?></td>
-          <td id="<?php echo "importe_total".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_total,2,'.',',').""; ?></td>
+          <td id="<?php echo "importe_total".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_total,5,'.',',').""; ?></td>
     <!--      <td id="<?php echo "pagado".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_pago,2,'.',',').""; ?></td>  -->
     <!--      <td id="<?php echo "saldo".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_resto,2,'.',',').""; ?></td>  -->
           <td id="<?php echo "estado".$row->id_anticipo;?>"><?php echo "".$row->anticipo_status.""; ?></td>
@@ -168,11 +168,11 @@
           <?php } ?>
         </select>
         <label>Cantidad</label><br>
-        <input type="number" min="0" max="0" id="prod_cantidad"><br>
+        <input type="number" onclick="Separa_Miles('prod_total')" onblur="Separa_Miles('prod_total')" min="0" max="0" id="prod_cantidad"><br>
         <label>Precio Venta</label><br>
-        <input type="text" onblur="SeparaMiles(this.id)" id="prod_precio"><br>
+        <input type="text" onblur="Separa_Miles(this.id)"  id="prod_precio"><br>
         <label>Total</label><br>
-        <input type="text" onchange="SeparaMiles(this.id)" id="prod_total" disabled="true"><br>
+        <input type="text" onload="Separa_Miles(this.id)" id="prod_total" disabled="true"><br>
         <label>Comentarios</label><br>
         <textarea id="prod_coment" maxlength="150" class="form-control input-sm"></textarea>
       </div>
@@ -201,7 +201,7 @@
       <div class="modal-body">
         <input type="text" id="pago_prod_id_anticipo" hidden="true">
         <label>Cantidad</label><br>
-        <input type="text" onblur="SeparaMiles(this.id)" class="col-md-5"  id="pago_cantidad"><br>
+        <input type="text" onblur="Separa_Miles(this.id)" class="col-md-5"  id="pago_cantidad"><br>
         <label>Fecha</label><br>
         <input type="date" id="pago_fecha"><br>
         <label>Comprobante de Pago</label><br>
@@ -327,19 +327,19 @@
       $("#prod_cantidad").attr({"max" : existencia});
       total=$("#prod_cantidad").val().replace(/\,/g, '')*$("#prod_precio").val().replace(/\,/g, '');
       total=total.toLocaleString("en");
-      $("#prod_total").val(parseFloat(total.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $("#prod_total").val(parseFloat(total.replace(/,/g, "")).toFixed(5).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     });
 
     $( "#prod_cantidad" ).change(function() {
      total=$("#prod_cantidad").val().replace(/\,/g, '')*$("#prod_precio").val().replace(/\,/g, '');
       total=total.toLocaleString("en");
-      $("#prod_total").val(parseFloat(total.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $("#prod_total").val(parseFloat(total.replace(/,/g, "")).toFixed(5).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     });
 
     $( "#prod_precio" ).change(function() {
       total=$("#prod_cantidad").val().replace(/\,/g, '')*$("#prod_precio").val().replace(/\,/g, '');
       total=total.toLocaleString("en");
-      $("#prod_total").val(parseFloat(total.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+      $("#prod_total").val(parseFloat(total.replace(/,/g, "")).toFixed(5).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
     });
 
     $('#AddPay').click(function(){
@@ -433,17 +433,7 @@ function Update(){
   $("#page_content").load("Anticipos");
 }
 
-function SeparaMiles($id){
-  valor=$("#"+$id).val();
-    valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
-  if(valor==""||isNaN(valor)){
-    //alert("entro");
-    valor=0.00;
-    //alert(valor);
-  }
-  var resultado=valor.toLocaleString("en");
-  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-  }
+
 
 
 

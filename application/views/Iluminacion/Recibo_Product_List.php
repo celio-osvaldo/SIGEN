@@ -146,7 +146,8 @@
         </button>
       </div>
       <div class="modal-body">
-        <h6><label>Descripcion: </label></h6><h5><span class="badge badge-info" id="Edit_descripcion"></span></h5>
+        <h6><label>Descripción: </label></h6>
+          <h5><span class="badge badge-info" id="Edit_descripcion"></span></h5>
         <h6><label>Cantidad: </label><input type="number" class="form-control col-4" min="0" id="Edit_cantidad"></h6>
         <input type="text" id="Edit_id_lista_recibo_entrega" hidden="true">
       </div>

@@ -1208,7 +1208,8 @@ public function AddProduct(){
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$data = array('catalogo_cliente'=>$this->Iluminacion_model->GetAll_Customer($idcomp->id_empresa),
 					  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
-					  'lista_cotizaciones'=>$this->Iluminacion_model->GetCotizaciones_List($idcomp->id_empresa));
+					  'lista_cotizaciones'=>$this->Iluminacion_model->GetCotizaciones_List($idcomp->id_empresa),
+					  'catalogo_cotizante'=>$this->Iluminacion_model->GetAll_Cotizante($idcomp->id_empresa));
 		$this->load->view('Iluminacion/Cotizaciones_List',$data);
 	}
 
@@ -1305,8 +1306,19 @@ public function AddProduct(){
 		$id_cotizacion=$_POST["id_cotizacion"];
 		$folio=$_POST["folio"];
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
-		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
-			'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion));
+
+		$cotizante_cliente=$this->Iluminacion_model->Coti_Client($id_cotizacion);
+		$cotizante_cliente=explode("-", $cotizante_cliente->cotizacion_id_cliente);
+		if($cotizante_cliente[0]=="cot"){
+			$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info_cotizante($id_cotizacion,$cotizante_cliente[1]),
+			'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion),
+			'tipo'=>"cotizante");
+		}else{
+			$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
+			'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion),
+			'tipo'=>"cliente");
+		}
+
 
 		$css=file_get_contents('assets/Personalized/css/PDFStyles.css');
 		$mpdf = new \Mpdf\Mpdf([
@@ -2489,6 +2501,38 @@ public function GETMAX_Folio(){
 			$mensaje="pass_actual_incorrecto";
 		}
 		echo $mensaje;
+	}
+
+	public function NewCotizante(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		$data = array('id_empresa' => $idcomp->id_empresa ,
+						'catalogo_cotizante_nombre	' => $this->input->post('nom_cotizante') ,
+						'catalogo_cotizante_empresa' => $this->input->post('empresa'),
+						'catalogo_cotizante_coment' => $this->input->post('coment'),
+						'catalogo_cotizante_tel' => $this->input->post('tel') ,
+						'catalogo_cotizante_mail' => $this->input->post('email'));
+		if($this->Iluminacion_model->New_Cotizante($data)){
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
+	public function UpdateCotizante(){
+		$this->load->model('Iluminacion_model');
+		$id_cot=$_POST["id_cot"];
+		$data = array('catalogo_cotizante_nombre	' => $this->input->post('nom_cotizante') ,
+						'catalogo_cotizante_empresa' => $this->input->post('empresa'),
+						'catalogo_cotizante_coment' => $this->input->post('coment'),
+						'catalogo_cotizante_tel' => $this->input->post('tel') ,
+						'catalogo_cotizante_mail' => $this->input->post('email'));
+		if($this->Iluminacion_model->Update_Cotizante($id_cot,$data)){
+			echo true;
+		}else{
+			echo false;
+		}
 	}
 
 

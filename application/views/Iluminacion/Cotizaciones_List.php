@@ -19,9 +19,9 @@
           <th>Folio</th>
           <th>Fecha</th>
           <th>Empresa</th>
-          <th hidden="true">id_cliente</th>
+          <th >id_cliente</th>
           <th>Obra</th>
-          <th>Cliente</th>
+          <th>Cliente (Atención)</th>
           <th>Licitacion</th>
           <th>Subtotal</th>
           <th>IVA</th>
@@ -38,15 +38,35 @@
       <tbody>
         <?php 
         foreach ($lista_cotizaciones->result() as $row) {
+          $tipo_cot_clie=explode("-", $row->cotizacion_id_cliente);
+          if($tipo_cot_clie[0]=="cot"){
+            foreach ($catalogo_cotizante->result() as $cotizante) {
+              if ($tipo_cot_clie[1]==$cotizante->id_catalogo_cotizante) {
+                $nom_clie_cot=$cotizante->catalogo_cotizante_nombre;
+                $id_clie_cot=$row->cotizacion_id_cliente;
+              }
+            }            
+          }else{ 
+            foreach ($catalogo_cliente->result() as $cliente) {
+              if ($cliente->id_catalogo_cliente==$tipo_cot_clie[0]) {
+                $nom_clie_cot=$cliente->catalogo_cliente_empresa;
+                $id_clie_cot=$cliente->id_catalogo_cliente;
+              }
+            }
+          }
          ?>
          <tr>
           <td hidden="true" id="<?php echo "id_cotizacion".$row->id_cotizacion;?>"><?php echo "".$row->id_cotizacion.""; ?></td>
           <td id="<?php echo "folio".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_folio.""; ?></td>
           <td id="<?php echo "fecha".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_fecha.""; ?></td>
-          <td id="<?php echo "cliente".$row->id_cotizacion;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
-          <td hidden="true" id="<?php echo "id_cliente".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_id_cliente.""; ?></td>
+
+          <td id="<?php echo "empresa".$row->id_cotizacion;?>"><?php echo "Empresa: ".$nom_clie_cot.""; ?></td>
+          <td id="<?php echo "id_cliente".$row->id_cotizacion;?>"><?php echo "".$id_clie_cot.""; ?></td>
           <td id="<?php echo "obra".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_obra.""; ?></td>
-          <td id="<?php echo "empresa".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_empresa.""; ?></td>
+
+
+
+          <td id="<?php echo "cliente".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_empresa.""; ?></td>
           <td id="<?php echo "licitacion".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_licitacion.""; ?></td>
           <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_subtotal,5,'.',',').""; ?></td>
           <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_iva,5,'.',',').""; ?></td>
@@ -107,6 +127,12 @@
             <input type="date" id="new_fecha_elabora" class="form-control">
           </div>
         </div>
+        <div class="radio">
+          <label><input onclick="Ver_Catalogo(this.id)" checked="true" type="radio" name="radio_btn" id="radio_btn" value="cliente">Catálogo Clientes</label>
+        </div>
+        <div class="radio">
+          <label><input onclick="Ver_Catalogo(this.id)"  type="radio" name="radio_btn" id="radio_btn" value="cotizante">Catálogo Cotizantes</label>
+        </div>
         <label>Empresa</label>
         <select class="form-control" id="new_cliente">
           <option disabled selected>----Seleccionar Empresa----</option>
@@ -114,6 +140,14 @@
             <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
           <?php } ?>
         </select>
+
+        <select class="form-control" id="new_cotizante" hidden="true">
+          <option disabled selected>----Seleccionar Cotizante----</option>
+          <?php foreach ($catalogo_cotizante->result() as $row){ ?>
+            <option value="<?php echo "".$row->id_catalogo_cotizante.""; ?>"><?php echo "".$row->catalogo_cotizante_nombre.""; ?></option>
+          <?php } ?>
+        </select>
+
         <label>Obra</label><br>
         <input type="text" maxlength="200" id="new_obra" class="form-control input-sm">
         <label>Atención (Cliente)</label>
@@ -272,7 +306,12 @@
     $('#NewCotizacion').click(function(){
       new_folio=$('#new_folio').val();
       new_fecha_elabora=$('#new_fecha_elabora').val();
-      new_cliente=$('#new_cliente').val();
+      if ($('input:radio[name=radio_btn]:checked').val()=="cliente") 
+      {
+        new_cliente=$('#new_cliente').val();
+      }else{
+        new_cliente="cot-"+$('#new_cotizante').val();
+      }
       new_obra=$('#new_obra').val();
       new_tiem_entrega=$('#new_tiem_entrega').val();
       new_vigencia=$('#new_vigencia').val();
@@ -499,6 +538,18 @@ function Get_MAX_Folio(){
             }
        }
   });
+}
+
+function Ver_Catalogo($id_btn){
+  var id=$id_btn;
+  //alert($('input:radio[name='+id+']:checked').val());
+  if($('input:radio[name='+id+']:checked').val()=="cliente"){
+    $("#new_cliente").removeAttr("hidden");
+    $("#new_cotizante").attr('hidden','true');
+  }else{
+    $("#new_cotizante").removeAttr("hidden");
+    $("#new_cliente").attr('hidden','true');
+  }
 
 }
 

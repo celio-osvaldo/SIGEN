@@ -17,7 +17,7 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Importe total de Proyecto en Tránsito:<hr>$<?php echo number_format($anticipo_info->anticipo_total,2,'.',','); ?>
+                Importe total de Proyecto en Tránsito:<hr>$<?php echo number_format($anticipo_info->anticipo_total,5,'.',','); ?>
               </h6>
             </span>
            <!-- <span class="badge badge-info">
@@ -58,7 +58,7 @@
             <td id="<?php echo "nombre".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
             <td hidden="true" id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
             <td id="<?php echo "cantidad".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_anticipo_cantidad.""; ?></td>
-            <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo number_format($row->prod_anticipo_precio_venta,2,'.',',').""; ?></td>
+            <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo number_format($row->prod_anticipo_precio_venta,5,'.',',').""; ?></td>
             <td id="<?php echo "coment".$row->id_prod_anticipo;?>"><?php echo $row->prod_anticipo_coment;?></td>
             <td>
               <a class="navbar-brand" onclick="EditProduct(this.id)" role="button" id="<?php echo $row->id_prod_anticipo; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" title="Editar Producto" style="filter: invert(100%)" /></button></a>
@@ -88,7 +88,7 @@
         <label>Cantidad</label>
         <input type="number" min="0" id="edit_cant" class="form-control input-sm">
         <label>Precio de Venta</label>
-        <input type="text" onblur="SeparaMiles(this.id)" id="edit_precio" class="form-control input-sm">
+        <input type="text" onblur="Separa_Miles(this.id)" id="edit_precio" class="form-control input-sm">
         <label>Comentarios</label>
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_prod_ant" hidden="true">
@@ -163,6 +163,8 @@
       }else{
         alert("Debe ingresar por lo menos 1 producto");
       }
+      $('EditProductModal').removeClass('modal-open');
+      $('.modal-backdrop').remove();
       Update_Page(id_anticipo); 
     });
 

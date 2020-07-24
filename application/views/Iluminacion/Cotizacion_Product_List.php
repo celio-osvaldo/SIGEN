@@ -114,7 +114,7 @@
             <td id="<?php echo "descripcion".$row->id_lista_cotizacion;?>"><?php echo "".$row->prod_alm_descripcion.""; ?></td>
             <td id="<?php echo "cantidad".$row->id_lista_cotizacion;?>"><?php echo $row->lista_cotizacion_cantidad;?></td>
             <td id="<?php echo "precio_unit".$row->id_lista_cotizacion;?>">$<?php echo number_format($row->lista_cotizacion_precio_unit,5,'.',',');?></td>
-            <td id="<?php echo "descuento".$row->id_lista_cotizacion;?>"><?php echo number_format($row->lista_cotizacion_descuento,5,'.',',');?>%</td>
+            <td id="<?php echo "descuento".$row->id_lista_cotizacion;?>"><?php echo number_format($row->lista_cotizacion_descuento,2,'.',',');?>%</td>
             <td id="<?php echo "importe".$row->id_lista_cotizacion;?>">$<?php echo number_format($row->lista_cotizacion_importe,5,'.',',');?></td>
             <td>
               <a class="navbar-brand" onclick="EditProduct(this.id)" role="button" id="<?php echo $row->id_lista_cotizacion; ?>"><button class="btn btn-outline-secondary"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" title="Editar Producto" style="filter: invert(100%)" /></button></a>

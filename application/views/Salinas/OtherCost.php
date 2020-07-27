@@ -349,7 +349,7 @@ function CloseModal(){
 <!-- view bill script -->
 <script>
   function Display_bill($id){
-    var url="<?php echo base_url()?>"+$("#url_factura"+$id).text();
+    var url="<?php echo base_url()?>"+$("#url_factura"+$id).text()+"?"+Date.now();
     var verifica=url.split(".");
     //alert(verifica[1]);
     if(verifica[1]){

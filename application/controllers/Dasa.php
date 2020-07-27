@@ -31,6 +31,19 @@ class DASA extends CI_Controller {
 		$this->LogIn();
 	}
 
+
+	public function Verifica_Sesion() //Después de 45 min de inactividad la sesión se cierra de manera automática
+	{
+		if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
+          echo true;
+       	}
+       	else{
+       		echo false;
+       	}
+	}
+
+
+
 	public function GetInventories(){
 		$this->load->model('Dasa_model');
 		$table = 'catalogo_producto';

@@ -153,7 +153,7 @@
       valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
       if(valor==""||isNaN(valor)){
         //alert("entro");
-          valor=0.00;
+          valor=0.00000;
           //alert(valor);
         }
       var resultado=valor.toLocaleString("en");

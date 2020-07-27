@@ -35,7 +35,7 @@
                                     <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->viaticos_fecha_ini; ?></td>
                                     <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->viaticos_fecha_fin; ?></td>
                                     <td>$</td>
-                                    <td><?php echo number_format($total->sumPayment,2,'.',',') ?></td>
+                                    <td><?php echo number_format($total->sumPayment,5,'.',',') ?></td>
                                     <!-- <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>" data-toggle="modal" data-target="#editReport"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
                                     </td> -->
                                 </tr><?php } ?>
@@ -83,7 +83,7 @@
                                         <td id="<?php echo "fecha".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_fecha; ?></td>
                                         <td id="<?php echo "concepto".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_concepto; ?></td>
                                         <td>$</td>
-                                        <td id="<?php echo "importe".$row->id_lista_viatico.""; ?>"><?php echo number_format($row->lista_viatico_importe,2,'.',','); ?></td>
+                                        <td id="<?php echo "importe".$row->id_lista_viatico.""; ?>"><?php echo number_format($row->lista_viatico_importe,5,'.',','); ?></td>
                                         <td id="<?php echo "tipo_comprobante".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_comprobante; ?></td>
                                         <td hidden="true" id="<?php echo "url_comprobante".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_url_comprobante ?></td>
                                         <td align="center" id="<?php echo "bill".$row->id_lista_viatico.""; ?>"><a role="button" onclick="Display_bill(this.id)" class="btn btn-outline-dark" id="<?php echo "".$row->id_lista_viatico.""; ?>"><img src="..\Resources\Icons\invoice_icon_128337.ico" alt="Editar" style="filter: invert(100%)"></a></td>
@@ -354,7 +354,7 @@ function CloseModal(){
 <script>
   function Display_bill($id){
     var id_lista_viatico=$id;
-    var url =$("#url_comprobante"+id_lista_viatico).text();
+    var url =$("#url_comprobante"+id_lista_viatico).text()+"?"+Date.now();
     //alert(url);
     if (url!="") {
         url="<?php echo base_url()?>"+url;

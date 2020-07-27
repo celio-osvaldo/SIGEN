@@ -39,7 +39,7 @@
                             <td id="<?php echo "emition".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_emision.""; ?></td>
                             <td id="<?php echo "concept".$row->id_OGasto.""; ?>"><?php echo "".$row->concepto.""; ?></td>
                             <td>$</td>
-                            <td id="<?php echo "expend".$row->id_OGasto.""; ?>"><?php echo number_format($row->saldo,2,'.',',').""; ?></td>
+                            <td id="<?php echo "expend".$row->id_OGasto.""; ?>"><?php echo number_format($row->saldo,5,'.',',').""; ?></td>
                             <td id="<?php echo "comment".$row->id_OGasto.""; ?>"><?php echo "".$row->comentario.""; ?></td>
                             <td id="<?php echo "dateEx".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_pago_factura.""; ?></td>
                             <td align="center" id="<?php echo "factura".$row->id_OGasto.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_OGasto.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
@@ -96,7 +96,7 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <label for="">Monto:
-                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
+                            <input type="text" onblur="Separa_Miles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
                         </div>
                         <div class="col-md-6">
                             <label for="">Fecha de pago:</label>
@@ -151,7 +151,7 @@
                         <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <label for="">Monto:
-                            <input type="text" class="form-control" onblur="SeparaMiles(this.id)" name="editAmount" id="editAmount" required="true">
+                            <input type="text" class="form-control" onblur="Separa_Miles(this.id)" name="editAmount" id="editAmount" required="true">
                         </div>
                     <div class="col-md-6">
                         <label for="">Comentario:</label>
@@ -349,7 +349,7 @@ function CloseModal(){
 <!-- view bill script -->
 <script>
   function Display_bill($id){
-    var url="<?php echo base_url()?>"+$("#url_factura"+$id).text();
+    var url="<?php echo base_url()?>"+$("#url_factura"+$id).text()+"?"+Date.now();
     var verifica=url.split(".");
     //alert(verifica[1]);
     if(verifica[1]){
@@ -363,7 +363,7 @@ function CloseModal(){
 }
 
 
-function SeparaMiles($id){
+function Separa_Miles($id){
   valor=$("#"+$id).val();
     valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
   if(valor==""||isNaN(valor)){

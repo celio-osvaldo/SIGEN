@@ -357,7 +357,7 @@ function CloseModal2(){
   function Display_product($id){
     //var id_pagos_anticipo=$id_pagos_anticipo;
     //var comprobante=$("#url_"+$id_pagos_anticipo).text().split(".");
-    var url="<?php echo base_url()?>"+$id;
+    var url="<?php echo base_url()?>"+$id+"?"+Date.now();  //Agregrando +"?"+Date.now() forzamos al navegador a cargar la imagen desde el servidor y así evitamos que cargue la almacenada en cache
     //alert($id);
     //alert(comprobante[0]+" "+comprobante[1]);
     if ($id==""||$id=="N/A") {
@@ -366,6 +366,7 @@ function CloseModal2(){
       $('#Img_Product_Modal').modal();
         $('#modal-body').append("<embed id='imagen_modal' frameborder='0' width='100%'' height='400px'>");    
       $('#imagen_modal').attr({"src" : url});
+
     }
   }
 

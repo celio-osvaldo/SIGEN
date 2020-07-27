@@ -23,7 +23,7 @@
                         <tr>
                             <th>Fecha de emisión</th>
                             <th>Concepto</th>
-                            <th>Tipo de movimiento</th>
+                            <th hidden="true">Tipo de movimiento</th>
                             <th></th>
                             <th>Monto</th>
                             <th>Folio de factura</th>
@@ -38,11 +38,11 @@
                             <td id="<?php echo "dateR".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_fecha.""; ?></td>
                             <td id="<?php echo "concept".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_concepto.""; ?></td>
                             <?php if ($row->lista_caja_chica_reposicion != "0"){ ?>
-                            <td id="<?php echo "tipo".$row->id_lista_caja_chica.""; ?>">Ingreso</td>
+                            <td hidden="true" id="<?php echo "tipo".$row->id_lista_caja_chica.""; ?>">Ingreso</td>
                             <td>$</td>
                             <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>"><?php echo number_format($row->lista_caja_chica_reposicion,2,'.',',').""; ?></td>
                             <?php }else{ ?>
-                            <td id="<?php echo "tipo".$row->id_lista_caja_chica.""; ?>">Egreso</td>
+                            <td hidden="true" id="<?php echo "tipo".$row->id_lista_caja_chica.""; ?>">Egreso</td>
                             <td>$</td>
                             <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>"><?php echo number_format($row->lista_caja_chica_gasto,2,'.',',').""; ?></td>
                             <?php } ?>
@@ -92,14 +92,14 @@
             <div class="col-md-6">
                 <div class="row">
                     <div class="col-md-6">
-                        <label for="">Tipo de movimiento</label>
-                        <div class="form-check">
+                        <label hidden="true" for="">Tipo de movimiento</label>
+                        <div hidden="true" class="form-check">
                           <input class="form-check-input moviment" type="radio" name="exampleRadios" id="exampleRadios" value="option1" checked>
                           <label class="form-check-label" for="exampleRadios1">
                             Egreso
-                        </label>
-                    </div>
-                    <div class="form-check">
+                            </label>
+                        </div>
+                    <div hidden="true" class="form-check">
                       <input class="form-check-input moviment" type="radio" name="exampleRadios" id="exampleRadios" value="option2">
                       <label class="form-check-label" for="exampleRadios2">
                         Ingreso
@@ -166,7 +166,7 @@
 
             <div class="col-md-6">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div hidden="true" class="col-md-6">
                         <label for="">Tipo de movimiento</label>
                         <div class="form-check">
                           <input class="form-check-input moviment" type="radio" name="edit_radio" id="edit_radio_egreso" value="option1">
@@ -345,7 +345,7 @@ function CloseModal(){
 <!-- view bill script -->
 <script>
   function Display_bill($id){
-     var url="<?php echo base_url()?>"+$id;
+     var url="<?php echo base_url()?>"+$id+"?"+Date.now();
     var id=$id;
     //var url = "<?php echo base_url()?>Resources/Bills/PettyCash/DASA/"+invoice+".pdf";
 

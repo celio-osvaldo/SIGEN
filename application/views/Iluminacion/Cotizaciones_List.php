@@ -19,7 +19,7 @@
           <th>Folio</th>
           <th>Fecha</th>
           <th>Empresa</th>
-          <th >id_cliente</th>
+          <th hidden="true">id_cliente</th>
           <th>Obra</th>
           <th>Cliente (Atención)</th>
           <th>Licitacion</th>
@@ -60,8 +60,8 @@
           <td id="<?php echo "folio".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_folio.""; ?></td>
           <td id="<?php echo "fecha".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_fecha.""; ?></td>
 
-          <td id="<?php echo "empresa".$row->id_cotizacion;?>"><?php echo "Empresa: ".$nom_clie_cot.""; ?></td>
-          <td id="<?php echo "id_cliente".$row->id_cotizacion;?>"><?php echo "".$id_clie_cot.""; ?></td>
+          <td id="<?php echo "empresa".$row->id_cotizacion;?>"><?php echo "".$nom_clie_cot.""; ?></td>
+          <td hidden="true" id="<?php echo "id_cliente".$row->id_cotizacion;?>"><?php echo "".$id_clie_cot.""; ?></td>
           <td id="<?php echo "obra".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_obra.""; ?></td>
 
 
@@ -206,13 +206,30 @@
             <input type="date" id="edit_fecha_elabora" class="form-control">
           </div>
         </div>
+        <div class="radio">
+          <label><input onclick="Ver_Catalogo_2(this.id)"  type="radio" name="edit_radio_btn" id="edit_radio_btn" value="cliente">Catálogo Clientes</label>
+        </div>
+        <div class="radio">
+          <label><input onclick="Ver_Catalogo_2(this.id)"  type="radio" name="edit_radio_btn" id="edit_radio_btn" value="cotizante">Catálogo Cotizantes</label>
+        </div>
+
         <label>Empresa</label>
+
         <select class="form-control" id="edit_cliente">
           <option disabled selected>----Seleccionar Empresa----</option>
           <?php foreach ($catalogo_cliente->result() as $row){ ?>
             <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
           <?php } ?>
         </select>
+
+        <select class="form-control" id="edit_cotizante" hidden="true">
+          <option disabled selected>----Seleccionar Cotizante----</option>
+          <?php foreach ($catalogo_cotizante->result() as $row){ ?>
+            <option value="<?php echo "".$row->id_catalogo_cotizante.""; ?>"><?php echo "".$row->catalogo_cotizante_nombre.""; ?></option>
+          <?php } ?>
+        </select>
+
+
         <label>Obra</label><br>
         <input type="text" maxlength="200" id="edit_obra" class="form-control input-sm">
         <label>Atención (Cliente)</label><br>
@@ -301,7 +318,9 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#table_cotizacion').DataTable();
+    $('#table_cotizacion').DataTable({
+      "bSort": true,
+    });
 
     $('#NewCotizacion').click(function(){
       new_folio=$('#new_folio').val();
@@ -347,7 +366,14 @@
       id_cotizacion=$('#edit_id_cotizacion').val();
       folio=$('#edit_folio').val();
       fecha_elabora=$('#edit_fecha_elabora').val();
-      cliente=$('#edit_cliente').val();
+
+      if ($('input:radio[name=edit_radio_btn]:checked').val()=="cliente") 
+      {
+        cliente=$('#edit_cliente').val();
+      }else{
+        cliente="cot-"+$('#edit_cotizante').val();
+      }
+
       obra=$('#edit_obra').val();
       tiem_entrega=$('#edit_tiem_entrega').val();
       vigencia=$('#edit_vigencia').val();
@@ -488,11 +514,25 @@
     licitacion=$('#licitacion'+id_cotizacion).text();
     empresa=$('#empresa'+id_cotizacion).text();
     coment=$('#coment'+id_cotizacion).text();
+
+    clie_coti=cliente.split("-");
+
     $('#EditCotizacionModal').modal();
     $('#edit_id_cotizacion').val(id_cotizacion);
     $("#edit_folio").val(folio);
     $("#edit_fecha_elabora").val(fecha_elabora);
-    $("#edit_cliente").val(cliente).attr('selected',true);
+    if (clie_coti[0]=="cot") {
+       $("#edit_cotizante").removeAttr("hidden");
+       $("input[name=edit_radio_btn][value='cotizante']").prop("checked",true);
+       $("#edit_cliente").attr('hidden','true');
+       $("#edit_cotizante").val(clie_coti[1]).attr('selected',true);
+    }else{
+      $("#edit_cliente").removeAttr("hidden");
+      $("input[name=edit_radio_btn][value='cliente']").prop("checked",true);
+      $("#edit_cotizante").attr('hidden','true');
+      $("#edit_cliente").val(clie_coti[0]).attr('selected',true);
+    }
+
     $("#edit_obra").val(obra);
     $("#edit_empresa").val(empresa);
     $("#edit_coment").val(coment);
@@ -550,7 +590,18 @@ function Ver_Catalogo($id_btn){
     $("#new_cotizante").removeAttr("hidden");
     $("#new_cliente").attr('hidden','true');
   }
+}
 
+function Ver_Catalogo_2($id_btn){
+  var id=$id_btn;
+  //alert($('input:radio[name='+id+']:checked').val());
+  if($('input:radio[name='+id+']:checked').val()=="cliente"){
+    $("#edit_cliente").removeAttr("hidden");
+    $("#edit_cotizante").attr('hidden','true');
+  }else{
+    $("#edit_cotizante").removeAttr("hidden");
+    $("#edit_cliente").attr('hidden','true');
+  }
 }
 
 

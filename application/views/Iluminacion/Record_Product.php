@@ -59,7 +59,7 @@
                                 </td>
                                 <td id="<?php echo "proveedor".$row->id_historial_precio_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa."";?>                                    
                                 </td>
-                                <td id="<?php echo "precio".$row->id_historial_precio_producto.""; ?>">$<?php echo "".number_format($row->historial_precio_producto_precio, 2, '.', ',').""; ?>                                    
+                                <td id="<?php echo "precio".$row->id_historial_precio_producto.""; ?>">$<?php echo "".number_format($row->historial_precio_producto_precio, 5, '.', ',').""; ?>                                    
                                 </td>
                             </tr>
                         <?php } ?>

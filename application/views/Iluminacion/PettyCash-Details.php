@@ -272,7 +272,7 @@ function CloseModal(){
   function Display_bill($id){
     var invoice=$("#bill"+$id).text();
     var id=$id;
-    var url = "<?php echo base_url()?>Resources/Bills/PettyCash/ILUMINACION/"+invoice+".pdf";
+    var url = "<?php echo base_url()?>Resources/Bills/PettyCash/ILUMINACION/"+invoice+".pdf"+"?"+Date.now();
 
     $("#viewBill").modal();
     $("#folios").val(invoice);

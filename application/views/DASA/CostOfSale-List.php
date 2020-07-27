@@ -385,7 +385,7 @@ function CloseModal(){
   function Display_bill($id){
     var invoice=$id;
     var id=$id;
-    var url = "<?php echo base_url()?>"+$("#url_factura"+id).text();
+    var url = "<?php echo base_url()?>"+$("#url_factura"+id).text()+"?"+Date.now();
     //alert(url);
     if(url== "<?php echo base_url()?>"){
         alert("No se adjuntó Factura");

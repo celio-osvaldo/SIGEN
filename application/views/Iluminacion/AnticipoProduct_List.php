@@ -249,7 +249,7 @@
     $("#page_content").load("Anticipos");
   }
 
-function SeparaMiles($id){
+function Separa_Miles($id){
   valor=$("#"+$id).val();
     valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
   if(valor==""||isNaN(valor)){

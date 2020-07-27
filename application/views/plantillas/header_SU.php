@@ -3,11 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<META HTTP-EQUIV="Cache-Control" CONTENT ="no-cache">
 	<link rel="shortcut icon" href="../Resources/Logos/system2.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">	
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
 	<script src="..\assets\Jquery\jquery-3.4.1.min.js"></script>
 	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\DataTables\datatables.min.css"/>
 	<script type="text/javascript" src="..\assets\Personalized\DataTables\datatables.min.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
@@ -56,3 +58,22 @@
 			<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 		</nav>
 	</div>
+
+<script>
+var myVar = setInterval(Check_Sesion, 11000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
+
+
+function Check_Sesion(){
+	  $.ajax({
+    type:"POST",
+    url:"<?php echo base_url();?>Dasa/Verifica_Sesion",
+     data:{},
+      success:function(result){
+      	if(!result){	
+  location.href= "<?php echo base_url()?>Dasa/Logout";
+      	}
+       }
+  });
+}
+
+</script

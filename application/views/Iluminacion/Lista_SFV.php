@@ -44,9 +44,9 @@
           <td id="<?php echo "nom_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td hidden="true" id="<?php echo "id_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_id_cliente.""; ?></td>
           <td id="<?php echo "kwh_totales".$row->id_pago_sfv;?>"><?php echo number_format($row->pago_sfv_kwh,0,'.',',').""; ?></td>
-          <td id="<?php echo "imp_total".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_imp_total,2,'.',',').""; ?></td>
-          <td id="<?php echo "total_pagado".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_pagado,2,'.',',').""; ?></td>
-          <td id="<?php echo "saldo".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_saldo,2,'.',',').""; ?></td>
+          <td id="<?php echo "imp_total".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_imp_total,5,'.',',').""; ?></td>
+          <td id="<?php echo "total_pagado".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_pagado,5,'.',',').""; ?></td>
+          <td id="<?php echo "saldo".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_saldo,5,'.',',').""; ?></td>
           <td id="<?php echo "fecha_ult_pago".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_fecha_ult_pago.""; ?></td>
           <td id="<?php echo "estado".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_estado.""; ?></td>
           <td id="<?php echo "pagos_realizados".$row->id_pago_sfv;?>"><?php echo "".$pagos_realizados.""; ?></td>
@@ -95,7 +95,7 @@
         <label>Total de Pagos</label><br>
         <input type="number" min="1" id="new_cant_pagos" class="form-control input-sm"><br>
         <label>Importe Total</label><br>
-        <input type="text" onblur="SeparaMiles(this.id)" id="new_imp_total" class="form-control input-sm"><br>
+        <input type="text" onblur="Separa_Miles(this.id)" id="new_imp_total" class="form-control input-sm"><br>
         <label>Comentarios</label><br>
         <textarea id="new_coment" maxlength="150" class="form-control input-sm"></textarea>
       </div>
@@ -127,15 +127,15 @@
         <div class="form-row">
           <div class="form-group col-md-4">
             <label>Total </label>
-            <input type="text" onblur="SeparaMiles(this.id)" onchange="Calcula()" id="pago_total" class="form-control">
+            <input type="text" onblur="Separa_Miles(this.id)" onchange="Calcula()" id="pago_total" class="form-control">
           </div>
           <div class="form-group col-md-4">
             <label>SubTotal </label>
-            <input type="text" onblur="SeparaMiles(this.id)" id="subtotal" class="form-control">
+            <input type="text" onblur="Separa_Miles(this.id)" id="subtotal" class="form-control">
           </div>
           <div class="form-group col-md-4">
             <label>IVA </label>
-            <input type="text" onblur="SeparaMiles(this.id)" min="0" id="iva" class="form-control">
+            <input type="text" onblur="Separa_Miles(this.id)" min="0" id="iva" class="form-control">
           </div>
         </div>
         <label>KWh Totales</label><br>
@@ -181,7 +181,7 @@
         <label>Total de Pagos</label><br>
         <input type="number" min="1" id="edit_cant_pagos" class="form-control input-sm"><br>
         <label>Importe Total</label><br>
-        <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_total" class="form-control input-sm"><br>
+        <input type="text" onblur="Separa_Miles(this.id)" id="edit_imp_total" class="form-control input-sm"><br>
         <label>Estado</label>
         <select id="edit_estado" class="form-control">
           <option value="Activo">Activo</option>
@@ -416,7 +416,7 @@ function Update(){
   $("#page_content").load("Pagos_SFV");
 }
 
-function SeparaMiles($id){
+function Separa_Miles($id){
   valor=$("#"+$id).val();
     valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
   if(valor==""||isNaN(valor)){

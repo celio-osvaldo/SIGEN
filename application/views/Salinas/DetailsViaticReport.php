@@ -354,7 +354,7 @@ function CloseModal(){
 <script>
   function Display_bill($id){
     var id_lista_viatico=$id;
-    var url =$("#url_comprobante"+id_lista_viatico).text();
+    var url =$("#url_comprobante"+id_lista_viatico).text()+"?"+Date.now();
     //alert(url);
     if (url!="") {
         url="<?php echo base_url()?>"+url;

@@ -284,7 +284,7 @@ $(document).ready(function(e){
                     $('#editproduct')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
                     alert('Información del producto actualizada');
-                   // CloseModal();
+                    CloseModal();
                    // Update_Page(); 
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');
@@ -351,7 +351,7 @@ function CloseModal(){
   function Display_product($id){
     //var id_pagos_anticipo=$id_pagos_anticipo;
     //var comprobante=$("#url_"+$id_pagos_anticipo).text().split(".");
-    var url="<?php echo base_url()?>"+$id;
+    var url="<?php echo base_url()?>"+$id+"?"+Date.now();
     //alert($id);
     //alert(comprobante[0]+" "+comprobante[1]);
     if ($id==""||$id=="N/A") {

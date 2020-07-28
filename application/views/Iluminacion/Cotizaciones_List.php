@@ -155,7 +155,7 @@
         <label>Licitación</label>
         <input type="text" maxlength="200" id="new_licitacion" class="form-control input-sm">
         <label>Comentarios</label>
-        <input type="text" maxlength="200" id="new_coment" class="form-control input-sm">
+        <textarea  maxlength="200" id="new_coment" class="form-control input-sm"></textarea>
         <div class="form-row">
           <div class="form-group col-md-5">
             <label>Tiempo de Entrega (semanas)</label>

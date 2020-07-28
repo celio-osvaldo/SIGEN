@@ -60,7 +60,7 @@
         <label>Nombre del Cotizante</label>
         <input type="text" id="new_nom_cotizante" class="form-control input-sm">
         <label>Empresa</label><br>   
-        <input type="text" maxlength="13" id="new_empresa" class="form-control input-sm"><br>
+        <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm"><br>
         <label>Teléfono</label><br>
         <input type="text" id="new_tel" class="form-control col-4"><br>
         <label>Email</label><br>

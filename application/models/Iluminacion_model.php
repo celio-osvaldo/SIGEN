@@ -662,7 +662,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetCotizacion_Info($id_cotizacion){
-    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cliente_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cliente_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
     $this->db->from('cotizacion');
     $this->db->join('catalogo_cliente','cotizacion_id_cliente=id_catalogo_cliente');
     $this->db->where('id_cotizacion',$id_cotizacion);
@@ -672,7 +672,7 @@ class Iluminacion_model extends CI_Model
   }
 
     public function GetCotizacion_Info_cotizante($id_cotizacion,$id_cliente){
-    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cotizante_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cotizante_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
     $this->db->from('cotizacion');
     $this->db->join('catalogo_cotizante','id_catalogo_cotizante='.($id_cliente));
     $this->db->where('id_cotizacion',$id_cotizacion);

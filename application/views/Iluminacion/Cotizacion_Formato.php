@@ -117,15 +117,12 @@
     <td class="tg-subtotal">$<?php echo number_format($cotizacion_info->cotizacion_subtotal,5,'.',',');?></td>
   </tr>
   <tr>
-    <td></td>
-    <td></td>
+    <td class="tg-anticipo" colspan="2" rowspan="2"><?php echo $cotizacion_info->cotizacion_comentario ?></td>
     <td></td>
     <td class="tg-iva">IVA</td>
     <td class="tg-iva">$<?php echo number_format($cotizacion_info->cotizacion_iva,5,'.',',');?></td>
   </tr>
   <tr>
-    <td></td>
-    <td></td>
     <td></td>
     <b><td class="tg-total">TOTAL</td></b>
     <td class="tg-total">$<?php echo number_format($cotizacion_info->cotizacion_total,5,'.',',');?></td>

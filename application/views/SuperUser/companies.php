@@ -1,5 +1,4 @@
- <title> <?php echo $title ?>  </title>
- <br>
+
  <div class="jumbotron jumbotron-fluid">
 
   <div class=" col-md-12 card bg-card" >     

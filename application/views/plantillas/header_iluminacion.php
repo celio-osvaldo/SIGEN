@@ -116,7 +116,7 @@ header("Pragma: no-cache");
 	</nav>
 
 <script>
-var myVar = setInterval(Check_Sesion, 11000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
+var myVar = setInterval(Check_Sesion, 46000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
 
 
 function Check_Sesion(){

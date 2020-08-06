@@ -10,6 +10,8 @@ class SuperUser extends CI_Controller {
           $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
           $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | ADMINISTRADOR';
+            $this->load->model('SU_model');
+            $data['solicitudes']=$this->SU_model->Get_solicitudes();
 	   		$this->load->view('plantillas/header_SU', $data);
 			$this->load->view('SuperUser/Welcome');
        		$this->load->view('plantillas/footer');
@@ -165,6 +167,58 @@ class SuperUser extends CI_Controller {
         	echo false;
         }
 	}
+
+    public function Lista_Solicitudes(){
+        $this->load->model('SU_model');
+        $data = array('solicitado' => $this->SU_model->Cambio_Solicitado() , 
+                      'catalogo_cliente' => $this->SU_model->Cat_Cliente(),
+                      'catalogo_autoriza' =>$this->SU_model->Cat_autoriza());
+        $this->load->view('SuperUser/ListaSolicitudes', $data);
+    }
+
+    public function Procesa_Solicitud(){
+        $this->load->model('SU_model');
+        $id_historial=$_POST["id_historial"];
+        $respuesta=$_POST["respuesta"]; //2.-Autorizado 3.-Cancelado
+        $nom_proy_new=$_POST["nom_proy_new"];
+        $cliente_new=$_POST["cliente_new"];
+        $importe_new=$_POST["importe_new"];
+        $estado_new=$_POST["estado_new"];; //1-Activo. 2-Pagado 3-Cancelado
+        $coment_new=$_POST["coment_new"];
+        $id_proyecto=$_POST["id_proyecto"];
+
+        if($respuesta=="2"){
+            $this->load->model('Iluminacion_model');
+           $sum_pagos=$this->Iluminacion_model->SumPagos_Obra($id_proyecto);
+            if(is_null($sum_pagos->suma_pagos)){
+                $suma_pagos=0;
+            }else{
+                $suma_pagos=$sum_pagos->suma_pagos;
+            }
+            $saldo=($importe_new-$suma_pagos);
+            $data = array(
+            'obra_cliente_nombre' => $nom_proy_new,
+            'obra_cliente_id_cliente'=>$cliente_new,
+            'obra_cliente_imp_total' => $importe_new,
+            'obra_cliente_pagado'=>$suma_pagos,
+            'obra_cliente_saldo'=>$saldo,
+            'obra_cliente_estado' => $estado_new,
+            'obra_cliente_comentarios' => $coment_new);
+            $result=$this->Iluminacion_model->Edit_CustomerProject($id_proyecto,$data);
+            if ($result) {
+                $data2 = array('historial_proyecto_autoriza' => $respuesta,
+                               'historial_proyecto_usuario_admin'=> $this->session->userdata('id_usuario') );
+                $this->SU_model->Update_Historial_Proy($id_historial,$data2);
+            }
+            echo true;
+        }else{
+            $data2 = array('historial_proyecto_autoriza' => $respuesta,
+                           'historial_proyecto_usuario_admin'=> $this->session->userdata('id_usuario') );
+                $this->SU_model->Update_Historial_Proy($id_historial,$data2);
+            echo true;
+        }
+
+    }
 
 }
  

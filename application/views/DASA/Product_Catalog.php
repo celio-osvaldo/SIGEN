@@ -359,7 +359,7 @@ function CloseModal(){
     }else{
       $('#Img_Product_Modal').modal();
         $('#modal-body').append("<embed id='imagen_modal' frameborder='0' width='100%'' height='400px'>");    
-      $('#imagen_modal').attr({"src" : url});
+      $('#imagen_modal').attr({"src" : url}); //Forzamos a que el navegador obtenga la direccón de la imagen
     }
   }
 

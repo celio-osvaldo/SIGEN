@@ -54,14 +54,44 @@
 
 				</ul>
 			</div>
+
+			<a class="btn btn-outline-light" role="button" id="Lista_Solicitudes"><img src="..\Resources\Icons\bell.ico" style="filter: invert(50%)">
+				<?php if ($solicitudes->num_solic>0) {?>
+					<span class="badge badge-danger"><?php echo $solicitudes->num_solic ?> </span>
+				<?php
+				} ?>
+			</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+
 			<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
 			<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 		</nav>
 	</div>
 
-<script>
-var myVar = setInterval(Check_Sesion, 11000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
 
+<!-- Modal -->
+<div id="CambiosModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header" >
+      	<h4 class="modal-title">Solicitudes de Cambios</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Hay solicitudes pendientes por procesar. Acceda al ícono de la campana ubicado en la parte superior derecha del menú superior.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+var myVar = setInterval(Check_Sesion, 46000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
 
 function Check_Sesion(){
 	  $.ajax({
@@ -74,6 +104,14 @@ function Check_Sesion(){
       	}
        }
   });
+}
+
+function Muestra_Modal(){
+	if (<?php echo $solicitudes->num_solic ?> >0) {
+	$("#CambiosModal").modal();
+    //$("#edit_nom_fiscal").val(nom_fiscal);
+	}
+
 }
 
 </script

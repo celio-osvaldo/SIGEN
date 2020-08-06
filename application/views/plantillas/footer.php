@@ -17,8 +17,13 @@
 
 <script>//script to load the users list
 	$(document).ready(function(){
+
 		$("#lista_usuario").click(function(){
 			$("#page_content").load("Users_List");
+		});
+
+		$("#Lista_Solicitudes").click(function(){
+			$("#page_content").load("Lista_Solicitudes");
 		});
 	});
 </script>

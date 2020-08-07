@@ -292,30 +292,34 @@
 		$("#lbl_fecha").text($("#fecha"+$id_historial).text());
 		if(nom_proy_actual!=nom_proy_cambio){
 			$("#proyecto").removeAttr('hidden');
-			$("#proy_actual").val(nom_proy_actual);
-			$("#proy_cambio").val(nom_proy_cambio);
 		}
+		$("#proy_actual").val(nom_proy_actual);
+		$("#proy_cambio").val(nom_proy_cambio);
+
 		if (cli_actual!=cli_cambio) {
 			$("#cliente").removeAttr('hidden');
-			$("#cli_actual").val(cli_actual);
-			$("#cli_cambio").val(cli_cambio);
-			$("#cli_cambio_id").val(cli_cambio_id);
 		}
+		$("#cli_actual").val(cli_actual);
+		$("#cli_cambio").val(cli_cambio);
+		$("#cli_cambio_id").val(cli_cambio_id);
+
 		if (imp_actual!=imp_cambio) {
 			$("#importe").removeAttr('hidden');
-			$("#imp_actual").val(imp_actual);
-			$("#imp_cambio").val(imp_cambio);
 		}
+		$("#imp_actual").val(imp_actual);
+		$("#imp_cambio").val(imp_cambio);
+
 		if (estado_actual!=estado_cambio) {
 			$("#estado").removeAttr('hidden');
-			$("#estado_actual").val(estado_actual);
-			$("#estado_cambio").val(estado_cambio);
 		}
+		$("#estado_actual").val(estado_actual);
+		$("#estado_cambio").val(estado_cambio);
+		
 		if (coment_actual!=coment_cambio) {
 			$("#coment").removeAttr('hidden');
-			$("#coment_actual").val(coment_actual);
-			$("#coment_cambio").val(coment_cambio);
 		}
+		$("#coment_actual").val(coment_actual);
+		$("#coment_cambio").val(coment_cambio);
 
 		$("#txt_obs").text($("#coment"+$id_historial).text());
 	}

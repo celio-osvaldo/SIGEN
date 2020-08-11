@@ -12,6 +12,7 @@ class SuperUser extends CI_Controller {
 			$data['title']='SiGeN | ADMINISTRADOR';
             $this->load->model('SU_model');
             $data['solicitudes']=$this->SU_model->Get_solicitudes();
+            $data['solicitudes_pago']=$this->SU_model->Get_solicitudes_pago();
 	   		$this->load->view('plantillas/header_SU', $data);
 			$this->load->view('SuperUser/Welcome');
        		$this->load->view('plantillas/footer');
@@ -170,7 +171,8 @@ class SuperUser extends CI_Controller {
 
     public function Lista_Solicitudes(){
         $this->load->model('SU_model');
-        $data = array('solicitado' => $this->SU_model->Cambio_Solicitado() , 
+        $data = array('solicitado' => $this->SU_model->Cambio_Solicitado() ,
+                      'solicitado_pago' => $this->SU_model->Cambio_Solicitado_pago(), 
                       'catalogo_cliente' => $this->SU_model->Cat_Cliente(),
                       'catalogo_autoriza' =>$this->SU_model->Cat_autoriza());
         $this->load->view('SuperUser/ListaSolicitudes', $data);
@@ -217,8 +219,55 @@ class SuperUser extends CI_Controller {
                 $this->SU_model->Update_Historial_Proy($id_historial,$data2);
             echo true;
         }
-
     }
 
+
+    public function Procesa_Solicitud_pago(){
+        $this->load->model('SU_model');
+        $id_historial_pago=$_POST["id_historial_pago"];
+        $id_pago=$_POST["id_pago"];
+        $respuesta_pago=$_POST["respuesta_pago"];//2.-Autorizado 3.-Cancelado
+
+        $fecha_pago_new=$_POST["fecha_pago_new"];
+        $monto_new=$_POST["monto_new"];
+        $comentario_new=$_POST["comentario_new"];
+
+        //var_dump($respuesta_pago);
+        if($respuesta_pago=="2"){
+
+            $this->load->model('Iluminacion_model');
+                    $data = array('venta_mov_fecha' => $fecha_pago_new ,
+                                    'venta_mov_monto' => $monto_new,
+                                    'venta_mov_comentario' => $comentario_new );
+                    //var_dump($id_movimiento);
+                    if ($this->Iluminacion_model->UpdateProject_Pay($data,$id_pago)) {
+                        $id_obra=$this->Iluminacion_model->Id_Proyecto($id_pago);
+                        $sum_pagos=$this->Iluminacion_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
+                        $total_obra=$this->Iluminacion_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
+                        $resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+
+                        $fecha_ult_pago=$this->Iluminacion_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
+
+                        $saldo=array('obra_cliente_saldo' => $resta,
+                                'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+                                'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
+                        $result=$this->Iluminacion_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
+
+
+                $data2 = array('historial_proyecto_pago_autoriza' => $respuesta_pago,
+                               'historial_proyecto_pago_admin'=> $this->session->userdata('id_usuario') );
+                $this->SU_model->Update_Historial_Proy_pago($id_historial_pago,$data2);
+
+            echo true;
+            }else{
+                echo false;
+            }
+        }else{
+            $data2 = array('historial_proyecto_pago_autoriza' => $respuesta_pago,
+                           'historial_proyecto_pago_admin'=> $this->session->userdata('id_usuario') );
+                $this->SU_model->Update_Historial_Proy_pago($id_historial_pago,$data2);
+            echo true;
+        }
+    }
 }
  

@@ -56,8 +56,9 @@
 			</div>
 
 			<a class="btn btn-outline-light" role="button" id="Lista_Solicitudes"><img src="..\Resources\Icons\bell.ico" style="filter: invert(50%)">
-				<?php if ($solicitudes->num_solic>0) {?>
-					<span class="badge badge-danger"><?php echo $solicitudes->num_solic ?> </span>
+				<?php if ($solicitudes->num_solic>0||$solicitudes_pago->num_solic_pago>0) {
+					$total_solicitudes=$solicitudes->num_solic+$solicitudes_pago->num_solic_pago;?>
+					<span class="badge badge-danger"><?php echo $total_solicitudes ?> </span>
 				<?php
 				} ?>
 			</a>
@@ -107,7 +108,7 @@ function Check_Sesion(){
 }
 
 function Muestra_Modal(){
-	if (<?php echo $solicitudes->num_solic ?> >0) {
+	if (<?php echo $total_solicitudes ?> >0) {
 	$("#CambiosModal").modal();
     //$("#edit_nom_fiscal").val(nom_fiscal);
 	}

@@ -355,8 +355,10 @@ function CloseModal(){
   function Display_bill($id){
     var id_lista_viatico=$id;
     var url =$("#url_comprobante"+id_lista_viatico).text()+"?"+Date.now();
-    //alert(url);
-    if (url!="") {
+    url_verifica=url.split('?');
+    //alert(url_verifica[0]+" "+"<?php echo base_url()?>");
+
+    if(url_verifica[0]!="<?php echo base_url()?>"){
         url="<?php echo base_url()?>"+url;
         $("#viewBill").modal();
         //$("#folios").val(invoice);
@@ -365,9 +367,7 @@ function CloseModal(){
     }else{
         alert("No se adjuntó comprobante");
     }
-
     }
-
 
   function Edit_Registro($id){
     var id_lista_viatico=$id;

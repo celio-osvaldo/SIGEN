@@ -350,15 +350,16 @@ function CloseModal(){
 <script>
   function Display_bill($id){
     var url="<?php echo base_url()?>"+$("#url_factura"+$id).text()+"?"+Date.now();
-    var verifica=url.split(".");
-    //alert(verifica[1]);
-    if(verifica[1]){
-         $("#viewBill").modal();
+    url_verifica=url.split('?');
+    //alert(url_verifica[0]+" "+"<?php echo base_url()?>");
+
+    if(url_verifica[0]=="<?php echo base_url()?>"){
+         alert("No se adjuntó factura/comprobante");
+    }else{
+        $("#viewBill").modal();
        // $("#folios").val(invoice);
         // $("#folios").val(id);
         $("#showbill").prop("src", url);
-    }else{
-        alert("No se adjuntó factura/comprobante");
     }
 }
 

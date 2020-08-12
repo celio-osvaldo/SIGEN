@@ -2434,6 +2434,14 @@ public function GETMAX_Folio(){
 	echo $max_folio->cotizacion_folio;
 }
 
+public function GETMAX_Folio_recibo(){
+	$this->load->model('Iluminacion_model');
+	$company='ILUMINACION';
+	$idcompany=$this->Iluminacion_model->IdCompany($company);
+	$max_folio=$this->Iluminacion_model->Get_MAXFOLIO_recibo($idcompany->id_empresa);
+	//var_dump($max_folio);
+	echo $max_folio->recibo_entrega_folio;
+}
 	public function Save_Reporte_flujo(){
 		$this->load->model('Iluminacion_model');
 		$company='ILUMINACION';

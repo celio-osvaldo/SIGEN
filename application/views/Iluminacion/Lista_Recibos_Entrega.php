@@ -6,7 +6,7 @@
     <h3 align="center">Lista de Recibos de Entrega</h3>
   </div>
   <div class="col-3">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewReciboModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Recibo de Entrega</button>
+    <button type="button" class="btn btn-outline-success" data-toggle="modal"  onclick="Get_MAX_Folio_recibo()" data-target="#NewReciboModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Recibo de Entrega</button>
   </div>
 </div>
 
@@ -357,5 +357,28 @@ function Product_Details($id_recibo_entrega){
 function Update(){
   $('#btncancelar').click();
   $("#page_content").load("Recibo_Entrega");
+}
+
+function Get_MAX_Folio_recibo(){
+  $.ajax({
+    type:"POST",
+    url:"<?php echo base_url();?>Iluminacion/GETMAX_Folio_recibo",
+     data:{},
+      success:function(max_folio){
+        //alert(max_folio);
+        if (max_folio=="") {
+          max_folio="ISA-0";
+        }
+            if(max_folio){
+              folio=max_folio.split('-');
+              folio_sig=parseInt(folio[1]);
+              folio_sig++;
+              //var anio = (new Date).getFullYear();
+              $("#new_folio").val("ISA-"+folio_sig);
+            }else{
+              alert('Error. Intente de nuevo para generar Folio');
+            }
+       }
+  });
 }
   </script>

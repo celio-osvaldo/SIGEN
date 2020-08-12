@@ -1147,6 +1147,15 @@ class Iluminacion_model extends CI_Model
     $result = $query->row();#the result displays in a row
     return $result;#if the query has data, returns the data query
   }
+  
+  public function Get_MAXFOLIO_recibo($company){
+    $this->db->select_max('recibo_entrega_folio');//the name of fields to query in the login
+    $this->db->from('recibo_entrega');
+    $this->db->where('id_empresa', $company);#the field must match the entered parameter of password
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
 
   public function Verifica_Flujo($idcompany,$anio,$mes){
     $this->db->select('id_flujo_efectivo');

@@ -351,6 +351,7 @@ class DASA extends CI_Controller {
 		$id_gasto_venta=$_POST['idCost'];
 		$monto=$_POST["addAmount"];
 		$monto=str_replace(',', '', $monto);
+		$addflujo=$_POST['addflujo'];
 
 		if (isset($_FILES['addBill']['name'])) {
 			$filename = $_FILES['addBill']['name'];
@@ -377,7 +378,8 @@ class DASA extends CI_Controller {
 						'gasto_venta_concepto' => $this->input->post('addConcept'),
 						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
-						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
+						'gasto_venta_fecha_pago' => $this->input->post('addDate'),
+						'gasto_venta_aplica_flujo' => $addflujo);
 
 		$this->Dasa_model->Insert($table, $data);
 
@@ -401,6 +403,7 @@ class DASA extends CI_Controller {
 		$id_gasto_venta=$_POST['idE'];
 		$monto=$_POST["amountE"];
 		$monto=str_replace(',', '', $monto);
+		$editflujo=$_POST['editflujo'];
 
 		if (isset($_FILES['billE']['name'])) {
 			$filename = $_FILES['billE']['name'];
@@ -427,7 +430,8 @@ class DASA extends CI_Controller {
 						'gasto_venta_concepto' => $this->input->post('conceptE'),
 						'gasto_venta_observacion' => $this->input->post('commentE'),
 						'gasto_venta_estado_pago' => $this->input->post('statusE'),
-						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
+						'gasto_venta_fecha_pago' => $this->input->post('dateE'),
+						'gasto_venta_aplica_flujo' => $editflujo);
 		$this->Dasa_model->UpdateCostSale($id_gasto_venta, $data);
 
 		$url_imagen='Resources/Bills/CostOfSale/DASA/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;

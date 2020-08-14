@@ -28,6 +28,7 @@
                             <th>Observación</th>
                             <th>Estatus</th>
                             <th>Fecha de Pago</th>
+                            <th>Aplicar a Flujo Efectivo</th>
                             <th>Factura</th>
                             <th hidden="true">url_factura</th>
                             <th>Modificar</th>
@@ -45,9 +46,20 @@
                             <td id="<?php echo "comment".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_observacion.""; ?></td>
                             <td id="<?php echo "status".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_estado_pago.""; ?></td>
                             <td id="<?php echo "date".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_fecha_pago.""; ?></td>
-                            <td align="center" id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_venta.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
+                            <td id="<?php echo "aplica_flujo".$row->id_gasto_venta; ?>">
+                               <?php if ($row->gasto_venta_aplica_flujo=="1"): ?>
+                                   <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                                   <label hidden="true">1</label>
+                               <?php endif?>
+                               <?php if ($row->gasto_venta_aplica_flujo=="0"): ?>
+                                   <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                                   <label hidden="true">0</label>
+                               <?php endif?>
+                                
+                            </td>
+                            <td align="center" id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_venta.""; ?>"  onclick="Display_bill(this.id)"><img width="20px" src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico"  style="filter: invert(100%)"></a></td>
                              <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_url_factura.""; ?></td>
-                            <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
+                            <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#editCostSale"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                         </tr>
                         <?php } ?>
                     </tbody>
@@ -88,15 +100,25 @@
                             <label class="label-control">Fecha de emisión:</label>
                             <input type="date" class="form-control" name="addEmitionDate" id="addEmitionDate" >
                         </div>
-                        <div class="col-md-12">
-                            <label class = "control-label">Cliente:</label>
-                            <select class="form-control" type="text" name="addClientName" id="addClientName" required="true">
-                                <option selected>Seleccionar</option>
-                                <?php foreach ($woks->result() as $row){ ?>
-                                    <option value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
-                                <?php } ?>
-                            </select>
+                        <div class="row">
+                                <div class="col-md-8">
+                                <label class = "control-label">Cliente:</label>
+                                <select class="form-control" type="text" name="addClientName" id="addClientName" required="true">
+                                    <option selected>Seleccionar</option>
+                                    <?php foreach ($woks->result() as $row){ ?>
+                                        <option value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                            <div class=" col-md-4">
+                                <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                                <select class="form-control" id="addflujo" name="addflujo">
+                                    <option value="1">SI</option>
+                                    <option value="0">NO</option>
+                                </select>
+                            </div>
                         </div>
+                        
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
@@ -160,15 +182,25 @@
                     <div class="col-md-3">
                         <label class="label-control">Fecha de emisión:</label>
                         <input class="form-control" type="date" name="emitionDateE" id="emitionDateE" >  </div>
-                    <div class="col-md-12">
-                        <label class = "control-label">Cliente:</label>
-                        <select class="form-control" type="text" name="clientNameE" id="clientNameE" required="true">
-                            <option>Seleccionar</option>
-                            <?php foreach ($woks->result() as $row){ ?>
-                                <option value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
-                            <?php } ?>
-                        </select>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <label class = "control-label">Cliente:</label>
+                            <select class="form-control" type="text" name="clientNameE" id="clientNameE" required="true">
+                                <option>Seleccionar</option>
+                                <?php foreach ($woks->result() as $row){ ?>
+                                    <option value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
+                                <?php } ?>
+                            </select>
+                        </div>   
+                        <div class=" col-md-4">
+                            <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                            <select class="form-control" id="editflujo" name="editflujo">
+                                <option value="1">SI</option>
+                                <option value="0">NO</option>
+                            </select>
+                        </div>                     
                     </div>
+
                     <div class="col-md-8">
                         <label for="">Concepto:</label>
                         <input type="text" id="conceptE" name="conceptE" class="form-control">
@@ -247,7 +279,7 @@ $(document).ready(function(e){
                 if(data){
                     $('#addcostSale')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                                alert(data);
+                               // alert(data);
                     alert('Costo agregado correctamente');
                     CloseModal();
                 }else{
@@ -265,7 +297,7 @@ $(document).ready(function(e){
         var imagefile = file.type;
         // var match= ["*"];
         if(!(imagefile)){
-            alert('Please select a valid file (PDF).');
+            alert('Seleccione un archivo válido(PDF).');
             $("#addBill").val('');
             return false;
         }
@@ -293,7 +325,12 @@ function CloseModal(){
     var bill=$("#bill"+$id).text();
     var status=$("#status"+$id).text();
     var date=$("#date"+$id).text();
-
+    var editflujo=$("#aplica_flujo"+id).text().trim();
+    if(editflujo==0){
+        editflujo="NO";
+    }else{
+        editflujo="SI";
+    }
 
 
     $("#editCostSale").modal();
@@ -301,6 +338,7 @@ function CloseModal(){
     $("#folioE").val(bill);
     $("#emitionDateE").val(emition);
     $("#clientNameE option:contains("+client+")").attr('selected', true);
+     $("#editflujo option:contains("+editflujo+")").attr('selected', true);
     $("#amountE").val(amount);
     $("#conceptE").val(concept);
     $("#commentE").val(comment);
@@ -353,7 +391,7 @@ function CloseModal(){
         var imagefile = file.type;
         // var match= ["*"];
         if(!(imagefile)){
-            alert('Please select a valid file (PDF).');
+            alert('Seleccione un archivo válido (PDF).');
             $("#billE").val('');
             return false;
         }
@@ -386,8 +424,9 @@ function CloseModal(){
     var invoice=$id;
     var id=$id;
     var url = "<?php echo base_url()?>"+$("#url_factura"+id).text()+"?"+Date.now();
-    //alert(url);
-    if(url== "<?php echo base_url()?>"){
+    url_verifica=url.split("?");
+    //alert(url_verifica[0]);
+    if(url_verifica[0]=="<?php echo base_url()?>"){
         alert("No se adjuntó Factura");
     }else{
         $("#viewBill").modal();

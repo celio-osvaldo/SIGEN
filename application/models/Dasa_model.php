@@ -174,7 +174,7 @@ class Dasa_model extends CI_Model
   }
 
   public function GetAllCostOfSale($idcompany){
-    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura');
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura,gasto_venta_aplica_flujo');
     $this->db->from('obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
     $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
@@ -520,6 +520,7 @@ class Dasa_model extends CI_Model
     $this->db->where('MONTH(gasto_venta_fecha)',$mes);
     $this->db->where('YEAR(gasto_venta_fecha)',$anio);
     $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->where('gasto_venta_aplica_flujo','1');
     $this->db->order_by('gasto_venta_fecha');
     $result = $this->db->get();
     return $result;

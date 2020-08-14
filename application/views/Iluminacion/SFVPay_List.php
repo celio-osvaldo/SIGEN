@@ -222,6 +222,8 @@
       var datos = new FormData();
       var files = $('#comprobante_sfv')[0].files[0];
       //alert("id_lista pago: "+id_lista_pago_sfv);
+      
+      
       datos.append('file',files);
       datos.append('id_pago_sfv',id_pago_sfv);
       datos.append('id_lista_pago_sfv',id_lista_pago_sfv);    

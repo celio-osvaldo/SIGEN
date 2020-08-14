@@ -32,6 +32,7 @@ class Iluminacion_model extends CI_Model
     $this->db->from('producto_almacen');
     $this->db->join('unidades_de_medida','prod_alm_medida=id_uMedida');
     $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->order_by('prod_alm_nom');
     $result=$this->db->get();
     return $result;
   }
@@ -61,6 +62,7 @@ class Iluminacion_model extends CI_Model
       	$this->db->join('unidades_de_medida','producto_consu_medida=id_uMedida');
       	$this->db->join('catalogo_proveedor','producto_consu_ult_proveedor=id_catalogo_proveedor');
       	$this->db->where('producto_consumible.empresa_id_empresa',$idcompany);
+        $this->db->order_by('producto_consu_nom');
       	$result=$this->db->get();
       	return $result;
   }
@@ -69,6 +71,7 @@ class Iluminacion_model extends CI_Model
       	$this->db->select('id_catalogo_proveedor, catalogo_proveedor_nom_fiscal, catalogo_proveedor_empresa, rfc, catalogo_proveedor_contacto1, catalogo_proveedor_contacto2, catalogo_proveedor_puesto1, catalogo_proveedor_puesto2, catalogo_proveedor_tel1, catalogo_proveedor_tel2, catalogo_proveedor_cel1, catalogo_proveedor_cel2, catalogo_proveedor_email1, catalogo_proveedor_email2, catalogo_proveedor_coment');
       	$this->db->from('catalogo_proveedor');
       	$this->db->where('empresa_id_empresa', $idcompany);
+        $this->db->order_by('catalogo_proveedor_empresa');
       	$result=$this->db->get();
       	return $result;
   }
@@ -98,6 +101,7 @@ class Iluminacion_model extends CI_Model
   		$this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
   		$this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
+      $this->db->order_by('obra_cliente_nombre');
   		$query = $this->db->get();
   		return $query;			
   }
@@ -106,7 +110,9 @@ class Iluminacion_model extends CI_Model
       $this->db->select('id_catalogo_cliente,catalogo_cliente_empresa');
       $this->db->from('catalogo_cliente');
       $this->db->where('empresa_id_empresa',$idcompany);
+      $this->db->order_by('catalogo_cliente_empresa');
       $query=$this->db->get();
+
       return $query;
   }
 
@@ -155,6 +161,7 @@ class Iluminacion_model extends CI_Model
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
       $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
       $this->db->where('obra_cliente_estado',1);
+      $this->db->order_by('obra_cliente_nombre');
       $query = $this->db->get();
       return $query; 
   }
@@ -259,6 +266,7 @@ class Iluminacion_model extends CI_Model
     $this->db->join('catalogo_proveedor', 'catalogo_proveedor_id_catalogo_proveedor = id_catalogo_proveedor');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
     $this->db->where('empresa_id_empresa', $idcompany);
+    $this->db->order_by('catalogo_producto_nombre');
     $query = $this->db->get();
     if($query -> num_rows() >0){
       return $query;
@@ -527,6 +535,7 @@ class Iluminacion_model extends CI_Model
     $this->db->from('pago_sfv');
     $this->db->join('catalogo_cliente','pago_sfv_id_cliente=id_catalogo_cliente');
     $this->db->where('pago_sfv_id_empresa',$id_empresa);
+    $this->db->order_by('catalogo_cliente_empresa');
     $result=$this->db->get();
     return $result;
   }
@@ -631,6 +640,7 @@ class Iluminacion_model extends CI_Model
     $this->db->from('cotizacion');
     $this->db->join('empresa','cotizacion_id_empresa=id_empresa');
     $this->db->where('cotizacion_id_empresa',$idcomp);
+    $this->db->order_by('cotizacion_folio');
     $result=$this->db->get();
     return $result;
   }
@@ -701,29 +711,6 @@ class Iluminacion_model extends CI_Model
     return $result;#if the query has data, returns the data query
   }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   public function GetCotizacion_Products($id_cotizacion){
     $this->db->select('id_lista_cotizacion, lista_cotizacion_id_cotizacion, lista_cotizacion_id_prod_alm, prod_alm_nom,  prod_alm_modelo,  prod_alm_descripcion, lista_cotizacion_cantidad, lista_cotizacion_precio_unit, lista_cotizacion_descuento, lista_cotizacion_importe');
     $this->db->from('lista_cotizacion');
@@ -758,6 +745,7 @@ class Iluminacion_model extends CI_Model
     $this->db->from('recibo_entrega');
     $this->db->join('catalogo_cliente','recibo_entrega_id_cliente=id_catalogo_cliente ');
     $this->db->where('id_empresa',$id_empresa);
+    $this->db->order_by('recibo_entrega_folio');
     $result=$this->db->get();
     return $result;
   }
@@ -767,6 +755,7 @@ class Iluminacion_model extends CI_Model
     $this->db->from('anticipo');
     $this->db->join('catalogo_cliente', 'obra_cliente_id_obra_cliente=id_catalogo_cliente');
     $this->db->where('anticipo_status','Activo');
+    $this->db->order_by('catalogo_cliente_empresa');
     $result=$this->db->get();
     return $result;
   }
@@ -893,6 +882,7 @@ class Iluminacion_model extends CI_Model
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
     $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
     $this->db->where('empresa_id_empresa', $idcompany);
+    $this->db->order_by('gasto_venta_fecha','DESC');
     $query = $this->db->get();
     return $query;
   }

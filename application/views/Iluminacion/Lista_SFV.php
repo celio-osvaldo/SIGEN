@@ -12,7 +12,7 @@
 
 <div class="card bg-card">
   <div class="table-responsive">
-    <table id="table_sfv" class="table table-striped table-hover display" style="font-size: 10pt;">
+    <table id="table_sfv" class="table table-striped table-hover display" style="font-size: 9pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
           <th hidden="true">Id_pago_SFV</th>
@@ -54,14 +54,11 @@
           <td id="<?php echo "total_pagos".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_cant_pagos.""; ?></td>
           <td id="<?php echo "coment".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_coment.""; ?></td>
           <td>
-            <a class="navbar-brand" onclick="Add_Pago(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>"><button class="btn btn-outline-secondary" title="Agregar Pago"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" alt="Agregar" style="filter: invert(100%)"></button>
-            </a>
-            <a class="navbar-brand" href="#" onclick="Pago_SFV_Details(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>"><button class="btn btn-outline-secondary" title="Ver detalles de Pagos"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
-            </a>
-            <a class="navbar-brand" href="#" onclick="EditRecibo(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>">
-              <button class="btn btn-outline-secondary " title="Editar Registro"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
-              </button>
-            </a>
+            <div class="row">
+              <a class="btn btn-outline-secondary" title="Agregar Pago" onclick="Add_Pago(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" style="filter: invert(100%)"></a>
+              <a class="btn btn-outline-secondary" title="Ver detalles de Pagos" onclick="Pago_SFV_Details(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></a>
+              <a class="btn btn-outline-secondary" title="Editar Registro" onclick="EditRecibo(this.id)" role="button" id="<?php echo $row->id_pago_sfv; ?>"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" style="filter: invert(100%)" /></a>
+            </div>
           </td>
         </tr>
         <?php 
@@ -90,12 +87,22 @@
             <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
           <?php } ?>
         </select>
-        <label>KWh Totales</label><br>   
-        <input type="number" min="0" id="new_kwh" class="form-control input-sm"><br>
-        <label>Total de Pagos</label><br>
-        <input type="number" min="1" id="new_cant_pagos" class="form-control input-sm"><br>
-        <label>Importe Total</label><br>
-        <input type="text" onblur="Separa_Miles(this.id)" id="new_imp_total" class="form-control input-sm"><br>
+        <div class="row">
+          <div  class="col-md-5">
+            <label class="label-control">KWh Totales</label>
+             <input type="number" min="0" id="new_kwh" class="form-control">
+          </div>
+          <div class="col-md-5">
+             <label class="label-control">Total de Pagos</label>
+            <input type="number" min="1" id="new_cant_pagos" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Importe Total</label>
+            <input type="text" onblur="Separa_Miles(this.id)" id="new_imp_total" class="form-control">
+          </div>
+        </div>        
         <label>Comentarios</label><br>
         <textarea id="new_coment" maxlength="150" class="form-control input-sm"></textarea>
       </div>
@@ -176,18 +183,36 @@
             <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
           <?php } ?>
         </select>
-        <label>KWh Totales</label><br>   
-        <input type="number" min="0" id="edit_kwh" class="form-control input-sm"><br>
-        <label>Total de Pagos</label><br>
-        <input type="number" min="1" id="edit_cant_pagos" class="form-control input-sm"><br>
-        <label>Importe Total</label><br>
-        <input type="text" onblur="Separa_Miles(this.id)" id="edit_imp_total" class="form-control input-sm"><br>
-        <label>Estado</label>
-        <select id="edit_estado" class="form-control">
-          <option value="Activo">Activo</option>
-          <option value="Pagado">Pagado</option>
-          <option value="Cancelado">Cancelado</option>
-        </select>
+        <div class="row">
+          <div class="col-md-5">
+             <label class="label-control">KWh Totales</label>  
+             <input type="number" min="0" id="edit_kwh" class="form-control">
+          </div>
+          <div class=" col-md-5">
+            <label class="label-control">Total de Pagos</label>
+            <input type="number" min="1" id="edit_cant_pagos" class="form-control">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5">
+            <label class="label-control">Importe Total</label>
+            <input type="text" onblur="Separa_Miles(this.id)" id="edit_imp_total" class="form-control ">
+          </div>
+          <div class=" col-md-5">
+            <label class="label-control">Estado</label>
+           <select id="edit_estado" class="form-control">
+            <option value="Activo">Activo</option>
+            <option value="Pagado">Pagado</option>
+            <option value="Cancelado">Cancelado</option>
+          </select>
+        </div>
+        </div>
+
+       
+        
+        
+       
         <label>Comentarios</label><br>
         <textarea id="edit_coment" maxlength="150" class="form-control input-sm"></textarea>
       </div>

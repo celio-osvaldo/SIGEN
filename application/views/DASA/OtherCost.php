@@ -350,9 +350,9 @@ function CloseModal(){
 <script>
   function Display_bill($id){
     var url="<?php echo base_url()?>"+$("#url_factura"+$id).text()+"?"+Date.now();
-    var verifica=url.split(".");
+    var verifica=url.split("?");
     //alert(verifica[1]);
-    if(verifica[1]){
+    if(verifica[0]!="<?php echo base_url()?>"){
          $("#viewBill").modal();
        // $("#folios").val(invoice);
         // $("#folios").val(id);

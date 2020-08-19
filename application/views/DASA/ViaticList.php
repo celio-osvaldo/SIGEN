@@ -25,6 +25,7 @@
                                 <th>Fecha inicio</th>
                                 <th>Fecha fin</th>
                                 <th>Monto total</th>
+                                <th>Aplicar a Flujo Efectivo</th>
                                 <th>Detalles</th>
                                 <th>Editar</th>
                             </tr>
@@ -37,6 +38,18 @@
                                 <td id="<?php echo "fecha_ini".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_ini.""; ?></td>
                                 <td id="<?php echo "fecha_fin".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_fin.""; ?></td>
                                 <td id="<?php echo "monto".$row->id_viaticos.""; ?>"><?php echo number_format($row->viaticos_total,2,'.',',').""; ?></td>
+
+                                <td id="<?php echo "aplica_flujo".$row->id_viaticos; ?>">
+                                   <?php if ($row->viaticos_aplica_flujo=="1"): ?>
+                                       <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                                       <label hidden="true">1</label>
+                                   <?php endif?>
+                                   <?php if ($row->viaticos_aplica_flujo=="0"): ?>
+                                       <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                                       <label hidden="true">0</label>
+                                   <?php endif?>                                    
+                                </td>
+
                                 <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>"><img src="..\Resources\Icons\lupa.ico" alt="Editar" style="filter: invert(100%)" /></a>
                                 </td>
                                 <td>
@@ -66,43 +79,47 @@
         <form class="form-group" id="addReport">
 
           <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <input class="form-control" type="hidden" name="idreport" id="idreport">
-                        </div>
-                        <div class="col-md-6"></div>
-                        <div class="col-md-3">
-                            <label class="label-control">Fecha de reporte:</label>
-                            <input class="form-control" type="text" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
-                        </div>
+            <input class="form-control" type="hidden" name="idreport" id="idreport">
+            <div class="row">
+                <div class="col-md-3">
+                    <label class="label-control">Fecha de reporte:</label>
+                    <input class="form-control" type="date" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
+                </div>
 
-                        <div class="col-md-12">
-                            <label class="control-label">Proyecto:</label>
-                            <select class="form-control" type="text" name="addClientName" id="addClientName" required="true">
-                                <?php foreach ($works->result() as $row){ ?>
-                                <option selected value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
-                                <?php } ?>
-                            </select>
-                        </div>
+                <div class="col-md-8">
+                    <label class="control-label">Proyecto:</label>
+                    <select class="form-control" type="text" name="addClientName" id="addClientName" required="true">
+                        <?php foreach ($works->result() as $row){ ?>
+                            <option selected value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
+                        <?php } ?>
+                    </select>
+                </div>
 
-                        <div class="col-md-5">
-                            <label for="">Fecha de inicio:</label>
-                            <input type="date" id="addStartDate" name="addStartDate" class="form-control" required="true" onchange="DateObtain(this)" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-                            <input type="hidden" id="addCompany" name="addCompany" value="2">
-                        </div>
+                <div class="col-md-4">
+                    <label for="">Fecha de inicio:</label>
+                    <input type="date" id="addStartDate" name="addStartDate" class="form-control" required="true" onchange="DateObtain(this)" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+                    <input type="hidden" id="addCompany" name="addCompany" value="2">
+                </div>
 
-                        <div class="col-md-2">
-                            <input class="form-control" type="hidden" name="totalDays" id="totalDays">
-                            <input type="hidden" name="addMoney" id="addMoney" class="form-control">
-                        </div>
-   
-                        <div class="col-md-5">
-                            <label for="">Fecha final:</label>
-                            <input type="date" class="form-control" name="AddDateEnd" id="AddDateEnd" required="true" onchange="DateObtain(this)" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-                        </div>
+                <div class="col-md-4">
+                    <label for="">Fecha final:</label>
+                    <input type="date" class="form-control" name="AddDateEnd" id="AddDateEnd" required="true" onchange="DateObtain(this)" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+                </div>
 
-                  </div>
-              </div>
+                <div class=" col-md-4">
+                    <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                    <select class="form-control" id="addflujo" name="addflujo">
+                        <option value="1">SI</option>
+                        <option value="0">NO</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="col-md-2">
+                <input class="form-control" type="hidden" name="totalDays" id="totalDays">
+                <input type="hidden" name="addMoney" id="addMoney" class="form-control">
+            </div>
+        </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-outline-success submitBtn" id="saveReport">Guardar</button>
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="cancel">Cancelar</button>
@@ -133,6 +150,11 @@
                         <div>
                             <input class="form-control" type="text" hidden="true" name="edit_idreport" id="edit_idreport">
                         </div>
+                        <div class="col-md-3">
+                            <label class="label-control">Fecha de reporte:</label>
+                            <input class="form-control" type="date" name="edit_addEmitionDate" id="edit_addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
+                        </div>
+
                        <div class="col-md-8">
                             <label class="control-label">Proyecto:</label>
                             <select class="form-control" type="text" name="edit_addClientName" id="edit_addClientName" required="true">
@@ -140,24 +162,24 @@
                                 <option selected value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
                                 <?php } ?>
                             </select>
-                        </div>
+                        </div> 
+
                         <div class="col-md-3">
-                            <label class="label-control">Fecha de reporte:</label>
-                            <input class="form-control" type="date" name="edit_addEmitionDate" id="edit_addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
-                        </div>
-
- 
-
-                        <div class="col-md-5">
                             <label for="">Fecha de inicio:</label>
                             <input type="date" id="edit_addStartDate" name="edit_addStartDate" class="form-control" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                         </div>
    
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <label for="">Fecha final:</label>
                             <input type="date" class="form-control" name="edit_AddDateEnd" id="edit_AddDateEnd" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                         </div>
-
+                        <div class=" col-md-4">
+                            <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                            <select class="form-control" id="edit_aplicaflujo" name="edit_aplicaflujo">
+                                <option value="1">SI</option>
+                                <option value="0">NO</option>
+                            </select>
+                        </div>
                   </div>
               </div>
             <div class="modal-footer">
@@ -206,7 +228,7 @@ $(document).ready(function(e){
                 if(data == 1){
                     $('#addReport')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                    alert('Información del reporte de viatico actualizada');
+                    alert('Información del reporte de viatico Agregada');
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');
@@ -289,6 +311,12 @@ function CloseModal(){
     total_dias=$("#total_dias"+id_viaticos).text();
     fecha_inicio=$("#fecha_ini"+id_viaticos).text();
     fecha_fin=$("#fecha_fin"+id_viaticos).text();
+    var edit_aplicaflujo=$("#aplica_flujo"+id_viaticos).text().trim();
+    if(edit_aplicaflujo==0){
+        edit_aplicaflujo="NO";
+    }else{
+        edit_aplicaflujo="SI";
+    }
     //monto=$("#monto"+id_viaticos).text();
     //importe=importe.replace(/\,/g, '');
 
@@ -302,6 +330,7 @@ function CloseModal(){
     $("#edit_totalDays").val(total_dias);
     //$("#edit_addMoney").val(monto);
     $("#edit_AddDateEnd").val(fecha_fin);
+    $("#edit_aplicaflujo option:contains("+edit_aplicaflujo+")").attr('selected', true);
 
     }
 

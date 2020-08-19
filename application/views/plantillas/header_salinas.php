@@ -29,7 +29,7 @@ header("Pragma: no-cache");
 	
 </head>
 <body>
-<title> <?php echo $title ?></title>
+	<title> <?php echo $title ?></title>
 	<nav class="navbar navbar-expand-lg navbar-dark header_salinas">
 		<a class="navbar-brand" href="<?php echo base_url()?>Welcome/Companies"><img  src="<?php echo base_url() ?>Resources/Logos/grupo.ico"></a>
 
@@ -102,16 +102,18 @@ header("Pragma: no-cache");
 			</ul>
 		</div>
 		<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
-		<a class="btn btn-outline-light" href="<?php echo base_url()?>Salinas/Logout" role="button">Cerrar Sesión</a>
+		<a class="btn btn-outline-light" id="btn_cerrar" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>
 
 
+
 <script>
-var myVar = setInterval(Check_Sesion, 46000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
-
-
-function Check_Sesion(){
-	  $.ajax({
+var timeout;
+var base_url = "<?php echo base_url()?>Dasa/Logout";
+document.onmousemove = function() {
+  clearTimeout(timeout);
+  timeout = setTimeout(function() {
+  		  $.ajax({
     type:"POST",
     url:"<?php echo base_url();?>Dasa/Verifica_Sesion",
      data:{},
@@ -119,8 +121,11 @@ function Check_Sesion(){
       	if(!result){	
   location.href= "<?php echo base_url()?>Dasa/Logout";
       	}
+      	else{
+      		location.href= "<?php echo base_url()?>Dasa/Logout";
+      	}
        }
   });
+  }, 2701000);  //A los 45 min de que no se mueva el mouse sobre la página, se cerrará la sesión
 }
-
 </script

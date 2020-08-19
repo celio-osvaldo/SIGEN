@@ -440,6 +440,7 @@ class Salinas extends CI_Controller {
 		$company='SALINAS';
 		$idcomp=$this->Salinas_model->IdCompany($company);
 		$id_otros_gastos=$_POST["idE"];
+		$edit_flujo=$_POST["edit_flujo"];
 
 		$monto=$_POST["editAmount"];
 		$monto=str_replace(',', '', $monto); 
@@ -467,7 +468,8 @@ class Salinas extends CI_Controller {
 						'saldo'=> $monto,
 						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
-						'fecha_pago_factura' => $this->input->post('editDate'));
+						'fecha_pago_factura' => $this->input->post('editDate'),
+						'otros_gastos_aplica_flujo' => $edit_flujo);
 		        $this->Salinas_model->UpdateExpendInfo($id_otros_gastos, $data);
 
 		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
@@ -497,6 +499,7 @@ class Salinas extends CI_Controller {
 		$ingreso=str_replace(',', '', $ingreso);//Eliminamos las comas de la cantidad ingresada
 		$egreso=str_replace(',', '', $egreso);//Eliminamos las comas de la cantidad ingresada
 		//var_dump($radio);
+		$aplicaflujo=$_POST["aplicaflujo"];
 
 		if($radio=="option1"){
 			$reposicion=0;
@@ -530,7 +533,8 @@ class Salinas extends CI_Controller {
 						'lista_caja_chica_reposicion'=> $reposicion,
 						'lista_caja_chica_gasto'=> $gasto,
 						'lista_caja_chica_factura' => $this->input->post('folioBillI'),
-						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI')/*,
+						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'),
+						'lista_caja_chica_aplica_flujo' =>$aplicaflujo/*,
 						'lista_caja_chica_saldo' => $saldo_caja*/);
 		$id_caja_chica=$this->Salinas_model->Insert($table, $data);
 
@@ -564,6 +568,7 @@ class Salinas extends CI_Controller {
      	$edit_money=str_replace(',', '', $edit_money);//Eliminamos las comas de la cantidad ingresada
      	$edit_folioBillI=$_POST["edit_folioBillI"];
      	$edit_dateBillI=$_POST["edit_dateBillI"];
+     	$editflujo=$_POST["editflujo"];
      	if($tipo=="option2"){//Verificamos si el radio seleccionado es el de la opción 2 (Ingreso)
         	$monto_ingreso=$edit_money;
         	$monto_egreso=0;
@@ -604,7 +609,8 @@ class Salinas extends CI_Controller {
 						'lista_caja_chica_reposicion'=> $monto_ingreso,
 						'lista_caja_chica_gasto'=> $monto_egreso,
 						'lista_caja_chica_factura' => $edit_folioBillI,
-						'lista_caja_chica_fecha_factura' => $edit_dateBillI);
+						'lista_caja_chica_fecha_factura' => $edit_dateBillI,
+						'lista_caja_chica_aplica_flujo' => $editflujo);
      $this->Salinas_model->Update_Caja_Chica($edit_id_lista_caja_chica, $data);
 
 
@@ -865,6 +871,7 @@ class Salinas extends CI_Controller {
 		$idcompany=$this->Salinas_model->IdCompany($company);
 		$monto=$_POST["addAmount"];
 		$monto=str_replace(',', '', $monto); 
+		$add_flujo=$_POST["add_flujo"];
 
 
 		if (isset($_FILES['addBill']['name'])) {
@@ -888,7 +895,8 @@ class Salinas extends CI_Controller {
 						'saldo'=> $monto,
 						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
-						'fecha_pago_factura' => $this->input->post('addDate'));
+						'fecha_pago_factura' => $this->input->post('addDate'),
+						'otros_gastos_aplica_flujo' => $add_flujo);
 
 		$id_otros_gastos=$this->Salinas_model->Insert($table, $data);
 		$url_imagen='Resources/Bills/Expends/Salinas/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
@@ -971,6 +979,7 @@ class Salinas extends CI_Controller {
 		$idcompany=$this->Salinas_model->IdCompany($company);
 		$totalDays=$_POST["totalDays"];
 		$totalDays++;
+		$addflujo=$_POST["addflujo"];
 
 		$table = 'viaticos';
 		$data = array('obra_cliente_id_obra_cliente' => $this->input->post('addClientName'),
@@ -979,7 +988,8 @@ class Salinas extends CI_Controller {
 						'viaticos_total_dias' => $totalDays,
 						'viaticos_fecha_ini' => $this->input->post('addStartDate'),
 						'viaticos_fecha_fin' => $this->input->post('AddDateEnd'),
-						'viaticos_total' => $this->input->post('addMoney'));
+						'viaticos_total' => $this->input->post('addMoney'),
+						'viaticos_aplica_flujo' => $addflujo);
 		if ($this->Salinas_model->Insert($table, $data)) {
         	echo true;
         }else{
@@ -992,6 +1002,7 @@ class Salinas extends CI_Controller {
 		$company='SALINAS';
 		$idcompany=$this->Salinas_model->IdCompany($company);
 		$id_viatico=$_POST["edit_idreport"];
+		$edit_aplicaflujo=$_POST["edit_aplicaflujo"];
 
 		$date1 = new DateTime($_POST["edit_addStartDate"]); 
 		$date2 =  new DateTime($_POST["edit_AddDateEnd"]);
@@ -1006,7 +1017,8 @@ class Salinas extends CI_Controller {
 						'viaticos_fecha' => $this->input->post('edit_addEmitionDate'),
 						'viaticos_total_dias' => $dias,
 						'viaticos_fecha_ini' => $this->input->post('edit_addStartDate'),
-						'viaticos_fecha_fin' => $this->input->post('edit_AddDateEnd'));
+						'viaticos_fecha_fin' => $this->input->post('edit_AddDateEnd'),
+						'viaticos_aplica_flujo' => $edit_aplicaflujo);
 
 		if ($this->Salinas_model->Update_Viatic($id_viatico, $data)) {
         	echo true;

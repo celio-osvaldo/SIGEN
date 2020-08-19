@@ -34,7 +34,7 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Listado de reportes en caja chica</h3>
+    <h3 align="center">Listado de reportes en caja chica333</h3>
   </div>
   <div class="col-md-4">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newReport"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Reporte</button>

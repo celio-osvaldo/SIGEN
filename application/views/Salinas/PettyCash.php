@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Listado de reportes en caja chica</h3>
+    <h3 align="center">Listado de reportes en Caja Chica</h3>
   </div>
   <div class="col-md-4">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newReport"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Reporte</button>
@@ -29,6 +29,7 @@
                             <th>Folio de factura</th>
                             <th>Fecha de Factura</th>
                             <th>Factura/Comprobante</th>
+                            <th>Aplicar a Flujo de Efectivo</th>
                             <th>Modificar</th>
                         </tr>
                     </thead>
@@ -37,7 +38,6 @@
                         foreach ($cash->result() as $row) {?>
                             <td id="<?php echo "dateR".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_fecha.""; ?></td>
                             <td id="<?php echo "concept".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_concepto.""; ?></td>
-
                             <?php if ($row->lista_caja_chica_reposicion != "0"){ ?>
                             <td hidden="true" id="<?php echo "tipo".$row->id_lista_caja_chica.""; ?>">Ingreso</td>
                             <td>$</td>
@@ -47,10 +47,20 @@
                             <td>$</td>
                             <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>"><?php echo number_format($row->lista_caja_chica_gasto,2,'.',',').""; ?></td>
                             <?php } ?>
-
                             <td id="<?php echo "bill".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_factura.""; ?></td>
                             <td id="<?php echo "dateB".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_fecha_factura.""; ?></td>
                             <td align="center" id="<?php echo "bill_url".$row->id_lista_caja_chica.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->lista_caja_chica_url_factura.""; ?>" onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
+                            <td id="<?php echo "aplica_flujo".$row->id_lista_caja_chica; ?>">
+                               <?php if ($row->lista_caja_chica_aplica_flujo=="1"): ?>
+                                   <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                                   <label hidden="true">1</label>
+                               <?php endif?>
+                               <?php if ($row->lista_caja_chica_aplica_flujo=="0"): ?>
+                                   <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                                   <label hidden="true">0</label>
+                               <?php endif?>
+                                
+                            </td>
                             <td><a role="button" class="btn btn-outline-dark" onclick="Edit_Registro(this.id)" id="<?php echo "".$row->id_lista_caja_chica.""; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                         </tr>
                         <?php } ?>
@@ -80,36 +90,56 @@
   <form class="form-group" id="addReport" enctype="multipart/form-data">
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
+                <label class="label-control">Folio Factura/Comprobante</label>
+                <input class="form-control" type="text" name="folioBillI" id="folioBillI" required="true">
+            </div>
+            <div class="col-md-4">
                 <!-- <label class="control-label">Caja chica</label> -->
                 <?php foreach ($max->result() as $row){ ?>
                     <input class="form-control" type="hidden" name="cashI" id="cashI" value="<?php echo "".($row->id_lista_caja_chica + 1).""; ?>">
                 <?php } ?>
                 <label class="label-control">Fecha de emisión</label>
                 <input class="form-control" type="date" name="dateI" id="dateI">
+            </div>
+            <div class=" col-md-4">
+                <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                <select class="form-control" id="aplicaflujo" name="aplicaflujo">
+                    <option value="1">SI</option>
+                    <option value="0">NO</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-10">
                 <label class = "control-label">Concepto</label>
                 <input class="form-control" type="text" name="conceptI" id="conceptI" required="true" required="true">
             </div>
-
-            <div class="col-md-6">
-                <div class="row">
-                    <div hidden="true" class="col-md-6">
-                        <label for="">Tipo de movimiento</label>
-                        <div class="form-check">
+        </div>
+        
+            <div class="">
+                    <div class="col-md-6">
+                        <label hidden="true" for="">Tipo de movimiento</label>
+                        <div hidden="true" class="form-check">
                           <input class="form-check-input moviment" type="radio" name="exampleRadios" id="exampleRadios" value="option1" checked>
                           <label class="form-check-label" for="exampleRadios1">
                             Egreso
-                        </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input moviment" type="radio" name="exampleRadios" id="exampleRadios" value="option2">
-                      <label class="form-check-label" for="exampleRadios2">
+                            </label>
+                        </div>
+                    <div hidden="true" class="form-check">
+                        <input class="form-check-input moviment" type="radio" name="exampleRadios" id="exampleRadios" value="option2">
+                        <label class="form-check-label" for="exampleRadios2">
                         Ingreso
-                    </label>
+                        </label>
+                    </div><!--Se desabilitó debido a que no se utilizará la caja chica como ingreso y egreso -->
                 </div>
             </div>
-            <div class="col-md-6">
-                <label class="control-label">Saldo</label>
+
+        <div class="row">        
+
+            <div class="col-md-3">
+                <label class="control-label">Monto</label>
                 <div id="tm1" style="display:;">
                     <input class="form-control" onblur="SeparaMiles(this.id)" type="text" name="moneyEI" id="moneyEI">
                 </div>
@@ -117,21 +147,15 @@
                     <input class="form-control" type="text" name="moneyI" id="moneyI">
                 </div>
             </div>
+            <div class="col-md-3">
+                <label class = "control-label">Fecha factura</label>
+                <input class="form-control" type="date" name="dateBillI" id="dateBillI" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+            </div>
+            <div class="col-md-6">
+                <label class="label-control">Factura/Comprobante</label>
+                <input class="form-control" type="file" name="upBillI" id="upBillI" accept="application/pdf, image/*">
+            </div>
         </div>
-    </div>
-    <div class="col-md-4">
-        <label class="label-control">Folio Factura/Comprobante</label>
-        <input class="form-control" type="text" name="folioBillI" id="folioBillI" required="true">
-    </div>
-    <div class="col-md-4">
-        <label class="label-control">Factura/Comprobante</label>
-        <input class="form-control" type="file" name="upBillI" id="upBillI" accept="application/pdf, image/*">
-    </div>
-    <div class="col-md-4">
-        <label class = "control-label">Fecha factura</label>
-        <input class="form-control" type="date" name="dateBillI" id="dateBillI" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-    </div>
-</div>
 </div>
 <div class="modal-footer">
     <button type="submit" class="btn btn-outline-success submitBtn" id="saveReport">Guardar</button>
@@ -165,6 +189,13 @@
                 <label class = "control-label">Concepto</label>
                 <input class="form-control" type="text" name="edit_conceptI" id="edit_conceptI" required="true" required="true">
             </div>
+            <div class=" col-md-4">
+                <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                <select class="form-control" id="editflujo" name="editflujo">
+                    <option value="1">SI</option>
+                    <option value="0">NO</option>
+                </select>
+            </div>
 
             <div class="col-md-6">
                 <div class="row">
@@ -184,7 +215,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <label class="control-label">Saldo</label>
+                <label class="control-label">Monto</label>
   
                     <input class="form-control" type="text"  onblur="SeparaMiles(this.id)" name="edit_money" id="edit_money">
 
@@ -349,7 +380,7 @@ function CloseModal(){
   function Display_bill($id){
      var url="<?php echo base_url()?>"+$id+"?"+Date.now();
     var id=$id;
-    //var url = "<?php echo base_url()?>Resources/Bills/PettyCash/Salinas/"+invoice+".pdf";
+    //var url = "<?php echo base_url()?>Resources/Bills/PettyCash/SALINAS/"+invoice+".pdf";
 
     //$("#folios").val(url);
     // $("#folios").val(id);
@@ -370,12 +401,20 @@ function Edit_Registro($id_lista_caja_chica){
     monto=$("#money"+id_lista_caja_chica).text();
     factura=$("#bill"+id_lista_caja_chica).text();
     fecha_factura=$("#dateB"+id_lista_caja_chica).text();
+    editflujo=$("#aplica_flujo"+id_lista_caja_chica).text().trim();
+    if(editflujo==0){
+        editflujo="NO";
+    }else{
+        editflujo="SI";
+    }
+
     //alert(id_lista_caja_chica+" "+fecha_em+" "+concepto+" "+tipo+" "+monto+" "+factura);
 
      $("#edit_Report").modal();
      $("#edit_id_lista_caja_chica").val(id_lista_caja_chica);
      $("#edit_dateI").val(fecha_em);
      $("#edit_conceptI").val(concepto);
+      $("#editflujo option:contains("+editflujo+")").attr('selected', true);
      if(tipo=="Ingreso"){
         $("#edit_radio_ingreso").prop( "checked", true );
          $("#edit_radio_egreso").prop( "checked", false );

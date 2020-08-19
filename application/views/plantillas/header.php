@@ -137,10 +137,9 @@ header("Pragma: no-cache");
   }
 </script>
 
+<!--
 <script>
 var myVar = setInterval(Check_Sesion, 46000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
-
-
 function Check_Sesion(){
     $.ajax({
     type:"POST",
@@ -153,7 +152,28 @@ function Check_Sesion(){
        }
   });
 }
-
 </script
+-->
 
-
+<script type="text/javascript">
+var timeout;
+var base_url = "<?php echo base_url()?>Dasa/Logout";
+document.onmousemove = function() {
+  clearTimeout(timeout);
+  timeout = setTimeout(function() {
+        $.ajax({
+    type:"POST",
+    url:"<?php echo base_url();?>Dasa/Verifica_Sesion",
+     data:{},
+      success:function(result){
+        if(!result){  
+  location.href= "<?php echo base_url()?>Dasa/Logout";
+        }
+        else{
+          location.href= "<?php echo base_url()?>Dasa/Logout";
+        }
+       }
+  });
+  }, 2701000);  //A los 45 min de que no se mueva el mouse sobre la página, se cerrará la sesión
+}
+</script>

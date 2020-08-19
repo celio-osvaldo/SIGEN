@@ -16,6 +16,9 @@
 
 
 
+
+
+
 	<?php
 	header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 	header("Cache-Control: post-check=0, pre-check=0", false);
@@ -60,6 +63,8 @@
 					$total_solicitudes=$solicitudes->num_solic+$solicitudes_pago->num_solic_pago;?>
 					<span class="badge badge-danger"><?php echo $total_solicitudes ?> </span>
 				<?php
+				}else{
+					$total_solicitudes=0;
 				} ?>
 			</a>
 			&nbsp;&nbsp;&nbsp;&nbsp;
@@ -92,7 +97,7 @@
 
 
 <script>
-var myVar = setInterval(Check_Sesion, 46000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
+/*var myVar = setInterval(Check_Sesion, 46000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
 
 function Check_Sesion(){
 	  $.ajax({
@@ -105,14 +110,36 @@ function Check_Sesion(){
       	}
        }
   });
-}
+}*/
 
 function Muestra_Modal(){
 	if (<?php echo $total_solicitudes ?> >0) {
 	$("#CambiosModal").modal();
     //$("#edit_nom_fiscal").val(nom_fiscal);
 	}
-
 }
+
+
+var timeout;
+var base_url = "<?php echo base_url()?>Dasa/Logout";
+document.onmousemove = function() {
+  clearTimeout(timeout);
+  timeout = setTimeout(function() {
+  		  $.ajax({
+    type:"POST",
+    url:"<?php echo base_url();?>Dasa/Verifica_Sesion",
+     data:{},
+      success:function(result){
+      	if(!result){	
+  location.href= "<?php echo base_url()?>Dasa/Logout";
+      	}
+      	else{
+      		location.href= "<?php echo base_url()?>Dasa/Logout";
+      	}
+       }
+  });
+  }, 2701000);  //A los 45 min de que no se mueva el mouse sobre la página, se cerrará la sesión
+}
+
 
 </script

@@ -27,6 +27,7 @@
                             <th>Monto</th>
                             <th>Comentario</th>
                             <th>Fecha de Pago</th>
+                            <th>Aplicar a Flujo Efectivo</th>
                             <th>Factura</th>
                             <th hidden="true">url_factura</th>
                             <th>Modificar</th>
@@ -42,6 +43,19 @@
                             <td id="<?php echo "expend".$row->id_OGasto.""; ?>"><?php echo number_format($row->saldo,2,'.',',').""; ?></td>
                             <td id="<?php echo "comment".$row->id_OGasto.""; ?>"><?php echo "".$row->comentario.""; ?></td>
                             <td id="<?php echo "dateEx".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_pago_factura.""; ?></td>
+
+                            <td id="<?php echo "aplica_flujo".$row->id_OGasto; ?>">
+                               <?php if ($row->otros_gastos_aplica_flujo=="1"): ?>
+                                   <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                                   <label hidden="true">1</label>
+                               <?php endif?>
+                               <?php if ($row->otros_gastos_aplica_flujo=="0"): ?>
+                                   <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                                   <label hidden="true">0</label>
+                               <?php endif?>
+                                
+                            </td>
+
                             <td align="center" id="<?php echo "factura".$row->id_OGasto.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_OGasto.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
                             <td hidden="true" id="<?php echo "url_factura".$row->id_OGasto.""; ?>"><?php echo $row->factura ?></td>
                             <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_OGasto.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
@@ -74,12 +88,18 @@
 
           <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <input type="hidden" name="id" id="id">
                             <label class="control-label">Folio Factura/Comprobante:</label>
                             <input class="form-control" type="text" name="addFolio" id="addFolio" value="" required="true">
                         </div>
-                        <div class="col-md-6"></div>
+                        <div class=" col-md-4">
+                            <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                            <select class="form-control" id="add_flujo" name="add_flujo">
+                                <option value="1">SI</option>
+                                <option value="0">NO</option>
+                            </select>
+                        </div>
                         <div class="col-md-3">
                             <label class="label-control">Fecha de emisión:</label>
                             <input class="form-control" type="date" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
@@ -89,20 +109,20 @@
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
                             <input type="hidden" id="addCompany" name="addCompany" value="2">
                         </div>
-                        <div class="col-md-8">
-                            <label for="">Comentario:</label>
-                            <textarea id="addComment" name="addComment" class="form-control" required="true"></textarea>
-                        </div>
-                        <div class="col-md-1"></div>
+
                         <div class="col-md-3">
                             <label for="">Monto:
                             <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
                         </div>
                         <div class="col-md-6">
+                            <label for="">Comentario:</label>
+                            <textarea id="addComment" name="addComment" cols="8" rows="4" class="form-control" required="true"></textarea>
+                        </div>
+
+                        <div class="col-md-6">
                             <label for="">Fecha de pago:</label>
                             <input type="date" id="addDate" name="addDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-                        </div>
-                        <div class="col-md-6">
+
                             <label for="">Comprobante:</label>
                             <input class="form-control" name="addBill" id="addBill" type="file" accept="application/pdf, image/*">
                         </div>
@@ -125,7 +145,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nueva factura</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Editar Factura</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -133,12 +153,18 @@
         <form class="form-group" id="editCost">
       <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                             <input type="hidden" name="idE" id="idE">
                             <label class="control-label">Folio Factura/Comprobante:</label>
                             <input class="form-control" type="text" name="editFolio" id="editFolio" value="" required="true">
                         </div>
-                        <div class="col-md-6"></div>
+                        <div class=" col-md-4">
+                            <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                            <select class="form-control" id="edit_flujo" name="edit_flujo">
+                                <option value="1">SI</option>
+                                <option value="0">NO</option>
+                            </select>
+                        </div>
                         <div class="col-md-3">
                             <label class="label-control">Fecha de emisión:</label>
                             <input class="form-control" type="date" name="editEmitionDate" id="editEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
@@ -148,7 +174,6 @@
                             <input type="text" id="editConcept" name="editConcept" class="form-control" required="true">
                             <input type="hidden" id="editCompany" name="editCompany" value="2">
                         </div>
-                        <div class="col-md-1"></div>
                         <div class="col-md-3">
                             <label for="">Monto:
                             <input type="text" class="form-control" onblur="SeparaMiles(this.id)" name="editAmount" id="editAmount" required="true">
@@ -224,7 +249,7 @@ $(document).ready(function(e){
             },
             success: function(data){
                 // $('.statusMsg').html('');
-                alert(data);
+                //alert(data);
                 if(data == 1){
                     $('#newExpend')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
@@ -245,7 +270,7 @@ $(document).ready(function(e){
         var imagefile = file.type;
         // var match= ["*"];
         if(!(imagefile)){
-            alert('Please select a valid image file (PDF).');
+            alert('Seleccione un archivo válido (PDF).');
             $("#addBill").val('');
             return false;
         }
@@ -272,6 +297,13 @@ function CloseModal(){
     var comment=$("#comment"+$id).text();
     var bill=$("#bill"+$id).text();
     var dateEx=$("#dateEx"+$id).text();
+    var edit_flujo=$("#aplica_flujo"+id).text().trim();;
+    if(edit_flujo==0){
+        edit_flujo="NO";
+    }else{
+        edit_flujo="SI";
+    }
+        //alert(edit_flujo);
 
     $("#editCostSale").modal();
     $("#idE").val(id);
@@ -281,6 +313,8 @@ function CloseModal(){
     $("#editAmount").val(expend);
     $("#editComment").val(comment);
     $("#editDate").val(dateEx);
+    $("#edit_flujo option:contains("+edit_flujo+")").attr('selected', true);
+
    // $("#editBill").val(enviroment);
     }
 
@@ -331,7 +365,7 @@ function CloseModal(){
         var imagefile = file.type;
         // var match= ["*"];
         if(!(imagefile)){
-            alert('Please select a valid image file (PDF).');
+            alert('Seleccione un archivo válido (PDF).');
             $("#editBill").val('');
             return false;
         }

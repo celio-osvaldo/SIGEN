@@ -338,7 +338,7 @@ function CloseModal(){
     $("#folioE").val(bill);
     $("#emitionDateE").val(emition);
     $("#clientNameE option:contains("+client+")").attr('selected', true);
-     $("#editflujo option:contains("+editflujo+")").attr('selected', true);
+    $("#editflujo option:contains("+editflujo+")").attr('selected', true);
     $("#amountE").val(amount);
     $("#conceptE").val(concept);
     $("#commentE").val(comment);

@@ -107,6 +107,7 @@ header("Pragma: no-cache");
 
 
 
+
 <script>
 var timeout;
 var base_url = "<?php echo base_url()?>Dasa/Logout";

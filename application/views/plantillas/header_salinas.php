@@ -128,4 +128,4 @@ document.onmousemove = function() {
   });
   }, 2701000);  //A los 45 min de que no se mueva el mouse sobre la página, se cerrará la sesión
 }
-</script
+</script>

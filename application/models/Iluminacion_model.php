@@ -692,6 +692,7 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+
     public function GetCotizacion_Info_cotizante($id_cotizacion,$id_cliente){
     $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cotizante_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
     $this->db->from('cotizacion');
@@ -899,6 +900,7 @@ class Iluminacion_model extends CI_Model
 
   public function GetAllWorks_Client($IdCompany){
     $this->db->where('empresa_id_empresa', $IdCompany);
+    $this->db->order_by('obra_cliente_nombre','ASC');
     $q = $this->db->get('obra_cliente');
     if($q -> num_rows() >0){
       return $q;
@@ -1334,6 +1336,15 @@ class Iluminacion_model extends CI_Model
       } else{
       return false;
     }
+  }
+
+  public function Tot_Prod($id_proy_tran){
+    $this->db->select('count(id_prod_anticipo) as tot_prod');
+    $this->db->from('prod_anticipo');
+    $this->db->where('anticipo_id_anticipo',$id_proy_tran);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
   }
   
 

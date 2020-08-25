@@ -37,7 +37,14 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Empresa:<hr><?php echo $cotizacion_info->catalogo_cliente_empresa; ?>
+                 <?php if ($tipo=="cotizante"): ?>
+                 Empresa:<hr><?php echo $cotizacion_info->catalogo_cotizante_empresa; ?>
+                  <?php endif ?>
+                  <?php if ($tipo=="cliente"): ?>
+                 Empresa:<hr><?php echo $cotizacion_info->catalogo_cliente_empresa; ?>
+                <?php endif ?>
+
+
               </h6>
             </span>
             <span class="badge badge-info">

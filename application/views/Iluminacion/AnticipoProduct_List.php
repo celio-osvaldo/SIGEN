@@ -93,7 +93,9 @@
         <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_prod_ant" hidden="true">
       </div>
+      <!--
       <h6 class="bg-warning"><p>Al eliminar/agregar el producto, la cantidad de este se agregará/descontará a la existenia en almacen.</p></h6>
+    -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
         <button type="button" class="btn btn-primary" id="UpdateProduct" data-dismiss="modal">Actualizar</button>
@@ -118,7 +120,9 @@
         <h6><label>Precio de Venta: $</label><span class="badge badge-danger" id="delete_precio"></span></h6>
         <h6><label>Comentarios: </label><span class="badge badge-danger" id="delete_coment"></span></h6>
         <input type="text" id="delete_id_prod_ant" hidden="true">
+        <!--
         <h6 class="bg-warning"><p>Al eliminar el producto, la cantidad de este se agregará nuevamente al almacen como existencia.</p></h6>
+      -->
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -211,15 +215,17 @@
         if (id_producto==<?php echo $key->id_prod_alm; ?>) {
           var precio_unitario=(<?php echo $key->prod_alm_prec_unit; ?>);
           var existencia=(<?php echo $key->prod_alm_exist; ?>);
-          var precio_venta=(<?php echo $key->prod_alm_precio_venta; ?>);
+          //var precio_venta=(<?php echo $key->prod_alm_precio_venta; ?>);
         }
       <?php endforeach ?>
       var existencia=parseInt(existencia)+parseInt(cantidad);
+
+      //alert(precio_venta[1]);
     $('#EditProductModal').modal();
      $("#titleProductModal").text("Editar Producto: "+nombre_prod);
      $("#edit_cant").val(cantidad);
      $("#edit_cant").attr({"max" : existencia});
-     $("#edit_precio").val(parseFloat(precio_venta));
+     $("#edit_precio").val((precio_venta[1]));
      $("#edit_coment").val(coment);
      $("#edit_id_prod_ant").val(id_prod_ant);
   }
@@ -235,7 +241,7 @@
     $('#DeleteProductModal').modal();
      $("#titleDeleteProductModal").text("Eliminar Producto: "+nombre_prod);
      $("#delete_cant").text(cantidad);
-     $("#delete_precio").text(parseFloat(precio_venta[1]));
+     $("#delete_precio").text((precio_venta[1]));
      $("#delete_coment").text(coment);
      $("#delete_id_prod_ant").val(id_prod_ant);
   }

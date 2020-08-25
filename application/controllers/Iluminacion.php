@@ -687,7 +687,7 @@ public function AddProduct(){
 					$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($row->producto_almacen_id_prod_alm);
 					$nueva_existencia=($prod_inventario->prod_alm_exist)+$row->prod_anticipo_cantidad;
 					$existencia = array('prod_alm_exist' => $nueva_existencia );
-					$this->Iluminacion_model->Actualiza_producto($row->producto_almacen_id_prod_alm,$existencia);
+					//$this->Iluminacion_model->Actualiza_producto($row->producto_almacen_id_prod_alm,$existencia);
 				}
 			}
 
@@ -698,7 +698,7 @@ public function AddProduct(){
 					$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($row->producto_almacen_id_prod_alm);
 					$nueva_existencia=($prod_inventario->prod_alm_exist)-$row->prod_anticipo_cantidad;
 					$existencia = array('prod_alm_exist' => $nueva_existencia );
-					$this->Iluminacion_model->Actualiza_producto($row->producto_almacen_id_prod_alm,$existencia);
+					//$this->Iluminacion_model->Actualiza_producto($row->producto_almacen_id_prod_alm,$existencia);
 				}
 			}
 
@@ -729,10 +729,10 @@ public function AddProduct(){
 			$data2 = array('anticipo_total' => round($total->total,2),
 							'anticipo_resto' => $resto );
 			$this->Iluminacion_model->Update_Anticipo($data2,$id_anticipo);
-			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
-			$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
-			$existencia = array('prod_alm_exist' => $nueva_existencia );
-			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+			//$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
+			//$nueva_existencia=($prod_inventario->prod_alm_exist)-($this->input->post('prod_cantidad'));
+			//$existencia = array('prod_alm_exist' => $nueva_existencia );
+			//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			echo true;
 		}else{
 			echo false;
@@ -777,7 +777,7 @@ public function AddProduct(){
 				$suma=$cant_anterior-$act_cantidad;
 				$nueva_existencia=($prod_inventario->prod_alm_exist)+$suma;
 				$existencia = array('prod_alm_exist' => $nueva_existencia );
-				$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+				//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			}
 		}
 			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
@@ -804,7 +804,7 @@ public function AddProduct(){
 			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
 			$nueva_existencia=($prod_inventario->prod_alm_exist)+$cantidad;
 			$existencia = array('prod_alm_exist' => $nueva_existencia );
-			$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
+			//$this->Iluminacion_model->Actualiza_producto($id_producto,$existencia);
 			$total=$this->Iluminacion_model->Get_Total_Anticipo($id_anticipo);
 			$pagado=$this->Iluminacion_model->Get_Pagado_Anticipo($id_anticipo);
 			$resto=(($total->total)-($pagado->anticipo_pago));
@@ -1360,10 +1360,24 @@ public function AddProduct(){
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_cotizacion=$_POST["id_cotizacion"];
-		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
+		var_dump($id_cotizacion);
+
+		$cotizante_cliente=$this->Iluminacion_model->Coti_Client($id_cotizacion);
+		$cotizante_cliente=explode("-", $cotizante_cliente->cotizacion_id_cliente);
+		if($cotizante_cliente[0]=="cot"){
+
+		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info_cotizante($id_cotizacion,$cotizante_cliente[1]),
 			 		  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
-					  'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion));
+					  'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion),
+					'tipo'=>"cotizante");
 		$this->load->view('Iluminacion/Cotizacion_Product_List',$data);
+		}else{
+			$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
+			 		  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
+					  'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion),
+					'tipo'=>"cotizante");
+			$this->load->view('Iluminacion/Cotizacion_Product_List',$data);
+		}
 	}
 
 	public function Cotizacion_formato(){
@@ -2611,6 +2625,43 @@ public function GETMAX_Folio_recibo(){
 		}else{
 			echo false;
 		}
+	}
+
+	public function Datos_transito(){
+		$this->load->model('Iluminacion_model');
+		$id_proy_tran=$_POST["id_proy_tran"];
+		$res1=$this->Iluminacion_model->Tot_Prod($id_proy_tran);
+		$res2= $this->Iluminacion_model->Get_Anticipo_Product_List($id_proy_tran);
+
+		echo json_encode(array('cantidad_prod'=>$res1,
+								'lista_productos'=>$res2));
+	}
+
+	public function Cambiar_a_Proyecto(){
+		$this->load->model('Iluminacion_model');
+		$id_proy_tran=$_POST["id_proy_tran"];
+      	$nombre_clie=$_POST["nombre_clie"];
+      	$id_cliente=$_POST["id_cliente"];
+      	$imp_total=$_POST["imp_total"];
+      	$comentarios=$_POST["comentarios"];
+
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+
+		$datos_proyecto = array('empresa_id_empresa' => $idcompany->id_empresa,
+								'obra_cliente_nombre' => $nombre_clie,
+								'obra_cliente_id_cliente' => $id_cliente ,
+								'obra_cliente_imp_total' => $imp_total,
+								'obra_cliente_saldo' => $imp_total,
+								'obra_cliente_estado' => 1,
+								'obra_cliente_comentarios' => $comentarios);
+		$result=$this->Iluminacion_model->AddCustomer_Project($datos_proyecto);
+
+		$data = array('anticipo_status' => "Enviado a Proyecto");
+		$this->Iluminacion_model->Update_Anticipo($data,$id_proy_tran);
+
+
+		echo $result;
 	}
 
 

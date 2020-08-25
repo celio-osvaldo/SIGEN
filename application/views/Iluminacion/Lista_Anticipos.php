@@ -24,7 +24,7 @@
           <th>Fecha Finiquito</th>
           <th>Fecha de Entrega</th>
           <th>Comentarios</th>
-          <th>Editar</th>
+          <th>Acciones</th>
           <th>Acciones Productos</th>
         <!--  <th>Acciones Pagos</th>  -->
         </tr>
@@ -49,6 +49,7 @@
               <button class="btn btn-outline-secondary " title="Editar Registro"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
               </button>
             </a>
+            <a class="btn btn-outline-secondary" role="button" onclick="Enviar_proyecto(this.id)" id="<?php echo $row->id_anticipo; ?>" title="Enviar como Proyecto"><img src="..\Resources\Icons\enviar.ico" style="filter: invert(100%)" width="20px"></a>
           </td>
 
           <td>
@@ -129,7 +130,7 @@
         <label>Estado</label>
         <select class="form-control" id="edit_estado">
           <option value="Activo">Activo</option>
-          <option value="Pagado">Pagado</option>
+          <option value="Enviado a Proyecto">Enviado a Proyecto</option>
           <option value="Cancelado">Cancelado</option>
         </select>
         <label>Fecha Finiquito</label><br>   
@@ -167,18 +168,36 @@
             <option value="<?php echo "".$row->id_prod_alm.""; ?>"><?php echo "".$row->prod_alm_nom.""; ?></option>
           <?php } ?>
         </select>
-        <label>Cantidad</label><br>
-        <input type="number" onclick="Separa_Miles('prod_total')" onblur="Separa_Miles('prod_total')" min="0" max="0" id="prod_cantidad"><br>
-        <label>Precio Venta</label><br>
-        <input type="text" onblur="Separa_Miles(this.id)"  id="prod_precio"><br>
-        <label>Total</label><br>
-        <input type="text" onload="Separa_Miles(this.id)" id="prod_total" disabled="true"><br>
-        <label>Comentarios</label><br>
-        <textarea id="prod_coment" maxlength="150" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-5">
+            <label class="label-control">Cantidad</label>
+            <input type="number" class="form-control" onclick="Separa_Miles('prod_total')" onblur="Separa_Miles('prod_total')" min="0" max="0" id="prod_cantidad">
+          </div>
+          <div class="col-md-5">
+            <label class="label-control">Precio Venta</label><br>
+            <input class="form-control" type="text" onblur="Separa_Miles(this.id)"  id="prod_precio">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-5">
+            <label class="label-control">Total</label><br>
+            <input class="form-control" type="text" onload="Separa_Miles(this.id)" id="prod_total" disabled="true">
+          </div>
+        </div>
+       
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentarios</label><br>
+            <textarea class="form-control" id="prod_coment" maxlength="150" class="form-control input-sm"></textarea>
+          </div>
+        </div>     
       </div>
+      <!--
       <div class="bg-warning">
         <p><b>Los productos ingresados serán descontados del inventario de almacen</b></p>
       </div>
+    -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
         <button type="button" class="btn btn-primary" id="AddProduct" data-dismiss="modal">Aceptar</button>
@@ -221,10 +240,91 @@
   </div>
 </div>  
 
+
+<!-- Modal Enviar como Proyecto -->
+<div class="modal fade" id="Envia_ProyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="title">Confirme que enviará el registro como Proyecto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" name="id_proy_transito" id="id_proy_transito" hidden="true">
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Cliente</label>
+            <input type="text" name="nombre_clie" id="nombre_clie" disabled="true" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <label class="label-control">Importe Total</label>
+            <input type="text" name="imp_total" id="imp_total" disabled="true" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentarios</label>
+            <textarea name="comentarios" id="comentarios" disabled="true" class="form-control"></textarea>
+          </div>
+        </div>
+
+<!--
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="collapse" aria-haspopup="true" aria-expanded="false" data-target="#collapseExample">Total de Productos:&nbsp;<label id="tot_prod"></label></button>
+
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+          </div>
+        </div>
+    -->    
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="Add_Proyecto" data-dismiss="modal">Aceptar</button>
+      </div>
+    </div>
+  </div>
+</div>  
+
+
+
 <script type="text/javascript">
 
   $(document).ready(function(){
     $('#table_anticipo').DataTable();
+
+
+    $('#Add_Proyecto').click(function(){
+      id_proy_tran=$("#id_proy_transito").val();
+      nombre_clie=$("#nom_cliente"+id_proy_tran).text();
+      id_cliente=$("#id_cliente"+id_proy_tran).text();
+      imp_total=$("#importe_total"+id_proy_tran).text().replace(/\,/g, '');
+      imp_total=imp_total.replace(/\$/g, '')
+      comentarios=$("#coment"+id_proy_tran).text();
+
+      //alert(imp_total);
+
+      $.ajax({
+        type:"POST",
+        url:"<?php echo base_url();?>Iluminacion/Cambiar_a_Proyecto",
+        data:{id_proy_tran:id_proy_tran, nombre_clie:nombre_clie, id_cliente:id_cliente, imp_total:imp_total, comentarios:comentarios},
+        success:function(result){
+            //alert(result);
+            if(result){
+              alert('Proyecto de Tránsito agregado a Lista de Proyecto');
+            }else{
+              alert('Falló el servidor. No fue posible enviar el Proyecto de Tránsito al Listado de Proyectos');
+            }
+            Update();
+          }
+        });
+    });
+
 
     $('#NewAnticipo').click(function(){
       cliente=$('#new_cliente').val();
@@ -260,7 +360,7 @@
       //alert(estado_anterior+" id: "+id_anticipo);
       //alert(cliente+estado+fecha_fin+fecha_ent+coment+id_anticipo);
       if(estado=="Cancelado"){
-        alert("Proyecto en Tránsito Cancelado, la cantidad de productos regresará al almacen como existencia");
+        //alert("Proyecto en Tránsito Cancelado, la cantidad de productos regresará al almacen como existencia");
       }
       $.ajax({
         type:"POST",
@@ -269,9 +369,9 @@
         success:function(result){
             //alert(result);
             if(result){
-              alert('Anticipo Actualizado');
+              alert('Proyecto en Tránsito Actualizado');
             }else{
-              alert('Falló el servidor. Anticipo no Actualizado');
+              alert('Falló el servidor. Proyecto en Tránsito no Actualizado');
             }
             Update();
           }
@@ -426,6 +526,33 @@ function Add_Pago($id_anticipo){
 function Pago_Details($id_anticipo){
   var id_anticipo=$id_anticipo;
   $("#page_content").load("Anticipo_Pagos_List",{id_anticipo:id_anticipo});
+}
+
+function Enviar_proyecto($id_proy_tran){
+
+  nombre_clie=$("#nom_cliente"+$id_proy_tran).text();
+  id_cliente=$("#id_cliente"+$id_proy_tran).text();
+  imp_total=$("#importe_total"+$id_proy_tran).text();
+  comentarios=$("#coment"+$id_proy_tran).text();
+  id_proy_tran=$id_proy_tran;
+  $.ajax({
+    type:"POST",
+    url:"<?php echo base_url();?>Iluminacion/Datos_transito",
+    data:{id_proy_tran:id_proy_tran},
+    dataType: 'json',
+    success:function($datos_proy){
+
+        $('#Envia_ProyModal').modal();
+        $('#id_proy_transito').val($id_proy_tran);
+        $('#nombre_clie').val(nombre_clie);
+        $('#imp_total').val(imp_total);
+        $('#comentarios').val(comentarios);
+        //$('#tot_prod').text($datos_proy.cantidad_prod['tot_prod']);
+          }
+        });
+
+
+  
 }
 
 function Update(){

@@ -1324,7 +1324,30 @@ class Salinas extends CI_Controller {
 			$this->Salinas_model->Update_Flujo($mes,$anio,$idcompany->id_empresa,$data);
 			echo "existe";
 		}
+	}
 
+public function FlujoEfectivo_Proyecto(){
+		$this->load->model('Salinas_model');
+		$company='SALINAS';
+		$idcompany=$this->Salinas_model->IdCompany($company);
+		$data = array('proyectos' => $this->Salinas_model->GetAllCustomer_Project($idcompany->id_empresa) , );
+		$this->load->view('Salinas/Report_Flujo_Efectivo_proyecto',$data);
+	}
+
+	public function Reporte_flujo_efectivo_proyecto(){
+		$this->load->model('Salinas_model');
+		$company='SALINAS';
+		$idcompany=$this->Salinas_model->IdCompany($company);
+		$id_obra_cliente=$_POST["id_obra_cliente"];
+
+		$data = array('ingresos_venta_mov' => $this->Salinas_model->Get_Ingresos_Pagos_proyecto($id_obra_cliente),
+					  	   //'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_gasto_venta' => $this->Salinas_model->Get_Egresos_Gasto_Venta_proyecto($id_obra_cliente),
+					  	   //'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
+					  	   //'egresos_otros_gastos' => $this->Dasa_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes)
+					  	);
+		//var_dump($data);
+		$this->load->view('Salinas/Tabla_flujo_efectivo_proyecto', $data);
 
 	}
 

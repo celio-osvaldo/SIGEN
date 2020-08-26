@@ -1338,10 +1338,32 @@ class DASA extends CI_Controller {
 			$this->Dasa_model->Update_Flujo($mes,$anio,$idcompany->id_empresa,$data);
 			echo "existe";
 		}
+	}
 
+	public function FlujoEfectivo_Proyecto(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$data = array('proyectos' => $this->Dasa_model->GetAllCustomer_Project($idcompany->id_empresa) , );
+		$this->load->view('DASA/Report_Flujo_Efectivo_proyecto',$data);
+	}
+
+	public function Reporte_flujo_efectivo_proyecto(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$id_obra_cliente=$_POST["id_obra_cliente"];
+
+		$data = array('ingresos_venta_mov' => $this->Dasa_model->Get_Ingresos_Pagos_proyecto($id_obra_cliente),
+					  	   //'egresos_caja_chica' => $this->Dasa_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_gasto_venta' => $this->Dasa_model->Get_Egresos_Gasto_Venta_proyecto($id_obra_cliente),
+					  	   //'egresos_viatico' => $this->Dasa_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
+					  	   //'egresos_otros_gastos' => $this->Dasa_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes)
+					  	);
+		//var_dump($data);
+		$this->load->view('DASA/Tabla_flujo_efectivo_proyecto', $data);
 
 	}
 
-
 #end conntroller
-}
+}	

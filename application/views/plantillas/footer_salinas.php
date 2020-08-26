@@ -90,13 +90,21 @@
 		});
 	</script>
 
-		<script>//script to load Office Product Inventorie
+		<script>
 		$(document).ready(function(){
 			$("#Flujo_Efectivo").click(function(){
 				$("#page_content").load("FlujoEfectivo");
 			});
 		});
 	</script>
+
+		<script>//
+			$(document).ready(function(){
+				$("#Flujo_Efectivo_proyecto").click(function(){
+					$("#page_content").load("FlujoEfectivo_Proyecto");
+				});
+			});
+		</script>
 	
 		<script>//script to load Office Product Inventorie
 		$(document).ready(function(){

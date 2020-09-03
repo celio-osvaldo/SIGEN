@@ -1881,6 +1881,16 @@ public function Reporte_flujo_efectivo(){
 		$id_gasto_venta=$_POST['idCost'];
 		$monto=$_POST["addAmount"];
 		$monto=str_replace(',', '', $monto);
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
 
 		if (isset($_FILES['addBill']['name'])) {
 			$filename = $_FILES['addBill']['name'];
@@ -1907,7 +1917,13 @@ public function Reporte_flujo_efectivo(){
 						'gasto_venta_concepto' => $this->input->post('addConcept'),
 						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
-						'gasto_venta_fecha_pago' => $this->input->post('addDate'));
+						'gasto_venta_fecha_pago' => $this->input->post('addDate'),
+						'gasto_venta_iva' => $iva,
+						'gasto_venta_iva_ret' => $ret_iva,
+						'gasto_venta_isr_ret' => $ret_isr,
+						'gasto_venta_ieps' => $ieps,
+						'gasto_venta_dap' => $dap,
+						'gasto_venta_referencia'=> $this->input->post('add_ref'));
 
 		$this->Iluminacion_model->Insert($table, $data);
 
@@ -1931,6 +1947,16 @@ public function Reporte_flujo_efectivo(){
 		$id_gasto_venta=$_POST['idE'];
 		$monto=$_POST["amountE"];
 		$monto=str_replace(',', '', $monto);
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
 
 		if (isset($_FILES['billE']['name'])) {
 			$filename = $_FILES['billE']['name'];
@@ -1957,7 +1983,13 @@ public function Reporte_flujo_efectivo(){
 						'gasto_venta_concepto' => $this->input->post('conceptE'),
 						'gasto_venta_observacion' => $this->input->post('commentE'),
 						'gasto_venta_estado_pago' => $this->input->post('statusE'),
-						'gasto_venta_fecha_pago' => $this->input->post('dateE'));
+						'gasto_venta_fecha_pago' => $this->input->post('dateE'),
+						'gasto_venta_iva' => $iva,
+						'gasto_venta_iva_ret' => $ret_iva,
+						'gasto_venta_isr_ret' => $ret_isr,
+						'gasto_venta_ieps' => $ieps,
+						'gasto_venta_dap' => $dap,
+						'gasto_venta_referencia'=> $this->input->post('edit_ref'));
 		$this->Iluminacion_model->UpdateCostSale($id_gasto_venta, $data);
 
 		$url_imagen='Resources/Bills/CostOfSale/Iluminacion/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
@@ -2013,6 +2045,18 @@ public function Reporte_flujo_efectivo(){
 		$egreso=str_replace(',', '', $egreso);//Eliminamos las comas de la cantidad ingresada
 		//var_dump($radio);
 
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
+
+
 		if($radio=="option1"){
 			$reposicion=0;
 			$gasto=$egreso;
@@ -2045,9 +2089,15 @@ public function Reporte_flujo_efectivo(){
 						'lista_caja_chica_reposicion'=> $reposicion,
 						'lista_caja_chica_gasto'=> $gasto,
 						'lista_caja_chica_factura' => $this->input->post('folioBillI'),
-						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI')/*,
+						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'),
+						'lista_caja_chica_iva'=>$iva,
+						'lista_caja_chica_iva_ret'=>$ret_iva,
+						'lista_caja_chica_isr_ret'=>$ret_isr,
+						'lista_caja_chica_ieps'=>$ieps,
+						'lista_caja_chica_dap'=>$dap,
+						'lista_caja_chica_referencia'=>$this->input->post('add_ref')/*,
 						'lista_caja_chica_saldo' => $saldo_caja*/);
-		$id_caja_chica=$this->Iluminacion_model->Insert($table, $data);
+						$id_caja_chica=$this->Iluminacion_model->Insert($table, $data);
 
 
 		if(!is_null($id_caja_chica)){
@@ -2079,6 +2129,18 @@ public function UpdateReportPettyCash(){
      	$edit_money=str_replace(',', '', $edit_money);//Eliminamos las comas de la cantidad ingresada
      	$edit_folioBillI=$_POST["edit_folioBillI"];
      	$edit_dateBillI=$_POST["edit_dateBillI"];
+
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
+
      	if($tipo=="option2"){//Verificamos si el radio seleccionado es el de la opción 2 (Ingreso)
         	$monto_ingreso=$edit_money;
         	$monto_egreso=0;
@@ -2119,7 +2181,13 @@ public function UpdateReportPettyCash(){
 						'lista_caja_chica_reposicion'=> $monto_ingreso,
 						'lista_caja_chica_gasto'=> $monto_egreso,
 						'lista_caja_chica_factura' => $edit_folioBillI,
-						'lista_caja_chica_fecha_factura' => $edit_dateBillI);
+						'lista_caja_chica_fecha_factura' => $edit_dateBillI,
+						'lista_caja_chica_iva'=>$iva,
+						'lista_caja_chica_iva_ret'=>$ret_iva,
+						'lista_caja_chica_isr_ret'=>$ret_isr,
+						'lista_caja_chica_ieps'=>$ieps,
+						'lista_caja_chica_dap'=>$dap,
+						'lista_caja_chica_referencia'=>$this->input->post('edit_ref'));
      $this->Iluminacion_model->Update_Caja_Chica($edit_id_lista_caja_chica, $data);
 
 
@@ -2143,6 +2211,17 @@ public function UpdateReportPettyCash(){
 		$monto=$_POST["addAmount"];
 		$monto=str_replace(',', '', $monto); 
 
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
+
 
 		if (isset($_FILES['addBill']['name'])) {
 			$filename = $_FILES['addBill']['name'];//imageE
@@ -2165,7 +2244,13 @@ public function UpdateReportPettyCash(){
 						'saldo'=> $monto,
 						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
-						'fecha_pago_factura' => $this->input->post('addDate'));
+						'fecha_pago_factura' => $this->input->post('addDate'),
+						'otros_gastos_referencia'=>$this->input->post('add_ref'),
+						'otros_gastos_iva'=>$iva,
+						'otros_gastos_iva_ret'=>$ret_iva,
+						'otros_gastos_isr_ret'=>$ret_isr,
+						'otros_gastos_ieps'=>$ieps,
+						'otros_gastos_dap'=>$dap);
 
 		$id_otros_gastos=$this->Iluminacion_model->Insert($table, $data);
 		$url_imagen='Resources/Bills/Expends/Iluminacion/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
@@ -2193,6 +2278,16 @@ public function UpdateReportPettyCash(){
 		$monto=$_POST["editAmount"];
 		$monto=str_replace(',', '', $monto); 
 
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
 
 		if (isset($_FILES['editBill']['name'])) {
 			$filename = $_FILES['editBill']['name'];//imageE
@@ -2216,7 +2311,13 @@ public function UpdateReportPettyCash(){
 						'saldo'=> $monto,
 						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
-						'fecha_pago_factura' => $this->input->post('editDate'));
+						'fecha_pago_factura' => $this->input->post('editDate'),
+						'otros_gastos_referencia'=>$this->input->post('edit_ref'),
+						'otros_gastos_iva'=>$iva,
+						'otros_gastos_iva_ret'=>$ret_iva,
+						'otros_gastos_isr_ret'=>$ret_isr,
+						'otros_gastos_ieps'=>$ieps,
+						'otros_gastos_dap'=>$dap);
 		        $this->Iluminacion_model->UpdateExpendInfo($id_otros_gastos, $data);
 
 		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){

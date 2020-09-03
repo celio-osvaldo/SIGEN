@@ -47,10 +47,10 @@
           <td class="tab2-lista" id="<?php echo "depositos_fecha_proy".$row->id_venta_mov;?>"><?php echo $row->venta_mov_fecha; ?></td>
           <td class="tab2-lista">
             <select id="<?php echo "depositos_ref_proy".$row->id_venta_mov;?>">
-              <?php if ($row->venta_mov_referencia=="Tranferencia"){ ?>
-                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php if ($row->venta_mov_referencia=="Transferencia"){ ?>
+                <option value="Transferencia" selected="true">Transferencia</option>
               <?php } else{ ?>
-                <option value="Tranferencia">Tranferencia</option>
+                <option value="Transferencia">Transferencia</option>
               <?php } ?>
 
               <?php if ($row->venta_mov_referencia=="Deposito_cheque"){ ?>
@@ -89,7 +89,7 @@
           <td class="tab2-lista" id="<?php echo "depositos_fecha_anticipo".$row->id_pagos_anticipo;?>"><?php echo $row->pagos_anticipo_fecha; ?></td>
           <td class="tab2-lista">
             <select id="<?php echo "depositos_ref_anticipo".$row->id_pagos_anticipo;?>">
-              <option value="Tranferencia">Tranferencia</option>
+              <option value="Transferencia">Transferencia</option>
               <option value="Deposito_cheque">Depósito en Cheque</option>
               <option value="Efectivo">Efectivo</option>
 
@@ -117,10 +117,10 @@
           <td class="tab2-lista" id="<?php echo "depositos_fecha_sfv".$row->id_lista_pago_sfv;?>"><?php echo $row->lista_pago_sfv_fecha; ?></td>
           <td class="tab2-lista">
             <select id="<?php echo "depositos_ref_sfv".$row->id_lista_pago_sfv;?>">
-              <?php if ($row->lista_pago_sfv_referencia=="Tranferencia"){ ?>
-                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php if ($row->lista_pago_sfv_referencia=="Transferencia"){ ?>
+                <option value="Transferencia" selected="true">Transferencia</option>
               <?php } else{ ?>
-                <option value="Tranferencia">Tranferencia</option>
+                <option value="Transferencia">Transferencia</option>
               <?php } ?>
 
               <?php if ($row->lista_pago_sfv_referencia=="Deposito_cheque"){ ?>
@@ -202,10 +202,10 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_gastos".$row->id_gasto_venta;?>"><?php echo $row->gasto_venta_fecha_pago; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref".$row->id_gasto_venta;?>">
-              <?php if ($row->gasto_venta_referencia=="Tranferencia"){ ?>
-                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php if ($row->gasto_venta_referencia=="Transferencia"){ ?>
+                <option value="Transferencia" selected="true">Transferencia</option>
               <?php } else{ ?>
-                <option value="Tranferencia">Tranferencia</option>
+                <option value="Transferencia">Transferencia</option>
               <?php } ?>
 
               <?php if ($row->gasto_venta_referencia=="Deposito_cheque"){ ?>
@@ -222,8 +222,8 @@
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto/1.16, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_iva_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto/1.16*0.16, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto-$row->gasto_venta_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_iva_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_iva, 5, '.', ',');?></td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_".$row->id_gasto_venta;?>">
       </td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_isr_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_isr_".$row->id_gasto_venta;?>">
@@ -251,10 +251,10 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_caja_chica".$row->id_lista_caja_chica;?>"><?php echo $row->lista_caja_chica_fecha; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref_caja_chica".$row->id_lista_caja_chica;?>">
-              <?php if ($row->lista_caja_chica_referencia=="Tranferencia"){ ?>
-                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php if ($row->lista_caja_chica_referencia=="Transferencia"){ ?>
+                <option value="Transferencia" selected="true">Transferencia</option>
               <?php } else{ ?>
-                <option value="Tranferencia">Tranferencia</option>
+                <option value="Transferencia">Transferencia</option>
               <?php } ?>
 
               <?php if ($row->lista_caja_chica_referencia=="Deposito_cheque"){ ?>
@@ -271,8 +271,8 @@
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto/1.16, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_iva_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto/1.16*0.16, 5, '.', ',');?>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto-$row->lista_caja_chica_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_iva_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_iva, 5, '.', ',');?>
       </td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_caja_chica".$row->id_lista_caja_chica;?>">
       </td>
@@ -302,10 +302,10 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_viaticos".$row->id_lista_viatico;?>"><?php echo $row->lista_viatico_fecha; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref_viaticos".$row->id_lista_viatico;?>">
-              <?php if ($row->lista_viatico_referencia=="Tranferencia"){ ?>
-                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php if ($row->lista_viatico_referencia=="Transferencia"){ ?>
+                <option value="Transferencia" selected="true">Transferencia</option>
               <?php } else{ ?>
-                <option value="Tranferencia">Tranferencia</option>
+                <option value="Transferencia">Transferencia</option>
               <?php } ?>
 
               <?php if ($row->lista_viatico_referencia=="Deposito_cheque"){ ?>
@@ -352,10 +352,10 @@
       <td class="tab3-lista" id="<?php echo "retiros_fecha_otros_gastos".$row->id_OGasto;?>"><?php echo $row->fecha_pago_factura; ?></td>
       <td class="tab3-lista">
             <select id="<?php echo "retiros_ref_otros_gastos".$row->id_OGasto;?>">
-              <?php if ($row->otros_gastos_referencia=="Tranferencia"){ ?>
-                <option value="Tranferencia" selected="true">Tranferencia</option>
+              <?php if ($row->otros_gastos_referencia=="Transferencia"){ ?>
+                <option value="Transferencia" selected="true">Transferencia</option>
               <?php } else{ ?>
-                <option value="Tranferencia">Tranferencia</option>
+                <option value="Transferencia">Transferencia</option>
               <?php } ?>
 
               <?php if ($row->otros_gastos_referencia=="Deposito_cheque"){ ?>
@@ -372,8 +372,8 @@
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo/1.16, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_iva_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo/1.16*0.16, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo-$row->otros_gastos_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_iva_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->otros_gastos_iva, 5, '.', ',');?></td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_otros_gastos".$row->id_OGasto;?>">
       </td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_isr_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_isr_otros_gastos".$row->id_OGasto;?>">

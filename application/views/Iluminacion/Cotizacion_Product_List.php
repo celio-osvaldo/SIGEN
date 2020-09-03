@@ -349,7 +349,7 @@
     $("#edit_precio_unit").val(precio_unit[1]);
     $("#edit_prod_descuento").val(descuento[0]);
     $("#edit_prod_total").val(importe[1]);
-    $("#edit_prod_nombre").val(prod_id_cotizacion).attr('selected',true);;
+    $("#edit_prod_nombre").val(prod_id_cotizacion).attr('selected',true);
   }
 
   function DeleteProduct($id_lista_cotizacion){

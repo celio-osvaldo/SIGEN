@@ -878,7 +878,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetAllCostOfSale($idcompany){
-    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura');
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura, gasto_venta_iva, gasto_venta_iva_ret, gasto_venta_isr_ret, gasto_venta_ieps, gasto_venta_dap, gasto_venta_referencia');
     $this->db->from('obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
     $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
@@ -1072,7 +1072,7 @@ class Iluminacion_model extends CI_Model
   }
 
     public function Get_Egresos_Gasto_Venta($idcompany,$anio,$mes){
-    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre, gasto_venta_referencia, gasto_venta_iva_ret, gasto_venta_isr_ret, gasto_venta_ieps, gasto_venta_dap');
+    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre, gasto_venta_referencia, gasto_venta_iva_ret, gasto_venta_isr_ret, gasto_venta_ieps, gasto_venta_dap, gasto_venta_iva');
     $this->db->from('gasto_venta');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->where('MONTH(gasto_venta_fecha)',$mes);
@@ -1084,7 +1084,7 @@ class Iluminacion_model extends CI_Model
   }
 
     public function Get_Egresos_Caja_Chica($idcompany,$anio,$mes){
-    $this->db->select('id_lista_caja_chica, empresa_id_empresa, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura, lista_caja_chica_url_factura, lista_caja_chica_saldo, lista_caja_chica_referencia, lista_caja_chica_iva_ret, lista_caja_chica_isr_ret, lista_caja_chica_ieps, lista_caja_chica_dap');
+    $this->db->select('id_lista_caja_chica, empresa_id_empresa, lista_caja_chica_fecha, lista_caja_chica_concepto, lista_caja_chica_reposicion, lista_caja_chica_gasto, lista_caja_chica_factura, lista_caja_chica_fecha_factura, lista_caja_chica_url_factura, lista_caja_chica_saldo, lista_caja_chica_referencia, lista_caja_chica_iva_ret, lista_caja_chica_isr_ret, lista_caja_chica_ieps, lista_caja_chica_dap, lista_caja_chica_iva');
     //$this->db->select_sum('venta_mov_monto','total_ingreso');
     $this->db->from('lista_caja_chica');
     //$this->db->join('caja_chica','caja_chica_id_caja_chica=id_caja_chica');
@@ -1110,7 +1110,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_Egregos_Otros_Gastos($idcompany,$anio,$mes){
-     $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura, otros_gastos_referencia, otros_gastos_iva_ret, otros_gastos_isr_ret, otros_gastos_ieps, otros_gastos_dap');
+     $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura, otros_gastos_referencia, otros_gastos_iva_ret, otros_gastos_isr_ret, otros_gastos_ieps, otros_gastos_dap, otros_gastos_iva');
     $this->db->from('otros_gastos');
     $this->db->join('empresa','empresa_id_empresa=id_empresa');
     $this->db->where('MONTH(fecha_pago_factura)',$mes);

@@ -9,62 +9,55 @@
     <div class="col-md-1"></div>
 </div>
 
-<div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-12">
-        <div class="card bg-card">
-            <div class="margins">
-                <br>
-                <div class="table-responsive">
-                    <table id="table_id" class="table table-striped table-hover display" style="font-size: 10pt;">
-                        <thead class="bg-primary" style="color: #FFFFFF;" align="center">
-                            <tr>
-                                <th>Fecha de reporte</th>
-                                <th>Proyecto</th>
-                                <th>Total de días</th>
-                                <th>Fecha inicio</th>
-                                <th>Fecha fin</th>
-                                <th>Monto total</th>
-                                <th>Aplicar a Flujo Efectivo</th>
-                                <th>Detalles</th>
-                                <th>Editar</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr><?php foreach ($report_viatics->result() as $row) {?>
-                                <td id="<?php echo "fecha".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha.""; ?></td>
-                                <td id="<?php echo "proyecto".$row->id_viaticos.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-                                <td id="<?php echo "total_dias".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_total_dias.""; ?></td>
-                                <td id="<?php echo "fecha_ini".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_ini.""; ?></td>
-                                <td id="<?php echo "fecha_fin".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_fin.""; ?></td>
-                                <td id="<?php echo "monto".$row->id_viaticos.""; ?>"><?php echo number_format($row->viaticos_total,2,'.',',').""; ?></td>
+<div class="card bg-card">
+    <div class="margins">
+        <div class="table-responsive">
+            <table id="table_id" class="table table-striped table-hover display" style="font-size: 10pt;">
+                <thead class="bg-primary" style="color: #FFFFFF;" align="center">
+                    <tr>
+                        <th>Fecha de reporte</th>
+                        <th>Proyecto</th>
+                        <th>Total de días</th>
+                        <th>Fecha inicio</th>
+                        <th>Fecha fin</th>
+                        <th>Monto total</th>
+                        <th>Aplicar a Flujo Efectivo</th>
+                        <th>Detalles</th>
+                        <th>Editar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><?php foreach ($report_viatics->result() as $row) {?>
+                        <td id="<?php echo "fecha".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha.""; ?></td>
+                        <td id="<?php echo "proyecto".$row->id_viaticos.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
+                        <td id="<?php echo "total_dias".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_total_dias.""; ?></td>
+                        <td id="<?php echo "fecha_ini".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_ini.""; ?></td>
+                        <td id="<?php echo "fecha_fin".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_fin.""; ?></td>
+                        <td id="<?php echo "monto".$row->id_viaticos.""; ?>">$<?php echo number_format($row->viaticos_total,2,'.',',').""; ?></td>
 
-                                <td id="<?php echo "aplica_flujo".$row->id_viaticos; ?>">
-                                   <?php if ($row->viaticos_aplica_flujo=="1"): ?>
-                                       <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
-                                       <label hidden="true">1</label>
-                                   <?php endif?>
-                                   <?php if ($row->viaticos_aplica_flujo=="0"): ?>
-                                       <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
-                                       <label hidden="true">0</label>
-                                   <?php endif?>                                    
-                                </td>
+                        <td id="<?php echo "aplica_flujo".$row->id_viaticos; ?>">
+                           <?php if ($row->viaticos_aplica_flujo=="1"): ?>
+                               <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                               <label hidden="true">1</label>
+                           <?php endif?>
+                           <?php if ($row->viaticos_aplica_flujo=="0"): ?>
+                               <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                               <label hidden="true">0</label>
+                           <?php endif?>                                    
+                       </td>
 
-                                <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>"><img src="..\Resources\Icons\lupa.ico" alt="Editar" style="filter: invert(100%)" /></a>
-                                </td>
-                                <td>
-                                    <a role="button" class="btn btn-outline-dark" onclick="Edit_Registro(this.id)" id="<?php echo "".$row->id_viaticos.""; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
-                                </td>
-                            </tr><?php } ?>
-                        </tbody>
-                        </table>
-                    </div>
-                    <br>
-                </div>
-            </div>
+                       <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>"><img height="20" src="..\Resources\Icons\lupa.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                       </td>
+                       <td>
+                        <a role="button" class="btn btn-outline-dark" onclick="Edit_Registro(this.id)" id="<?php echo "".$row->id_viaticos.""; ?>"><img height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                    </td>
+                    </tr><?php } ?>
+                </tbody>
+            </table>
         </div>
-    <div class="col-md-1"></div>
+    </div>
 </div>
+
 
 <!-- new report of viatics modal -->
 <div class="modal fade" id="newReport"data-backdrop="static" tabindex="-1" role="dialog">

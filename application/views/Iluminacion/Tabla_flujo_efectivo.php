@@ -322,8 +322,8 @@
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe/1.16, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_iva_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe/1.16*0.16, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe-$row->lista_viatico_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_iva_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_iva, 5, '.', ',');?></td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_viaticos".$row->id_lista_viatico;?>">
       </td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_isr_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_isr_viaticos".$row->id_lista_viatico;?>">

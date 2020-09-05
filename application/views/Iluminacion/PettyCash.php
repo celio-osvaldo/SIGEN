@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-1"></div>
   <div class="col-md-7">
-    <h3 align="center">Listado de reportes en caja chica</h3>
+    <h3 align="center">Listado de reportes en Caja Chica</h3>
   </div>
   <div class="col-md-4">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#newReport"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Reporte</button>
@@ -134,11 +134,11 @@
                 <input value="0.00000" class="form-control" type="text" name="add_dap" id="add_dap" onblur="Separa_Miles(this.id)">
             </div>
             <div class="col-md-6">
-               <label class = "control-label">Concepto</label>
-               <input class="form-control" type="text" name="conceptI" id="conceptI" required="true" required="true">
-           </div>
-       </div>
-       <div class="row">
+             <label class = "control-label">Concepto</label>
+             <input class="form-control" type="text" name="conceptI" id="conceptI" required="true" required="true">
+         </div>
+     </div>
+     <div class="row">
         <div class="col-md-4">
             <label class = "control-label">Fecha factura</label>
             <input class="form-control" type="date" name="dateBillI" id="dateBillI" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
@@ -163,10 +163,10 @@
             <div class="form-check">
               <input class="form-check-input moviment" type="radio" name="exampleRadios" id="exampleRadios" value="option2">
               <label class="form-check-label" for="exampleRadios2">Ingreso</label>
-            </div>
-            </div>
-        </div>
-    </div>
+          </div>
+      </div>
+  </div>
+</div>
 </div>
 <div class="modal-footer">
     <button type="submit" class="btn btn-outline-success submitBtn" id="saveReport">Guardar</button>

@@ -353,6 +353,17 @@ class DASA extends CI_Controller {
 		$monto=str_replace(',', '', $monto);
 		$addflujo=$_POST['addflujo'];
 
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
+
 		if (isset($_FILES['addBill']['name'])) {
 			$filename = $_FILES['addBill']['name'];
 		} else {
@@ -379,7 +390,13 @@ class DASA extends CI_Controller {
 						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
 						'gasto_venta_fecha_pago' => $this->input->post('addDate'),
-						'gasto_venta_aplica_flujo' => $addflujo);
+						'gasto_venta_aplica_flujo' => $addflujo,
+						'gasto_venta_iva' => $iva,
+						'gasto_venta_iva_ret' => $ret_iva,
+						'gasto_venta_isr_ret' => $ret_isr,
+						'gasto_venta_ieps' => $ieps,
+						'gasto_venta_dap' => $dap,
+						'gasto_venta_referencia'=> $this->input->post('add_ref'));
 
 		$this->Dasa_model->Insert($table, $data);
 
@@ -404,6 +421,17 @@ class DASA extends CI_Controller {
 		$monto=$_POST["amountE"];
 		$monto=str_replace(',', '', $monto);
 		$editflujo=$_POST['editflujo'];
+
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
 
 		if (isset($_FILES['billE']['name'])) {
 			$filename = $_FILES['billE']['name'];
@@ -431,7 +459,13 @@ class DASA extends CI_Controller {
 						'gasto_venta_observacion' => $this->input->post('commentE'),
 						'gasto_venta_estado_pago' => $this->input->post('statusE'),
 						'gasto_venta_fecha_pago' => $this->input->post('dateE'),
-						'gasto_venta_aplica_flujo' => $editflujo);
+						'gasto_venta_aplica_flujo' => $editflujo,
+						'gasto_venta_iva' => $iva,
+						'gasto_venta_iva_ret' => $ret_iva,
+						'gasto_venta_isr_ret' => $ret_isr,
+						'gasto_venta_ieps' => $ieps,
+						'gasto_venta_dap' => $dap,
+						'gasto_venta_referencia'=> $this->input->post('edit_ref'));
 		$this->Dasa_model->UpdateCostSale($id_gasto_venta, $data);
 
 		$url_imagen='Resources/Bills/CostOfSale/DASA/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
@@ -459,6 +493,17 @@ class DASA extends CI_Controller {
 		$monto=$_POST["editAmount"];
 		$monto=str_replace(',', '', $monto); 
 
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
+
 
 		if (isset($_FILES['editBill']['name'])) {
 			$filename = $_FILES['editBill']['name'];//imageE
@@ -483,7 +528,13 @@ class DASA extends CI_Controller {
 						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'),
-						'otros_gastos_aplica_flujo' => $edit_flujo);
+						'otros_gastos_aplica_flujo' => $edit_flujo,
+						'otros_gastos_referencia'=>$this->input->post('edit_ref'),
+						'otros_gastos_iva'=>$iva,
+						'otros_gastos_iva_ret'=>$ret_iva,
+						'otros_gastos_isr_ret'=>$ret_isr,
+						'otros_gastos_ieps'=>$ieps,
+						'otros_gastos_dap'=>$dap);
 		        $this->Dasa_model->UpdateExpendInfo($id_otros_gastos, $data);
 
 		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
@@ -512,8 +563,18 @@ class DASA extends CI_Controller {
 		$egreso=$this->input->post('moneyEI');
 		$ingreso=str_replace(',', '', $ingreso);//Eliminamos las comas de la cantidad ingresada
 		$egreso=str_replace(',', '', $egreso);//Eliminamos las comas de la cantidad ingresada
-		$aplicaflujo=$_POST["aplicaflujo"];
+		$aplicaflujo=$_POST['add_flujo'];
 		//var_dump($radio);
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
 
 		if($radio=="option1"){
 			$reposicion=0;
@@ -548,7 +609,13 @@ class DASA extends CI_Controller {
 						'lista_caja_chica_gasto'=> $gasto,
 						'lista_caja_chica_factura' => $this->input->post('folioBillI'),
 						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'),
-						'lista_caja_chica_aplica_flujo' =>$aplicaflujo/*,
+						'lista_caja_chica_aplica_flujo' => $aplicaflujo,
+						'lista_caja_chica_iva'=> $iva,
+						'lista_caja_chica_iva_ret' => $ret_iva,
+						'lista_caja_chica_isr_ret' => $ret_isr,
+						'lista_caja_chica_ieps' => $ieps,
+						'lista_caja_chica_dap' => $dap,
+						'lista_caja_chica_referencia' => $this->input->post('add_ref')/*,
 						'lista_caja_chica_saldo' => $saldo_caja*/);
 		$id_caja_chica=$this->Dasa_model->Insert($table, $data);
 
@@ -583,6 +650,20 @@ class DASA extends CI_Controller {
      	$edit_folioBillI=$_POST["edit_folioBillI"];
      	$edit_dateBillI=$_POST["edit_dateBillI"];
      	$editflujo=$_POST["editflujo"];
+
+
+     	$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
+
+
      	if($tipo=="option2"){//Verificamos si el radio seleccionado es el de la opción 2 (Ingreso)
         	$monto_ingreso=$edit_money;
         	$monto_egreso=0;
@@ -624,7 +705,13 @@ class DASA extends CI_Controller {
 						'lista_caja_chica_gasto'=> $monto_egreso,
 						'lista_caja_chica_factura' => $edit_folioBillI,
 						'lista_caja_chica_fecha_factura' => $edit_dateBillI,
-						'lista_caja_chica_aplica_flujo' => $editflujo);
+						'lista_caja_chica_aplica_flujo' => $editflujo,
+						'lista_caja_chica_iva'=>$iva,
+						'lista_caja_chica_iva_ret'=>$ret_iva,
+						'lista_caja_chica_isr_ret'=>$ret_isr,
+						'lista_caja_chica_ieps'=>$ieps,
+						'lista_caja_chica_dap'=>$dap,
+						'lista_caja_chica_referencia'=>$this->input->post('edit_ref'));
      $this->Dasa_model->Update_Caja_Chica($edit_id_lista_caja_chica, $data);
 
 
@@ -887,6 +974,16 @@ class DASA extends CI_Controller {
 		$monto=str_replace(',', '', $monto); 
 		$add_flujo=$_POST["add_flujo"];
 
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
 
 		if (isset($_FILES['addBill']['name'])) {
 			$filename = $_FILES['addBill']['name'];//imageE
@@ -910,7 +1007,13 @@ class DASA extends CI_Controller {
 						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
 						'fecha_pago_factura' => $this->input->post('addDate'),
-						'otros_gastos_aplica_flujo' => $add_flujo);
+						'otros_gastos_aplica_flujo' => $add_flujo,
+						'otros_gastos_referencia'=>$this->input->post('add_ref'),
+						'otros_gastos_iva'=>$iva,
+						'otros_gastos_iva_ret'=>$ret_iva,
+						'otros_gastos_isr_ret'=>$ret_isr,
+						'otros_gastos_ieps'=>$ieps,
+						'otros_gastos_dap'=>$dap);
 
 		$id_otros_gastos=$this->Dasa_model->Insert($table, $data);
 		$url_imagen='Resources/Bills/Expends/DASA/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
@@ -1052,6 +1155,18 @@ class DASA extends CI_Controller {
 		$monto=str_replace(',', '', $monto); 
 
 
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
+
+
 		if (isset($_FILES['addEvidence']['name'])) {
 			$filename = $_FILES['addEvidence']['name'];//imageE
 		} else {
@@ -1075,7 +1190,13 @@ class DASA extends CI_Controller {
 						'lista_viatico_concepto'=> $this->input->post('addconcept'),
 						'lista_viatico_importe'=> $monto,
 						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
-						'lista_viatico_factura' => $this->input->post('idComprobante'));
+						'lista_viatico_factura' => $this->input->post('idComprobante'),
+						'lista_viatico_iva'=>$iva,
+						'lista_viatico_iva_ret'=>$ret_iva,
+						'lista_viatico_isr_ret'=>$ret_isr,
+						'lista_viatico_ieps'=>$ieps,
+						'lista_viatico_dap'=>$dap,
+						'lista_viatico_referencia'=>$this->input->post('add_ref'));
 
 		$id_lista_viatico=$this->Dasa_model->Insert($table, $data);
 
@@ -1113,6 +1234,17 @@ class DASA extends CI_Controller {
 		$monto=$_POST["edit_addImport"];
 		$monto=str_replace(',', '', $monto); 
 
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
+
 
 		if (isset($_FILES['edit_addEvidence']['name'])) {
 			$filename = $_FILES['edit_addEvidence']['name'];//imageE
@@ -1137,7 +1269,13 @@ class DASA extends CI_Controller {
 						'lista_viatico_concepto'=> $this->input->post('edit_addconcept'),
 						'lista_viatico_importe'=> $monto,
 						'lista_viatico_comprobante'=> $this->input->post('edit_addTypeVoucher'),
-						'lista_viatico_factura' => $this->input->post('edit_idComprobante'));
+						'lista_viatico_factura' => $this->input->post('edit_idComprobante'),
+						'lista_viatico_iva'=>$iva,
+						'lista_viatico_iva_ret'=>$ret_iva,
+						'lista_viatico_isr_ret'=>$ret_isr,
+						'lista_viatico_ieps'=>$ieps,
+						'lista_viatico_dap'=>$dap,
+						'lista_viatico_referencia'=>$this->input->post('edit_ref'));
 
 		$this->Dasa_model->UpdateViaticList($id_lista_viatico, $data);
 

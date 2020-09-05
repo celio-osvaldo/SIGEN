@@ -5,28 +5,26 @@
   </div>
   <div class="col-md-4">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewBill"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Agregar Gasto</button>
-  </div>
-  <div class="col-md-1"></div>
 </div>
 
-<div class="row">
-    
-    <div class="col-md-1"></div>
-    <div class="col-md-12">
-        <div class="container">
-            <div class="card bg-card">
-            <div class="margins">
-                <div class="table-responsive-lg">
+<div class="card bg-card">
+        <div class="margins">
+           <div class="table-responsive">
                     <table id="table_id" class="table table-striped table-hover display" style="font-size: 10pt;">
                     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
                         <tr>
                             <th>No. Folio</th>
-                            <th>Fecha de emisión</th>
+                            <th>Fecha de Emisión</th>
                             <th>Concepto</th>
-                            <th></th>
                             <th>Monto</th>
+                            <th>IVA</th>
+                            <th>Ret IVA</th>
+                            <th>Ret ISR</th>
+                            <th>IEPS</th>
+                            <th>DAP</th>
                             <th>Comentario</th>
                             <th>Fecha de Pago</th>
+                            <th>Tipo Referencia</th>
                             <th>Aplicar a Flujo Efectivo</th>
                             <th>Factura</th>
                             <th hidden="true">url_factura</th>
@@ -37,12 +35,19 @@
                         <tr><?php
                         foreach ($expens->result() as $row) {?>
                             <td id="<?php echo "bill".$row->id_OGasto.""; ?>"><?php echo "".$row->folio.""; ?></td>
-                            <td id="<?php echo "emition".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_emision.""; ?></td>
-                            <td id="<?php echo "concept".$row->id_OGasto.""; ?>"><?php echo "".$row->concepto.""; ?></td>
-                            <td>$</td>
-                            <td id="<?php echo "expend".$row->id_OGasto.""; ?>"><?php echo number_format($row->saldo,2,'.',',').""; ?></td>
-                            <td id="<?php echo "comment".$row->id_OGasto.""; ?>"><?php echo "".$row->comentario.""; ?></td>
-                            <td id="<?php echo "dateEx".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_pago_factura.""; ?></td>
+                        <td id="<?php echo "emition".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_emision.""; ?></td>
+                        <td id="<?php echo "concept".$row->id_OGasto.""; ?>"><?php echo "".$row->concepto.""; ?></td>
+                        <td id="<?php echo "expend".$row->id_OGasto.""; ?>">$<?php echo number_format($row->saldo,2,'.',',').""; ?></td>
+
+                        <td id="<?php echo "iva".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_iva,2,'.',','); ?></td>
+                        <td id="<?php echo "ret_iva".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_iva_ret,2,'.',','); ?></td>
+                        <td id="<?php echo "ret_isr".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_isr_ret,2,'.',','); ?></td>
+                        <td id="<?php echo "ieps".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_ieps,2,'.',','); ?></td>
+                        <td id="<?php echo "dap".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_dap,2,'.',','); ?></td>
+
+                        <td id="<?php echo "comment".$row->id_OGasto.""; ?>"><?php echo "".$row->comentario.""; ?></td>
+                        <td id="<?php echo "dateEx".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_pago_factura.""; ?></td>
+                        <td id="<?php echo "tipo_ref".$row->id_OGasto.""; ?>"><?php echo "".$row->otros_gastos_referencia.""; ?></td>
 
                             <td id="<?php echo "aplica_flujo".$row->id_OGasto; ?>">
                                <?php if ($row->otros_gastos_aplica_flujo=="1"): ?>
@@ -56,23 +61,18 @@
                                 
                             </td>
 
-                            <td align="center" id="<?php echo "factura".$row->id_OGasto.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_OGasto.""; ?>"  onclick="Display_bill(this.id)"><img src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
+                            <td align="center" id="<?php echo "factura".$row->id_OGasto.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_OGasto.""; ?>"  onclick="Display_bill(this.id)"><img height="20" src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
                             <td hidden="true" id="<?php echo "url_factura".$row->id_OGasto.""; ?>"><?php echo $row->factura ?></td>
-                            <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_OGasto.""; ?>" data-toggle="modal" data-target="#editCostSale"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
+                            <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_OGasto.""; ?>" data-toggle="modal" data-target="#editCostSale"><img height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
                         </tr>
                         <?php } ?>
                     </tbody>
                 </table>
-                </div>
-                <br>
             </div>
         </div>
-        </div>
     </div>
-    <div class="col-md-1"></div>
 </div>
 
-<br>
 
 <!-- modal new bill -->
 <div class="modal fade" id="NewBill"data-backdrop="static" tabindex="-1" role="dialog">
@@ -90,8 +90,12 @@
                     <div class="row">
                         <div class="col-md-4">
                             <input type="hidden" name="id" id="id">
-                            <label class="control-label">Folio Factura/Comprobante:</label>
+                            <label class="label-control">Folio Factura/Comprobante:</label>
                             <input class="form-control" type="text" name="addFolio" id="addFolio" value="" required="true">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label-control">Fecha de emisión:</label>
+                            <input class="form-control" type="date" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
                         </div>
                         <div class=" col-md-4">
                             <label class="label-control">Aplicar a Flujo de Efectivo:</label>
@@ -100,33 +104,66 @@
                                 <option value="0">NO</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
-                            <label class="label-control">Fecha de emisión:</label>
-                            <input class="form-control" type="date" name="addEmitionDate" id="addEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
-                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-8">
                             <label for="">Concepto:</label>
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
-                            <input type="hidden" id="addCompany" name="addCompany" value="2">
-                        </div>
-
-                        <div class="col-md-3">
-                            <label for="">Monto:
-                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="">Comentario:</label>
-                            <textarea id="addComment" name="addComment" cols="8" rows="4" class="form-control" required="true"></textarea>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="">Fecha de pago:</label>
-                            <input type="date" id="addDate" name="addDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-
-                            <label for="">Comprobante:</label>
-                            <input class="form-control" name="addBill" id="addBill" type="file" accept="application/pdf, image/*">
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="label-control">Monto</label>
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label-control">IVA</label>
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="add_iva" id="add_iva" required="true" value="0.00">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label-control">Ret IVA</label>
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="add_ret_iva" id="add_ret_iva" required="true" value="0.00">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label-control">Ret ISR</label>
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="add_ret_isr" id="add_ret_isr" required="true" value="0.00">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label class="label-control">IEPS</label>
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="add_ieps" id="add_ieps" required="true" value="0.00">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label-control">DAP</label>
+                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="add_dap" id="add_dap" required="true" value="0.00">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="">Fecha de pago:</label>
+                            <input type="date" id="addDate" name="addDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+                        </div>
+                        <div class="col-md-3">
+                            <label class="label-control">Referencia:</label>
+                            <select id="add_ref" name="add_ref" class="form-control">
+                                <option value="Transferencia" selected="true">Transferencia</option>
+                                <option value="Deposito_cheque">Depósito en Cheque</option>
+                                <option value="Efectivo">Efectivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label class="label-control">Comentario:</label>
+                            <textarea class="form-control" id="addComment" name="addComment" cols="6" rows="2"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="label-control">Factura:</label>
+                            <input type="file" class="form-control" name="addBill" id="addBill" accept="application/pdf, image/*">
+                        </div>                            
+                    </div>
+
+
                   </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-outline-success submitBtn" id="saveCost">Guardar</button>
@@ -140,65 +177,106 @@
 </div>
 <!-- end modal -->
 
+
 <!-- edit bill -->
 <div class="modal fade" id="editCostSale"data-backdrop="static" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar Factura</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Nueva factura</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        <form class="form-group" id="editCost">
+      </button>
+  </div>
+  <form class="form-group" id="editCost">
       <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                            <input type="hidden" name="idE" id="idE">
-                            <label class="control-label">Folio Factura/Comprobante:</label>
-                            <input class="form-control" type="text" name="editFolio" id="editFolio" value="" required="true">
-                        </div>
-                        <div class=" col-md-4">
-                            <label class="label-control">Aplicar a Flujo de Efectivo:</label>
-                            <select class="form-control" id="edit_flujo" name="edit_flujo">
-                                <option value="1">SI</option>
-                                <option value="0">NO</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <label class="label-control">Fecha de emisión:</label>
-                            <input class="form-control" type="date" name="editEmitionDate" id="editEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
-                        </div>
-                        <div class="col-md-8">
-                            <label for="">Concepto:</label>
-                            <input type="text" id="editConcept" name="editConcept" class="form-control" required="true">
-                            <input type="hidden" id="editCompany" name="editCompany" value="2">
-                        </div>
-                        <div class="col-md-3">
-                            <label for="">Monto:
-                            <input type="text" class="form-control" onblur="SeparaMiles(this.id)" name="editAmount" id="editAmount" required="true">
-                        </div>
-                    <div class="col-md-6">
-                        <label for="">Comentario:</label>
-                        <textarea class="form-control" name="editComment" id="editComment" cols="8" rows="4" required="true"></textarea>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="">Fecha de pago:</label>
-                        <input type="date" id="editDate" name="editDate" class="form-control" required="true" >
-                        <label for="">Comprobante:</label>
-                        <input class="form-control" name="editBill" id="editBill" type="file" accept="application/pdf, image/*">
-                    </div>
-                </div>
-      </div>
-      <div class="modal-footer">
+        <div class="row">
+            <div class="col-md-4">
+                <input type="hidden" name="idE" id="idE">
+                <label class="control-label">Folio Factura/Comprobante:</label>
+                <input class="form-control" type="text" name="editFolio" id="editFolio" value="" required="true">
+            </div>
+            <div class="col-md-3">
+                <label class="label-control">Fecha de emisión:</label>
+                <input class="form-control" type="date" name="editEmitionDate" id="editEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
+            </div>
+            <div class=" col-md-4">
+                <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+                <select class="form-control" id="edit_flujo" name="edit_flujo">
+                    <option value="1">SI</option>
+                    <option value="0">NO</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <label for="">Concepto:</label>
+                <input type="text" id="editConcept" name="editConcept" class="form-control" required="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label class="label-control">Monto</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="editAmount" id="editAmount" required="true">
+            </div>
+            <div class="col-md-3">
+                <label class="label-control">IVA</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_iva" id="edit_iva" required="true">
+            </div>
+            <div class="col-md-3">
+                <label class="label-control">Ret IVA</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_ret_iva" id="edit_ret_iva" required="true">
+            </div>
+            <div class="col-md-3">
+                <label class="label-control">Ret ISR</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_ret_isr" id="edit_ret_isr" required="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label class="label-control">IEPS</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_ieps" id="edit_ieps" required="true">
+            </div>
+            <div class="col-md-2">
+                <label class="label-control">DAP</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_dap" id="edit_dap" required="true">
+            </div>
+            <div class="col-md-3">
+                <label for="">Fecha de pago:</label>
+                <input type="date" id="editDate" name="editDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
+            </div>
+            <div class="col-md-4">
+                <label class="label-control">Referencia:</label>
+                <select id="edit_ref" name="edit_ref" class="form-control">
+                    <option value="Transferencia" selected="true">Transferencia</option>
+                    <option value="Deposito_cheque">Depósito en Cheque</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <label class="label-control">Comentario:</label>
+                <textarea class="form-control" id="editComment" name="editComment" cols="6" rows="2"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="label-control">Factura:</label>
+                <input type="file" class="form-control" name="editBill" id="editBill" accept="application/pdf, image/*">
+            </div>                            
+        </div>
+    </div>
+    <div class="modal-footer">
         <button type="submit" class="btn btn-outline-success submitBtn" id="updateCost">Guardar</button>
         <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
-      </div>
-                </form>
     </div>
-  </div>
+</form>
+</div>
+</div>
 </div>
 <!-- end modal -->
+
+
 
 <!-- Bill modal -->
 <div class="modal fade bd-example-modal-lg" id="viewBill" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -293,7 +371,7 @@ function CloseModal(){
     var enviroment=$("#bill"+$id).text();
     var emition=$("#emition"+$id).text();
     var concept=$("#concept"+$id).text();
-    var expend=$("#expend"+$id).text();
+    var expend=$("#expend"+$id).text().split('$');
     var comment=$("#comment"+$id).text();
     var bill=$("#bill"+$id).text();
     var dateEx=$("#dateEx"+$id).text();
@@ -303,6 +381,13 @@ function CloseModal(){
     }else{
         edit_flujo="SI";
     }
+
+    var iva=$("#iva"+id).text().split("$");
+    var ret_iva=$("#ret_iva"+id).text().split("$");
+    var ret_isr=$("#ret_isr"+id).text().split("$");
+    var ieps=$("#ieps"+id).text().split("$");
+    var dap=$("#dap"+id).text().split("$");
+    var tipo_ref=$("#tipo_ref"+id).text();
         //alert(edit_flujo);
 
     $("#editCostSale").modal();
@@ -310,10 +395,16 @@ function CloseModal(){
     $("#editFolio").val(enviroment);
     $("#editEmitionDate").val(emition);
     $("#editConcept").val(concept);
-    $("#editAmount").val(expend);
+    $("#editAmount").val(expend[1]);
     $("#editComment").val(comment);
     $("#editDate").val(dateEx);
     $("#edit_flujo option:contains("+edit_flujo+")").attr('selected', true);
+    $("#edit_iva").val(iva[1]);
+    $("#edit_ret_iva").val(ret_iva[1]);
+    $("#edit_ret_isr").val(ret_isr[1]);
+    $("#edit_ieps").val(ieps[1]);
+    $("#edit_dap").val(dap[1]);
+    $("#edit_ref").val(tipo_ref).attr('selected',true);
 
    // $("#editBill").val(enviroment);
     }

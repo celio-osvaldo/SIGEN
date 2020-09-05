@@ -1012,7 +1012,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetDetailsOfViatics($id_viatico){
-    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado, lista_viatico_url_comprobante');
+    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado, lista_viatico_url_comprobante, lista_viatico_iva, lista_viatico_iva_ret, lista_viatico_isr_ret, lista_viatico_ieps, lista_viatico_dap, lista_viatico_referencia');
     $this->db->from('lista_viatico');
     $this->db->join('viaticos', 'id_viaticos = viaticos_id_viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');
@@ -1097,7 +1097,7 @@ class Iluminacion_model extends CI_Model
   }
 
     public function Get_Egresos_Gasto_Viatico($idcompany,$anio,$mes){
-    $this->db->select('id_lista_viatico, viaticos_id_viaticos, lista_viatico_fecha, empleado, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, obra_cliente_empresa_id_empresa, obra_cliente_nombre, lista_viatico_referencia, lista_viatico_iva_ret, lista_viatico_isr_ret, lista_viatico_ieps, lista_viatico_dap');
+    $this->db->select('id_lista_viatico, viaticos_id_viaticos, lista_viatico_fecha, empleado, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, obra_cliente_empresa_id_empresa, obra_cliente_nombre, lista_viatico_referencia, lista_viatico_iva_ret, lista_viatico_isr_ret, lista_viatico_ieps, lista_viatico_dap, lista_viatico_iva');
     $this->db->from('lista_viatico');
     $this->db->join('viaticos','viaticos_id_viaticos=id_viaticos');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');

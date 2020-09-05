@@ -174,7 +174,7 @@ class Dasa_model extends CI_Model
   }
 
   public function GetAllCostOfSale($idcompany){
-    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura,gasto_venta_aplica_flujo');
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura,gasto_venta_aplica_flujo, gasto_venta_iva, gasto_venta_iva_ret, gasto_venta_isr_ret, gasto_venta_ieps, gasto_venta_dap, gasto_venta_referencia');
     $this->db->from('obra_cliente');
     $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
     $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
@@ -470,7 +470,7 @@ class Dasa_model extends CI_Model
   }
 
   public function GetDetailsOfViatics($id_viatico){
-    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado, lista_viatico_url_comprobante');
+    $this->db->select('id_viaticos, id_lista_viatico, lista_viatico_fecha, lista_viatico_concepto, lista_viatico_importe, lista_viatico_comprobante, lista_viatico_factura, empleado, lista_viatico_url_comprobante, lista_viatico_iva, lista_viatico_iva_ret, lista_viatico_isr_ret, lista_viatico_ieps, lista_viatico_dap, lista_viatico_referencia');
     $this->db->from('lista_viatico');
     $this->db->join('viaticos', 'id_viaticos = viaticos_id_viaticos');
     $this->db->join('obra_cliente', 'obra_cliente_id_obra_cliente = id_obra_cliente');

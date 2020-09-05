@@ -2090,12 +2090,12 @@ public function Reporte_flujo_efectivo(){
 						'lista_caja_chica_gasto'=> $gasto,
 						'lista_caja_chica_factura' => $this->input->post('folioBillI'),
 						'lista_caja_chica_fecha_factura' => $this->input->post('dateBillI'),
-						'lista_caja_chica_iva'=>$iva,
-						'lista_caja_chica_iva_ret'=>$ret_iva,
-						'lista_caja_chica_isr_ret'=>$ret_isr,
-						'lista_caja_chica_ieps'=>$ieps,
-						'lista_caja_chica_dap'=>$dap,
-						'lista_caja_chica_referencia'=>$this->input->post('add_ref')/*,
+						'lista_caja_chica_iva' => $iva,
+						'lista_caja_chica_iva_ret' => $ret_iva,
+						'lista_caja_chica_isr_ret' => $ret_isr,
+						'lista_caja_chica_ieps' => $ieps,
+						'lista_caja_chica_dap' => $dap,
+						'lista_caja_chica_referencia' => $this->input->post('add_ref')/*,
 						'lista_caja_chica_saldo' => $saldo_caja*/);
 						$id_caja_chica=$this->Iluminacion_model->Insert($table, $data);
 
@@ -2428,6 +2428,18 @@ public function UpdateReportPettyCash(){
 		$monto=$_POST["addImport"];
 		$monto=str_replace(',', '', $monto); 
 
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
+
+
 
 		if (isset($_FILES['addEvidence']['name'])) {
 			$filename = $_FILES['addEvidence']['name'];//imageE
@@ -2452,7 +2464,13 @@ public function UpdateReportPettyCash(){
 						'lista_viatico_concepto'=> $this->input->post('addconcept'),
 						'lista_viatico_importe'=> $monto,
 						'lista_viatico_comprobante'=> $this->input->post('addTypeVoucher'),
-						'lista_viatico_factura' => $this->input->post('idComprobante'));
+						'lista_viatico_factura' => $this->input->post('idComprobante'),
+						'lista_viatico_iva'=>$iva,
+						'lista_viatico_iva_ret'=>$ret_iva,
+						'lista_viatico_isr_ret'=>$ret_isr,
+						'lista_viatico_ieps'=>$ieps,
+						'lista_viatico_dap'=>$dap,
+						'lista_viatico_referencia'=>$this->input->post('add_ref'));
 
 		$id_lista_viatico=$this->Iluminacion_model->Insert($table, $data);
 
@@ -2489,6 +2507,18 @@ public function UpdateViaticExpend(){
 	$monto=$_POST["edit_addImport"];
 	$monto=str_replace(',', '', $monto); 
 
+	$iva=$_POST["edit_iva"];
+	$iva=str_replace(',', '', $iva);
+	$ret_iva=$_POST["edit_ret_iva"];
+	$ret_iva=str_replace(',', '', $ret_iva);
+	$ret_isr=$_POST["edit_ret_isr"];
+	$ret_isr=str_replace(',', '', $ret_isr);
+	$ieps=$_POST["edit_ieps"];
+	$ieps=str_replace(',', '', $ieps);
+	$dap=$_POST["edit_dap"];
+	$dap=str_replace(',', '', $dap);
+
+
 
 	if (isset($_FILES['edit_addEvidence']['name'])) {
 			$filename = $_FILES['edit_addEvidence']['name'];//imageE
@@ -2513,7 +2543,13 @@ public function UpdateViaticExpend(){
 			'lista_viatico_concepto'=> $this->input->post('edit_addconcept'),
 			'lista_viatico_importe'=> $monto,
 			'lista_viatico_comprobante'=> $this->input->post('edit_addTypeVoucher'),
-			'lista_viatico_factura' => $this->input->post('edit_idComprobante'));
+			'lista_viatico_factura' => $this->input->post('edit_idComprobante'),
+			'lista_viatico_iva'=>$iva,
+			'lista_viatico_iva_ret'=>$ret_iva,
+			'lista_viatico_isr_ret'=>$ret_isr,
+			'lista_viatico_ieps'=>$ieps,
+			'lista_viatico_dap'=>$dap,
+			'lista_viatico_referencia'=>$this->input->post('edit_ref'));
 
 		$this->Iluminacion_model->UpdateViaticList($id_lista_viatico, $data);
 

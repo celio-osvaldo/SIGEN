@@ -172,6 +172,17 @@ class SU_model extends CI_Model
     }
   }
 
+  public function Get_Companies(){
+    $this->db->select('id_empresa, empresa_nom');
+    $this->db->from('empresa');
+    $query = $this->db->get();
+    if($query -> num_rows() >0){
+      return $query;
+    }else{
+      return $query;
+    }
+  }
+
 
 }
 

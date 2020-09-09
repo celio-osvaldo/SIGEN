@@ -17,13 +17,17 @@
 
 <script>//script to load the users list
 	$(document).ready(function(){
-
-		$("#lista_usuario").click(function(){
-			$("#page_content").load("Users_List");
+		$('#lista_usuario').click(function(){
+			$('#page_content').load('Users_List');
 		});
-
-		$("#Lista_Solicitudes").click(function(){
-			$("#page_content").load("Lista_Solicitudes");
+		$('#Lista_Solicitudes').click(function(){
+			$('#page_content').load('Lista_Solicitudes');
+		});
+		$('#Flujo_Efectivo').click(function(){
+			$('#page_content').load('Flujo_Efectivo');
+		});
+		$('#Flujo_Efectivo_proyecto').click(function(){
+			$('#page_content').load('Flujo_Efectivo_proyecto');
 		});
 	});
 </script>

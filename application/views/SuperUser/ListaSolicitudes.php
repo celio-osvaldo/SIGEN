@@ -489,7 +489,7 @@
 	}
 
 	function Responder_Solicitud_pago($id_historial){
-		<?php foreach ($solicitado_pago->result() as $row_pago ): ?>
+		<?php foreach ($solicitado_pago->result() as $row_pago ){ ?>
 			if (<?php echo $row_pago->id_historial_proyecto_pago?>==$id_historial) {
 				<?php switch ($row_pago->obra_cliente_empresa_id_empresa) {
 					case '1':
@@ -517,8 +517,7 @@
 
 				id_pago="<?php echo $row_pago->historial_proyecto_pago_id_venta_mov ?>";
 			}
-		<?php endforeach ?>
-
+		<?php } ?>
 
 
 		$("#AtiendeModal_pago").modal();

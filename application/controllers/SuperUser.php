@@ -234,40 +234,49 @@ class SuperUser extends CI_Controller {
 
         //var_dump($respuesta_pago);
         if($respuesta_pago=="2"){
-
             $this->load->model('Iluminacion_model');
-                    $data = array('venta_mov_fecha' => $fecha_pago_new ,
-                                    'venta_mov_monto' => $monto_new,
-                                    'venta_mov_comentario' => $comentario_new );
+            $data = array('venta_mov_fecha' => $fecha_pago_new ,
+                'venta_mov_monto' => $monto_new,
+                'venta_mov_comentario' => $comentario_new );
                     //var_dump($id_movimiento);
-                    if ($this->Iluminacion_model->UpdateProject_Pay($data,$id_pago)) {
-                        $id_obra=$this->Iluminacion_model->Id_Proyecto($id_pago);
-                        $sum_pagos=$this->Iluminacion_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
-                        $total_obra=$this->Iluminacion_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
-                        $resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+            if ($this->Iluminacion_model->UpdateProject_Pay($data,$id_pago)) {
+                $id_obra=$this->Iluminacion_model->Id_Proyecto($id_pago);
+                $sum_pagos=$this->Iluminacion_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
+                $total_obra=$this->Iluminacion_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
+                $resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
 
-                        $fecha_ult_pago=$this->Iluminacion_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
+                $fecha_ult_pago=$this->Iluminacion_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
 
-                        $saldo=array('obra_cliente_saldo' => $resta,
-                                'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
-                                'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
-                        $result=$this->Iluminacion_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
+                $saldo=array('obra_cliente_saldo' => $resta,
+                    'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+                    'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
+                $result=$this->Iluminacion_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
 
 
                 $data2 = array('historial_proyecto_pago_autoriza' => $respuesta_pago,
-                               'historial_proyecto_pago_admin'=> $this->session->userdata('id_usuario') );
+                 'historial_proyecto_pago_admin'=> $this->session->userdata('id_usuario') );
                 $this->SU_model->Update_Historial_Proy_pago($id_historial_pago,$data2);
 
-            echo true;
+                echo true;
             }else{
                 echo false;
             }
         }else{
             $data2 = array('historial_proyecto_pago_autoriza' => $respuesta_pago,
-                           'historial_proyecto_pago_admin'=> $this->session->userdata('id_usuario') );
-                $this->SU_model->Update_Historial_Proy_pago($id_historial_pago,$data2);
+             'historial_proyecto_pago_admin'=> $this->session->userdata('id_usuario') );
+            $this->SU_model->Update_Historial_Proy_pago($id_historial_pago,$data2);
             echo true;
         }
     }
+
+
+    public function Flujo_Efectivo(){
+        $this->load->model('SU_model');
+        $empresas = array('companies' =>$this->SU_model->Get_Companies() );
+        $this->load->view('SuperUser/Report_Flujo_Efectivo',$empresas);
+    }
+
+
+ //End Controller
 }
  

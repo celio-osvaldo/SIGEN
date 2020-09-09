@@ -54,6 +54,14 @@
 							<a class="dropdown-item" id="lista_usuario">Lista de Usuarios</a>
 						</div>
 					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><b>Flujo de Efectivo</b></a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" id="Flujo_Efectivo">Reporte por Rango de Fechas</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" id="Flujo_Efectivo_proyecto">Reporte Por Proyecto</a>
+					</div>
+					</li>
 
 				</ul>
 			</div>
@@ -97,20 +105,6 @@
 
 
 <script>
-/*var myVar = setInterval(Check_Sesion, 46000); //Cada 11 segundos verifica la sesión, si ya expiró redirige a la página para iniciar sesión nuevamente
-
-function Check_Sesion(){
-	  $.ajax({
-    type:"POST",
-    url:"<?php echo base_url();?>Dasa/Verifica_Sesion",
-     data:{},
-      success:function(result){
-      	if(!result){	
-  location.href= "<?php echo base_url()?>Dasa/Logout";
-      	}
-       }
-  });
-}*/
 
 function Muestra_Modal(){
 	if (<?php echo $total_solicitudes ?> >0) {

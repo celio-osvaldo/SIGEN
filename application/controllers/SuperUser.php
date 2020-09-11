@@ -277,6 +277,27 @@ class SuperUser extends CI_Controller {
     }
 
 
+    public function Flujo_Efectivo_proyecto(){
+        $this->load->model('SU_model');
+        $this->load->model('Dasa_model');
+        $idcompany_dasa=$this->Dasa_model->IdCompany('DASA');
+
+        $this->load->model('Salinas_model');
+        $idcompany_salinas=$this->Salinas_model->IdCompany('SALINAS');
+
+        $this->load->model('Iluminacion_model');
+        $idcompany_ilumina=$this->Iluminacion_model->IdCompany('ILUMINACION');
+
+        $data = array('proyectos_dasa' => $this->Dasa_model->GetAllCustomer_Project($idcompany_dasa->id_empresa),
+                      'proyectos_salinas' => $this->Salinas_model->GetAllCustomer_Project($idcompany_salinas->id_empresa),
+                      'proyectos_ilumina' => $this->Iluminacion_model->GetAllCustomer_Project($idcompany_ilumina->id_empresa),
+                      'sfv_ilumina' => $this->Iluminacion_model->GetAllCustomer_SFV($idcompany_ilumina->id_empresa),
+                      'companies' =>$this->SU_model->Get_Companies());
+
+        $this->load->view('SuperUser/Report_Flujo_Efectivo_proyecto',$data);
+    }
+
+
  //End Controller
 }
  

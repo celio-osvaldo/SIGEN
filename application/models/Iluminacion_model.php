@@ -106,6 +106,16 @@ class Iluminacion_model extends CI_Model
   		return $query;			
   }
 
+  public function GetAllCustomer_SFV($idcompany){
+      $this->db->select('id_pago_sfv, pago_sfv_id_cliente, pago_sfv_id_empresa, pago_sfv_kwh, pago_sfv_estado, pago_sfv_cant_pagos, pago_sfv_fecha_ult_pago, pago_sfv_coment, pago_sfv_pagado, pago_sfv_saldo, pago_sfv_imp_total,catalogo_cliente_empresa');
+      $this->db->from('pago_sfv');
+      $this->db->join('catalogo_cliente','pago_sfv_id_cliente=id_catalogo_cliente');
+      $this->db->where('pago_sfv_id_empresa',$idcompany);
+      $this->db->order_by('catalogo_cliente_empresa');
+      $query = $this->db->get();
+      return $query;      
+  }
+
   public function Get_Customer_List($idcompany){
       $this->db->select('id_catalogo_cliente,catalogo_cliente_empresa');
       $this->db->from('catalogo_cliente');

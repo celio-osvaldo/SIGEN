@@ -193,10 +193,12 @@
   <body>
    <?php  //Lista de Pagos de Proyectos
       $suma_gastos_venta=0;
-      $suma_retencion_iva=0;
+     $suma_retencion_iva=0;
       
       foreach ($egresos_gasto_venta->result() as $row) {
         $suma_gastos_venta+=$row->gasto_venta_monto;
+        $suma_retencion_iva+=$row->gasto_venta_iva_ret;
+        $iva_retiros+=$row->gasto_venta_iva;
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_gastos".$row->id_gasto_venta;?>"><?php echo $row->gasto_venta_fecha_pago; ?></td>
@@ -246,6 +248,8 @@
       
       foreach ($egresos_caja_chica->result() as $row) {
         $suma_gastos_venta+=$row->lista_caja_chica_gasto;
+        $suma_retencion_iva+=$row->lista_caja_chica_iva_ret;
+        $iva_retiros+=$row->lista_caja_chica_iva;
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_caja_chica".$row->id_lista_caja_chica;?>"><?php echo $row->lista_caja_chica_fecha; ?></td>
@@ -297,6 +301,8 @@
       
       foreach ($egresos_viatico->result() as $row) {
         $suma_gastos_venta+=$row->lista_viatico_importe;
+        $suma_retencion_iva+=$row->lista_viatico_iva_ret;
+        $iva_retiros+=$row->lista_viatico_iva;
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_viaticos".$row->id_lista_viatico;?>"><?php echo $row->lista_viatico_fecha; ?></td>
@@ -347,6 +353,8 @@
       
       foreach ($egresos_otros_gastos->result() as $row) {
         $suma_gastos_venta+=$row->saldo;
+        $suma_retencion_iva+=$row->otros_gastos_iva_ret;
+        $iva_retiros+=$row->otros_gastos_iva;
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_otros_gastos".$row->id_OGasto;?>"><?php echo $row->fecha_pago_factura; ?></td>
@@ -399,13 +407,12 @@
 
     <tr>
       <td colspan="5"></td>
-      <td class="tab3-lista2" ><input type="text" disabled="true" id="suma_retencion_iva" size="6"></td>
+      <td class="tab3-lista2"><input type="text" disabled="true" id="suma_retencion_iva" size="6" value="<?php echo number_format($suma_retencion_iva, 5, '.', ',') ?>"></td>
     </tr>
   </body>
   <?php 
     $total_retiros=$suma_gastos_venta;
-    $subtotal_retiros=$total_retiros/1.16;
-    $iva_retiros=$subtotal_retiros*0.16;
+    $subtotal_retiros=$total_retiros-$iva_retiros;
    ?>
   <tfoot>
     <tr>
@@ -501,7 +508,7 @@
       <td colspan="9"></td>
       <td>IVA RETENCION</td>
       <td colspan="2"></td>
-      <td style="text-align: center" id="iva_retencion">0.00000</td>
+      <td style="text-align: center" id="iva_retencion"><?php echo number_format($suma_retencion_iva, 5, '.', ',') ?></td>
     </tr>
     <tr>
       <td colspan="9"></td>

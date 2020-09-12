@@ -32,7 +32,9 @@
  
 
     <script type="text/javascript">
-    	
+        function MaysPrimera(string){
+          return string.charAt(0).toUpperCase() + string.slice(1);
+      }
 
  	function Genera_Reporte(){
  		fecha=$('#mes_reporte').val();
@@ -48,6 +50,10 @@
                     mes : mes
                     }
                     nom_empresa=$('select[name="empresa"] option:selected').text();
+
+                    nom_empresa = MaysPrimera(nom_empresa.toLowerCase());
+
+
                 $("#table_div").load("../"+nom_empresa+"/Reporte_flujo_efectivo",datos_a_pasar);
             }else{
                 alert("Error! Debe seleccionar una Empresa");

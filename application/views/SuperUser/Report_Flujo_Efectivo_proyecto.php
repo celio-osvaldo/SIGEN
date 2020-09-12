@@ -118,6 +118,10 @@
             }
         }
 
+        function MaysPrimera(string){
+          return string.charAt(0).toUpperCase() + string.slice(1);
+      }
+
  	function Genera_Reporte(){
  		empresa=$('#empresa').val();
  		if(empresa!="selecciona"){
@@ -145,10 +149,13 @@
                     empresa : empresa
                     }
                     nom_empresa=$('select[name="empresa"] option:selected').text();
-                    if (nom_empresa!="ILUMINACION") {
+
+                    nom_empresa = MaysPrimera(nom_empresa.toLowerCase());
+
+                    if (nom_empresa!="Iluminacion") {
                         $("#table_div").load("../"+nom_empresa+"/Reporte_flujo_efectivo_proyecto",datos_a_pasar); 
                     }else{
-                        alert("Reporte en Construcción");
+                        alert("Reporte en Desarrollo");
                     }
                 
             }else{

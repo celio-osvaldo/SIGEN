@@ -171,6 +171,9 @@
   </tfoot>
 </table>
 
+
+<!-- Lista de Egresos -->
+
 <table class="tab3">
   <head>
   <tr>
@@ -191,6 +194,7 @@
   <th class="tab3-retiros2">IVA</th>
   </head>
   <body>
+
    <?php  //Lista de Pagos de Proyectos
       $suma_gastos_venta=0;
      $suma_retencion_iva=0;
@@ -199,6 +203,23 @@
         $suma_gastos_venta+=$row->gasto_venta_monto;
         $suma_retencion_iva+=$row->gasto_venta_iva_ret;
         $iva_retiros+=$row->gasto_venta_iva;
+
+
+        //Verificar que operación realizar para calcular el Subtotal
+
+        if ( number_format($row->gasto_venta_iva, 5, '.', ',')=="0.0000") {
+          $subtotal=0.00000;
+        }else{
+          if (number_format($row->gasto_venta_iva_ret,5,'.',',')!="0.00000"&&number_format($row->gasto_venta_isr_ret,5,'.',',')!="0.00000") {
+            //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
+            $subtotal=$row->gasto_venta_monto-$row->gasto_venta_iva+$row->gasto_venta_iva_ret+$row->gasto_venta_isr_ret;
+          }else{
+            $subtotal=$row->gasto_venta_monto-$row->gasto_venta_iva-$row->gasto_venta_ieps;
+          }
+        }
+
+      $subtotal_retiros+=$subtotal;
+
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_gastos".$row->id_gasto_venta;?>"><?php echo $row->gasto_venta_fecha_pago; ?></td>
@@ -223,8 +244,9 @@
               <?php } ?>
             </select>            
       </td>
+
       <td class="tab3-lista" id="<?php echo "retiros_importe_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto-$row->gasto_venta_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_gastos".$row->id_gasto_venta;?>"><?php echo  number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_iva, 5, '.', ',');?></td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_".$row->id_gasto_venta;?>">
       </td>
@@ -250,6 +272,23 @@
         $suma_gastos_venta+=$row->lista_caja_chica_gasto;
         $suma_retencion_iva+=$row->lista_caja_chica_iva_ret;
         $iva_retiros+=$row->lista_caja_chica_iva;
+
+
+        //Verificar que operación realizar para calcular el Subtotal
+
+        if ( number_format($row->lista_caja_chica_iva, 5, '.', ',')=="0.0000") {
+          $subtotal=0.00000;
+        }else{
+          if (number_format($row->lista_caja_chica_iva_ret,5,'.',',')!="0.00000"&&number_format($row->lista_caja_chica_isr_ret,5,'.',',')!="0.00000") {
+            //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
+            $subtotal=$row->lista_caja_chica_gasto-$row->lista_caja_chica_iva+$row->lista_caja_chica_iva_ret+$row->lista_caja_chica_isr_ret;
+          }else{
+            $subtotal=$row->lista_caja_chica_gasto-$row->lista_caja_chica_iva-$row->lista_caja_chica_ieps;
+          }
+        }
+
+      $subtotal_retiros+=$subtotal;
+
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_caja_chica".$row->id_lista_caja_chica;?>"><?php echo $row->lista_caja_chica_fecha; ?></td>
@@ -275,7 +314,7 @@
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_gasto-$row->lista_caja_chica_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_iva, 5, '.', ',');?>
       </td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_caja_chica".$row->id_lista_caja_chica;?>">
@@ -303,6 +342,23 @@
         $suma_gastos_venta+=$row->lista_viatico_importe;
         $suma_retencion_iva+=$row->lista_viatico_iva_ret;
         $iva_retiros+=$row->lista_viatico_iva;
+
+
+        //Verificar que operación realizar para calcular el Subtotal
+
+        if ( number_format($row->lista_viatico_iva, 5, '.', ',')=="0.0000") {
+          $subtotal=0.00000;
+        }else{
+          if (number_format($row->lista_viatico_iva_ret,5,'.',',')!="0.00000"&&number_format($row->lista_viatico_isr_ret,5,'.',',')!="0.00000") {
+            //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
+            $subtotal=$row->lista_viatico_importe-$row->lista_viatico_iva+$row->lista_viatico_iva_ret+$row->lista_viatico_isr_ret;
+          }else{
+            $subtotal=$row->lista_viatico_importe-$row->lista_viatico_iva-$row->lista_viatico_ieps;
+          }
+        }
+
+      $subtotal_retiros+=$subtotal;
+
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_viaticos".$row->id_lista_viatico;?>"><?php echo $row->lista_viatico_fecha; ?></td>
@@ -328,7 +384,7 @@
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe-$row->lista_viatico_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_iva, 5, '.', ',');?></td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_viaticos".$row->id_lista_viatico;?>">
       </td>
@@ -355,6 +411,23 @@
         $suma_gastos_venta+=$row->saldo;
         $suma_retencion_iva+=$row->otros_gastos_iva_ret;
         $iva_retiros+=$row->otros_gastos_iva;
+
+
+        //Verificar que operación realizar para calcular el Subtotal
+
+        if ( number_format($row->otros_gastos_iva, 5, '.', ',')=="0.0000") {
+          $subtotal=0.00000;
+        }else{
+          if (number_format($row->otros_gastos_iva_ret,5,'.',',')!="0.00000"&&number_format($row->otros_gastos_isr_ret,5,'.',',')!="0.00000") {
+            //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
+            $subtotal=$row->saldo-$row->otros_gastos_iva+$row->otros_gastos_iva_ret+$row->otros_gastos_isr_ret;
+          }else{
+            $subtotal=$row->saldo-$row->otros_gastos_iva-$row->otros_gastos_ieps;
+          }
+        }
+
+      $subtotal_retiros+=$subtotal;
+
     ?>
     <tr>
       <td class="tab3-lista" id="<?php echo "retiros_fecha_otros_gastos".$row->id_OGasto;?>"><?php echo $row->fecha_pago_factura; ?></td>
@@ -380,7 +453,7 @@
             </select>            
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_importe_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo, 5, '.', ',');?></td>
-      <td class="tab3-lista" id="<?php echo "retiros_subtotal_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo-$row->otros_gastos_iva, 5, '.', ',');?></td>
+      <td class="tab3-lista" id="<?php echo "retiros_subtotal_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->otros_gastos_iva, 5, '.', ',');?></td>
       <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_otros_gastos".$row->id_OGasto;?>">
       </td>
@@ -412,7 +485,7 @@
   </body>
   <?php 
     $total_retiros=$suma_gastos_venta;
-    $subtotal_retiros=$total_retiros-$iva_retiros;
+    //$subtotal_retiros=$total_retiros-$iva_retiros; //Modificar, se debe sumar todos los subtotales
    ?>
   <tfoot>
     <tr>
@@ -548,12 +621,12 @@
         $val2=$val2.replace(/\,/g, '');
         $suma=parseFloat($val1)+parseFloat($val2);
         $suma=$suma.toLocaleString("en");
-        $("#iva_total_cargo").text(parseFloat($suma.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $("#iva_total_cargo").text(parseFloat($suma.toString().replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }else{
         $val2=$("#iva_retencion").text();
         $val2=$val2.replace(/\,/g, '');
          $suma=parseFloat($val2);
-         $("#iva_total_cargo").text(parseFloat($suma.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+         $("#iva_total_cargo").text(parseFloat($suma.toString().replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }
       $iva_cargo_total=$("#iva_total_cargo").text();
       if($iva_cargo_total==""){
@@ -568,7 +641,7 @@
       $iva_cargo_total=$iva_cargo_total.replace(/\,/g, '');
       $suma=parseFloat($iva_favor_periodos_anteriores)+parseFloat($iva_cargo_total);
       $suma=$suma.toLocaleString("en");
-    $("#iva_neto_cargo").val(parseFloat($suma.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    $("#iva_neto_cargo").val(parseFloat($suma.toString().replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
 
   $("#suma_retencion_iva").change(function(){
       if($("#tipo_iva").text()=="IVA A CARGO"){
@@ -717,7 +790,7 @@ function Separa_Miles($id){
         $val2=$val2.replace(/\,/g, '');
         $suma=parseFloat($val1)+parseFloat($val2);
         $suma=$suma.toLocaleString("en");
-        $("#iva_total_cargo").text(parseFloat($suma.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+        $("#iva_total_cargo").text(parseFloat($suma.toString().replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
       }else{
 
         $val2=$("#iva_retencion").text();
@@ -756,7 +829,7 @@ function Separa_Miles($id){
       $iva_cargo_total=$iva_cargo_total.replace(/\,/g, '');
       $suma=parseFloat($iva_favor_periodos_anteriores)+parseFloat($iva_cargo_total);
       $suma=$suma.toLocaleString("en");
-    $("#iva_neto_cargo").val(parseFloat($suma.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+    $("#iva_neto_cargo").val(parseFloat($suma.toString().replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
   }
 }
 

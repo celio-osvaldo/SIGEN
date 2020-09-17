@@ -66,7 +66,7 @@
       </div>
       <div class="modal-body">
         <label>Nombre Producto</label>
-        <input type="text" id="new_nom_prod" class="form-control input-sm">
+        <input type="text" maxlength="300" id="new_nom_prod" class="form-control input-sm">
         <label>Unidad de Medida</label>
          <select class="form-control" name="new_unid_med" id="new_unid_med">
                     <option disabled selected>----Seleccionar Unidad Medida----</option>
@@ -75,7 +75,7 @@
                   <?php } ?>
           </select>
         <label>Modelo</label><br>   
-        <input type="text" id="new_model" class="form-control input-sm">
+        <input type="text" id="new_model" maxlength="300" class="form-control input-sm">
         <div class="row">
           <div  class="col-md-5">
             <label class="label-control">Precio Unitario</label>
@@ -93,13 +93,13 @@
           </div>
           <div class="col-md-5">
             <label>Cógido de Producto</label>
-            <input type="text" id="new_cod" class="form-control">
+            <input type="text" id="new_cod" maxlength="45" class="form-control">
           </div>
         </div>     
         <label>Descripción del Producto</label>
-        <input type="text" id="new_descrip" maxlength="100" class="form-control">
+        <input type="text" id="new_descrip" maxlength="600" class="form-control">
         <label>Comentarios</label><br>
-        <textarea id="new_coment" maxlength="150" class="form-control input-sm"></textarea>
+        <textarea id="new_coment" maxlength="400" class="form-control input-sm"></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -141,9 +141,9 @@
         <label>Cógido de Producto</label><br>
         <input type="text" id="edit_cod" class="form-control input-sm"><br>
         <label>Descripción del Producto</label><br>
-        <input type="text" id="edit_descrip" maxlength="100" class="form-control input-sm"><br>
+        <input type="text" id="edit_descrip" maxlength="600" class="form-control input-sm"><br>
         <label>Comentarios</label><br>
-        <textarea id="edit_coment" maxlength="150" class="form-control input-sm"></textarea>
+        <textarea id="edit_coment" maxlength="400" class="form-control input-sm"></textarea>
         <input type="text" id="edit_id_product" hidden="true">
       </div>
       <div class="modal-footer">

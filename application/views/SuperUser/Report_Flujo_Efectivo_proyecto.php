@@ -6,6 +6,8 @@
   </div>
 </div>
 
+
+
 <div class="row justify-content-md-center">
     <div class="col-md-3">
         <label class="label-control">Selecciona la Empresa</label>
@@ -39,6 +41,7 @@
             $("#sfv_ilumina").attr('hidden','true');
         }
     }
+
 </script>
 
 
@@ -92,6 +95,18 @@
             if (empresa==1) {//Se activa las lista de la empresa Iluminacion
                 //$("#proy_ilumina").removeAttr('hidden');
                 $("#radio_proy_sfv").removeAttr('hidden');
+
+
+                if($('input:radio[name=proy_sfv]:checked').val()=="sfv"){
+                    $("#sfv_ilumina").removeAttr("hidden");
+                    $("#proy_ilumina").attr('hidden','true');
+                }
+                 if($('input:radio[name=proy_sfv]:checked').val()=="proy"){
+                    $("#proy_ilumina").removeAttr("hidden");
+                    $("#sfv_ilumina").attr('hidden','true');
+                }
+
+
                 $("#proy_dasa").attr('hidden','true');
                 $("#proy_salinas").attr('hidden','true');
             }
@@ -99,6 +114,7 @@
             if (empresa==2) {//Se activa las lista de la empresa DASA
                 $("#proy_dasa").removeAttr('hidden');
                 $("#proy_ilumina").attr('hidden','true');
+                $("#sfv_ilumina").attr('hidden','true');
                 $("#radio_proy_sfv").attr('hidden','true');
                 $("#proy_salinas").attr('hidden','true');
             }
@@ -106,6 +122,7 @@
             if (empresa==3) {//Se activa las lista de la empresa Salinas
                 $("#proy_salinas").removeAttr('hidden');
                 $("#proy_dasa").attr('hidden','true');
+                $("#sfv_ilumina").attr('hidden','true');
                 $("#proy_ilumina").attr('hidden','true');
                 $("#radio_proy_sfv").attr('hidden','true');
             }
@@ -143,7 +160,6 @@
             }
             //alert(id_proyecto);
             if (id_proyecto!="selecciona_proy") {
-                empresa=empresa
                 var datos_a_pasar = {
                     id_obra_cliente : id_proyecto, 
                     empresa : empresa
@@ -152,10 +168,15 @@
 
                     nom_empresa = MaysPrimera(nom_empresa.toLowerCase());
 
-                    if (nom_empresa!="Iluminacion") {
+                    if (proy_sfv!="sfv") {
+                        //alert("entra");
                         $("#table_div").load("../"+nom_empresa+"/Reporte_flujo_efectivo_proyecto",datos_a_pasar); 
                     }else{
-                        alert("Reporte en Desarrollo");
+                       // alert(id_proyecto);
+                        if(proy_sfv=="sfv"){
+                            $("#table_div").load("../"+nom_empresa+"/Reporte_flujo_efectivo_proyecto_sfv",datos_a_pasar); 
+                        }
+                       // alert("Reporte en Desarrollo");
                     }
                 
             }else{

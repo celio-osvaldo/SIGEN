@@ -2796,9 +2796,32 @@ public function GETMAX_Folio_recibo(){
 
 		$data = array('anticipo_status' => "Enviado a Proyecto");
 		$this->Iluminacion_model->Update_Anticipo($data,$id_proy_tran);
-
-
 		echo $result;
+	}
+
+	public function Reporte_flujo_efectivo_proyecto_sfv(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$id_obra_cliente=$_POST["id_obra_cliente"];
+
+		$data = array( 'ingresos_sfv' => $this->Iluminacion_model->Get_Ingresos_SFV_proyecto($id_obra_cliente),
+					  	'egresos_gasto_venta' => $this->Iluminacion_model->Get_Egresos_Gasto_Venta_proyecto($id_obra_cliente));
+		//var_dump($data);
+		$this->load->view('Iluminacion/Tabla_flujo_efectivo_sfv', $data);
+	}
+
+	public function Reporte_flujo_efectivo_proyecto(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$id_obra_cliente=$_POST["id_obra_cliente"];
+
+		$data = array('ingresos_venta_mov' => $this->Iluminacion_model->Get_Ingresos_Pagos_proyecto($id_obra_cliente),				  	   
+					  'egresos_gasto_venta' => $this->Iluminacion_model->Get_Egresos_Gasto_Venta_proyecto($id_obra_cliente));
+					  	   
+		//var_dump($data);
+		$this->load->view('Iluminacion/Tabla_flujo_efectivo_proyecto', $data);
 	}
 
 

@@ -2,7 +2,7 @@
 
 <div class="row">
   <div class="col">
-    <h2 align="center">Lista de Pagos realizados </h2>
+    <h2 align="center">Lista de Pagos Realizados </h2>
     <div class="col" align="center">
       <span class="badge badge-info">
         <h6 align="center">
@@ -11,7 +11,7 @@
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total de Obra:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,5,'.',','); ?>
+          Total de Proyecto:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,5,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">

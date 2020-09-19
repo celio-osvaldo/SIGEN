@@ -491,21 +491,8 @@
 	function Responder_Solicitud_pago($id_historial){
 		<?php foreach ($solicitado_pago->result() as $row_pago ){ ?>
 			if (<?php echo $row_pago->id_historial_proyecto_pago?>==$id_historial) {
-				<?php switch ($row_pago->obra_cliente_empresa_id_empresa) {
-					case '1':
-						$empresa="Iluminación";
-						break;
-					case '2':
-						$empresa="DASA";
-						break;
-					case '3':
-						$empresa="SALINAS";
-						break;
-					
-					default:
-						# code...
-						break;
-				} ?>
+        empresa="<?php echo $row_pago->empresa_nom ?>";
+
 					fecha_solicita="<?php echo $row_pago->historial_proyecto_pago_fecha_actualizacion ?>";
 					comentario_old="<?php echo $row_pago->historial_proyecto_pago_coment_old?>";
 					comentario_new="<?php echo $row_pago->historial_proyecto_pago_coment_new?>";
@@ -523,7 +510,7 @@
 		$("#AtiendeModal_pago").modal();
 		$("#id_atn_sol_pago").text($id_historial);
 		$("#id_pago").text(id_pago);
-		$("#empresa_pago").text("<?php echo $empresa ?>");
+		$("#empresa_pago").text(empresa);
 		$("#lbl_solicitante_pago").text($("#usuario"+$id_historial).text());
 		$("#lbl_fecha_pago").text($("#fecha"+$id_historial).text());
 		if(fecha_pago_old!=fecha_pago_new){

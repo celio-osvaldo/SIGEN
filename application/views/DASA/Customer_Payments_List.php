@@ -2,16 +2,16 @@
 
 <div class="row">
   <div class="col">
-    <h2 align="center">Lista de Pagos realizados </h2>
+    <h2 align="center">Lista de Pagos Realizados </h2>
     <div class="col" align="center">
       <span class="badge badge-info">
         <h6 align="center">
-          Obra/Cliente:<hr><?php echo $obra->obra_cliente_nombre; ?>
+          Proyecto/Cliente:<hr><?php echo $obra->obra_cliente_nombre; ?>
         </h6>
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total de Obra:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,2,'.',','); ?>
+          Total de Proyecto:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,2,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
@@ -45,7 +45,6 @@
           <th>Pago</th>
           <th>Comentarios</th>
           <th>Editar</th>
-
         </tr>
       </thead>
       <tbody>
@@ -98,6 +97,28 @@
   </div>
 </div>
 
+<!-- Modal Justifica Cambios Customer_Pays -->
+<div class="modal fade" id="JustificaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Justifica el cambio solicitado:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea id="txt_justifica" onkeyup="countChars(this);" class="form-control input-sm" maxlength="500"></textarea>
+        <p id="charNum">Restan 500 caracteres</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-primary" id="Solicita_Cambio" data-dismiss="modal">Solicitar Cambio</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script type="text/javascript">
@@ -111,28 +132,75 @@
           act_imp=act_imp.replace(/\,/g, '');
           act_coment=$("#edit_coment").val();
           id=$("#edit_id_vent_mov").val();
-    //alert(act_fecha+act_imp+act_coment+id);
+          //alert(act_fecha+act_imp+act_coment+id);
+
+          fecha=$("#fecha"+id).text();
+          importe=$("#pago"+id).text();
+          importe=importe.replace(/\$/g, '');
+          importe=importe.replace(/\,/g, '');
+          coment=$("#coment"+id).text();
+
       if (act_fecha!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
-        $.ajax({
-          type:"POST",
-          url:"<?php echo base_url();?>Dasa/EditCustomerPay",
-          data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment,id:id},
-          success:function(result){
-            //alert(result);
-            if(result=='actualizado'){
-              alert('Registro Actualizado');
-              Update_Page();
-            }else{
-              alert('Falló el servidor. Registro no actualizado');
-            }
+          
+          total=act_imp-importe;
+          if(act_fecha.trim()!=fecha.trim()||total!=0){
+
+            //alert(act_fecha+" "+fecha+" dif fecha"+dif_fecha+" "+act_imp+" "+importe+" total:"+total);
+            $("#JustificaModal").modal();//Abrimos modal para solicitar la justificación del cambio
+
+          }else{
+            $.ajax({
+              type:"POST",
+              url:"<?php echo base_url();?>Dasa/EditCustomerPay",
+              data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment,id:id},
+              success:function(result){
+                //alert(result);
+                if(result=='actualizado'){
+                  alert('Registro Actualizado');
+                  Update_Page();
+                }else{
+                  alert('Falló el servidor. Registro no actualizado');
+                }
+              }
+            });
           }
-        });
       }else{
         alert("Debe ingresar fecha de Pago e Importe Total");
       } 
     });
 
-      });
+
+    $('#Solicita_Cambio').click(function(){
+      txt_justifica=$("#txt_justifica").val();
+      fecha_old=$("#fecha"+id).text();
+      importe_old=$("#pago"+id).text();
+      importe_old=importe_old.replace(/\$/g, '');
+      importe_old=importe_old.replace(/\,/g, '');
+      coment_old=$("#coment"+id).text();
+      //alert(importe_old);
+      if(txt_justifica!=""){
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Dasa/EditCustomerPay_Admin",
+          data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment, fecha_old:fecha_old, importe_old:importe_old, coment_old:coment_old, id:id, txt_justifica:txt_justifica},
+                success:function(result){
+                  //alert(result);
+                  if(result){
+                    alert('Solicitud enviada al Administrador para actualizar los datos indicados.');
+                    CloseModal();
+                  }else{
+                    alert('Falló el servidor. Solicitud para actualizar no enviada.');
+                  }
+                }
+              });
+           }else{
+            alert("Actualización de datos no completada. Debe justificar los cambios solicitados ya que estos requieren autorización del Administrador.");
+           }
+    });
+
+
+
+  });
     </script>
 
     <script type="text/javascript">
@@ -157,6 +225,7 @@ function Edit_pay2($id){
   function Update_Page(){
     $("#page_content").load("CustomerPayments");
   }
+
 
 function SeparaMiles($id){
   valor=$("#"+$id).val();

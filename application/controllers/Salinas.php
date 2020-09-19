@@ -731,6 +731,36 @@ class Salinas extends CI_Controller {
 		}
 	}
 
+public function EditCustomerPay_Admin(){
+		$this->load->model('Salinas_model');
+		$id=$_POST["id"];
+
+		$act_fecha=$_POST["act_fecha"];
+		$act_imp=$_POST["act_imp"];
+		$act_coment=$_POST["act_coment"];
+
+		$fecha_old=$_POST["fecha_old"];
+		$importe_old=$_POST["importe_old"];
+		$coment_old=$_POST["coment_old"];
+
+		$txt_justifica=$_POST["txt_justifica"];
+
+		$data = array('historial_proyecto_pago_id_venta_mov' => $id,
+					  'historial_proyecto_pago_fecha_actualizacion' => date("Y/m/d"),
+					  'historial_proyecto_pago_coment_old' => $coment_old,
+					  'historial_proyecto_pago_coment_new' => $act_coment,
+					  'historial_proyecto_pago_monto_old' => $importe_old,
+					  'historial_proyecto_pago_monto_new' => $act_imp,
+					  'historial_proyecto_pago_fecha_pago_old' => $fecha_old,
+					  'historial_proyecto_pago_fecha_pago_new' => $act_fecha ,
+					  'historial_proyecto_pago_justifica' => $txt_justifica,
+					  'historial_proyecto_pago_autoriza' => "1",
+					  'historial_proyecto_pago_solicita' => $this->session->userdata('id_usuario'));
+		$table="historial_proyecto_pago";
+		$result=$this->Salinas_model->Insert($table,$data);
+		echo $result;
+	}
+
 	public function UpdateProvider(){
 		$this->load->model('Salinas_model');
 		$id_prov=$_POST["id_cat"];

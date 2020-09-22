@@ -33,7 +33,7 @@ class Dasa_model extends CI_Model
   		}
 
   public function GetAllCustomer_Project($idcompany){
-  		$this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios');
+  		$this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_aplica_flujo');
   		$this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
   		$this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
@@ -100,7 +100,7 @@ class Dasa_model extends CI_Model
 	}
 
 	 public function GetAllCustomer_Payments($idcompany){
-    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios');
+    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios, obra_cliente_aplica_flujo');
       $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
       $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
@@ -494,6 +494,7 @@ class Dasa_model extends CI_Model
     $this->db->where('MONTH(venta_mov_fecha)',$mes);
     $this->db->where('YEAR(venta_mov_fecha)',$anio);
     $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->where('obra_cliente_aplica_flujo','1');
     $this->db->order_by('venta_mov_fecha');
     $result = $this->db->get();
     return $result;

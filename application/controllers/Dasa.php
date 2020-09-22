@@ -215,6 +215,7 @@ class DASA extends CI_Controller {
 		$id_cliente=$_POST["id_cliente"];
 		$importe=$_POST["importe"];
 		$coment=$_POST["coment"];
+		$add_flujo=$_POST["addflujo"];
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
 				$data=array('empresa_id_empresa' => $idcomp->id_empresa,
@@ -223,7 +224,8 @@ class DASA extends CI_Controller {
 					'obra_cliente_imp_total'=>$importe,
 					'obra_cliente_saldo'=>$importe,
 					'obra_cliente_estado'=>1,
-					'obra_cliente_comentarios'=>$coment);
+					'obra_cliente_comentarios'=>$coment,
+					'obra_cliente_aplica_flujo' => $add_flujo);
 		$result=$this->Dasa_model->AddCustomer_Project($data);
 		echo $result;		
 	}
@@ -236,6 +238,7 @@ class DASA extends CI_Controller {
 		$act_estado=$_POST["act_estado"];
 		$act_coment=$_POST["act_coment"];
 		$id=$_POST["id"];
+		$act_addflujo=$_POST["act_addflujo"];
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
 		$sum_pagos=$this->Dasa_model->SumPagos_Obra($id);
@@ -252,8 +255,8 @@ class DASA extends CI_Controller {
         'obra_cliente_pagado'=>$suma_pagos,
         'obra_cliente_saldo'=>$saldo,
         'obra_cliente_estado' => $act_estado,
-        'obra_cliente_comentarios' => $act_coment
-			);
+        'obra_cliente_comentarios' => $act_coment,
+        'obra_cliente_aplica_flujo'=> $act_addflujo);
 		$result=$this->Dasa_model->Edit_CustomerProject($id,$data);
 		echo $result;
 	}

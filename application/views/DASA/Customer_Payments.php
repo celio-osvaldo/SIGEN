@@ -21,6 +21,7 @@
                 <th>Saldo</th>
                 <th>Último Pago</th>
                 <th>Comentarios</th>
+                <th>Aplica a Flujo Efectivo</th>
                 <th>Registrar Pago</th>
                 <th>Detalles de Pagos</th>
 
@@ -38,6 +39,19 @@
                  <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_saldo,2,'.',',').""; ?></td>
                  <td id="<?php echo "ult_pago_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_ult_pago.""; ?></td>
                  <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
+
+                 <td id="<?php echo "aplica_flujo".$row->id_obra_cliente; ?>">
+                     <?php if ($row->obra_cliente_aplica_flujo=="1"): ?>
+                         <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                         <label hidden="true">1</label>
+                     <?php endif?>
+                     <?php if ($row->obra_cliente_aplica_flujo=="0"): ?>
+                         <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                         <label hidden="true">0</label>
+                     <?php endif?>
+
+                 </td>
+
                  <td>
                   <a class="navbar-brand" href="#" onclick="AddPay(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico"></a>
                 </td>

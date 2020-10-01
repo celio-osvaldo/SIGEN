@@ -1522,7 +1522,29 @@ public function FlujoEfectivo_Proyecto(){
 					  	);
 		//var_dump($data);
 		$this->load->view('Salinas/Tabla_flujo_efectivo_proyecto', $data);
+	}
 
+
+	public function customer_payments_tbl_body(){
+		$this->load->model('Salinas_model');
+		$company='SALINAS';
+		$idcompany=$this->Salinas_model->IdCompany($company);
+		$activo=$_POST["activo"];
+		//$activo=explode('*', $activo);
+		$data=array('customerspays'=>$this->Salinas_model->GetAllCustomer_Payments($idcompany->id_empresa),
+					'filtro'=>$activo);
+		$this->load->view('Salinas/customer_payments_tbl_body',$data);
+	}
+
+	public function Customer_Projects_tbl_body(){
+		$this->load->model('Salinas_model');
+		$company='SALINAS';
+		$idcompany=$this->Salinas_model->IdCompany($company);
+		$activo=$_POST["activo"];
+		$data=array('proyectlist'=>$this->Salinas_model->GetAllCustomer_Project($idcompany->id_empresa),
+					'customerlist'=>$this->Salinas_model->Get_Customer_List($idcompany->id_empresa),
+					'filtro'=>$activo);
+		$this->load->view('Salinas/Customer_Projects_tbl_body',$data);
 	}
 
 

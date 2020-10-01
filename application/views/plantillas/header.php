@@ -13,6 +13,11 @@
 	<script type="text/javascript" src="..\assets\Personalized\js\renderMenu.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\menuScript.js"></script>
 
+  <script src="..\assets\multiple-select-1.5.2\dist\multiple-select.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="..\assets\multiple-select-1.5.2\dist\multiple-select.min.css">
+
+
+
 <?php
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Cache-Control: post-check=0, pre-check=0", false);

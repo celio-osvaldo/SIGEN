@@ -1,8 +1,8 @@
 
-<!--
+
 <script src="..\assets\multiple-select-1.5.2\dist\multiple-select.min.js"></script>
 <link rel="stylesheet" type="text/css" href="..\assets\multiple-select-1.5.2\dist\multiple-select.min.css">
--->
+
 
 
 <div class="row">
@@ -14,14 +14,14 @@
   </div>
 </div>
 
-<!--
+
 <div class="row">
     <div class="form-group row">
         <label class="col-md-7">
           Mostrar/Ocultar Columnas
         </label>
     <div class="col-md-4">
-      <select multiple="multiple" class="multiple-select" id="muestra_oculta">
+      <select multiple="multiple" class="multiple-select" id="muestra_oculta" placeholder="Seleccione Columna">
           <option value="0">Folio Factura</option>
           <option value="1">Fecha de Emisión</option>
           <option value="2">Cliente</option>
@@ -44,13 +44,7 @@
 </div>
 
 
-<script>
-  $(function() {
-    $('.multiple-select').multipleSelect()
-  })
-</script>
 
--->
 
 <div class="card bg-card">
     <div class="margins">
@@ -332,8 +326,33 @@
 
 <script type="text/javascript">
     $(document).ready( function () {
-        $('#table_id').DataTable();
+        tabla=$('#table_id').DataTable();
     });
+
+
+
+  $(function() {
+    $('.multiple-select').multipleSelect()
+  });
+
+
+  $(function() {
+    $('#muestra_oculta').multipleSelect("checkAll").change(function () {
+      sel=document.getElementById("muestra_oculta");
+        col_selec="";
+        for (var i = 0; i < sel.options.length; i++) {
+                if(sel.options[i].selected==true){
+                    col_selec+=sel.options[i].value+"*";
+                     
+                    tabla.column(sel.options[i].value).visible(1);
+                }else{
+                     tabla.column(sel.options[i].value).visible(0);
+                }
+              }         
+    }).change()
+  });
+
+
 </script>
 
 <!-- change format date -->

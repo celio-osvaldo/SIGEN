@@ -1536,5 +1536,27 @@ public function EditCustomerPay_Admin(){
 
 	}
 
+	public function customer_payments_tbl_body(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$activo=$_POST["activo"];
+		//$activo=explode('*', $activo);
+		$data=array('customerspays'=>$this->Dasa_model->GetAllCustomer_Payments($idcompany->id_empresa),
+					'filtro'=>$activo);
+		$this->load->view('DASA/customer_payments_tbl_body',$data);
+	}
+
+	public function Customer_Projects_tbl_body(){
+		$this->load->model('Dasa_model');
+		$company='DASA';
+		$idcompany=$this->Dasa_model->IdCompany($company);
+		$activo=$_POST["activo"];
+		$data=array('proyectlist'=>$this->Dasa_model->GetAllCustomer_Project($idcompany->id_empresa),
+					'customerlist'=>$this->Dasa_model->Get_Customer_List($idcompany->id_empresa),
+					'filtro'=>$activo);
+		$this->load->view('DASA/Customer_Projects_tbl_body',$data);
+	}
+
 #end conntroller
 }	

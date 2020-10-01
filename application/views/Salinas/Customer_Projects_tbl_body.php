@@ -1,0 +1,80 @@
+<div class="table-responsive">
+  <table id="table_customer" class="table table-striped table-hover display" style="font-size: 10pt;">
+    <thead class="bg-primary" style="color: #FFFFFF;" align="center">
+      <tr>
+        <th>Proyecto</th>
+        <th>Cliente</th>
+        <th>Importe Total</th>
+        <th>Pagado</th>
+        <th>Saldo</th>
+        <th hidden="true">Estado_id</th>
+        <th>Estado</th>
+        <th>Comentarios</th>
+        <th>Aplica a Flujo Efectivo</th>
+        <th>Editar</th>
+      </tr>
+    </thead>
+    <tbody>
+     <?php
+     foreach ($proyectlist->result() as $row) {
+      if(stristr($filtro, $row->obra_cliente_estado)){
+        ?>
+        <tr id="<?php echo "fila".$row->id_obra_cliente; ?>">          
+          <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
+          <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
+          <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_imp_total, 2,'.',',').""; ?></td>
+          <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_pagado, 2, '.', ',').""; ?> </td>
+          <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_saldo,2,'.',',').""; ?></td>
+
+          <td id="<?php echo "estado_obra".$row->id_obra_cliente;?>" hidden="true"><?php echo "".$row->obra_cliente_estado.""; ?></td>
+
+          <td id="nom_estado">
+            <?php 
+            switch ($row->obra_cliente_estado) {
+              case '1':
+              echo 'Activo';
+              break;
+              case '2':
+              echo 'Pagado';
+              break;
+              case '3':
+              echo 'Cancelado';
+              break;
+              default:
+              echo 'Error';
+              break;
+            }
+            ?>
+          </td>
+          <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
+
+          <td id="<?php echo "aplica_flujo".$row->id_obra_cliente; ?>">
+           <?php if ($row->obra_cliente_aplica_flujo=="1"): ?>
+             <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+             <label hidden="true">1</label>
+           <?php endif?>
+           <?php if ($row->obra_cliente_aplica_flujo=="0"): ?>
+             <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+             <label hidden="true">0</label>
+           <?php endif?>
+
+         </td>
+
+         <td>
+          <a class="navbar-brand" onclick="Edit(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>">
+            <button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" />
+            </button></a>
+          </td>
+        </tr>
+        <?php 
+      } 
+    }?>
+  </tbody>
+</table>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('#table_customer').DataTable();
+} );
+</script>

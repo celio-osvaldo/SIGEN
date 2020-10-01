@@ -17,6 +17,8 @@
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
 
+	<script src="..\assets\multiple-select-1.5.2\dist\multiple-select.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="..\assets\multiple-select-1.5.2\dist\multiple-select.min.css">
 
 	
 <?php

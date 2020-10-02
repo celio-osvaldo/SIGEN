@@ -7,7 +7,7 @@
 					<table id="table_solicitudes" class="table table-hover display table-striped" style="font-size: 10pt;">
 						<thead class="bg-primary" style="color: #FFFFFF;" align="center">
 							<tr>
-								<th hidden="true">id_historial_proyecto_info</th>
+								<th>Id Solicitud Cambio</th>
 								<th >Usuario</th>
 								<th >Fecha de Solicitud</th>
 								<th >Comentario</th>
@@ -19,7 +19,7 @@
 							<?php
 							foreach ($solicitado->result() as $row) {?>								
 								<tr>
-									<td hidden="true" id="<?php echo "id_historial_proyecto_info"; ?>"><?php echo "".$row->id_historial_proyecto_info."";?></td>
+									<td id="<?php echo "id_historial_proyecto_info"; ?>"><?php echo "INFO-".$row->id_historial_proyecto_info."";?></td>
 									<td id="<?php echo "usuario".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
 									<td id="<?php echo "fecha".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_fecha_actualizacion."";?></td>
 									<td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_coment_justifica."";?></td>
@@ -36,7 +36,7 @@
 							<?php
 							foreach ($solicitado_pago->result() as $row) {?>								
 								<tr>
-									<td hidden="true" id="<?php echo "id_historial_proyecto_pago"; ?>"><?php echo "".$row->id_historial_proyecto_pago."";?></td>
+									<td id="<?php echo "id_historial_proyecto_pago"; ?>"><?php echo "PAGO-".$row->id_historial_proyecto_pago."";?></td>
 									<td id="<?php echo "usuario".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
 									<td id="<?php echo "fecha".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_fecha_actualizacion."";?></td>
 									<td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_justifica."";?></td>
@@ -81,11 +81,11 @@
       	<div class="row">
         	<label>Fecha de solicitud:&nbsp;</label><label id="lbl_fecha"></label>   	
       	</div>
-      	<div id="proyecto" hidden="true">
+      	<div id="proyecto">
 	      	<div class="row">
 	      		<label class="col-5">Nombre Proyecto Actual</label>
 	      		<label class="col-1"></label>
-	      		<label class="col-6">Nombre Proyecto Cambio</label>
+	      		<label class="col-6" id>Nombre Proyecto Cambio</label>
 	      	</div>
 	      	<div class="row">
 	      		<textarea id="proy_actual" class="col-5" disabled="true"></textarea>
@@ -93,7 +93,7 @@
 	      		<textarea type="text" id="proy_cambio" class="col-6" disabled="true"></textarea>
 	      	</div>
       	</div>
-      	<div id="cliente" hidden="true">
+      	<div id="cliente" >
 	      	<div class="row">
 	      		<label class="col-5">Cliente Actual</label>
 	      		<label class="col-2"></label>
@@ -106,7 +106,7 @@
 	      		<input type="text" id="cli_cambio_id" hidden="true"> 
 	      	</div>
       	</div>
-      	<div id="importe" hidden="true"> 
+      	<div id="importe" > 
 	      	<div class="row">
 	      		<label class="col-5">Importe Actual</label>
 	      		<label class="col-2"></label>
@@ -118,7 +118,7 @@
 	      		<input type="text" id="imp_cambio" class="col-5" disabled="true">
 	      	</div>
       	</div>
-      	<div id="estado" hidden="true">
+      	<div id="estado" >
 	      	<div class="row">
 	      		<label class="col-5">Estado Actual</label>
 	      		<label class="col-2"></label>
@@ -130,7 +130,7 @@
 	      		<input type="text" id="estado_cambio" class="col-5" disabled="true">
 	      	</div>
       	</div>
-      	<div id="coment" hidden="true">
+      	<div id="coment" >
 	      	<div class="row">
 	      		<label class="col-5">Comentario Actual</label>
 	      		<label class="col-2"></label>
@@ -456,12 +456,14 @@
 		$("#lbl_fecha").text($("#fecha"+$id_historial).text());
 		if(nom_proy_actual!=nom_proy_cambio){
 			$("#proyecto").removeAttr('hidden');
+      $("#proyecto").attr('style','background-color:#FFFB77');
 		}
 		$("#proy_actual").val(nom_proy_actual);
 		$("#proy_cambio").val(nom_proy_cambio);
 
 		if (cli_actual!=cli_cambio) {
 			$("#cliente").removeAttr('hidden');
+      $("#cliente").attr('style','background-color:#FFFB77');
 		}
 		$("#cli_actual").val(cli_actual);
 		$("#cli_cambio").val(cli_cambio);
@@ -469,23 +471,27 @@
 
 		if (imp_actual!=imp_cambio) {
 			$("#importe").removeAttr('hidden');
+      ("#importe").attr('style','background-color:#FFFB77');
 		}
 		$("#imp_actual").val(imp_actual);
 		$("#imp_cambio").val(imp_cambio);
 
 		if (estado_actual!=estado_cambio) {
 			$("#estado").removeAttr('hidden');
+      $("#estado").attr('style','background-color:#FFFB77');
 		}
 		$("#estado_actual").val(estado_actual);
 		$("#estado_cambio").val(estado_cambio);
 		
 		if (coment_actual!=coment_cambio) {
 			$("#coment").removeAttr('hidden');
+      $("#coment").attr('style','background-color:#FFFB77');
 		}
 		$("#coment_actual").val(coment_actual);
 		$("#coment_cambio").val(coment_cambio);
 
 		$("#txt_obs").text($("#coment"+$id_historial).text());
+    $("#txt_obs").attr('style','background-color:#FFFB77');
 	}
 
 	function Responder_Solicitud_pago($id_historial){

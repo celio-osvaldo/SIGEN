@@ -12,7 +12,7 @@
 
 <div class="card bg-card">
   <div class="table-responsive">
-    <table id="table_cotizacion" class="table table-striped table-hover display" style="font-size: 10pt;">
+    <table id="table_cotizacion" class="table table-striped table-hover display" style="font-size: 8pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
           <th hidden="true">id_cotización</th>
@@ -20,7 +20,7 @@
           <th>Fecha</th>
           <th>Empresa</th>
           <th hidden="true">id_cliente</th>
-          <th>Obra</th>
+          <th >Obra</th>
           <th>Cliente (Atención)</th>
           <th>Licitacion</th>
           <th>Subtotal</th>
@@ -32,7 +32,6 @@
           <th>Elaboró</th>
           <th>Estado</th>
           <th>Acciones</th>
-          <th></th>
         </tr>
       </thead>
       <tbody>
@@ -77,22 +76,22 @@
           <td id="<?php echo "elabora".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_elabora.""; ?></td>
           <td id="<?php echo "estado".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_estado.""; ?></td>
 
-          <td style="text-align: right;">
-            <a class="navbar-brand" href="#" onclick="EditCotizacion(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>">
-              <button class="btn btn-outline-secondary " title="Editar Registro"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
-              </button>
+          <td>
+            <div class="row">
+              
+           <a class="btn btn-outline-secondary" onclick="EditCotizacion(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>">
+            <img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
             </a>
-            <a class="navbar-brand" href="#" onclick="Add_Product(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>"><button class="btn btn-outline-secondary" title="Agregar Producto"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" alt="Agregar" style="filter: invert(100%)"></button>
+            <a class="btn btn-outline-secondary" onclick="Add_Product(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="20px" alt="Agregar" style="filter: invert(100%)">
             </a>
-          </td>
-          <td style="text-align: left;">
-            <a class="navbar-brand" href="#" onclick="Details_Cotizacion(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>"><button class="btn btn-outline-secondary" title="Ver Detalles de Cotización"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
+            <a class="btn btn-outline-secondary"  onclick="Details_Cotizacion(this.id)" role="button" id="<?php echo $row->id_cotizacion; ?>"><img src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)">
             </a>
             <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Cotizacion" method="POST" target='_blank'>
              <input type="text" hidden="true" id="id_cotizacion" name="id_cotizacion" value="<?php echo $row->id_cotizacion; ?>">
               <input hidden="true" type="text" id="folio" name="folio" value="<?php echo $row->cotizacion_folio; ?>">
              <button class="btn btn-outline-secondary" type="submit" title="Imprimir Cotización"><img src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
            </form>
+            </div>
          </td>
 
 

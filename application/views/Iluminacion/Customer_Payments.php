@@ -6,51 +6,22 @@
   </div>
 </div>
 
+<div class="row">
+    <div class="form-group row">
+        <label class="col-md-6">Ver Proyectos</label>
+    <div class="col-md-6">
+      <select multiple="multiple" class="multiple-select" id="estado_proyecto" placeholder="Seleccione">
+          <option value="1">Activo</option>
+          <option value="2">Pagado</option>
+          <option value="3">Cancelado</option>
+      </select>
+    </div>
+  </div>
+</div>
 
 
-
-      <div class="card bg-card">
-        <div class="table-responsive">
-          <table id="table_customer" class="table table-striped table-hover display" style="font-size: 10pt;">
-            <thead class="bg-primary" style="color: #FFFFFF;" align="center">
-              <tr>
-                <th>Proyecto</th>
-                <th>Cliente</th>
-                <th>Importe Total</th>
-                <th>Pagado</th>
-                <th>Saldo</th>
-                <th>Último Pago</th>
-                <th>Comentarios</th>
-                <th>Registrar Pago</th>
-                <th>Detalles de Pagos</th>
-
-              </tr>
-            </thead>
-            <tbody>
-              <?php 
-              foreach ($customerspays->result() as $row) {
-               ?>
-               <tr>
-                 <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-                 <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
-                 <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_imp_total,5,'.',',').""; ?></td>
-                 <td id="<?php echo "pagado_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_pagado,5,'.',',').""; ?></td>
-                 <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_saldo,5,'.',',').""; ?></td>
-                 <td id="<?php echo "ult_pago_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_ult_pago.""; ?></td>
-                 <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
-                 <td>
-                  <a class="navbar-brand" href="#" onclick="AddPay(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico"></a>
-                </td>
-                <td>
-                  <a class="navbar-brand" href="#" onclick="Details(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\lupa.ico"></a>
-                </td>
-              </tr>
-              <?php 
-            }
-            ?>
-          </tbody>
-        </table>
-      </div>
+      <div class="card bg-card" id="tbl_body">
+        
     </div>
 
 
@@ -87,6 +58,25 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#table_customer').DataTable();
+
+$(function() {
+    $('.multiple-select').multipleSelect()
+  });
+
+  $(function() {
+    $('#estado_proyecto').multipleSelect("checkAll").change(function () {
+      sel=document.getElementById("estado_proyecto");
+        activo="";
+        for (var i = 0; i < sel.options.length; i++) {
+                if(sel.options[i].selected==true){
+                  activo+=(i+1);
+                }else{
+
+                }
+              }
+          llena_tabla(activo);         
+    }).change()
+  });
 
     $('#guardarpago').click(function(){
       id_obra=$('#id_obra').val();
@@ -135,6 +125,13 @@
    var id_obra=$id;
    $("#page_content").load("Payments_List",{id_obra:id_obra});
                       
+ }
+
+  function llena_tabla($activo) {
+   //alert('Ver Detalles');
+   var activo=$activo;
+   //alert(activo);
+   $("#tbl_body").load("Customer_Payments_tbl",{activo:activo});                
  }
 
 

@@ -1360,7 +1360,7 @@ public function AddProduct(){
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_cotizacion=$_POST["id_cotizacion"];
-		var_dump($id_cotizacion);
+		//var_dump($id_cotizacion);
 
 		$cotizante_cliente=$this->Iluminacion_model->Coti_Client($id_cotizacion);
 		$cotizante_cliente=explode("-", $cotizante_cliente->cotizacion_id_cliente);
@@ -2822,6 +2822,27 @@ public function GETMAX_Folio_recibo(){
 					  	   
 		//var_dump($data);
 		$this->load->view('Iluminacion/Tabla_flujo_efectivo_proyecto', $data);
+	}
+
+	public function Customer_Project_tbl(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$activo=$_POST["activo"];
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$data=array('proyectlist'=>$this->Iluminacion_model->GetAllCustomer_Project($idcompany->id_empresa),
+					'customerlist'=>$this->Iluminacion_model->Get_Customer_List($idcompany->id_empresa),
+					'filtro'=>$activo);
+		$this->load->view('Iluminacion/Customer_Projects_tbl',$data);
+	}
+
+		public function Customer_Payments_tbl(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$activo=$_POST["activo"];
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$data=array('customerspays'=>$this->Iluminacion_model->GetAllCustomer_Payments($idcompany->id_empresa),
+					'filtro'=>$activo);
+		$this->load->view('Iluminacion/Customer_Payments_tbl',$data);
 	}
 
 

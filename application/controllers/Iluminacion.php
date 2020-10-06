@@ -3,20 +3,22 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Iluminacion extends CI_Controller {
 
-#views
-
 	public function Index()
 	{
 		if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
-          $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
-          $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
-          $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
+          	$data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
+          	$data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
+          	$data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | Iluminacion';
+ 			$this->load->model('Iluminacion_model');
+ 			$company='ILUMINACION';
+			$idcompany=$this->Iluminacion_model->IdCompany($company);
+ 			$data['solicitudes']=$this->Iluminacion_model->Get_solicitudes($idcompany->id_empresa);
+            $data['solicitudes_pago']=$this->Iluminacion_model->Get_solicitudes_pago($idcompany->id_empresa);
 	   		$this->load->view('plantillas/header_iluminacion', $data);
 			$this->load->view('Iluminacion/Welcome');
        		$this->load->view('plantillas/footer_iluminacion');
-       	}
-       	else{
+       	}else{
        		$this->session->set_flashdata('error', 'No ha iniciado Sesión');//if not exist the user, just show an error in the view
        		redirect('/');
        	}
@@ -2845,6 +2847,16 @@ public function GETMAX_Folio_recibo(){
 		$this->load->view('Iluminacion/Customer_Payments_tbl',$data);
 	}
 
+    public function Lista_Solicitudes(){
+        $this->load->model('Iluminacion_model');
+        $company='ILUMINACION';
+        $idcompany=$this->Iluminacion_model->IdCompany($company);
+        $data = array('solicitado' => $this->Iluminacion_model->Cambio_Solicitado($idcompany->id_empresa) ,
+                      'solicitado_pago' => $this->Iluminacion_model->Cambio_Solicitado_pago($idcompany->id_empresa), 
+                      'catalogo_cliente' => $this->Iluminacion_model->Cat_Cliente(),
+                      'catalogo_autoriza' =>$this->Iluminacion_model->Cat_autoriza());
+        $this->load->view('Iluminacion/ListaSolicitudes', $data);
+    }
 
 #end controller
 }

@@ -12,6 +12,11 @@ class Salinas extends CI_Controller {
           $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
           $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | SALINAS';
+			$this->load->model('Salinas_model');
+ 			$company='SALINAS';
+			$idcompany=$this->Salinas_model->IdCompany($company);
+ 			$data['solicitudes']=$this->Salinas_model->Get_solicitudes($idcompany->id_empresa);
+            $data['solicitudes_pago']=$this->Salinas_model->Get_solicitudes_pago($idcompany->id_empresa);
 	   		$this->load->view('plantillas/header_salinas', $data);
 			$this->load->view('Salinas/Welcome');
        		$this->load->view('plantillas/footer_salinas');
@@ -1546,6 +1551,17 @@ public function FlujoEfectivo_Proyecto(){
 					'filtro'=>$activo);
 		$this->load->view('Salinas/Customer_Projects_tbl_body',$data);
 	}
+
+    public function Lista_Solicitudes(){
+        $this->load->model('Salinas_model');
+        $company='SALINAS';
+        $idcompany=$this->Salinas_model->IdCompany($company);
+        $data = array('solicitado' => $this->Salinas_model->Cambio_Solicitado($idcompany->id_empresa) ,
+                      'solicitado_pago' => $this->Salinas_model->Cambio_Solicitado_pago($idcompany->id_empresa), 
+                      'catalogo_cliente' => $this->Salinas_model->Cat_Cliente(),
+                      'catalogo_autoriza' =>$this->Salinas_model->Cat_autoriza());
+        $this->load->view('Salinas/ListaSolicitudes', $data);
+    }
 
 
 #end conntroller

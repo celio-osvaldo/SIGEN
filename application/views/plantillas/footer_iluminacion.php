@@ -144,6 +144,10 @@
 				$("#page_content").load("GetAllViatics");
 			});
 		});
+
+	$('#Lista_Solicitudes').click(function(){
+			$('#page_content').load('Lista_Solicitudes');
+		});
 	</script>
 
 

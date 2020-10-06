@@ -112,7 +112,11 @@
 				$("#page_content").load("OtherExpens");
 			});
 		});
+			$('#Lista_Solicitudes').click(function(){
+			$('#page_content').load('Lista_Solicitudes');
+		});
 	</script>
+
 
 </body>
 </html> 

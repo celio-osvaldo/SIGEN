@@ -3,20 +3,16 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+	<META HTTP-EQUIV="Cache-Control" CONTENT ="no-cache">
 	<link rel="shortcut icon" href="../Resources/Logos/system2.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">	
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
 	<script src="..\assets\Jquery\jquery-3.4.1.min.js"></script>
 	<script src="..\assets\bootstrap_4.4\js\bootstrap.min.js"></script>
-
-
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\DataTables\datatables.min.css"/>
 	<script type="text/javascript" src="..\assets\Personalized\DataTables\datatables.min.js"></script>
-
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
-
 	<script src="..\assets\multiple-select-1.5.2\dist\multiple-select.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="..\assets\multiple-select-1.5.2\dist\multiple-select.min.css">
 
@@ -113,6 +109,18 @@ header("Pragma: no-cache");
 				</li>
 			</ul>
 		</div>
+
+			<a class="btn btn-outline-light" role="button" id="Lista_Solicitudes" title="Solicitudes de Cambio"><img src="..\Resources\Icons\bell.ico" style="filter: invert(50%)">
+				<?php if ($solicitudes->num_solic>0||$solicitudes_pago->num_solic_pago>0) {
+					$total_solicitudes=$solicitudes->num_solic+$solicitudes_pago->num_solic_pago;?>
+					<span class="badge badge-danger"><?php echo $total_solicitudes ?> </span>
+				<?php
+				}else{
+					$total_solicitudes=0;
+				} ?>
+			</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+
 		<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
 		<a class="btn btn-outline-light" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>

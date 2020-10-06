@@ -1,5 +1,4 @@
-
-		<div class="card bg-card">
+<div class="card bg-card">
 			<div class="table-responsive">
 				<br>
 				<div class="table-responsive">
@@ -11,7 +10,7 @@
 								<th >Fecha de Solicitud</th>
 								<th >Comentario</th>
 								<th >Estado de Solicitud</th>
-								<th >Acciones</th>
+								<th >Detalles</th>
 							</tr>
 						</thead>
 						<tbody style="font-weight: bolder;" align="center">
@@ -23,12 +22,8 @@
 									<td id="<?php echo "fecha".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_fecha_actualizacion."";?></td>
 									<td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_coment_justifica."";?></td>
 									<td id="<?php echo "estado".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->estado."";?></td>	
-									<?php if ($row->historial_proyecto_autoriza=="1"){ ?>
-										<td><a role="button" class="btn btn-outline-dark" onclick="Responder_Solicitud(this.id)" id="<?php echo "".$row->id_historial_proyecto_info.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Responder" style="filter: invert(100%)" /></a>									
-									<?php }else{?>
-										<td>Solicitud Procesada
-									<?php }?>								
-									
+
+										<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud(this.id)" id="<?php echo "".$row->id_historial_proyecto_info.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>									
 									</td>
 								</tr>
 							<?php } ?>
@@ -40,11 +35,8 @@
 									<td id="<?php echo "fecha".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_fecha_actualizacion."";?></td>
 									<td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_justifica."";?></td>
 									<td id="<?php echo "estado".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->estado."";?></td>	
-									<?php if ($row->historial_proyecto_pago_autoriza=="1"){ ?>
-										<td><a role="button" class="btn btn-outline-dark" onclick="Responder_Solicitud_pago(this.id)" id="<?php echo "".$row->id_historial_proyecto_pago.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Responder" style="filter: invert(100%)" /></a>									
-									<?php }else{?>
-										<td>Solicitud Procesada
-									<?php }?>								
+										<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud_pago(this.id)" id="<?php echo "".$row->id_historial_proyecto_pago.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>									
+							
 									
 									</td>
 								</tr>
@@ -55,13 +47,16 @@
 			</div>
 		</div>
 
+
+
+
 <!-- Modal -->
 <div id="AtiendeModal" class="modal fade" role="dialog">
   <div class="modal-dialog modal-lg">
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header" >
-      	<h4 class="modal-title">Atención a Solicitud de Cambio</h4>
+      	<h4 class="modal-title">Detalles de Solicitud de Cambio</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
@@ -145,17 +140,10 @@
       	<div class="row">
       		<textarea id="txt_obs" disabled="true" class="col-md"></textarea>
       	</div>
-      	<div class="row">
-      		<select id="respuesta" onchange="Activa_Boton()">
-      			<option value="0" selected="true">Seleccione una respuesta</option>
-      			<option value="2">Autorizar</option>
-      			<option value="3">Rechazar</option>
-      		</select>
-      	</div>
+
       </div>
       <div class="modal-footer">
       	<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-success"  id="btn_procesar" disabled="true" data-dismiss="modal">Procesar</button>
       </div>
     </div>
   </div>
@@ -167,7 +155,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header" >
-      	<h4 class="modal-title">Atención a Solicitud de Cambio</h4>
+      	<h4 class="modal-title">Detalles de Solicitud de Cambio</h4>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
 
@@ -184,7 +172,7 @@
       	<div class="row">
         	<label>Fecha de solicitud:&nbsp;</label><label id="lbl_fecha_pago"></label>   	
       	</div>
-      	<div id="pago_fecha" hidden="true">
+      	<div id="pago_fecha" >
 	      	<div class="row">
 	      		<label class="col-5">Fecha de Pago Actual</label>
 	      		<label class="col-1"></label>
@@ -196,7 +184,7 @@
 	      		<input type="date" id="fecha_pago_new" class="col-6" disabled="true">
 	      	</div>
       	</div>
-      	<div id="monto" hidden="true">
+      	<div id="monto" >
 	      	<div class="row">
 	      		<label class="col-5">Monto Pagado Actual</label>
 	      		<label class="col-2"></label>
@@ -208,7 +196,7 @@
 	      		<input type="text" id="monto_new" class="col-5" disabled="true">
 	      	</div>
       	</div>
-      	<div id="coment_pago" hidden="true"> 
+      	<div id="coment_pago" > 
 	      	<div class="row">
 	      		<label class="col-5">Comentario Actual</label>
 	      		<label class="col-2"></label>
@@ -226,166 +214,24 @@
       	<div class="row">
       		<textarea id="txt_obs_pago" disabled="true" class="col-md"></textarea>
       	</div>
-      	<div class="row">
-      		<select id="respuesta_pago" onchange="Activa_Boton()">
-      			<option value="0" selected="true">Seleccione una respuesta</option>
-      			<option value="2">Autorizar</option>
-      			<option value="3">Rechazar</option>
-      		</select>
-      	</div>
+
       </div>
       <div class="modal-footer">
       	<button type="button" class="btn btn-primary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-success"  id="btn_procesar_pago" disabled="true" data-dismiss="modal">Procesar</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal -->
-<div id="ConfirmaModal" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-sm">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header" >
-      	<h4 class="modal-title">Confirma Respuesta</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
 
-      <div class="modal-body">
-      	<div class="row justify-content-md-center" style="font-size: 15pt;">
-      		<label>Confirme su respuesta: </label>
-      	</div>
-      	<div class="row justify-content-md-center" style="font-size: 15pt;">
-      		<label id="respuesta_final" class="bg-warning"></label><label class="bg-warning">&nbsp; Solicitud</label>
-      	</div>
-      </div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success"  id="btn_confirma" data-dismiss="modal">Confirmar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal -->
-<div id="ConfirmaModal_pago" class="modal fade" role="dialog">
-  <div class="modal-dialog modal-sm">
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header" >
-      	<h4 class="modal-title">Confirma Respuesta</h4>
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-      </div>
-
-      <div class="modal-body">
-      	<div class="row justify-content-md-center" style="font-size: 15pt;">
-      		<label>Confirme su respuesta: </label>
-      	</div>
-      	<div class="row justify-content-md-center" style="font-size: 15pt;">
-      		<label id="respuesta_final_pago" class="bg-warning"></label><label class="bg-warning">&nbsp; Solicitud</label>
-      	</div>
-      </div>
-      <div class="modal-footer">
-      	<button type="button" class="btn btn-primary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-success"  id="btn_confirma_pago" data-dismiss="modal">Confirmar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
 <script type="text/javascript">
-	$(document).ready(function(){
+		$(document).ready(function(){
 		$('#table_solicitudes').DataTable({
         "order": [[ 5, "asc" ]]
     });
-
-    $('#btn_procesar').click(function(){
-    	respuesta=$("#respuesta").val();
-    	respuesta_txt=$("#respuesta option:selected").text();
-      id_historial=$('#id_atn_sol').text();
-      $("#ConfirmaModal").modal();
-      $("#respuesta_final").text(respuesta_txt);
-    });
-
-    $('#btn_procesar_pago').click(function(){
-    	respuesta_pago=$("#respuesta_pago").val();
-    	respuesta_txt_pago=$("#respuesta_pago option:selected").text();
-      id_historial_pago=$('#id_atn_sol_pago').text();
-      $("#ConfirmaModal_pago").modal();
-      $("#respuesta_final_pago").text(respuesta_txt_pago);
-    });
-
-
-    $('#btn_confirma').click(function(){
-    	 id_historial=$('#id_atn_sol').text();
-    	 respuesta=$("#respuesta").val();
-    	 //alert(id_historial+" "+ respuesta);
-
-    	nom_proy_new=$("#proy_cambio").val();
-    	cliente_new=$("#cli_cambio_id").val();
-		importe_new=$("#imp_cambio").val();
-		estado_new=$("#estado_cambio").val(); //1-Activo. 2-Pagado 3-Cancelado
-		if (estado_new=="Activo") {
-			estado_new=1;
-		}else{
-			if(estado_new=="Pagado"){
-				estado_new=2;
-			}else{
-				estado_new=3;
-			}
-		}
-		coment_new=$("#coment_cambio").val();
-		id_proyecto=$("#id_proyecto").text();
-		//alert(id_historial+" "+respuesta+" "+nom_proy_new+" "+cliente_new+" "+importe_new+" "+estado_new+" "+coment_new);
-        $.ajax({
-          type:"POST",
-          url:"<?php echo base_url();?>SuperUser/Procesa_Solicitud",
-          data:{id_historial:id_historial, respuesta:respuesta, nom_proy_new:nom_proy_new, cliente_new:cliente_new, importe_new:importe_new, estado_new:estado_new, coment_new:coment_new, id_proyecto:id_proyecto},
-          success:function(result){
-            //alert(result);
-            if(result){
-              alert('Cambios realizados');
-            }else{
-              alert('Falló el servidor. Cambios no realizados');
-            }
-          }
-        });
-        Update_Page();
-    });
-
-
-    $('#btn_confirma_pago').click(function(){
-    	 id_historial_pago=$('#id_atn_sol_pago').text();
-    	 respuesta_pago=$("#respuesta_pago").val();
-    	 //alert(id_historial+" "+ respuesta);
-
-    	fecha_pago_new=$("#fecha_pago_new").val();
-    	monto_new=$("#monto_new").val();
-		comentario_new=$("#comentario_new").val();
-
-		id_pago=$("#id_pago").text();
-		//alert(id_historial_pago+" "+respuesta_pago+" "+fecha_pago_new+" "+monto_new+" "+comentario_new+" "+id_pago);
-        $.ajax({
-          type:"POST",
-          url:"<?php echo base_url();?>SuperUser/Procesa_Solicitud_pago",
-          data:{id_historial_pago:id_historial_pago, respuesta_pago:respuesta_pago, fecha_pago_new:fecha_pago_new, monto_new:monto_new, comentario_new:comentario_new, id_pago:id_pago},
-          success:function(result){
-            //alert(result);
-            if(result){
-              alert('Cambios realizados');
-            }else{
-              alert('Falló el servidor. Cambios no realizados');
-            }
-          }
-        });
-        Update_Page();
-    });
-
-
 	});
-
-	function Responder_Solicitud($id_historial){
+	function Detalles_Solicitud($id_historial){
 		<?php foreach ($solicitado->result() as $row2 ): ?>
 			if (<?php echo $row2->id_historial_proyecto_info?>==$id_historial) {
 				<?php switch ($row2->empresa_id_empresa) {
@@ -400,7 +246,7 @@
 						break;
 					
 					default:
-						# code...
+						$empresa="";
 						break;
 				} ?>
 					cli_actual="<?php echo $row2->historial_proyecto_id_cliente_old ?>";
@@ -491,7 +337,7 @@
     $("#txt_obs").attr('style','background-color:#FFFB77');
 	}
 
-	function Responder_Solicitud_pago($id_historial){
+	function Detalles_Solicitud_pago($id_historial){
 		<?php foreach ($solicitado_pago->result() as $row_pago ){ ?>
 			if (<?php echo $row_pago->id_historial_proyecto_pago?>==$id_historial) {
         empresa="<?php echo $row_pago->empresa_nom ?>";
@@ -536,23 +382,4 @@
 
 		$("#txt_obs_pago").text($("#coment"+$id_historial).text());
 	}
-
-function Activa_Boton(){
-	if ($("#respuesta").val()!="0"||$("#respuesta_pago").val()!="0") {
-		$("#btn_procesar").removeAttr('disabled');
-		$("#btn_procesar_pago").removeAttr('disabled');
-	}else{
-		$("#btn_procesar").attr('disabled','true');
-		$("#btn_procesar_pago").attr('disabled','true');
-	}
-}
-
-function Update_Page(){
-    $('.modal-backdrop').remove();
-    location.reload(); //actualizamos la página completa y así se actualizan las notificaciones de cambios
-    //$("#page_content").load("Lista_Solicitudes");
-  }
-</script>
-
-
 </script>

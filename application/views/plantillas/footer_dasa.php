@@ -113,6 +113,11 @@
 					$("#page_content").load("OtherExpens");
 				});
 			});
+
+				$('#Lista_Solicitudes').click(function(){
+			$('#page_content').load('Lista_Solicitudes');
+		});
+	</script>
 		</script>
 
 		<!-- <script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script> -->

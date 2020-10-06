@@ -12,6 +12,11 @@ class DASA extends CI_Controller {
           $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
           $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | DASA';
+			$this->load->model('Dasa_model');
+ 			$company='DASA';
+			$idcompany=$this->Dasa_model->IdCompany($company);
+ 			$data['solicitudes']=$this->Dasa_model->Get_solicitudes($idcompany->id_empresa);
+            $data['solicitudes_pago']=$this->Dasa_model->Get_solicitudes_pago($idcompany->id_empresa);
 	   		$this->load->view('plantillas/header_dasa', $data);
 			$this->load->view('DASA/Welcome');
        		$this->load->view('plantillas/footer_dasa');
@@ -1557,6 +1562,18 @@ public function EditCustomerPay_Admin(){
 					'filtro'=>$activo);
 		$this->load->view('DASA/Customer_Projects_tbl_body',$data);
 	}
+
+    public function Lista_Solicitudes(){
+        $this->load->model('Dasa_model');
+        $company='DASA';
+        $idcompany=$this->Dasa_model->IdCompany($company);
+        $data = array('solicitado' => $this->Dasa_model->Cambio_Solicitado($idcompany->id_empresa) ,
+                      'solicitado_pago' => $this->Dasa_model->Cambio_Solicitado_pago($idcompany->id_empresa), 
+                      'catalogo_cliente' => $this->Dasa_model->Cat_Cliente(),
+                      'catalogo_autoriza' =>$this->Dasa_model->Cat_autoriza());
+        $this->load->view('DASA/ListaSolicitudes', $data);
+    }
+
 
 #end conntroller
 }	

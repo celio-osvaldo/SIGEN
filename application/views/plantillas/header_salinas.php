@@ -108,6 +108,18 @@ header("Pragma: no-cache");
 				</li>
 			</ul>
 		</div>
+
+		<a class="btn btn-outline-light" role="button" id="Lista_Solicitudes" title="Solicitudes de Cambio"><img src="..\Resources\Icons\bell.ico" style="filter: invert(50%)">
+				<?php if ($solicitudes->num_solic>0||$solicitudes_pago->num_solic_pago>0) {
+					$total_solicitudes=$solicitudes->num_solic+$solicitudes_pago->num_solic_pago;?>
+					<span class="badge badge-danger"><?php echo $total_solicitudes ?> </span>
+				<?php
+				}else{
+					$total_solicitudes=0;
+				} ?>
+			</a>
+			&nbsp;&nbsp;&nbsp;&nbsp;
+
 		<a class="navbar-brand" role="button"><img src="..\Resources\Icons\user_accounts_15362.ico" width="50" height="50" /><?php  echo $alias; ?></a>
 		<a class="btn btn-outline-light" id="btn_cerrar" href="<?php echo base_url()?>Dasa/Logout" role="button">Cerrar Sesión</a>
 	</nav>

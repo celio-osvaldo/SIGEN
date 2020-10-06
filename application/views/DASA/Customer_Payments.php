@@ -62,6 +62,33 @@ $(document).ready(function() {
     $('#table_customer').DataTable();
 } );
 
+    $('#guardarpago').click(function(){
+      id_obra=$('#id_obra').val();
+      cant_pago=$('#pago_obra').val();
+      cant_pago=cant_pago.replace(/\,/g, '');
+      fecha=$('#fecha_pago').val();
+      coment=$('#coment_obra').val();
+      //alert(id_obra+" "+cant_pago+" "+fecha+" "+coment);
+       if (cant_pago>0&&fecha_pago!="") {//Verificamos que los campos no estén vacíos
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Dasa/AddCustomersPay",
+          data:{id_obra:id_obra, cant_pago:cant_pago, fecha:fecha, coment:coment},
+          success:function(result){
+            //alert(result);
+            refrescar();
+            if(result==1){
+              alert('Pago Agregado');
+            }else{
+              alert('Falló el servidor. Pago no agregado');
+            }
+          }
+        });
+      }else{
+        alert("Debe ingresar Cantidad de Pago mayor a 0 e indicar una fecha");
+      }
+    });
+
     $(function() {
     $('.multiple-select').multipleSelect()
   });

@@ -267,6 +267,51 @@ class DASA extends CI_Controller {
 	}
 
 
+	public function EditCustomerProject_Admin(){
+		$this->load->model('Dasa_model');
+		$act_nom=$_POST["act_nom"];
+		$act_cliente=$_POST["act_cliente"];
+		$act_imp=$_POST["act_imp"];
+		$act_estado=$_POST["act_estado"];
+		$act_coment=$_POST["act_coment"];
+		$txt_justifica=$_POST["txt_justifica"];
+		$id=$_POST["id"];
+		$act_addflujo=$_POST["act_addflujo"];
+
+		$nombre_old=$_POST["nombre_old"];
+		$cliente_old=$_POST["cliente_old"];
+		$importe_old=$_POST["importe_old"];
+		$estado_old=$_POST["estado_old"];
+		$coment_old=$_POST["coment_old"];
+
+
+		$company='DASA';
+		$idcomp=$this->Dasa_model->IdCompany($company);
+
+		$data = array('id_obra_cliente' => $id,
+		'historial_proyecto_fecha_actualizacion' => date("Y/m/d"),
+        'historial_proyecto_nombre_new' => $act_nom,
+        'historial_proyecto_nombre_old' => $nombre_old,
+        'historial_proyecto_id_cliente_new'=>$act_cliente,
+        'historial_proyecto_id_cliente_old'=>$cliente_old,
+        'historial_proyecto_importe_new' => $act_imp,
+        'historial_proyecto_importe_old' => $importe_old,
+        'historial_proyecto_estado_new' => $act_estado,
+        'historial_proyecto_estado_old' => $estado_old,
+        'historial_proyecto_coment_new' => $act_coment,
+        'historial_proyecto_coment_old' => $coment_old,
+        'historial_proyecto_coment_justifica' => $txt_justifica,
+    	'historial_proyecto_autoriza' => "1",
+    	'historial_proyecto_usuario_solicita' => $this->session->userdata('id_usuario'),
+    	'historial_proyecto_aplica_flujo' => $act_addflujo);
+
+		$result=$this->Dasa_model->Add_Solicita_Update($data);
+		echo $result;
+	}
+
+
+
+
 	public function AddProduct(){
 		$this->load->model('Dasa_model');
 		$company='DASA';

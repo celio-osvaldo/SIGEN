@@ -4,6 +4,7 @@
       <tr>
         <th>Proyecto</th>
         <th>Cliente</th>
+        <th hidden="true">id_cliente</th>
         <th>Importe Total</th>
         <th>Pagado</th>
         <th>Saldo</th>
@@ -22,6 +23,7 @@
         <tr id="<?php echo "fila".$row->id_obra_cliente; ?>">          
           <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
           <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
+           <td hidden="true" id="<?php echo "id_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_id_cliente.""; ?></td>
           <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_imp_total, 2,'.',',').""; ?></td>
           <td id="<?php echo "total_pago_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_pagado, 2, '.', ',').""; ?> </td>
           <td id="<?php echo "saldo_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_saldo,2,'.',',').""; ?></td>

@@ -1,51 +1,48 @@
 <div class="card bg-card">
-			<div class="table-responsive">
-				<br>
-				<div class="table-responsive">
-					<table id="table_solicitudes" class="table table-hover display table-striped" style="font-size: 10pt;">
-						<thead class="bg-primary" style="color: #FFFFFF;" align="center">
-							<tr>
-								<th>Id Solicitud Cambio</th>
-								<th >Usuario</th>
-								<th >Fecha de Solicitud</th>
-								<th >Comentario</th>
-								<th >Estado de Solicitud</th>
-								<th >Detalles</th>
-							</tr>
-						</thead>
-						<tbody style="font-weight: bolder;" align="center">
-							<?php
-							foreach ($solicitado->result() as $row) {?>								
-								<tr>
-									<td id="<?php echo "id_historial_proyecto_info"; ?>"><?php echo "INFO-".$row->id_historial_proyecto_info."";?></td>
-									<td id="<?php echo "usuario".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
-									<td id="<?php echo "fecha".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_fecha_actualizacion."";?></td>
-									<td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_coment_justifica."";?></td>
-									<td id="<?php echo "estado".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->estado."";?></td>	
+	<div class="table-responsive">
+		<div class="table-responsive">
+			<table id="table_solicitudes" class="table table-hover display table-striped" style="font-size: 10pt;">
+				<thead class="bg-primary" style="color: #FFFFFF;" align="center">
+					<tr>
+						<th>Id Solicitud Cambio</th>
+						<th >Usuario</th>
+						<th >Fecha de Solicitud</th>
+						<th >Comentario</th>
+						<th >Estado de Solicitud</th>
+						<th >Detalles</th>
+					</tr>
+				</thead>
+				<tbody style="font-weight: bolder;" align="center">
+					<?php
+					foreach ($solicitado->result() as $row) {?>								
+						<tr>
+							<td id="<?php echo "id_historial_proyecto_info"; ?>"><?php echo "INFO-".$row->id_historial_proyecto_info."";?></td>
+							<td id="<?php echo "usuario".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
+							<td id="<?php echo "fecha".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_fecha_actualizacion."";?></td>
+							<td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_coment_justifica."";?></td>
+							<td id="<?php echo "estado".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->estado."";?></td>	
 
-										<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud(this.id)" id="<?php echo "".$row->id_historial_proyecto_info.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>									
-									</td>
-								</tr>
-							<?php } ?>
-							<?php
-							foreach ($solicitado_pago->result() as $row) {?>								
-								<tr>
-									<td id="<?php echo "id_historial_proyecto_pago"; ?>"><?php echo "PAGO-".$row->id_historial_proyecto_pago."";?></td>
-									<td id="<?php echo "usuario".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
-									<td id="<?php echo "fecha".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_fecha_actualizacion."";?></td>
-									<td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_justifica."";?></td>
-									<td id="<?php echo "estado".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->estado."";?></td>	
-										<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud_pago(this.id)" id="<?php echo "".$row->id_historial_proyecto_pago.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>									
-							
-									
-									</td>
-								</tr>
-							<?php } ?>
-						</tbody>
-					</table>
-				</div>
-			</div>
+							<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud(this.id)" id="<?php echo "".$row->id_historial_proyecto_info.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>									
+							</td>
+						</tr>
+					<?php } ?>
+					<?php
+					foreach ($solicitado_pago->result() as $row) {?>								
+						<tr>
+							<td id="<?php echo "id_historial_proyecto_pago"; ?>"><?php echo "PAGO-".$row->id_historial_proyecto_pago."";?></td>
+							<td id="<?php echo "usuario".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
+							<td id="<?php echo "fecha".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_fecha_actualizacion."";?></td>
+							<td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_justifica."";?></td>
+							<td id="<?php echo "estado".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->estado."";?></td>	
+							<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud_pago(this.id)" id="<?php echo "".$row->id_historial_proyecto_pago.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>
+							</td>
+						</tr>
+					<?php } ?>
+				</tbody>
+			</table>
 		</div>
+	</div>
+</div>
 
 
 
@@ -302,7 +299,7 @@
 
 		if (imp_actual!=imp_cambio) {
 			$("#importe").removeAttr('hidden');
-      ("#importe").attr('style','background-color:#FFFB77');
+      		$("#importe").attr('style','background-color:#FFFB77');
 		}
 		$("#imp_actual").val(imp_actual);
 		$("#imp_cambio").val(imp_cambio);

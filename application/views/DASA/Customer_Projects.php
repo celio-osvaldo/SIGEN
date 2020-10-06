@@ -3,10 +3,10 @@
 <div class="row">
   <div class="col-9">
     <h3 align="center">Lista de Proyectos</h3>
-</div>
-<div class="col-3">
+  </div>
+  <div class="col-3">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewClientModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Proyecto</button>
- </div>
+  </div>
 
 <div class="row">
     <div class="form-group row">
@@ -20,136 +20,157 @@
     </div>
   </div>
 </div>
-
 </div>
 
-      <div class="card bg-card"  id="tbl_body">
+<div class="card bg-card" id="tbl_body">
         
-    </div>
+</div>
 
 
 
 
 
-    <!-- Modal Add Customer_Project -->
-    <div class="modal fade" id="NewClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Proyecto</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-12">
-                <label>Nombre Proyecto</label>
-                <input type="text" name="" id="nom_obra" class="form-control input-sm">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <label class="label-control">Cliente</label>
-                <select class="form-control" name="customer" id="customer">
-                  <option disabled selected>----Seleccionar Cliente----</option>
-                  <?php foreach ($customerlist->result() as $row){ ?>
-                  <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-                  <?php } ?>
-            </select>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <label>Importe Total</label>
-                <input type="text" onblur="SeparaMiles(this.id)" id="imp_obra" class="form-control input-sm">
-              </div>
-              <div class=" col-md-6">
-                <label class="label-control">Aplicar a Flujo de Efectivo:</label>
-                <select class="form-control" id="addflujo" name="addflujo">
-                  <option value="1">SI</option>
-                  <option value="0">NO</option>
-                </select>
-              </div>
-            </div>        
-           <div class="row">
-             <div class="col-md-12">
-                <label>Comentarios</label>
-                <textarea id="coment_obra" class="form-control input-sm" maxlength="200"></textarea>
-             </div>
-           </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-            <button type="button" class="btn btn-primary" id="guardarnuevo" data-dismiss="modal">Guardar</button>
+<!-- Modal Add Customer_Project -->
+<div class="modal fade" id="NewClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Proyecto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <label>Nombre Proyecto</label>
+            <input type="text" name="" id="nom_obra" class="form-control input-sm">
           </div>
         </div>
-      </div>
-    </div>
-
-
-
-    <!-- Modal Edit Customer_Project -->
-    <div class="modal fade" id="EditClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modificar Proyecto</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Cliente</label>
+            <select class="form-control" name="customer" id="customer">
+              <option disabled selected>----Seleccionar Cliente----</option>
+              <?php foreach ($customerlist->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
           </div>
-          <div class="modal-body">
-            <div class="row">
-              <div class="col-md-12">
-                <label>Nombre de Proyecto</label>
-                <input type="text" name="" id="edit_nom_obra" class="form-control input-sm">
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-               <label class="label-control">Cliente</label>
-               <select class="form-control" name="edit_customer" id="edit_customer">
-                <?php foreach ($customerlist->result() as $row){ ?>
-                  <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-                <?php } ?>
-              </select>
-            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label>Importe Total</label>
+            <input type="text" onblur="SeparaMiles(this.id)" id="imp_obra" class="form-control input-sm">
           </div>
-          <div class="row">
-            <div class="col-md-6">
-             <label>Importe Total</label>
-             <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_obra" class="form-control input-sm">
-           </div>
-           <div class=" col-md-6">
+          <div class=" col-md-6">
             <label class="label-control">Aplicar a Flujo de Efectivo:</label>
-            <select class="form-control" id="edit_addflujo" name="edit_addflujo">
+            <select class="form-control" id="addflujo" name="addflujo">
               <option value="1">SI</option>
               <option value="0">NO</option>
             </select>
           </div>
+        </div>        
+        <div class="row">
+         <div class="col-md-12">
+          <label>Comentarios</label>
+          <textarea id="coment_obra" class="form-control input-sm" maxlength="200"></textarea>
         </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="guardarnuevo" data-dismiss="modal">Guardar</button>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<!-- Modal Edit Customer_Project -->
+<div class="modal fade" id="EditClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Proyecto</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <label>Estado</label><br>   
-            <select id="edit_estado_obra">
-              <option value="1">Activo</option>
-              <option value="2">Pagado</option>
-              <option value="3">Cancelado</option>
-            </select>
+            <label>Nombre de Proyecto</label>
+            <input type="text" name="" id="edit_nom_obra" class="form-control input-sm">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <label>Comentarios</label>
-            <textarea id="edit_coment_obra" class="form-control input-sm" maxlength="200"></textarea>
-            <input type="text" id="edit_id_obra" hidden="true">
-          </div>
+           <label class="label-control">Cliente</label>
+           <select class="form-control" name="edit_customer" id="edit_customer">
+            <?php foreach ($customerlist->result() as $row){ ?>
+              <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+            <?php } ?>
+          </select>
         </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+         <label>Importe Total</label>
+         <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_obra" class="form-control input-sm">
+       </div>
+       <div class=" col-md-6">
+        <label class="label-control">Aplicar a Flujo de Efectivo:</label>
+        <select class="form-control" id="edit_addflujo" name="edit_addflujo">
+          <option value="1">SI</option>
+          <option value="0">NO</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label>Estado</label><br>   
+        <select id="edit_estado_obra">
+          <option value="1">Activo</option>
+          <option value="2">Pagado</option>
+          <option value="3">Cancelado</option>
+        </select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label>Comentarios</label>
+        <textarea id="edit_coment_obra" class="form-control input-sm" maxlength="200"></textarea>
+        <input type="text" id="edit_id_obra" hidden="true">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+    <button type="button" class="btn btn-primary" id="UpdateRegister" data-dismiss="modal">Actualizar</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- Modal Justifica Cambios Customer_Project -->
+<div class="modal fade" id="JustificaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Justifica el cambio solicitado:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <textarea id="txt_justifica" onkeyup="countChars(this);" class="form-control input-sm" maxlength="500"></textarea>
+        <p id="charNum">Restan 500 caracteres</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="UpdateRegister" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="Solicita_Cambio" data-dismiss="modal">Solicitar Cambio</button>
       </div>
     </div>
   </div>
@@ -228,33 +249,78 @@
     $('#UpdateRegister').click(function(){
     act_nom=$("#edit_nom_obra").val();
     act_cliente=$("#edit_customer").val();
+    act_cliente_txt=$('select[name="edit_customer"] option:selected').text();
     act_imp=$("#edit_imp_obra").val();
     act_imp=act_imp.replace(/\,/g, '');
-    //alert(act_imp);
     act_estado=$("#edit_estado_obra").val();
     act_coment=$("#edit_coment_obra").val();
     id=$("#edit_id_obra").val();
     act_addflujo=$("#edit_addflujo").val();
     //alert(act_nom+act_imp+act_estado+act_coment);
+     nombre=$("#nom_obra"+id).text();
+      cliente=$("#nom_cliente"+id).text();
+      importe=$("#imp_obra"+id).text().replace(/\,/g, '');
+      importe=importe.replace(/\$/g, '');
+      estado=$("#estado_obra"+id).text();
+      coment=$("#coment_obra"+id).text();
+
       if (act_nom!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
-        $.ajax({
-          type:"POST",
-          url:"<?php echo base_url();?>Dasa/EditCustomerProject",
-          data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id, act_addflujo:act_addflujo},
-          success:function(result){
-            //alert(result);
-            if(result==1){
-              alert('Registro Actualizado');
-              CloseModal();
-            }else{
-              alert('Falló el servidor. Registro no actualizado');
-            }
-          }
-        });
+
+         if(act_cliente_txt!=cliente||act_imp!=importe||act_estado!=estado){
+
+             $("#JustificaModal").modal();//Abrimos modal para solicitar la justificación del cambio
+
+          }else{            
+            $.ajax({
+              type:"POST",
+              url:"<?php echo base_url();?>Dasa/EditCustomerProject",
+              data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id, act_addflujo:act_addflujo},
+              success:function(result){
+                //alert(result);
+                if(result==1){
+                  alert('Registro Actualizado');
+                  CloseModal();
+                }else{
+                  alert('Falló el servidor. Registro no actualizado');
+                }
+              }
+            });
+      }
       }else{
         alert("Debe ingresar nombre de Proyecto e Importe Total");
-      } 
+      }
     });
+
+    $('#Solicita_Cambio').click(function(){
+      txt_justifica=$("#txt_justifica").val();
+      nombre_old=$("#nom_obra"+id).text();
+      cliente_old=$("#id_cliente"+id).text();
+      importe_old=$("#imp_obra"+id).text().replace(/\,/g, '');
+      importe_old=importe.replace(/\$/g, '');
+      estado_old=$("#estado_obra"+id).text();
+      coment_old=$("#coment_obra"+id).text();
+      //alert("1*"+act_nom+" 2*"+nombre_old+" 3*"+act_cliente+" 4*"+cliente_old+" 5*"+act_imp+" 6*"+importe_old+" 7*"+act_estado+" 8*"+estado_old+" 9*"+act_coment+" 10*"+coment_old+" 11*"+id+" 12*"+txt_justifica+" 13*"+act_addflujo);
+      if(txt_justifica!=""){
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/EditCustomerProject_Admin",
+          data:{act_nom:act_nom, nombre_old:nombre_old, act_cliente:act_cliente, cliente_old:cliente_old, act_imp:act_imp, importe_old:importe_old, act_estado:act_estado, estado_old:estado_old, act_coment:act_coment, coment_old:coment_old, id:id, txt_justifica:txt_justifica, act_addflujo:act_addflujo},
+                success:function(result){
+                  //alert(result);
+                  if(result){
+                    alert('Solicitud enviada al Administrador para actualizar los datos indicados.');
+                    CloseModal();
+                  }else{
+                    alert('Falló el servidor. Solicitud para actualizar no enviada.');
+                  }
+                }
+              });
+           }else{
+            alert("Actualización de datos no completada. Debe justificar los cambios solicitados ya que estos requieren autorización del Administrador.");
+           }
+    });
+
+
   });
 
   function CloseModal(){

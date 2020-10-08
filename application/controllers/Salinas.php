@@ -8,20 +8,20 @@ class Salinas extends CI_Controller {
 	public function Index()
 	{
 		if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
-          $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
-          $data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
-          $data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
+          	$data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
+          	$data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
+          	$data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | SALINAS';
 			$this->load->model('Salinas_model');
  			$company='SALINAS';
 			$idcompany=$this->Salinas_model->IdCompany($company);
  			$data['solicitudes']=$this->Salinas_model->Get_solicitudes($idcompany->id_empresa);
             $data['solicitudes_pago']=$this->Salinas_model->Get_solicitudes_pago($idcompany->id_empresa);
+            $data['datos_empresa']=$this->Salinas_model->Get_datos_empresa($idcompany->id_empresa);
 	   		$this->load->view('plantillas/header_salinas', $data);
 			$this->load->view('Salinas/Welcome');
        		$this->load->view('plantillas/footer_salinas');
-       	}
-       	else{
+       	}else{
        		$this->session->set_flashdata('error', 'No ha iniciado Sesión');//if not exist the user, just show an error in the view
        		redirect('/');
        	}
@@ -34,6 +34,77 @@ class Salinas extends CI_Controller {
 
 		@session_destroy();
 		$this->LogIn();
+	}
+
+
+	public function Configuracion(){
+		   $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
+          	$data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
+          	$data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
+			$data['title']='SiGeN | SALINAS';
+			$this->load->model('Salinas_model');
+ 			$company='SALINAS';
+			$idcompany=$this->Salinas_model->IdCompany($company);
+ 			$data['solicitudes']=$this->Salinas_model->Get_solicitudes($idcompany->id_empresa);
+            $data['solicitudes_pago']=$this->Salinas_model->Get_solicitudes_pago($idcompany->id_empresa);
+            $data['datos_empresa']=$this->Salinas_model->Get_datos_empresa($idcompany->id_empresa);
+	   		$this->load->view('plantillas/header_salinas', $data);
+			$this->load->view('Salinas/Configuracion',$data);
+       		$this->load->view('plantillas/footer_salinas');
+		//$data=array('datos_empresa'=>$this->Salinas_model->Get_datos_empresa($idcompany->id_empresa));
+		//var_dump($data);
+	}
+
+	public function Edit_Datos_Emp(){
+		$this->load->model('Salinas_model');
+		$company='SALINAS';
+		$idcompany=$this->Salinas_model->IdCompany($company);
+
+		if (isset($_FILES['file']['name'])) {
+			$filename = $_FILES['file']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Logos/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		$id_empresa=$_POST["id_empresa"];
+		$empresa_nom=$_POST["empresa_nom"];
+		$rfc=$_POST["rfc"];
+		$domicilio=$_POST["domicilio"];
+		$tel=$_POST["tel"];
+		$email=$_POST["email"];
+
+		$data = array('empresa_nom' => $empresa_nom,
+			'empresa_rfc' => $rfc,
+			'empresa_domic' => $domicilio,
+			'emp_tel' => $tel,
+			'emp_email' => $email);
+		$result=0;
+		if($this->Salinas_model->Update_datos($data,$idcompany->id_empresa)){
+			$result+=1;
+		}
+		$url_imagen='Resources/Logos/SALINAS'.'.'.$file_extension;
+
+			if(in_array($file_extension,$image_ext)&&$filename!=""){
+  			// Upload file
+				if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
+
+					$data2 = array('empresa_logo' => $url_imagen);
+					$this->Salinas_model->Update_datos($data2,$idcompany->id_empresa);
+					echo true;
+
+				}
+			$result+=1;
+			}
+		echo $result;
 	}
 
 	public function GetInventories(){

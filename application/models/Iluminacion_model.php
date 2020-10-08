@@ -18,6 +18,24 @@ class Iluminacion_model extends CI_Model
     return $result;#if the query has data, returns the data query
   }
 
+  public function Get_datos_empresa($idcompany){
+    $this->db->select('id_empresa, empresa_nom, empresa_rfc, empresa_domic, emp_tel, emp_email, empresa_logo');//the name of fields to query in the login
+    $this->db->from('empresa');
+    $this->db->where('id_empresa', $idcompany);#the field must match the entered parameter of password
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function Update_datos($data,$idcompany){
+    $this->db->where('id_empresa',$idcompany);
+    $this->db->update('empresa', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
   public function GetAllMeasurements(){
     $q = $this->db->get('unidades_de_medida');
     if($q -> num_rows() >0){

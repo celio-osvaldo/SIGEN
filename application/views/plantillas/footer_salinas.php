@@ -1,13 +1,27 @@
 <div class="footer_salinas">
 	<div class="container-fluid">
 		<div class="row">
-			<div class="col-3">
+			<div class="col-md-2">
 				<img src="<?php echo base_url() ?>Resources/Logos/SALINAS.png" width="200" height="70">
 			</div>
-			<div class="col-2">
-				Dirección <br>Teléfono <br>Email
+			<?php foreach ($datos_empresa->result() as $row) {
+				
+			?>
+			<div class="col-md-7" style="font-size: 10pt;">
+				<div class="row">
+					<label>Dirección: <?php echo $row->empresa_domic; ?></label> 
+				</div>
+				<div class="row">
+					<label>Teléfono: <?php echo $row->emp_tel; ?></label>
+				</div>
+				<div class="row">
+					<label>Email: <?php echo $row->emp_email; ?></label>
+				</div>
 			</div>
-			<div class="col-7">
+			<?php 
+			}
+			?>
+			<div class="col-md-3">
 				<h3 align="right">SiGeN<img src="<?php echo base_url() ?>Resources/Logos/grupo.ico"></h3>
 				<h6 align="right">Sistema de Gestión de Negocios</h6>
 			</div>

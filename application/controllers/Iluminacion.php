@@ -75,17 +75,21 @@ class Iluminacion extends CI_Controller {
 		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 
 		$id_empresa=$_POST["id_empresa"];
-		$empresa_nom=$_POST["empresa_nom"];
+		$empresa_nom_fiscal=$_POST["empresa_nom"];
 		$rfc=$_POST["rfc"];
 		$domicilio=$_POST["domicilio"];
 		$tel=$_POST["tel"];
 		$email=$_POST["email"];
+		$web=$_POST["sitio_web"];
+		$whatsapp=$_POST["whatsapp"];
 
-		$data = array('empresa_nom' => $empresa_nom,
+		$data = array('empresa_nom_fiscal' => $empresa_nom_fiscal,
 			'empresa_rfc' => $rfc,
 			'empresa_domic' => $domicilio,
 			'emp_tel' => $tel,
-			'emp_email' => $email);
+			'emp_email' => $email,
+			'emp_web' => $web,
+			'emp_whatsapp' => $whatsapp);
 		$result=0;
 		if($this->Iluminacion_model->Update_datos($data,$idcompany->id_empresa)){
 			$result+=1;

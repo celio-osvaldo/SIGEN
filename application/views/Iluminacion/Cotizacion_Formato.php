@@ -1,12 +1,11 @@
 <table class="tg">
   <tr>
-     <td class="tg-logo">Iluminación Sustentable AGS S. de R.L. de C.V.</td>
+     <td class="tg-logo"><?php echo $cotizacion_info->empresa_nom_fiscal; ?></td>
   </tr>
   <tr>
     <td class="tg-logo"  rowspan="5"><img height="75" width="200" src="Resources\Logos\Logo_ISA.png"></td>
-    <td class="tg-empresa"  rowspan="5"><img height="20" width="20" src="Resources\Icons\locate.png">Sierra Fría #431-A C.P. 20127<br>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col. Bosques del Prado Norte Aguascalientes, Ags. <br>
-      <img height="20" width="20" src="Resources\Icons\mail.png"><a href="ventas@iluminaags.com">ventas@iluminaags.com</a>      
+    <td class="tg-empresa"  rowspan="5"><img height="20" width="20" src="Resources\Icons\locate.png"><?php echo $cotizacion_info->empresa_domic; ?><br>
+      <img height="20" width="20" src="Resources\Icons\mail.png"><a href="<?php $cotizacion_info->emp_email?>"><?php echo $cotizacion_info->emp_email; ?></a>      
   </tr>
   <tr>
      <td class="tg-fecha">
@@ -23,10 +22,10 @@
   </tr>
   <tr>
     <td>
-      <img height="20" width="20" src="Resources\Icons\telephonecall.png">449 996 9502
+      <img height="20" width="20" src="Resources\Icons\telephonecall.png"><?php echo $cotizacion_info->emp_tel; ?>
     </td>
     <td>
-      <img height="20" width="20" src="Resources\Icons\whatsapp.png">449 426 1503</td>
+      <img height="20" width="20" src="Resources\Icons\whatsapp.png"><?php echo $cotizacion_info->emp_whatsapp; ?></td>
     </td>
     <td class="tg-fecha2"><?php echo $cotizacion_info->cotizacion_folio; ?> </td>
   </tr>
@@ -148,7 +147,7 @@
       <td class="tg-anticipo2">
         <img height="30" width="30" src="Resources\Icons\soporte.png">
       </td>
-      <td class="tg-entrega" colspan="3">Contamos con Soporte técnico a través de nuestro sistema de reportes o garantías vía web <br><a href="www.iluminaags.com">www.iluminaags.com</a></td>
+      <td class="tg-entrega" colspan="3">Contamos con Soporte técnico a través de nuestro sistema de reportes o garantías vía web <br><a href="<?php $cotizacion_info->emp_web?>"><?php echo $cotizacion_info->emp_web; ?></a> 
     </tr>
     <tr>
       <td>

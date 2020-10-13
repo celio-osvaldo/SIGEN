@@ -2,11 +2,11 @@
   <tr>
     <th class="tab-logo" colspan="3"><img height="100" width="300" src="Resources\Logos\Logo_ISA.png"></th>
     <th class="tab-datos" colspan="4">
-      <b>Iluminación Sustentable AGS S. de R.L. de C.V.<br>
-      Sierra Fría #431-A, Bosques del Prado Norte, <br>Aguascalientes, Ags. <br>
-      Tel: (449) 996 95 02 <br>
-      Cel: (449) 4426 1503 <br></b>
-      ventas@iluminaags.com
+      <b><?php echo $recibo_info->empresa_nom_fiscal;?><br>
+      <?php echo $recibo_info->empresa_domic;?><br>
+      Tel:  <?php echo $recibo_info->emp_tel;?><br>
+      Cel:  <?php echo $recibo_info->emp_whatsapp;?><br></b>
+      <?php echo $recibo_info->emp_email;?>
     </th>
   </tr>
   <tr>
@@ -67,7 +67,7 @@
       <td class="tab-soporte">
         <img height="30" width="30" src="Resources\Icons\soporte.png">
       </td>
-      <td class="tab-soporte_text" colspan="3">Contamos con Soporte técnico a través de nuestro sistema de reportes o garantías vía web <br><a href="www.iluminaags.com">www.iluminaags.com</a></td>
+      <td class="tab-soporte_text" colspan="3">Contamos con Soporte técnico a través de nuestro sistema de reportes o garantías vía web <br><a href="<?php $recibo_info->emp_web;?>"><?php echo $recibo_info->emp_web;?></a></td>
     </tr>
 </table>
 <br>

@@ -19,7 +19,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_datos_empresa($idcompany){
-    $this->db->select('id_empresa, empresa_nom, empresa_rfc, empresa_domic, emp_tel, emp_email, empresa_logo');//the name of fields to query in the login
+    $this->db->select('id_empresa, empresa_nom, empresa_nom_fiscal, empresa_rfc, empresa_domic, emp_tel, emp_email, empresa_logo, emp_whatsapp, emp_web');//the name of fields to query in the login
     $this->db->from('empresa');
     $this->db->where('id_empresa', $idcompany);#the field must match the entered parameter of password
     $result=$this->db->get();
@@ -711,9 +711,10 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetCotizacion_Info($id_cotizacion){
-    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cliente_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cliente_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion, empresa_rfc, empresa_domic, emp_tel, emp_email, emp_whatsapp, emp_web, empresa_nom_fiscal');
     $this->db->from('cotizacion');
     $this->db->join('catalogo_cliente','cotizacion_id_cliente=id_catalogo_cliente');
+    $this->db->join('empresa','cotizacion_id_empresa=id_empresa');
     $this->db->where('id_cotizacion',$id_cotizacion);
     $query=$this->db->get();
     $result=$query->row();
@@ -722,9 +723,10 @@ class Iluminacion_model extends CI_Model
 
 
     public function GetCotizacion_Info_cotizante($id_cotizacion,$id_cliente){
-    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cotizante_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion');
+    $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cotizante_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion, empresa_rfc, empresa_domic, emp_tel, emp_email, emp_whatsapp, emp_web, empresa_nom_fiscal');
     $this->db->from('cotizacion');
     $this->db->join('catalogo_cotizante','id_catalogo_cotizante='.($id_cliente));
+    $this->db->join('empresa','cotizacion_id_empresa=id_empresa');
     $this->db->where('id_cotizacion',$id_cotizacion);
     $query=$this->db->get();
     $result=$query->row();
@@ -837,9 +839,10 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetRecibo_Info($id_recibo_entrega){
-    $this->db->select('id_recibo_entrega,catalogo_cliente_empresa, id_empresa, recibo_entrega_folio, recibo_entrega_id_cliente, recibo_entrega_domicilio, recibo_entrega_origen, recibo_entrega_id_origen, recibo_entrega_fecha, recibo_entrega_estado');
+    $this->db->select('id_recibo_entrega,catalogo_cliente_empresa, recibo_entrega.id_empresa, recibo_entrega_folio, recibo_entrega_id_cliente, recibo_entrega_domicilio, recibo_entrega_origen, recibo_entrega_id_origen, recibo_entrega_fecha, recibo_entrega_estado, empresa_nom_fiscal, empresa_rfc, empresa_domic, emp_tel,  emp_email, emp_whatsapp, emp_web');
     $this->db->from('recibo_entrega');
     $this->db->join('catalogo_cliente','recibo_entrega_id_cliente=id_catalogo_cliente');
+    $this->db->join('empresa','recibo_entrega.id_empresa=empresa.id_empresa');
     $this->db->where('id_recibo_entrega',$id_recibo_entrega);
     $query=$this->db->get();
     $result=$query->row();

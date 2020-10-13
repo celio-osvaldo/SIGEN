@@ -33,7 +33,7 @@ class Dasa_model extends CI_Model
   		}
 
   public function Get_datos_empresa($idcompany){
-    $this->db->select('id_empresa, empresa_nom, empresa_rfc, empresa_domic, emp_tel, emp_email, empresa_logo');//the name of fields to query in the login
+    $this->db->select('id_empresa, empresa_nom, empresa_nom_fiscal, empresa_rfc, empresa_domic, emp_tel, emp_email, empresa_logo, emp_whatsapp, emp_web');//the name of fields to query in the login
     $this->db->from('empresa');
     $this->db->where('id_empresa', $idcompany);#the field must match the entered parameter of password
     $result=$this->db->get();

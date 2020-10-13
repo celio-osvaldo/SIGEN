@@ -32,8 +32,8 @@
 
                     <a href="<?php echo base_url() ?>Welcome/Dasa"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/DASA_logo.png"></a>
                 </div>
-                  <div class="card-footer">
-                    <a href="<?php echo base_url() ?>Dasa/Configuracion"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label><b>Configuración</b></label></a>
+                  <div class="card-footer text-left">
+                    <a href="<?php echo base_url() ?>Dasa/Configuracion"><img width="25px" class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label style="font-size: 10pt;"><b>Configuración</b></label></a>
                   </div>               
                 </div>
 
@@ -48,8 +48,8 @@
                 <div class="card-body">
                      <a href="<?php echo base_url() ?>Welcome/Iluminacion"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/Logo_ISA.png"></a>
                 </div>
-                  <div class="card-footer">
-                    <a href="<?php echo base_url() ?>Iluminacion/Configuracion"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label><b>Configuración</b></label></a>
+                  <div class="card-footer text-left">
+                    <a href="<?php echo base_url() ?>Iluminacion/Configuracion"><img width="25px" class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label style="font-size: 10pt;"><b>Configuración</b></label></a>
                   </div>
               </div>
 
@@ -63,8 +63,8 @@
                 <div class="card-body">
                   <a href="<?php echo base_url() ?>Welcome/Salinas"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/SALINAS.png"></a>                
                 </div>
-                  <div class="card-footer">
-                     <a href="<?php echo base_url() ?>Salinas/Configuracion"><img class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label><b>Configuración</b></label></a>
+                  <div class="card-footer text-left">
+                     <a href="<?php echo base_url() ?>Salinas/Configuracion"><img width="25px" class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label style="font-size: 10pt;"><b>Configuración</b></label></a>
                   </div>
               </div>
               <?php

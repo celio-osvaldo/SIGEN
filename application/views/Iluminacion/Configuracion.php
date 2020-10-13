@@ -13,7 +13,9 @@
                 <th>RFC</th>
                 <th>Domicilio</th>
                 <th>Teléfono</th>
+                <th>Whatsapp</th>
                 <th>Email</th>
+                <th>Sitio Web</th>
                 <th>Logotipo</th>
                 <th hidden="true">url_logo</th>
                 <th>Editar</th>
@@ -24,11 +26,13 @@
               foreach ($datos_empresa->result() as $row) {?>
                 <tr>
                   <td hidden="true" id="<?php echo "id_empresa".$row->id_empresa.""; ?>"><?php echo "".$row->id_empresa.""; ?></td>
-                  <td id="<?php echo "empresa_nom".$row->id_empresa.""; ?>"><?php echo "".$row->empresa_nom.""; ?></td>
+                  <td id="<?php echo "empresa_nom".$row->id_empresa.""; ?>"><?php echo "".$row->empresa_nom_fiscal.""; ?></td>
                   <td id="<?php echo "rfc".$row->id_empresa.""; ?>"><?php echo "".$row->empresa_rfc.""; ?></td>
                   <td id="<?php echo "domicilio".$row->id_empresa.""; ?>"><?php echo "".$row->empresa_domic.""; ?></td>
                   <td id="<?php echo "tel".$row->id_empresa.""; ?>"><?php echo "".$row->emp_tel.""; ?></td>
+                  <td id="<?php echo "whatsapp".$row->id_empresa.""; ?>"><?php echo "".$row->emp_whatsapp.""; ?></td>
                   <td id="<?php echo "email".$row->id_empresa.""; ?>"><?php echo "".$row->emp_email.""; ?></td>
+                  <td id="<?php echo "sitio_web".$row->id_empresa.""; ?>"><?php echo "".$row->emp_web.""; ?></td>
                   <td id="<?php echo "logo".$row->id_empresa.""; ?>"><a role="button" class="btn btn-outline-dark" onclick="Display_logo(this.id)" id="<?php echo "".$row->id_empresa.""; ?>" data-toggle="modal" data-target="#imgProduct"><img src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
                   <td hidden="true" id="<?php echo "url_logo".$row->id_empresa.""; ?>"><?php echo $row->empresa_logo ?></td>
                   <td><a role="button" class="btn btn-outline-dark" onclick="Edit_datos(this.id)" id="<?php echo "".$row->id_empresa.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
@@ -57,13 +61,11 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <label class="label-control">Nombre de Empresa</label>
-            <input class="form-control" disabled="true" type="text" name="empresa_nom" id="empresa_nom">
+            <input class="form-control" type="text" name="empresa_nom" id="empresa_nom">
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-4">
             <label class="label-control">RFC</label>
             <input class="form-control" type="text" name="rfc" id="rfc">
           </div>
@@ -71,19 +73,29 @@
         <div class="row">
           <div class="col-md-12">
             <label class="label-control">Domicilio</label>
-            <input class="form-control" type="text" name="domicilio" id="domicilio">
+            <textarea  class="form-control" name="domicilio" id="domicilio"></textarea>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <label class="label-control">Teléfono</label>
-            <input class="form-control" type="text" name="tel" id="tel">
+            <input class="form-control" type="number" name="tel" id="tel">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Whatsapp</label>
+            <input class="form-control" type="number" name="whatsapp" id="whatsapp">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
             <label class="label-control">Email</label>
             <input class="form-control" type="text" name="email" id="email">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Sitio Web</label>
+            <input class="form-control" type="text" name="sitio_web" id="sitio_web">
           </div>
         </div>
         <div class="row">
@@ -128,6 +140,8 @@
     domicilio=$("#domicilio").val();
     tel=$("#tel").val();
     email=$("#email").val();
+    sitio_web=$("#sitio_web").val();
+    whatsapp=$("#whatsapp").val();
 
     var datos = new FormData();
     var files = $('#editlogo')[0].files[0];
@@ -138,6 +152,8 @@
     datos.append('domicilio', domicilio);
     datos.append('tel', tel);
     datos.append('email', email);
+    datos.append('sitio_web', sitio_web);
+    datos.append('whatsapp', whatsapp);
 
     //alert(id_empresa+empresa_nom+rfc+domicilio+tel+email);
     $.ajax({
@@ -169,6 +185,8 @@
     domicilio=$("#domicilio"+$id_empresa).text();
     tel=$("#tel"+$id_empresa).text();
     email=$("#email"+$id_empresa).text();
+    sitio_web=$("#sitio_web"+$id_empresa).text();
+    whatsapp=$("#whatsapp"+$id_empresa).text();
 
     //alert(empresa_nom+rfc+domicilio+tel+email);
 
@@ -178,6 +196,8 @@
     $("#domicilio").val(domicilio);
     $("#tel").val(tel);
     $("#email").val(email);
+    $("#sitio_web").val(sitio_web);
+    $("#whatsapp").val(whatsapp);
   }
 
 

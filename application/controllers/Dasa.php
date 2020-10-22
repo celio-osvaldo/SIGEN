@@ -447,13 +447,16 @@ class DASA extends CI_Controller {
 		$new_cant_pago=$_POST["cant_pago"];
 		$new_fecha=$_POST["fecha"];
 		$new_coment=$_POST["coment"];
+		$addflujo=$_POST["addflujo"];
+
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
 		$data = array('obra_cliente_empresa_id_empresa' => $idcomp->id_empresa,
 			'venta_mov_fecha' => $new_fecha,
 			'venta_mov_comentario' => $new_coment,
 			'venta_mov_monto' => $new_cant_pago,
-			'obra_cliente_id_obra_cliente' => $new_id_obra);
+			'obra_cliente_id_obra_cliente' => $new_id_obra,
+			'venta_mov_estim_estatus' => $addflujo);
 		//var_dump($data);
 		$result=$this->Dasa_model->AddCustomer_Pay($data);
 		$sum_pagos=$this->Dasa_model->SumPagos_Obra($new_id_obra);
@@ -1691,6 +1694,17 @@ public function EditCustomerPay_Admin(){
                       'catalogo_cliente' => $this->Dasa_model->Cat_Cliente(),
                       'catalogo_autoriza' =>$this->Dasa_model->Cat_autoriza());
         $this->load->view('DASA/ListaSolicitudes', $data);
+    }
+
+    public function Estimacion_tbl(){
+        $this->load->model('Dasa_model');
+        $company='DASA';
+        $idcompany=$this->Dasa_model->IdCompany($company);
+        $id_obra=$_POST["id_obra"];
+		$data2=$this->Dasa_model->Datos_obra($id_obra);
+		$data=array('payments_list'=>$this->Dasa_model->GetPayments_List($id_obra),
+					'obra'=>$data2);
+		$this->load->view('DASA/Estimacion_tabla',$data);
     }
 
 

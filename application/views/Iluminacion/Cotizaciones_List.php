@@ -550,6 +550,7 @@ function Add_Product($id_cotizacion){
 
 function Details_Cotizacion($id_cotizacion){
   var id_cotizacion=$id_cotizacion;
+  alert(id_cotizacion);
   $("#page_content").load("Cotizacion_Details",{id_cotizacion:id_cotizacion});
 }
 

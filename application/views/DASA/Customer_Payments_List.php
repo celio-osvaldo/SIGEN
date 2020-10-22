@@ -44,6 +44,7 @@
           <th>Fecha de Pago</th>
           <th>Pago</th>
           <th>Comentarios</th>
+          <th>Aplica a Flujo</th>
           <th>Editar</th>
         </tr>
       </thead>
@@ -54,11 +55,23 @@
           <tr>
             <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
             <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?> </td>
-            <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
-          </td>
-          <td>
+            <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?></td>
+              
+                 <td id="<?php echo "aplica_flujo".$row->id_venta_mov; ?>">
+                     <?php if ($row->venta_mov_estim_estatus=="1"): ?>
+                         <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                         <label hidden="true">1</label>
+                     <?php endif?>
+                     <?php if ($row->venta_mov_estim_estatus=="0"): ?>
+                         <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                         <label hidden="true">0</label>
+                     <?php endif?>
+
+                 </td>
+
+            <td>
             <a class="navbar-brand" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></button></a>
-          </td>
+            </td>
         </tr>
         <?php 
       }
@@ -214,12 +227,15 @@ function Edit_pay2($id){
     //alert(pago);
     var coment=$("#coment"+$id).text();
     var id_venta_mov=$id;
-    //alert(id_venta_mov);
+    var aplica_flujo=$("#aplica_flujo"+id_venta_mov).text().trim();
+    //alert(aplica_flujo);
     $("#EditPayModal").modal();
     document.getElementById("edit_fecha").valueAsDate = new Date(fecha);
     $("#edit_imp_pago").val(parseFloat(pago[1]));
     $("#edit_coment").val(coment);
     $("#edit_id_vent_mov").val(id_venta_mov);
+    $("#edit_aplica_flujo").val();
+
   }
 
   function Update_Page(){

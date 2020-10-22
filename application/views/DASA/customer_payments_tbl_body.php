@@ -1,5 +1,5 @@
 <div class="table-responsive">
-          <table id="table_customer" class="table table-striped table-hover display" style="font-size: 10pt;">
+          <table id="table_customer" class="table table-striped table-hover display" style="font-size: 9pt;">
             <thead class="bg-primary" style="color: #FFFFFF;" align="center">
               <tr>
                 <th>Proyecto</th>
@@ -12,6 +12,7 @@
                 <th>Aplica a Flujo Efectivo</th>
                 <th>Registrar Pago</th>
                 <th>Detalles de Pagos</th>
+                <th>Reporte Estimación</th>
 
               </tr>
             </thead>
@@ -48,6 +49,9 @@
                 </td>
                 <td>
                   <a class="navbar-brand" href="#" onclick="Details(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\lupa.ico"></a>
+                </td>
+                <td>
+                  <a class="navbar-brand" href="#" onclick="Estimacion(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><img src="..\Resources\Icons\hoja.ico"></a>
                 </td>
               </tr>
               <?php 

@@ -726,7 +726,7 @@ class Iluminacion_model extends CI_Model
     $this->db->select('id_cotizacion, cotizacion_id_empresa, cotizacion_folio, cotizacion_fecha, cotizacion_id_cliente, catalogo_cotizante_empresa, cotizacion_obra, cotizacion_total, cotizacion_iva, cotizacion_subtotal, cotizacion_comentario, cotizacion_tiempo_entrega, cotizacion_vigencia, cotizacion_elabora, cotizacion_estado, cotizacion_empresa, cotizacion_licitacion, empresa_rfc, empresa_domic, emp_tel, emp_email, emp_whatsapp, emp_web, empresa_nom_fiscal');
     $this->db->from('cotizacion');
     $this->db->join('catalogo_cotizante','id_catalogo_cotizante='.($id_cliente));
-    $this->db->join('empresa','cotizacion_id_empresa=id_empresa');
+    $this->db->join('empresa','cotizacion_id_empresa=empresa.id_empresa');
     $this->db->where('id_cotizacion',$id_cotizacion);
     $query=$this->db->get();
     $result=$query->row();

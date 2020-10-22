@@ -16,6 +16,7 @@ class Welcome extends CI_Controller {
 	}
 
 	public function SetSession() {//function that send data of user to server
+    date_default_timezone_set('America/Mexico_City');
       if ($this->input->post()) {
          $user = $this->input->post('user');//the name of input in the view for user
          $pass = $this->input->post('pass');//the name of input in the view for password

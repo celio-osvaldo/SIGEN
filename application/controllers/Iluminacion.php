@@ -1443,6 +1443,7 @@ public function AddProduct(){
 
 		$cotizante_cliente=$this->Iluminacion_model->Coti_Client($id_cotizacion);
 		$cotizante_cliente=explode("-", $cotizante_cliente->cotizacion_id_cliente);
+
 		if($cotizante_cliente[0]=="cot"){
 
 		$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info_cotizante($id_cotizacion,$cotizante_cliente[1]),
@@ -1454,7 +1455,7 @@ public function AddProduct(){
 			$data = array('cotizacion_info'=>$this->Iluminacion_model->GetCotizacion_Info($id_cotizacion),
 			 		  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
 					  'cotizacion_products' => $this->Iluminacion_model->GetCotizacion_Products($id_cotizacion),
-					'tipo'=>"cotizante");
+					'tipo'=>"cliente");
 			$this->load->view('Iluminacion/Cotizacion_Product_List',$data);
 		}
 	}

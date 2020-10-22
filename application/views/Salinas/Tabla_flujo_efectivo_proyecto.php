@@ -1,6 +1,3 @@
-
-
-
 <table id="table_flujo_efectivo" class="table table-striped table-hover display" style="font-size: 10pt;">
   <thead class="bg-primary" style="color: #FFFFFF;" align="center">
     <tr>
@@ -11,6 +8,7 @@
      <th>Cargos (-)</th>
      <th>Abonos(+)</th>
      <th>Ubicación</th>
+     <th>Aplica en Flujo</th>
    </tr>
  </thead>
  <tbody>
@@ -30,6 +28,7 @@
      <td></td>
      <td id="<?php echo "abono".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?></td>
      <td id="<?php echo "proyecto".$row->id_venta_mov;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
+     <td>SI</td>
    </tr>
    <?php 
    $no++;
@@ -50,7 +49,13 @@
    <td id="<?php echo "cargo".$row->id_gasto_venta;?>">$<?php echo number_format($row->gasto_venta_monto,2,'.',',').""; ?></td>
    <td></td>
    <td id="<?php echo "proyecto".$row->id_gasto_venta;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-   <td></td>
+        <td>
+       <?php if ($row->gasto_venta_aplica_flujo==1){ ?>
+         SI
+       <?php }else{?>
+        NO
+        <?php } ?>
+     </td>
  </tr>
  <?php 
  $no++;

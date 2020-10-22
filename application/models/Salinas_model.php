@@ -639,11 +639,10 @@ class Salinas_model extends CI_Model
   }
 
     public function Get_Egresos_Gasto_Venta_proyecto($id_obra_cliente){
-    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre');
+    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre, gasto_venta_aplica_flujo');
     $this->db->from('gasto_venta');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->where('obra_cliente_id_obra_cliente',$id_obra_cliente);
-    $this->db->where('gasto_venta_aplica_flujo','1');
     $this->db->order_by('gasto_venta_fecha');
     $result = $this->db->get();
     return $result;

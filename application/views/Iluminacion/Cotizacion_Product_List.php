@@ -38,10 +38,10 @@
             <span class="badge badge-info">
               <h6 align="center">
                  <?php if ($tipo=="cliente"): ?>
-                 Empresa:<hr><?php echo $cotizacion_info->catalogo_cotizante_empresa; ?>
+                 Empresa:<hr><?php echo $cotizacion_info->catalogo_cliente_empresa; ?>
                   <?php endif ?>
                   <?php if ($tipo=="cotizante"): ?>
-                 Empresa:<hr><?php echo $cotizacion_info->catalogo_cliente_empresa; ?>
+                 Empresa:<hr><?php echo $cotizacion_info->catalogo_cotizante_empresa; ?>
                 <?php endif ?>
 
 

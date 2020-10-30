@@ -8,7 +8,7 @@
 </div>
 <div class="row">
   <div class="col-md-12" align="center" style="background-color: #CCC0DA" id="proyecto">
-    <b>DASA - <label id="nom_proy"><?php echo $obra->obra_cliente_nombre ?></b></label>
+    <b>SALINAS - <label id="nom_proy"><?php echo $obra->obra_cliente_nombre ?></b></label>
   </div>
 </div>
 
@@ -110,7 +110,7 @@
       buttons: [ 
         {
             extend: 'pdf',
-            title: 'Reporte de Estimaciones\n Empresa: DASA Proyecto: '+$("#nom_proy").text()+' \n'+ $("#fecha_hoy").text(),
+            title: 'Reporte de Estimaciones\n Empresa: SALINAS Proyecto: '+$("#nom_proy").text()+' \n'+ $("#fecha_hoy").text(),
             orientation: 'landscape',
             pageSize: 'LETTER',
             exportOptions: {
@@ -123,7 +123,7 @@
         },
                 {
             extend: 'copy',
-            title: 'Reporte de Estimaciones\n Empresa: DASA Proyecto: '+$("#nom_proy").text()+' \n'+ $("#fecha_hoy").text(),
+            title: 'Reporte de Estimaciones\n Empresa: SALINAS Proyecto: '+$("#nom_proy").text()+' \n'+ $("#fecha_hoy").text(),
             orientation: 'landscape',
             pageSize: 'LETTER',
             exportOptions: {
@@ -223,7 +223,7 @@
 
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>Dasa/Guarda_estimacion",
+          url:"<?php echo base_url();?>Salinas/Guarda_estimacion",
           data:{folio_txt:folio_txt, estatus_id:estatus_id, amortizacion:amortizacion, anticipo_amort:anticipo_amort, fecha:fecha, id_venta_mov:id_venta_mov, deducciones:deducciones, id_obra_cliente:id_obra_cliente},
           success:function(result){
             if(result==1){

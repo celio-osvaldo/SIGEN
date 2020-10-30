@@ -232,12 +232,15 @@ class SuperUser extends CI_Controller {
         $monto_new=$_POST["monto_new"];
         $comentario_new=$_POST["comentario_new"];
 
+        $aplica_flujo_new=$_POST["aplica_flujo_new"];
+
         //var_dump($respuesta_pago);
         if($respuesta_pago=="2"){
             $this->load->model('Iluminacion_model');
             $data = array('venta_mov_fecha' => $fecha_pago_new ,
                 'venta_mov_monto' => $monto_new,
-                'venta_mov_comentario' => $comentario_new );
+                'venta_mov_comentario' => $comentario_new,
+                'venta_mov_estim_estatus' => $aplica_flujo_new );
                     //var_dump($id_movimiento);
             if ($this->Iluminacion_model->UpdateProject_Pay($data,$id_pago)) {
                 $id_obra=$this->Iluminacion_model->Id_Proyecto($id_pago);

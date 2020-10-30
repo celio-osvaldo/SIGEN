@@ -23,7 +23,8 @@
     $suma_ingresos=0;
     $suma_egresos=0;
     foreach ($ingresos_venta_mov->result() as $row) {
-    $saldo_total+=$row->venta_mov_monto;
+     if ($row->venta_mov_estim_estatus=="1") {
+         $saldo_total+=$row->venta_mov_monto;
     $suma_ingresos+=$row->venta_mov_monto;
   ?>
     <tr>
@@ -38,6 +39,7 @@
    </tr>
    <?php 
    $no++;
+      } 
  } ?> 
 
  <!--Datos de Egresos Caja Chica-->

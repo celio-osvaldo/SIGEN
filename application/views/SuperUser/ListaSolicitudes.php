@@ -184,7 +184,7 @@
       	<div class="row">
         	<label>Fecha de solicitud:&nbsp;</label><label id="lbl_fecha_pago"></label>   	
       	</div>
-      	<div id="pago_fecha" hidden="true">
+      	<div id="pago_fecha">
 	      	<div class="row">
 	      		<label class="col-5">Fecha de Pago Actual</label>
 	      		<label class="col-1"></label>
@@ -196,7 +196,7 @@
 	      		<input type="date" id="fecha_pago_new" class="col-6" disabled="true">
 	      	</div>
       	</div>
-      	<div id="monto" hidden="true">
+      	<div id="monto">
 	      	<div class="row">
 	      		<label class="col-5">Monto Pagado Actual</label>
 	      		<label class="col-2"></label>
@@ -208,7 +208,7 @@
 	      		<input type="text" id="monto_new" class="col-5" disabled="true">
 	      	</div>
       	</div>
-      	<div id="coment_pago" hidden="true"> 
+      	<div id="coment_pago"> 
 	      	<div class="row">
 	      		<label class="col-5">Comentario Actual</label>
 	      		<label class="col-2"></label>
@@ -220,6 +220,18 @@
 	      		<input type="text" id="comentario_new" class="col-5" disabled="true">
 	      	</div>
       	</div>
+        <div id="aplica_flujo" > 
+          <div class="row">
+            <label class="col-5">Aplica a Reporte de Flujo (Actual)</label>
+            <label class="col-2"></label>
+            <label class="col-5">Aplica a Reporte de Flujo (Cambio)</label>
+          </div>
+          <div class="row">
+            <input type="text" id="aplica_flujo_old" class="col-5" disabled="true">
+            <label class="col-2"></label>
+            <input type="text" id="aplica_flujo_new" class="col-5" disabled="true">
+          </div>
+        </div>
       	<div class="row">
       		<label>Observaciones:</label>      		
       	</div>
@@ -324,11 +336,11 @@
 
     	nom_proy_new=$("#proy_cambio").val();
     	cliente_new=$("#cli_cambio_id").val();
-		importe_new=$("#imp_cambio").val();
-		estado_new=$("#estado_cambio").val(); //1-Activo. 2-Pagado 3-Cancelado
-		if (estado_new=="Activo") {
-			estado_new=1;
-		}else{
+		  importe_new=$("#imp_cambio").val();
+		  estado_new=$("#estado_cambio").val(); //1-Activo. 2-Pagado 3-Cancelado
+		  if (estado_new=="Activo") {
+			 estado_new=1;
+		  }else{
 			if(estado_new=="Pagado"){
 				estado_new=2;
 			}else{
@@ -363,13 +375,18 @@
     	fecha_pago_new=$("#fecha_pago_new").val();
     	monto_new=$("#monto_new").val();
 		comentario_new=$("#comentario_new").val();
-
+    aplica_flujo_new=$("#aplica_flujo_new").val();
+    if(aplica_flujo_new=="NO"){
+      aplica_flujo_new=0;
+    }else{
+      aplica_flujo_new=1;
+    }
 		id_pago=$("#id_pago").text();
 		//alert(id_historial_pago+" "+respuesta_pago+" "+fecha_pago_new+" "+monto_new+" "+comentario_new+" "+id_pago);
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>SuperUser/Procesa_Solicitud_pago",
-          data:{id_historial_pago:id_historial_pago, respuesta_pago:respuesta_pago, fecha_pago_new:fecha_pago_new, monto_new:monto_new, comentario_new:comentario_new, id_pago:id_pago},
+          data:{id_historial_pago:id_historial_pago, respuesta_pago:respuesta_pago, fecha_pago_new:fecha_pago_new, monto_new:monto_new, comentario_new:comentario_new, id_pago:id_pago, aplica_flujo_new:aplica_flujo_new},
           success:function(result){
             //alert(result);
             if(result){
@@ -503,8 +520,8 @@
 					monto_old="<?php echo $row_pago->historial_proyecto_pago_monto_old ?>";
 					fecha_pago_old="<?php echo $row_pago->historial_proyecto_pago_fecha_pago_old ?>";
 					fecha_pago_new="<?php echo $row_pago->historial_proyecto_pago_fecha_pago_new ?>";
-					coment_justifica="<?php echo $row_pago->historial_proyecto_pago_justifica ?>";
-
+          historial_proyecto_pago_estim_estatus_old="<?php echo $row_pago->historial_proyecto_pago_estim_estatus_old ?>";
+          historial_proyecto_pago_estim_estatus_new="<?php echo $row_pago->historial_proyecto_pago_estim_estatus_new ?>";
 				id_pago="<?php echo $row_pago->historial_proyecto_pago_id_venta_mov ?>";
 			}
 		<?php } ?>
@@ -518,21 +535,41 @@
 		$("#lbl_fecha_pago").text($("#fecha"+$id_historial).text());
 		if(fecha_pago_old!=fecha_pago_new){
 			$("#pago_fecha").removeAttr('hidden');
+      $("#pago_fecha").attr('style','background-color:#FFFB77');
 		}
 		$("#fecha_pago_old").val(fecha_pago_old);
 		$("#fecha_pago_new").val(fecha_pago_new);
 
 		if (monto_old!=monto_new) {
 			$("#monto").removeAttr('hidden');
+      $("#monto").attr('style','background-color:#FFFB77');
 		}
 		$("#monto_old").val(monto_old);
 		$("#monto_new").val(monto_new);
 
 		if (comentario_old!=comentario_new) {
 			$("#coment_pago").removeAttr('hidden');
+      $("#coment_pago").attr('style','background-color:#FFFB77');
 		}
 		$("#comentario_old").val(comentario_old);
 		$("#comentario_new").val(comentario_new);
+
+    if (historial_proyecto_pago_estim_estatus_old!=historial_proyecto_pago_estim_estatus_new) {
+      $("#aplica_flujo").removeAttr('hidden');
+      $("#aplica_flujo").attr('style','background-color:#FFFB77');
+    }
+    if(historial_proyecto_pago_estim_estatus_old=="0"){
+       $("#aplica_flujo_old").val("NO");
+    }else{
+       $("#aplica_flujo_old").val("SI");
+    }
+    if(historial_proyecto_pago_estim_estatus_new=="0"){
+       $("#aplica_flujo_new").val("NO");
+    }else{
+       $("#aplica_flujo_new").val("SI");
+    }
+
+
 
 		$("#txt_obs_pago").text($("#coment"+$id_historial).text());
 	}

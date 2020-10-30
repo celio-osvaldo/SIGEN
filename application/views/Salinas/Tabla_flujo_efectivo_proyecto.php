@@ -17,7 +17,8 @@
     $suma_ingresos=0;
     $suma_egresos=0;
     foreach ($ingresos_venta_mov->result() as $row) {
-    $saldo_total+=$row->venta_mov_monto;
+      if ($row->venta_mov_estim_estatus=="1"){
+            $saldo_total+=$row->venta_mov_monto;
     $suma_ingresos+=$row->venta_mov_monto;
   ?>
     <tr>
@@ -28,10 +29,17 @@
      <td></td>
      <td id="<?php echo "abono".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?></td>
      <td id="<?php echo "proyecto".$row->id_venta_mov;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-     <td>SI</td>
+     <?php if ($row->venta_mov_estim_estatus=="1"){ ?>
+        <td>SI</td>
+     <?php } else{?>
+        <td>NO</td>
+       <?php }?>
    </tr>
    <?php 
    $no++;
+       
+      }
+
  } ?> 
 
 

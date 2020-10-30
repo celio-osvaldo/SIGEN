@@ -132,8 +132,19 @@
 			$('#page_content').load('Lista_Solicitudes');
 		});
 	</script>
-		</script>
+<script type="text/javascript">
+	    function countChars(obj){
+    var maxLength = 500;
+    var strLength = obj.value.length;
+    var charRemain = (maxLength - strLength);
+    
+    if(charRemain < 0){
+        document.getElementById("charNum").innerHTML = '<span style="color: red;">Has excedido los '+maxLength+' caracteres permitidos.</span>';
+    }else{
+        document.getElementById("charNum").innerHTML = 'Restan '+charRemain+' caracteres ';
+    }
+}
+</script>
 
-		<!-- <script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script> -->
 </body>
 </html> 

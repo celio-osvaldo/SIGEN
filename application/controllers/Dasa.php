@@ -121,8 +121,6 @@ class DASA extends CI_Controller {
        	}
 	}
 
-
-
 	public function GetInventories(){
 		$this->load->model('Dasa_model');
 		$table = 'catalogo_producto';
@@ -199,8 +197,7 @@ class DASA extends CI_Controller {
 		}else{
 			$this->load->view('DASA/ViaticList-Error',);
 		}
-	//	var_dump($data['woks']);
-		
+	//	var_dump($data['woks']);	
 	}
 
 	public function DeatailsOfViatic(){
@@ -340,7 +337,6 @@ class DASA extends CI_Controller {
 		echo $result;
 	}
 
-
 	public function EditCustomerProject_Admin(){
 		$this->load->model('Dasa_model');
 		$act_nom=$_POST["act_nom"];
@@ -382,8 +378,6 @@ class DASA extends CI_Controller {
 		$result=$this->Dasa_model->Add_Solicita_Update($data);
 		echo $result;
 	}
-
-
 
 
 	public function AddProduct(){
@@ -619,7 +613,6 @@ class DASA extends CI_Controller {
 		$id_otros_gastos=$_POST["idE"];
 		$edit_flujo=$_POST["edit_flujo"];
 
-
 		$monto=$_POST["editAmount"];
 		$monto=str_replace(',', '', $monto); 
 
@@ -853,7 +846,8 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->post('act_coment') );
+						'venta_mov_comentario' => $this->input->post('act_coment'),
+						'venta_mov_estim_estatus' => $this->input->post('act_aplica_flujo_new') );
 		//var_dump($id_movimiento);
 		if ($this->Dasa_model->UpdateProject_Pay($data,$id_movimiento)) {
 			$id_obra=$this->Dasa_model->Id_Proyecto($id_movimiento);
@@ -884,6 +878,8 @@ public function EditCustomerPay_Admin(){
 		$fecha_old=$_POST["fecha_old"];
 		$importe_old=$_POST["importe_old"];
 		$coment_old=$_POST["coment_old"];
+		$act_aplica_flujo_new=$_POST["act_aplica_flujo_new"];
+		$act_aplica_flujo_old=$_POST["act_aplica_flujo_old"];
 
 		$txt_justifica=$_POST["txt_justifica"];
 
@@ -897,7 +893,9 @@ public function EditCustomerPay_Admin(){
 					  'historial_proyecto_pago_fecha_pago_new' => $act_fecha ,
 					  'historial_proyecto_pago_justifica' => $txt_justifica,
 					  'historial_proyecto_pago_autoriza' => "1",
-					  'historial_proyecto_pago_solicita' => $this->session->userdata('id_usuario'));
+					  'historial_proyecto_pago_solicita' => $this->session->userdata('id_usuario'),
+					  'historial_proyecto_pago_estim_estatus_old' => $act_aplica_flujo_old,
+					  'historial_proyecto_pago_estim_estatus_new' => $act_aplica_flujo_new);
 		$table="historial_proyecto_pago";
 		$result=$this->Dasa_model->Insert($table,$data);
 		echo $result;
@@ -1314,7 +1312,6 @@ public function EditCustomerPay_Admin(){
 		$monto=$_POST["addImport"];
 		$monto=str_replace(',', '', $monto); 
 
-
 		$iva=$_POST["add_iva"];
 		$iva=str_replace(',', '', $iva);
 		$ret_iva=$_POST["add_ret_iva"];
@@ -1705,6 +1702,33 @@ public function EditCustomerPay_Admin(){
 		$data=array('payments_list'=>$this->Dasa_model->GetPayments_List($id_obra),
 					'obra'=>$data2);
 		$this->load->view('DASA/Estimacion_tabla',$data);
+    }
+
+    public function Guarda_estimacion(){
+    	 $this->load->model('Dasa_model');
+        $company='DASA';
+        $idcompany=$this->Dasa_model->IdCompany($company);
+
+        $folio_txt=$_POST["folio_txt"];
+      	$estatus_id=$_POST["estatus_id"];
+      	$amortizacion=$_POST["amortizacion"];
+      	$anticipo_amort=$_POST["anticipo_amort"];
+      	$fecha=$_POST["fecha"];
+      	$id_venta_mov=$_POST["id_venta_mov"];
+      	$id_obra_cliente=$_POST["id_obra_cliente"];
+      	$deducciones=$_POST["deducciones"];
+
+      	$data = array('venta_mov_factura' => $folio_txt,
+      				  'venta_mov_estim_estatus' => $estatus_id,
+      				  'venta_mov_estim_amor_ant' => $amortizacion,
+      				  'venta_mov_estim_ant_amort' => $anticipo_amort,
+      				  'venta_mov_estim_fecha' => $fecha );
+      	$data2 = array('obra_cliente_deducciones' => $deducciones );
+
+      	$this->Dasa_model->Edit_CustomerProject($id_obra_cliente,$data2);
+      	
+      	echo ($this->Dasa_model->UpdateProject_Pay($data,$id_venta_mov));
+
     }
 
 

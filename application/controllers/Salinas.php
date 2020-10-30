@@ -36,9 +36,8 @@ class Salinas extends CI_Controller {
 		$this->LogIn();
 	}
 
-
 	public function Configuracion(){
-		   $data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
+		   	$data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
           	$data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
           	$data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
 			$data['title']='SiGeN | SALINAS';
@@ -111,6 +110,17 @@ class Salinas extends CI_Controller {
 		echo $result;
 	}
 
+
+	public function Verifica_Sesion() //Después de 45 min de inactividad la sesión se cierra de manera automática
+	{
+		if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
+          echo true;
+       	}
+       	else{
+       		echo false;
+       	}
+	}
+
 	public function GetInventories(){
 		$this->load->model('Salinas_model');
 		$table = 'catalogo_producto';
@@ -167,7 +177,6 @@ class Salinas extends CI_Controller {
 		$data=array('cost_sale'=>$this->Salinas_model->GetAllCostOfSale($idcompany->id_empresa),
 					'woks'=>$this->Salinas_model->GetAllWorks_Client($idcompany->id_empresa),
 					'max'=>$this->Salinas_model->IDMAX($table, $id));
-		
 		if($data['woks']){
 			$this->load->view('Salinas/CostOfSale-List', $data);
 		}else{
@@ -432,13 +441,16 @@ class Salinas extends CI_Controller {
 		$new_cant_pago=$_POST["cant_pago"];
 		$new_fecha=$_POST["fecha"];
 		$new_coment=$_POST["coment"];
+		$addflujo=$_POST["addflujo"];
+
 		$company='SALINAS';
 		$idcomp=$this->Salinas_model->IdCompany($company);
 		$data = array('obra_cliente_empresa_id_empresa' => $idcomp->id_empresa,
 			'venta_mov_fecha' => $new_fecha,
 			'venta_mov_comentario' => $new_coment,
 			'venta_mov_monto' => $new_cant_pago,
-			'obra_cliente_id_obra_cliente' => $new_id_obra);
+			'obra_cliente_id_obra_cliente' => $new_id_obra,
+			'venta_mov_estim_estatus' => $addflujo);
 		//var_dump($data);
 		$result=$this->Salinas_model->AddCustomer_Pay($data);
 		$sum_pagos=$this->Salinas_model->SumPagos_Obra($new_id_obra);
@@ -604,7 +616,6 @@ class Salinas extends CI_Controller {
 		$monto=$_POST["editAmount"];
 		$monto=str_replace(',', '', $monto); 
 
-
 		$iva=$_POST["edit_iva"];
 		$iva=str_replace(',', '', $iva);
 		$ret_iva=$_POST["edit_ret_iva"];
@@ -675,9 +686,8 @@ class Salinas extends CI_Controller {
 		$egreso=$this->input->post('moneyEI');
 		$ingreso=str_replace(',', '', $ingreso);//Eliminamos las comas de la cantidad ingresada
 		$egreso=str_replace(',', '', $egreso);//Eliminamos las comas de la cantidad ingresada
+		$aplicaflujo=$_POST['add_flujo'];
 		//var_dump($radio);
-		$aplicaflujo=$_POST["aplicaflujo"];
-
 		$iva=$_POST["add_iva"];
 		$iva=str_replace(',', '', $iva);
 		$ret_iva=$_POST["add_ret_iva"];
@@ -836,7 +846,8 @@ class Salinas extends CI_Controller {
 		$this->load->model('Salinas_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->post('act_coment') );
+						'venta_mov_comentario' => $this->input->post('act_coment'),
+						'venta_mov_estim_estatus' => $this->input->post('act_aplica_flujo_new') );
 		//var_dump($id_movimiento);
 		if ($this->Salinas_model->UpdateProject_Pay($data,$id_movimiento)) {
 			$id_obra=$this->Salinas_model->Id_Proyecto($id_movimiento);
@@ -867,6 +878,8 @@ public function EditCustomerPay_Admin(){
 		$fecha_old=$_POST["fecha_old"];
 		$importe_old=$_POST["importe_old"];
 		$coment_old=$_POST["coment_old"];
+		$act_aplica_flujo_new=$_POST["act_aplica_flujo_new"];
+		$act_aplica_flujo_old=$_POST["act_aplica_flujo_old"];
 
 		$txt_justifica=$_POST["txt_justifica"];
 
@@ -880,7 +893,9 @@ public function EditCustomerPay_Admin(){
 					  'historial_proyecto_pago_fecha_pago_new' => $act_fecha ,
 					  'historial_proyecto_pago_justifica' => $txt_justifica,
 					  'historial_proyecto_pago_autoriza' => "1",
-					  'historial_proyecto_pago_solicita' => $this->session->userdata('id_usuario'));
+					  'historial_proyecto_pago_solicita' => $this->session->userdata('id_usuario'),
+					  'historial_proyecto_pago_estim_estatus_old' => $act_aplica_flujo_old,
+					  'historial_proyecto_pago_estim_estatus_new' => $act_aplica_flujo_new);
 		$table="historial_proyecto_pago";
 		$result=$this->Salinas_model->Insert($table,$data);
 		echo $result;
@@ -1117,7 +1132,6 @@ public function EditCustomerPay_Admin(){
 		$monto=str_replace(',', '', $monto); 
 		$add_flujo=$_POST["add_flujo"];
 
-
 		$iva=$_POST["add_iva"];
 		$iva=str_replace(',', '', $iva);
 		$ret_iva=$_POST["add_ret_iva"];
@@ -1128,7 +1142,6 @@ public function EditCustomerPay_Admin(){
 		$ieps=str_replace(',', '', $ieps);
 		$dap=$_POST["add_dap"];
 		$dap=str_replace(',', '', $dap);
-
 
 		if (isset($_FILES['addBill']['name'])) {
 			$filename = $_FILES['addBill']['name'];//imageE
@@ -1622,7 +1635,7 @@ public function EditCustomerPay_Admin(){
 		}
 	}
 
-public function FlujoEfectivo_Proyecto(){
+	public function FlujoEfectivo_Proyecto(){
 		$this->load->model('Salinas_model');
 		$company='SALINAS';
 		$idcompany=$this->Salinas_model->IdCompany($company);
@@ -1678,6 +1691,44 @@ public function FlujoEfectivo_Proyecto(){
                       'catalogo_cliente' => $this->Salinas_model->Cat_Cliente(),
                       'catalogo_autoriza' =>$this->Salinas_model->Cat_autoriza());
         $this->load->view('Salinas/ListaSolicitudes', $data);
+    }
+
+ 	public function Estimacion_tbl(){
+        $this->load->model('Salinas_model');
+        $company='SALINAS';
+        $idcompany=$this->Salinas_model->IdCompany($company);
+        $id_obra=$_POST["id_obra"];
+		$data2=$this->Salinas_model->Datos_obra($id_obra);
+		$data=array('payments_list'=>$this->Salinas_model->GetPayments_List($id_obra),
+					'obra'=>$data2);
+		$this->load->view('Salinas/Estimacion_tabla',$data);
+    }
+
+    public function Guarda_estimacion(){
+    	 $this->load->model('Salinas_model');
+        $company='SALINAS';
+        $idcompany=$this->Salinas_model->IdCompany($company);
+
+        $folio_txt=$_POST["folio_txt"];
+      	$estatus_id=$_POST["estatus_id"];
+      	$amortizacion=$_POST["amortizacion"];
+      	$anticipo_amort=$_POST["anticipo_amort"];
+      	$fecha=$_POST["fecha"];
+      	$id_venta_mov=$_POST["id_venta_mov"];
+      	$id_obra_cliente=$_POST["id_obra_cliente"];
+      	$deducciones=$_POST["deducciones"];
+
+      	$data = array('venta_mov_factura' => $folio_txt,
+      				  'venta_mov_estim_estatus' => $estatus_id,
+      				  'venta_mov_estim_amor_ant' => $amortizacion,
+      				  'venta_mov_estim_ant_amort' => $anticipo_amort,
+      				  'venta_mov_estim_fecha' => $fecha );
+      	$data2 = array('obra_cliente_deducciones' => $deducciones );
+
+      	$this->Salinas_model->Edit_CustomerProject($id_obra_cliente,$data2);
+      	
+      	echo ($this->Salinas_model->UpdateProject_Pay($data,$id_venta_mov));
+
     }
 
 

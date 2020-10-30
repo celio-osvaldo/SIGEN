@@ -174,7 +174,7 @@ class Salinas_model extends CI_Model
   }
 
   public function Datos_obra($id_obra){
-    $this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
+    $this->db->select('id_obra_cliente, obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios, obra_cliente_aplica_flujo, obra_cliente_deducciones');
     $this->db->from('obra_cliente');
     $this->db->Where('id_obra_cliente',$id_obra);
     $query=$this->db->get();
@@ -183,7 +183,7 @@ class Salinas_model extends CI_Model
   }
 
   public function GetPayments_List($id_obra){
-    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto');
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto, venta_mov_factura, venta_mov_estim_estatus, venta_mov_estim_amor_ant, venta_mov_estim_ant_amort, venta_mov_estim_fecha');
     $this->db->from('venta_movimiento');
     $this->db->where('obra_cliente_id_obra_cliente',$id_obra);
     $this->db->order_by('venta_mov_fecha');
@@ -505,7 +505,7 @@ class Salinas_model extends CI_Model
   }
 
   public function Get_Ingresos_Pagos($idcompany,$anio,$mes){
-    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa');
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa, venta_mov_estim_estatus');
     $this->db->from('venta_movimiento');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
@@ -628,7 +628,7 @@ class Salinas_model extends CI_Model
   }
 
   public function Get_Ingresos_Pagos_proyecto($id_obra_cliente){
-    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa');
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa, obra_cliente_aplica_flujo, venta_mov_estim_estatus');
     $this->db->from('venta_movimiento');
     $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
     $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
@@ -717,6 +717,14 @@ class Salinas_model extends CI_Model
     }
   }
   
+  public function Add_Solicita_Update($data){
+    $this->db->insert('historial_proyecto_info', $data);
+    if ($this->db->affected_rows() > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
 
   

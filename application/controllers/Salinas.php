@@ -1728,7 +1728,131 @@ public function EditCustomerPay_Admin(){
       	$this->Salinas_model->Edit_CustomerProject($id_obra_cliente,$data2);
       	
       	echo ($this->Salinas_model->UpdateProject_Pay($data,$id_venta_mov));
+    }
 
+ public function Update_Inv_Prod(){
+    	$this->load->model('Salinas_model');
+        $company='SALINAS';
+        $id_prod=$_POST["id_prod"];
+        $inv_tipo_mov=$_POST["inv_tipo_mov"];
+        $inv_cant_prod=$_POST["inv_cant_prod"];
+        $precio_unit_old=$_POST["precio_unit_old"];
+        $inv_prec_new=$_POST["inv_prec_new"];
+        //$precio_venta_old=$_POST["precio_venta_old"];
+        //$inv_prec_venta_new=$_POST["inv_prec_venta_new"];
+        $inv_procedencia=$_POST["inv_procedencia"];
+        $inv_referencia=$_POST["inv_referencia"];
+        $existencia_old=$_POST["existencia_old"];
+
+        if($inv_tipo_mov=="alta"){
+        	$nueva_exist=$existencia_old+$inv_cant_prod;
+        }else{
+        	$nueva_exist=$existencia_old-$inv_cant_prod;
+        }
+        date_default_timezone_set("America/Mexico_City");
+
+        $data = array('id_prod_alm' => $id_prod,
+        				'prod_alm_prec_unit_new' => $inv_prec_new,
+        				//'prod_alm_precio_venta_new' => $inv_prec_venta_new,
+        				'prod_alm_prec_unit_old' => $precio_unit_old,
+        				//'prod_alm_precio_venta_old' => $precio_venta_old,
+        				'historial_almacen_producto_cantidad_new' => $nueva_exist,
+        				'historial_almacen_producto_cantidad_old' => $existencia_old,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => $inv_tipo_mov,
+        				'historial_almacen_producto_procedencia' => $inv_procedencia,
+        				'historial_almacen_producto_referencia' => $inv_referencia);
+
+        $table="historial_almacen_producto";
+		$result=$this->Salinas_model->Insert($table,$data);
+
+		if($result){
+			$data2 = array('prod_alm_exist' => $nueva_exist,
+							'prod_alm_prec_unit' => $inv_prec_new);
+							//'prod_alm_precio_venta' => $inv_prec_venta_new
+			$this->Salinas_model->Return_Product_Almacen($id_prod,$data2);
+			echo true;
+		}else{
+			echo false;
+		}
+    }
+
+    function Product_History(){
+    	$this->load->model('Salinas_model');
+		$id_prod=$_POST['id_prod'];
+		$data = array('historial_inv_prod' => $this->Salinas_model->Get_Product_History($id_prod),
+					'ult_fecha' => $this->Salinas_model->Ult_Fecha($id_prod),
+					'Product_Inv_info' => $this->Salinas_model->Product_Inv_info($id_prod));
+		$this->load->view('Salinas/Historial_Inv_Prod', $data);
+    }
+
+function Update_Inv_Consu(){
+    	$this->load->model('Salinas_model');
+    	$id_prod=$_POST["id_prod"];
+    	$precio_unit_old=$_POST["precio_unit_old"];
+    	$existencia_old=$_POST["existencia_old"];
+    	$proveedor_old=$_POST["proveedor_old"];
+    	$inv_tipo_mov=$_POST["inv_tipo_mov"];
+    	$inv_cant_prod=$_POST["inv_cant_prod"];
+    	$inv_prec_new=$_POST["inv_prec_new"];
+    	$inv_procedencia=$_POST["inv_procedencia"];
+    	$inv_referencia=$_POST["inv_referencia"];
+    	$inv_proveedor_new=$_POST["inv_proveedor_new"];
+    	$inv_fecha_compra_new=$_POST["inv_fecha_compra_new"];
+    	$fecha_compra_old=$_POST["fecha_compra_old"];
+
+    	 if($inv_tipo_mov=="alta"){
+        	$nueva_exist=$existencia_old+$inv_cant_prod;
+        }else{
+        	$nueva_exist=$existencia_old-$inv_cant_prod;
+        }
+        date_default_timezone_set("America/Mexico_City");
+
+        $data = array('id_prod_alm' => $id_prod,
+        				'prod_alm_prec_unit_new' => $inv_prec_new,
+        				'prod_alm_prec_unit_old' => $precio_unit_old,
+        				'historial_almacen_producto_cantidad_new' => $nueva_exist,
+        				'historial_almacen_producto_cantidad_old' => $existencia_old,
+        				'historial_almacen_proveedor_old' => $proveedor_old,
+        				'historial_almacen_proveedor_new' => $inv_proveedor_new,
+        				'historial_almacen_producto_fecha' => $inv_fecha_compra_new,
+        				'historial_almacen_producto_movimiento' => $inv_tipo_mov,
+        				'historial_almacen_producto_procedencia' => $inv_procedencia,
+        				'historial_almacen_producto_referencia' => $inv_referencia);
+
+        $table="historial_almacen_consumible";
+		$result=$this->Salinas_model->Insert($table,$data);
+
+		if($result){
+			$periodicidad=date_diff(date_create($fecha_compra_old),date_create($inv_fecha_compra_new));
+			$prox_compra=date("Y-m-d",strtotime($inv_fecha_compra_new."+ ".$periodicidad->days." days")); 
+
+			 if($inv_tipo_mov=="alta"){
+        		$data2 = array('producto_consu_prec_unit' => $inv_prec_new,
+						'producto_consu_exist' => $nueva_exist,
+						'producto_consu_ult_compra' => $inv_fecha_compra_new,
+						'producto_consu_periodicidad' => $periodicidad->days,
+						'producto_consu_prox_compra' => $prox_compra,
+						'producto_consu_ult_proveedor' => $inv_proveedor_new);
+        	}else{
+        		$data2 = array('producto_consu_exist' => $nueva_exist);
+        	}
+
+			
+		$this->Salinas_model->Update_Consumible($id_prod, $data2);
+			echo true;
+		}else{
+			echo false;
+		}
+    }
+
+    function Product_History_Consu(){
+    	$this->load->model('Salinas_model');
+		$id_prod=$_POST['id_prod'];
+		$data = array('historial_inv_prod' => $this->Salinas_model->Get_Product_History_Consu($id_prod),
+					'ult_fecha' => $this->Salinas_model->Ult_Fecha_Consu($id_prod),
+					'Product_Inv_info' => $this->Salinas_model->Product_Inv_info_Consu($id_prod));
+		$this->load->view('Salinas/Historial_Inv_Consumible', $data);
     }
 
 

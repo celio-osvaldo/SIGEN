@@ -13,7 +13,7 @@
         <label class="col-md-6">Ver Proyectos</label>
     <div class="col-md-6">
       <select multiple="multiple" class="multiple-select" id="estado_proyecto" placeholder="Seleccione">
-          <option value="1">Activo</option>
+          <option value="1" selected="true">Activo</option>
           <option value="2">Pagado</option>
           <option value="3">Cancelado</option>
       </select>
@@ -139,7 +139,7 @@ $(function() {
   });
 
   $(function() {
-    $('#estado_proyecto').multipleSelect("checkAll").change(function () {
+    $('#estado_proyecto').change(function () {
       sel=document.getElementById("estado_proyecto");
         activo="";
         for (var i = 0; i < sel.options.length; i++) {

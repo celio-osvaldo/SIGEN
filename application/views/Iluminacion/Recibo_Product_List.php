@@ -92,7 +92,13 @@
         </button>
       </div>
       <div class="modal-body">
-        <h6><label>Descripcion: </label><span class="badge badge-danger" id="delete_descripcion"></span></h6>
+        <div class="row">
+          <div class="col-md-12">
+            <h6><label class="label-control">Descripcion: </label>
+              <p class="bg-danger" id="delete_descripcion"></p></h6>
+          </div>
+        </div>
+        
         <h6><label>Cantidad: </label><span class="badge badge-danger" id="delete_cantidad"></span></h6>
         <input type="text" id="delete_id_lista_recibo_entrega" hidden="true">
         <h6 class="bg-warning"><p>Al eliminar el producto, la cantidad de este se agregará nuevamente al almacen como existencia.</p></h6> 
@@ -147,7 +153,7 @@
       </div>
       <div class="modal-body">
         <h6><label>Descripción: </label></h6>
-          <h5><span class="badge badge-info" id="Edit_descripcion"></span></h5>
+          <h5><p class="bg-info" id="Edit_descripcion"></p></h5>
         <h6><label>Cantidad: </label><input type="number" class="form-control col-4" min="0" id="Edit_cantidad"></h6>
         <input type="text" id="Edit_id_lista_recibo_entrega" hidden="true">
       </div>

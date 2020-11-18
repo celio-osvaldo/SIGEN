@@ -94,7 +94,7 @@ class Iluminacion_model extends CI_Model
       	return $result;
   }
 
-  public function   Update_Consumible($id, $data){
+  public function Update_Consumible($id, $data){
       	$this->db->where('id_prod', $id);
       	$this->db->update('producto_consumible', $data);
       	if ($this->db->affected_rows() > 0) {
@@ -436,7 +436,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_Inventorie_Product($id_producto){
-    $this->db->select('prod_alm_exist');
+    $this->db->select('prod_alm_exist, prod_alm_prec_unit, prod_alm_precio_venta');
     $this->db->from('producto_almacen');
     $this->db->where('id_prod_alm',$id_producto);
     $query=$this->db->get();
@@ -455,7 +455,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_Anticipo_Product_List($id_anticipo){
-    $this->db->select('id_prod_anticipo, anticipo_id_anticipo, producto_almacen_id_prod_alm, prod_alm_nom, prod_anticipo_cantidad, prod_anticipo_precio_venta, prod_anticipo_coment');
+    $this->db->select('id_prod_anticipo, anticipo_id_anticipo, producto_almacen_id_prod_alm, prod_alm_nom, prod_anticipo_cantidad, prod_anticipo_precio_venta, prod_anticipo_coment, prod_alm_prec_unit, prod_alm_precio_venta');
     $this->db->from('prod_anticipo');
     $this->db->join('producto_almacen','producto_almacen_id_prod_alm=id_prod_alm');
     $this->db->where('anticipo_id_anticipo', $id_anticipo);
@@ -743,7 +743,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetCotizacion_Products($id_cotizacion){
-    $this->db->select('id_lista_cotizacion, lista_cotizacion_id_cotizacion, lista_cotizacion_id_prod_alm, prod_alm_nom,  prod_alm_modelo,  prod_alm_descripcion, lista_cotizacion_cantidad, lista_cotizacion_precio_unit, lista_cotizacion_descuento, lista_cotizacion_importe');
+    $this->db->select('id_lista_cotizacion, lista_cotizacion_id_cotizacion, lista_cotizacion_id_prod_alm, prod_alm_nom,  prod_alm_modelo,  prod_alm_descripcion, lista_cotizacion_cantidad, lista_cotizacion_precio_unit, lista_cotizacion_descuento, lista_cotizacion_importe,  prod_alm_prec_unit, prod_alm_precio_venta');
     $this->db->from('lista_cotizacion');
     $this->db->join('producto_almacen','lista_cotizacion_id_prod_alm=id_prod_alm ');
     $this->db->where('lista_cotizacion_id_cotizacion',$id_cotizacion);
@@ -850,7 +850,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetRecibo_Products($id_recibo_entrega){
-    $this->db->select('id_lista_recibo_entrega, lista_recibo_entrega_id_recibo_entrega, lista_recibo_entrega_cantidad, producto_almacen_id_prod_alm, prod_alm_descripcion, prod_alm_modelo, prod_alm_nom');
+    $this->db->select('id_lista_recibo_entrega, lista_recibo_entrega_id_recibo_entrega, lista_recibo_entrega_cantidad, producto_almacen_id_prod_alm, prod_alm_descripcion, prod_alm_modelo, prod_alm_nom, prod_alm_prec_unit, prod_alm_precio_venta');
     $this->db->from('lista_recibo_entrega');
     $this->db->join('producto_almacen','producto_almacen_id_prod_alm=id_prod_alm');
     $this->db->where('lista_recibo_entrega_id_recibo_entrega',$id_recibo_entrega);
@@ -1141,7 +1141,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Get_Egregos_Otros_Gastos($idcompany,$anio,$mes){
-     $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura, otros_gastos_referencia, otros_gastos_iva_ret, otros_gastos_isr_ret, otros_gastos_ieps, otros_gastos_dap, otros_gastos_iva');
+     $this->db->select('id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura, otros_gastos_referencia, otros_gastos_iva_ret, otros_gastos_isr_ret, otros_gastos_ieps, otros_gastos_dap, otros_gastos_iva');
     $this->db->from('otros_gastos');
     $this->db->join('empresa','empresa_id_empresa=id_empresa');
     $this->db->where('MONTH(fecha_pago_factura)',$mes);
@@ -1477,6 +1477,69 @@ class Iluminacion_model extends CI_Model
       return $query;
     }
   }
+
+  public function Get_Product_History($id_producto){
+    $this->db->select('id_historial_almacen_producto, historial_almacen_producto.id_prod_alm, prod_alm_prec_unit_new, prod_alm_precio_venta_new, prod_alm_prec_unit_old, prod_alm_precio_venta_old, historial_almacen_producto_cantidad_new, historial_almacen_producto_cantidad_old, historial_almacen_producto_fecha, historial_almacen_producto_movimiento, historial_almacen_producto_procedencia, historial_almacen_producto_referencia, prod_alm_nom, unidad_medida');
+    $this->db->from('historial_almacen_producto');
+    $this->db->join('producto_almacen','historial_almacen_producto.id_prod_alm=producto_almacen.id_prod_alm');
+    $this->db->join('unidades_de_medida', 'id_uMedida=prod_alm_medida');
+    $this->db->where('historial_almacen_producto.id_prod_alm', $id_producto);
+    $this->db->order_by('historial_almacen_producto_fecha', 'DESC');
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function Product_Inv_info($id_producto){
+    $this->db->select('id_prod_alm, prod_alm_nom, prod_alm_modelo, prod_alm_prec_unit, prod_alm_precio_venta, prod_alm_exist, prod_alm_descripcion');
+    $this->db->from('producto_almacen');
+    $this->db->where('id_prod_alm', $id_producto);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Ult_Fecha($id_prod){
+    $this->db->select_max('historial_almacen_producto_fecha');
+    $this->db->from('historial_almacen_producto');
+    $this->db->where('id_prod_alm', $id_prod);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+
+  public function Get_Product_History_Consu($id_producto){
+    $this->db->select('id_historial_almacen_producto, historial_almacen_consumible.id_prod_alm, prod_alm_prec_unit_new, prod_alm_prec_unit_old, historial_almacen_producto_cantidad_new, historial_almacen_producto_cantidad_old, historial_almacen_proveedor_old, historial_almacen_proveedor_new, historial_almacen_producto_fecha, historial_almacen_producto_movimiento, historial_almacen_producto_procedencia, historial_almacen_producto_referencia, producto_consu_nom, unidad_medida, catalogo_proveedor_empresa');
+    $this->db->from('historial_almacen_consumible');
+    $this->db->join('producto_consumible','historial_almacen_consumible.id_prod_alm=producto_consumible.id_prod');
+    $this->db->join('unidades_de_medida', 'id_uMedida=producto_consu_medida');
+    $this->db->join('catalogo_proveedor', 'id_catalogo_proveedor=historial_almacen_proveedor_new');
+    $this->db->where('historial_almacen_consumible.id_prod_alm', $id_producto);
+    $this->db->order_by('historial_almacen_producto_fecha', 'DESC');
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function Product_Inv_info_Consu($id_producto){
+    $this->db->select('id_prod, producto_consu_nom, producto_consu_medida, producto_consu_prec_unit, producto_consu_exist, producto_consu_ult_compra, producto_consu_periodicidad, producto_consu_prox_compra, producto_consu_ult_proveedor, unidad_medida, catalogo_proveedor_empresa');
+    $this->db->from('producto_consumible');
+    $this->db->join('unidades_de_medida', 'id_uMedida=producto_consu_medida');
+    $this->db->join('catalogo_proveedor', 'id_catalogo_proveedor=producto_consu_ult_proveedor');
+    $this->db->where('id_prod', $id_producto);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Ult_Fecha_Consu($id_prod){
+    $this->db->select_max('historial_almacen_producto_fecha');
+    $this->db->from('historial_almacen_consumible');
+    $this->db->where('id_prod_alm', $id_prod);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+  
   
 
 

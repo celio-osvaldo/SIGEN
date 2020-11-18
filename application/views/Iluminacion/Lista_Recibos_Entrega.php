@@ -50,8 +50,8 @@
           </td>
           <td style="text-align: left;"> 
             <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Recibo_Entrega" method="POST" target='_blank'>
-             <input type="text" hidden="true" id="id_lista_recibo_entrega" name="id_lista_recibo_entrega" value="<?php echo $row->id_recibo_entrega; ?>">
-             <input hidden="true" type="text" id="folio" name="folio" value="<?php echo $row->recibo_entrega_folio; ?>">
+             <input type="text" hidden="true"  value="<?php echo $row->id_recibo_entrega; ?>">
+             <input hidden="true" type="text" value="<?php echo $row->recibo_entrega_folio; ?>">
              <button class="btn btn-outline-secondary" type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
            </form>
          </td>
@@ -113,7 +113,7 @@
             <select class="form-control" name="new_cotizacion" id="new_cotizacion">
               <option disabled selected>----Seleccionar Cotización----</option>
               <?php foreach ($lista_cotizaciones->result() as $row){ ?>
-              <option value="<?php echo "".$row->id_cotizacion.""; ?>"><?php echo "Folio: ".$row->cotizacion_folio." Empresa: ".$row->catalogo_cliente_empresa.""; ?></option>
+              <option value="<?php echo "".$row->id_cotizacion.""; ?>"><?php echo "Folio: ".$row->cotizacion_folio." Empresa: ".$row->cotizacion_empresa.""; ?></option>
               <?php } ?>
             </select>
           </div>
@@ -199,7 +199,9 @@
 <script type="text/javascript">
 
   $(document).ready(function(){
-    $('#table_recibo').DataTable();
+    $('#table_recibo').DataTable({
+        "order": [[ 0, "desc" ]]
+    } );
 
     $('#radio_anticipo').click(function(){
       if($("#radio_anticipo").is(":checked")){
@@ -245,7 +247,7 @@
       anticipo=$("#new_anticipo").val();
       cotizacion=$("#new_cotizacion").val();
       domicilio=$("#new_domicilio").val();
-      //alert(folio+" "+fecha_ent+" "+origen_nuevo+" "+origen_anticipo+" "+origen_cotizacion+" "+cliente+" "+anticipo+" "+cotizacion+" "+domicilio);
+      //alert("folio:"+folio+" fecha_ent: "+fecha_ent+" origen_nuevo: "+origen_nuevo+" origen_anticipo: "+origen_anticipo+" origen_coriza: "+origen_cotizacion+" cliente: "+cliente+" anticipo: "+anticipo+" cotizacion: "+cotizacion+" domicilio:"+domicilio);
       if(folio!=""&&fecha_ent!=""&&domicilio!=""){
         $.ajax({
           type:"POST",

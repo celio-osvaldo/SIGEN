@@ -326,7 +326,9 @@
 
 <script type="text/javascript">
     $(document).ready( function () {
-        tabla=$('#table_id').DataTable();
+        tabla=$('#table_id').DataTable({
+        "order": [[ 1, "desc" ]]
+    });
     });
 
 

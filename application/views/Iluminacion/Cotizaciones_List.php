@@ -319,6 +319,7 @@
   $(document).ready(function(){
     $('#table_cotizacion').DataTable({
       "bSort": true,
+        "order": [[ 0, "desc" ]]
     });
 
     $('#NewCotizacion').click(function(){

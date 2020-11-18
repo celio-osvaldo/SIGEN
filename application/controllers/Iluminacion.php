@@ -1598,7 +1598,9 @@ public function AddProduct(){
 			'recibo_entrega_fecha' => $fecha_ent,
 			'recibo_entrega_estado' => "Entrega Pendiente");
 		$id_recibo_entrega=$this->Iluminacion_model->Add_Recibo_Entrega($data);
+
 		if($id_recibo_entrega!=false){
+
 			if($origen_anticipo=="anticipo"){
 				$lista_productos=$this->Iluminacion_model->Get_Anticipo_Product_List($id_origen);
 				foreach ($lista_productos->result() as $row) {
@@ -1609,11 +1611,31 @@ public function AddProduct(){
 					$cantidad_producto=$row->prod_anticipo_cantidad;
 					$id_producto=$row->producto_almacen_id_prod_alm;
 					$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
-					$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+					$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Restamos la existencia actual menos la cantidad del recibo
 					$data = array('prod_alm_exist' => $nueva_existencia, );
 					$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data);
+
+					 date_default_timezone_set("America/Mexico_City");
+
+        $data2 = array('id_prod_alm' => $id_producto,
+        				'prod_alm_prec_unit_new' => $row->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_new' => $row->prod_alm_precio_venta,
+        				'prod_alm_prec_unit_old' => $row->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_old' => $row->prod_alm_precio_venta,
+        				'historial_almacen_producto_cantidad_new' => $nueva_existencia,
+        				'historial_almacen_producto_cantidad_old' => $existencia_producto->prod_alm_exist,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => 'baja',
+        				'historial_almacen_producto_procedencia' => 'recibo entrega',
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio);
+
+        $table="historial_almacen_producto";
+		$result=$this->Iluminacion_model->Insert($table,$data2);
+
 				}
 			}
+
+
 			if($origen_cotizacion=="cotizacion"){
 				$lista_productos=$this->Iluminacion_model->GetCotizacion_Products($id_origen);
 				foreach ($lista_productos->result() as $row) {
@@ -1625,9 +1647,26 @@ public function AddProduct(){
 					$cantidad_producto=$row->lista_cotizacion_cantidad;
 					$id_producto=$row->lista_cotizacion_id_prod_alm;
 					$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
-					$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+					$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Restamos la existencia actual menos la cantidad del recibo
 					$data = array('prod_alm_exist' => $nueva_existencia, );
 					$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data);
+
+				date_default_timezone_set("America/Mexico_City");
+
+        $data2 = array('id_prod_alm' => $id_producto,
+        				'prod_alm_prec_unit_new' => $row->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_new' => $row->prod_alm_precio_venta,
+        				'prod_alm_prec_unit_old' => $row->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_old' => $row->prod_alm_precio_venta,
+        				'historial_almacen_producto_cantidad_new' => $nueva_existencia,
+        				'historial_almacen_producto_cantidad_old' => $existencia_producto->prod_alm_exist,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => 'baja',
+        				'historial_almacen_producto_procedencia' => 'recibo entrega',
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio);
+
+        $table="historial_almacen_producto";
+		$result=$this->Iluminacion_model->Insert($table,$data2);
 				}
 			}
 			echo true;
@@ -1684,6 +1723,25 @@ public function AddProduct(){
 			$nueva_existencia=(($prod_inventario->prod_alm_exist)+($cantidad));
 			$data = array('prod_alm_exist' => $nueva_existencia, );
 			$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data); //Regresamos al inventario la cantidad de Productos
+
+			date_default_timezone_set("America/Mexico_City");
+
+        $data2 = array('id_prod_alm' => $id_producto,
+        				'prod_alm_prec_unit_new' => $prod_inventario->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_new' => $prod_inventario->prod_alm_precio_venta,
+        				'prod_alm_prec_unit_old' => $prod_inventario->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_old' => $prod_inventario->prod_alm_precio_venta,
+        				'historial_almacen_producto_cantidad_new' => $nueva_existencia,
+        				'historial_almacen_producto_cantidad_old' => $prod_inventario->prod_alm_exist,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => 'devolucion',
+        				'historial_almacen_producto_procedencia' => 'recibo entrega',
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio);
+
+        $table="historial_almacen_producto";
+		$result=$this->Iluminacion_model->Insert($table,$data2);
+
+
 			echo true;
 		}else{
 			echo false;
@@ -1705,6 +1763,23 @@ public function AddProduct(){
 			$nueva_existencia=(($existencia_producto->prod_alm_exist)+($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
 			$data = array('prod_alm_exist' => $nueva_existencia, );
 			$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data); //Regresamos al inventario la cantidad de Productos
+
+		date_default_timezone_set("America/Mexico_City");
+
+        $data2 = array('id_prod_alm' => $id_producto,
+        				'prod_alm_prec_unit_new' => $row->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_new' => $row->prod_alm_precio_venta,
+        				'prod_alm_prec_unit_old' => $row->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_old' => $row->prod_alm_precio_venta,
+        				'historial_almacen_producto_cantidad_new' => $nueva_existencia,
+        				'historial_almacen_producto_cantidad_old' => $existencia_producto->prod_alm_exist,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => 'devolucion',
+        				'historial_almacen_producto_procedencia' => 'recibo entrega',
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio);
+
+        $table="historial_almacen_producto";
+		$result=$this->Iluminacion_model->Insert($table,$data2); //Ingresamos al historial de productos el alta de los productos al inventario
 		}
 
 		//Eliminamos la lista de productos del Recibo de Entrega
@@ -1730,8 +1805,27 @@ public function AddProduct(){
 			$cantidad_producto=$prod_cantidad;
 			$existencia_producto=$this->Iluminacion_model->Get_Inventorie_Product($id_producto); //Obtenemos la existencia actual del producto
 			$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
-			$data2 = array('prod_alm_exist' => $nueva_existencia, );
-			$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data2);
+			$data = array('prod_alm_exist' => $nueva_existencia, );
+			$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data);
+
+
+		date_default_timezone_set("America/Mexico_City");
+
+        $data2 = array('id_prod_alm' => $id_producto,
+        				'prod_alm_prec_unit_new' => $existencia_producto->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_new' => $existencia_producto->prod_alm_precio_venta,
+        				'prod_alm_prec_unit_old' => $existencia_producto->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_old' => $existencia_producto->prod_alm_precio_venta,
+        				'historial_almacen_producto_cantidad_new' => $nueva_existencia,
+        				'historial_almacen_producto_cantidad_old' => $existencia_producto->prod_alm_exist,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => 'baja',
+        				'historial_almacen_producto_procedencia' => 'recibo entrega',
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$id_recibo_entrega);
+
+        $table="historial_almacen_producto";
+		$result=$this->Iluminacion_model->Insert($table,$data2); //Ingresamos al historial de productos el alta de los productos al inventario
+
 			echo true;
 			}else{
 				echo false;
@@ -1746,6 +1840,7 @@ public function AddProduct(){
 		$cantidad=$_POST["cantidad"];
 		$cantidad_anterior=$_POST["cantidad_anterior"];
 		$id_producto=$_POST["id_producto"];
+		$id_recibo_entrega=$_POST["id_recibo_entrega"];
 
 		$data = array('lista_recibo_entrega_cantidad' => $cantidad );
 		$this->Iluminacion_model->Update_Product_Recibo($id_lista_recibo_entrega,$data);
@@ -1754,13 +1849,33 @@ public function AddProduct(){
 		if($cantidad_anterior>$cantidad){
 			$cantidad_producto=($cantidad_anterior-$cantidad);
 			$nueva_existencia=(($existencia_producto->prod_alm_exist)+($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+			$tipo_mov = "alta";
 		}else{
 			$cantidad_producto=($cantidad-$cantidad_anterior);
 			$nueva_existencia=(($existencia_producto->prod_alm_exist)-($cantidad_producto)); //Sumamos la existencia actual mas la cantidad del recibo
+			$tipo_mov = "baja";
 		}	
 		
 		$data2 = array('prod_alm_exist' => $nueva_existencia, );
 		$this->Iluminacion_model->Return_Product_Almacen($id_producto,$data2); //Regresamos al inventario la cantidad de Productos
+
+		date_default_timezone_set("America/Mexico_City");
+
+        $data3 = array('id_prod_alm' => $id_producto,
+        				'prod_alm_prec_unit_new' => $existencia_producto->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_new' => $existencia_producto->prod_alm_precio_venta,
+        				'prod_alm_prec_unit_old' => $existencia_producto->prod_alm_prec_unit,
+        				'prod_alm_precio_venta_old' => $existencia_producto->prod_alm_precio_venta,
+        				'historial_almacen_producto_cantidad_new' => $nueva_existencia,
+        				'historial_almacen_producto_cantidad_old' => $existencia_producto->prod_alm_exist,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => $tipo_mov,
+        				'historial_almacen_producto_procedencia' => 'recibo entrega',
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$id_recibo_entrega);
+
+        $table="historial_almacen_producto";
+		$result=$this->Iluminacion_model->Insert($table,$data3); //Ingresamos al historial de productos el alta de los productos al inventario
+
 	
 		echo true;
 	}
@@ -2934,6 +3049,131 @@ public function GETMAX_Folio_recibo(){
                       'catalogo_cliente' => $this->Iluminacion_model->Cat_Cliente(),
                       'catalogo_autoriza' =>$this->Iluminacion_model->Cat_autoriza());
         $this->load->view('Iluminacion/ListaSolicitudes', $data);
+    }
+
+    public function Update_Inv_Prod(){
+    	$this->load->model('Iluminacion_model');
+        $company='ILUMINACION';
+        $id_prod=$_POST["id_prod"];
+        $inv_tipo_mov=$_POST["inv_tipo_mov"];
+        $inv_cant_prod=$_POST["inv_cant_prod"];
+        $precio_unit_old=$_POST["precio_unit_old"];
+        $inv_prec_new=$_POST["inv_prec_new"];
+        $precio_venta_old=$_POST["precio_venta_old"];
+        $inv_prec_venta_new=$_POST["inv_prec_venta_new"];
+        $inv_procedencia=$_POST["inv_procedencia"];
+        $inv_referencia=$_POST["inv_referencia"];
+        $existencia_old=$_POST["existencia_old"];
+
+        if($inv_tipo_mov=="alta"){
+        	$nueva_exist=$existencia_old+$inv_cant_prod;
+        }else{
+        	$nueva_exist=$existencia_old-$inv_cant_prod;
+        }
+        date_default_timezone_set("America/Mexico_City");
+
+        $data = array('id_prod_alm' => $id_prod,
+        				'prod_alm_prec_unit_new' => $inv_prec_new,
+        				'prod_alm_precio_venta_new' => $inv_prec_venta_new,
+        				'prod_alm_prec_unit_old' => $precio_unit_old,
+        				'prod_alm_precio_venta_old' => $precio_venta_old,
+        				'historial_almacen_producto_cantidad_new' => $nueva_exist,
+        				'historial_almacen_producto_cantidad_old' => $existencia_old,
+        				'historial_almacen_producto_fecha' => date("Y/m/d"),
+        				'historial_almacen_producto_movimiento' => $inv_tipo_mov,
+        				'historial_almacen_producto_procedencia' => $inv_procedencia,
+        				'historial_almacen_producto_referencia' => $inv_referencia);
+
+        $table="historial_almacen_producto";
+		$result=$this->Iluminacion_model->Insert($table,$data);
+
+		if($result){
+			$data2 = array('prod_alm_exist' => $nueva_exist,
+							'prod_alm_prec_unit' => $inv_prec_new,
+							'prod_alm_precio_venta' => $inv_prec_venta_new);
+			$this->Iluminacion_model->Return_Product_Almacen($id_prod,$data2);
+			echo true;
+		}else{
+			echo false;
+		}
+    }
+
+    function Product_History(){
+    	$this->load->model('Iluminacion_model');
+		$id_prod=$_POST['id_prod'];
+		$data = array('historial_inv_prod' => $this->Iluminacion_model->Get_Product_History($id_prod),
+					'ult_fecha' => $this->Iluminacion_model->Ult_Fecha($id_prod),
+					'Product_Inv_info' => $this->Iluminacion_model->Product_Inv_info($id_prod));
+		$this->load->view('Iluminacion/Historial_Inv_Prod', $data);
+    }
+
+    function Update_Inv_Consu(){
+    	$this->load->model('Iluminacion_model');
+    	$id_prod=$_POST["id_prod"];
+    	$precio_unit_old=$_POST["precio_unit_old"];
+    	$existencia_old=$_POST["existencia_old"];
+    	$proveedor_old=$_POST["proveedor_old"];
+    	$inv_tipo_mov=$_POST["inv_tipo_mov"];
+    	$inv_cant_prod=$_POST["inv_cant_prod"];
+    	$inv_prec_new=$_POST["inv_prec_new"];
+    	$inv_procedencia=$_POST["inv_procedencia"];
+    	$inv_referencia=$_POST["inv_referencia"];
+    	$inv_proveedor_new=$_POST["inv_proveedor_new"];
+    	$inv_fecha_compra_new=$_POST["inv_fecha_compra_new"];
+    	$fecha_compra_old=$_POST["fecha_compra_old"];
+
+    	 if($inv_tipo_mov=="alta"){
+        	$nueva_exist=$existencia_old+$inv_cant_prod;
+        }else{
+        	$nueva_exist=$existencia_old-$inv_cant_prod;
+        }
+        date_default_timezone_set("America/Mexico_City");
+
+        $data = array('id_prod_alm' => $id_prod,
+        				'prod_alm_prec_unit_new' => $inv_prec_new,
+        				'prod_alm_prec_unit_old' => $precio_unit_old,
+        				'historial_almacen_producto_cantidad_new' => $nueva_exist,
+        				'historial_almacen_producto_cantidad_old' => $existencia_old,
+        				'historial_almacen_proveedor_old' => $proveedor_old,
+        				'historial_almacen_proveedor_new' => $inv_proveedor_new,
+        				'historial_almacen_producto_fecha' => $inv_fecha_compra_new,
+        				'historial_almacen_producto_movimiento' => $inv_tipo_mov,
+        				'historial_almacen_producto_procedencia' => $inv_procedencia,
+        				'historial_almacen_producto_referencia' => $inv_referencia);
+
+        $table="historial_almacen_consumible";
+		$result=$this->Iluminacion_model->Insert($table,$data);
+
+		if($result){
+			$periodicidad=date_diff(date_create($fecha_compra_old),date_create($inv_fecha_compra_new));
+			$prox_compra=date("Y-m-d",strtotime($inv_fecha_compra_new."+ ".$periodicidad->days." days")); 
+
+			 if($inv_tipo_mov=="alta"){
+        		$data2 = array('producto_consu_prec_unit' => $inv_prec_new,
+						'producto_consu_exist' => $nueva_exist,
+						'producto_consu_ult_compra' => $inv_fecha_compra_new,
+						'producto_consu_periodicidad' => $periodicidad->days,
+						'producto_consu_prox_compra' => $prox_compra,
+						'producto_consu_ult_proveedor' => $inv_proveedor_new);
+        	}else{
+        		$data2 = array('producto_consu_exist' => $nueva_exist);
+        	}
+
+			
+		$this->Iluminacion_model->Update_Consumible($id_prod, $data2);
+			echo true;
+		}else{
+			echo false;
+		}
+    }
+
+    function Product_History_Consu(){
+    	$this->load->model('Iluminacion_model');
+		$id_prod=$_POST['id_prod'];
+		$data = array('historial_inv_prod' => $this->Iluminacion_model->Get_Product_History_Consu($id_prod),
+					'ult_fecha' => $this->Iluminacion_model->Ult_Fecha_Consu($id_prod),
+					'Product_Inv_info' => $this->Iluminacion_model->Product_Inv_info_Consu($id_prod));
+		$this->load->view('Iluminacion/Historial_Inv_Consumible', $data);
     }
 
 #end controller

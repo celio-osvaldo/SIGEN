@@ -68,6 +68,9 @@ class Welcome extends CI_Controller {
 	public function Salinas(){
 		redirect('/Salinas/Index', 'refresh');
 	}
+  public function Quinta(){
+    redirect('/Quinta/Index', 'refresh');
+  }
 
    public function LogSuperUser(){
        redirect('/SuperUser/Index', 'refresh');

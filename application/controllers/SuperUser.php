@@ -79,7 +79,7 @@ class SuperUser extends CI_Controller {
          			  'usuario_alias' => $alias);
         if($this->SU_model->Update_User($id_usuario,$data)){
         	if($tipo_usuario==1){
-        		for ($i=1; $i<=3 ; $i++) { 
+        		for ($i=1; $i<=4 ; $i++) { 
         			$this->SU_model->Elimina_Permiso($id_usuario,$i);
         			$data2 = array('usuario_id_usuario' => $id_usuario,
 			              'empresa_id_empresa' => $i,
@@ -143,7 +143,7 @@ class SuperUser extends CI_Controller {
         $new_id=$this->SU_model->New_User($data);
         if($new_id){
         	if($tipo_usuario==1){
-        		for ($i=1; $i<=3 ; $i++) {
+        		for ($i=1; $i<=4 ; $i++) {
         			$data2 = array('usuario_id_usuario' => $new_id,
 			              'empresa_id_empresa' => $i,
 			          	  'perm_lectura'=>1,

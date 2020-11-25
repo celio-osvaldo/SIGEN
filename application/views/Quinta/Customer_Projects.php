@@ -21,12 +21,9 @@
   </div>
 </div>
 </div>
-
-<div class="card bg-card" id="tbl_body">   
-
+<div class="row">
+  <div class="card bg-card" id="tbl_body"></div>
 </div>
-
-
 
 
 
@@ -59,7 +56,7 @@
           </div>
           <div class="col-md-4">
             <label class="label-control">Importe Total*</label>
-            <input type="text" onblur="SeparaMiles(this.id)" name="" id="imp_obra" class="form-control input-sm">
+            <input type="text" min="0" onblur="SeparaMiles(this.id)" name="" id="imp_obra" class="form-control input-sm">
           </div>
         </div>
         <div class="row">
@@ -103,6 +100,30 @@
           </div>
         </div>
         <div class="row">
+          <div class="col-md-3">
+            <label class="label-control">Total Horas</label>
+            <input type="number" min="0" name="total_horas" id="total_horas" step="0.5" class="form-control">
+          </div>
+          <div class="col-md-4.5">
+            <label class="label-control">Hora Inicio</label>
+            <input type="time" name="hora_inicio" id="hora_inicio" class="form-control">
+          </div>
+          <div class="col-md-4.5">
+            <label class="label-control">Hora Fin</label>
+            <input type="time" name="hora_fin" id="hora_fin" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Fecha Final del Evento</label>
+            <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Anticipo Establecido</label>
+            <input type="text" name="anticipo" id="anticipo" onblur="SeparaMiles(this.id)" class="form-control">
+          </div>
+        </div>
+        <div class="row">
           <div class="col-md-12">
             <label class="label-control">Comentarios</label>
             <textarea id="coment_obra" class="form-control input-sm" maxlength="200"></textarea>
@@ -130,7 +151,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="text" name="edit_id_obra" id="edit_id_obra">
+        <input type="text" hidden="true" name="edit_id_obra" id="edit_id_obra">
         <div class="row">
           <div class="col-md-12">
             <label class="label-control">Nombre Evento*</label>
@@ -190,6 +211,30 @@
           <div class="col-md-4">
             <label class="label-control">Permiso</label>
             <input type="text" name="edit_permiso" id="edit_permiso" class="form-control">
+          </div>
+        </div>
+                <div class="row">
+          <div class="col-md-3">
+            <label class="label-control">Total Horas</label>
+            <input type="number" min="0" name="edit_total_horas" id="edit_total_horas" step="0.5" class="form-control">
+          </div>
+          <div class="col-md-4.5">
+            <label class="label-control">Hora Inicio</label>
+            <input type="time" name="edit_hora_inicio" id="edit_hora_inicio" class="form-control">
+          </div>
+          <div class="col-md-4.5">
+            <label class="label-control">Hora Fin</label>
+            <input type="time" name="edit_hora_fin" id="edit_hora_fin" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Fecha Final del Evento</label>
+            <input type="date" name="edit_fecha_fin" id="edit_fecha_fin" class="form-control">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Anticipo Establecido</label>
+            <input type="text" name="edit_anticipo" id="edit_anticipo" onblur="SeparaMiles(this.id)" class="form-control">
           </div>
         </div>
         <div class="row">
@@ -289,13 +334,18 @@ $(function() {
       cant_persona=$("#cant_persona").val();
       mobiliario=$("#mobiliario").val();
       permiso=$("#permiso").val();
+      total_horas=$("#total_horas").val();
+      hora_inicio=$("#hora_inicio").val();
+      hora_fin=$("#hora_fin").val();
+      anticipo=$("#anticipo").val().replace(/\,/g, '');
+      fecha_fin=$("#fecha_fin").val();
       coment=$('#coment_obra').val();
 
       if (nombre!=""&&importe!=""&&id_cliente!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Quinta/AddCustomerProject",
-          data:{nombre:nombre, id_cliente:id_cliente, importe:importe,coment:coment, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso,},
+          data:{nombre:nombre, id_cliente:id_cliente, importe:importe,coment:coment, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso, total_horas:total_horas, hora_inicio:hora_inicio, hora_fin:hora_fin, anticipo:anticipo, fecha_fin:fecha_fin},
           success:function(result){
             //alert(result);
             if(result==1){
@@ -307,7 +357,7 @@ $(function() {
           }
         });
       }else{
-        alert("Debe ingresar nombre de Proyecto, Cliente e Importe");
+        alert("Debe ingresar nombre de Evento, Cliente e Importe");
       }
     });
 
@@ -328,6 +378,12 @@ $(function() {
       mobiliario=$("#edit_mobiliario").val();
       permiso=$("#edit_permiso").val();
 
+      total_horas=$("#edit_total_horas").val();
+      hora_inicio=$("#edit_hora_inicio").val();
+      hora_fin=$("#edit_hora_fin").val();
+      anticipo=$("#edit_anticipo").val().replace(/\,/g, '');
+      fecha_fin=$("#edit_fecha_fin").val();
+
       //Obtenemos los datos antes de la actualización para su registro en el historial
       nombre=$("#nom_obra"+id).text();
       cliente=$("#nom_cliente"+id).text();
@@ -345,7 +401,7 @@ $(function() {
             $.ajax({
             type:"POST",
             url:"<?php echo base_url();?>Quinta/EditCustomerProject",
-            data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso},
+            data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso, total_horas:total_horas, hora_inicio:hora_inicio, hora_fin:hora_fin, anticipo:anticipo, fecha_fin:fecha_fin},
               success:function(result){
                 //alert(result);
                 if(result==1){
@@ -414,6 +470,11 @@ $(function() {
     var cant_persona=$("#cant_personas"+$id).text();
     var mobiliario=$("#mobiliario"+$id).text();
     var permiso=$("#permiso"+$id).text();
+    var total_horas=$("#total_horas"+$id).text();
+    var hora_inicio=$("#hora_inicio"+$id).text();
+    var hora_fin=$("#hora_fin"+$id).text();
+    var fecha_fin=$("#fecha_fin"+$id).text();
+    var anticipo=$("#anticipo_estab"+$id).text().split("$");
 
     $("#EditClientModal").modal();
     $("#edit_nom_obra").val(nombre);
@@ -427,7 +488,17 @@ $(function() {
     $("#edit_cant_persona").val(cant_persona);
     $("#edit_mobiliario").val(mobiliario);
     $("#edit_permiso").val(permiso);
+    $("#edit_total_horas").val(total_horas);
+    $("#edit_hora_inicio").val(hora_inicio);
+    $("#edit_hora_fin").val(hora_fin);
+    $("#edit_fecha_fin").val(fecha_fin);
+    $("#edit_anticipo").val(anticipo[1]);
+
     }
+  function Detalles($id){
+    id_evento=$id;
+    $("#page_content").load("Detalles_Evento",{id_evento:id_evento});
+  }
 
   function llena_tabla($activo) {
    //alert('Ver Detalles');

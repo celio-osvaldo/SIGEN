@@ -249,7 +249,7 @@ public function Get_Product_History_Consu($id_producto){
   }
 
   public function GetAllCustomer_Project($idcompany){
-      $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente, id_evento_detalle, evento_detalle_id_obra_cliente, evento_detalle_fecha, evento_detalle_personas, evento_detalle_tipo_evento, evento_detalle_permiso, detalle_evento_mobiliario');
+      $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente, id_evento_detalle, evento_detalle_id_obra_cliente, evento_detalle_fecha, evento_detalle_personas, evento_detalle_tipo_evento, evento_detalle_permiso, detalle_evento_mobiliario, evento_detalle_total_horas, evento_detalle_hora_inicio, evento_detalle_hora_fin, evento_detalle_fecha_fin, evento_detalle_anticipo');
       $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
       $this->db->join('evento_detalle','evento_detalle_id_obra_cliente=id_obra_cliente');
@@ -323,7 +323,7 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
  
-   public function  Edit_Evento_Detallest($id,$data2){
+   public function Edit_Evento_Detallest($id,$data2){
     $this->db->where('evento_detalle_id_obra_cliente', $id);
     $this->db->update('evento_detalle', $data2);
     if ($this->db->affected_rows() > 0){
@@ -331,6 +331,35 @@ public function Get_Product_History_Consu($id_producto){
     }else{
       return 2;
     }
+  }
+
+  public function Datos_evento($id_evento){
+    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente');
+    $this->db->from('obra_cliente');
+    $this->db->where('id_obra_cliente',$id_evento);
+    $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+ 
+  public function  Detalles_evento($id_evento){
+    $this->db->select('id_evento_detalle, evento_detalle_id_obra_cliente, evento_detalle_fecha, evento_detalle_personas, evento_detalle_tipo_evento, evento_detalle_permiso, detalle_evento_mobiliario, evento_detalle_total_horas, evento_detalle_hora_inicio, evento_detalle_hora_fin, evento_detalle_fecha_fin, evento_detalle_anticipo');
+    $this->db->from('evento_detalle');
+    $this->db->where('evento_detalle_id_obra_cliente',$id_evento);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+  
+  public function  Detalles_mobiliario($id_evento){
+    $this->db->select('id_evento_mobiliario, id_evento, id_mobiliario, evento_mobiliario_cantidad, evento_mobiliario_coment, prod_alm_nom, prod_alm_modelo, prod_alm_descripcion, unidad_medida, prod_alm_exist');
+    $this->db->from('evento_mobiliario');
+    $this->db->join('producto_almacen','id_mobiliario=id_prod_alm');
+    $this->db->join('unidades_de_medida', 'id_uMedida=prod_alm_medida');
+    $this->db->where('id_evento',$id_evento);
+     $result=$this->db->get();
+    return $result;
   }
 
 }

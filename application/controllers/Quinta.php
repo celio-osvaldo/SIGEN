@@ -383,6 +383,11 @@ function Update_Inv_Consu(){
 		$cant_persona=$_POST["cant_persona"];
 		$mobiliario=$_POST["mobiliario"];
 		$permiso=$_POST["permiso"];
+		$total_horas=$_POST["total_horas"];
+		$hora_inicio=$_POST["hora_inicio"];
+		$hora_fin=$_POST["hora_fin"];
+		$anticipo=$_POST["anticipo"];
+		$fecha_fin=$_POST["fecha_fin"];
 		$company='QM';
 		$idcomp=$this->QM_model->IdCompany($company);
 				$data=array('empresa_id_empresa' => $idcomp->id_empresa,
@@ -399,7 +404,12 @@ function Update_Inv_Consu(){
 							'evento_detalle_personas' => $cant_persona,
 							'evento_detalle_tipo_evento' => $tipo_evento,
 							'evento_detalle_permiso' => $permiso,
-							'detalle_evento_mobiliario' =>  $mobiliario);
+							'detalle_evento_mobiliario' =>  $mobiliario,
+							'evento_detalle_total_horas' => $total_horas,
+							'evento_detalle_hora_inicio' => $hora_inicio,
+							'evento_detalle_hora_fin' => $hora_fin,
+							'evento_detalle_fecha_fin' => $fecha_fin,
+							'evento_detalle_anticipo' => $anticipo);
 			$table="evento_detalle";
 			$id_detalle=$this->QM_model->Insert($table, $data2);
 			echo true;
@@ -477,6 +487,12 @@ function Update_Inv_Consu(){
 		$mobiliario=$_POST["mobiliario"];
 		$permiso=$_POST["permiso"];
 
+		$total_horas=$_POST["total_horas"];
+		$hora_inicio=$_POST["hora_inicio"];
+		$hora_fin=$_POST["hora_fin"];
+		$anticipo=$_POST["anticipo"];
+		$fecha_fin=$_POST["fecha_fin"];
+
 
 		$company='QM';
 		$idcomp=$this->QM_model->IdCompany($company);
@@ -501,10 +517,46 @@ function Update_Inv_Consu(){
 						'evento_detalle_personas' => $cant_persona,
 						'evento_detalle_tipo_evento' => $tipo_evento,
 						'evento_detalle_permiso' => $permiso,
-						'detalle_evento_mobiliario' => $mobiliario, );
+						'detalle_evento_mobiliario' => $mobiliario,
+						'evento_detalle_total_horas' => $total_horas,
+						'evento_detalle_hora_inicio' => $hora_inicio,
+						'evento_detalle_hora_fin' => $hora_fin,
+						'evento_detalle_fecha_fin' => $fecha_fin,
+						'evento_detalle_anticipo' => $anticipo);
 		$this->QM_model->Edit_CustomerProject($id,$data);
 		$this->QM_model->Edit_Evento_Detallest($id,$data2);
 		echo true;
+	}
+
+	function Detalles_Evento(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$id_evento=$_POST["id_evento"];
+		$data=array('datos_evento'=>$this->QM_model->Datos_evento($id_evento),
+					'detalles_evento' => $this->QM_model->Detalles_evento($id_evento),
+					'detalles_mobiliario' => $this->QM_model->Detalles_mobiliario($id_evento),
+					'lista_mobiliario' => $this->QM_model->GetInventorie_Products($idcompany->id_empresa),
+					'unidades_medida'=>$this->QM_model->GetAllMeasurements());
+
+		$this->load->view('Quinta/Detalles_Evento_tbl',$data);
+	}
+
+	function Add_Mob_Serv(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$id_evento=$_POST["id_evento"];
+		$id_mob_serv=$_POST["id_mob_serv"];
+		$mob_serv_cantidad=$_POST["mob_serv_cantidad"];
+		$coment=$_POST["coment"];
+		$data = array('id_evento' => $id_evento,
+						'id_mobiliario' => $id_mob_serv,
+						'evento_mobiliario_cantidad' => $mob_serv_cantidad,
+						'evento_mobiliario_coment' => $coment);
+		$table="evento_mobiliario";
+		echo $this->QM_model->Insert($table, $data);
+
 	}
 
 

@@ -362,6 +362,92 @@ public function Get_Product_History_Consu($id_producto){
     return $result;
   }
 
+   public function GetAllCustomer_Payments($idcompany){
+    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios, obra_cliente_estado');
+      $this->db->from('obra_cliente');
+      $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
+      $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
+      //$this->db->where('obra_cliente_estado',1);
+      $this->db->order_by('obra_cliente_nombre');
+      $query = $this->db->get();
+      return $query; 
+  }
+
+  public function AddCustomer_Pay($data){
+    $this->db->insert('venta_movimiento', $data);
+    if ($this->db->affected_rows() > 0) {
+      return 1;
+    } else{
+      return 2;
+    }
+  }
+
+  public function Total_obra($id_obra){
+    $this->db->select('obra_cliente_imp_total');
+    $this->db->from('obra_cliente');
+    $this->db->where('id_obra_cliente',$id_obra);
+    $query=$this->db->get();
+    $result = $query->row();
+    return $result;
+  }
+  public function Fecha_Ult_Pago($new_id_obra){
+    $this->db->select_max('venta_mov_fecha');
+    $this->db->from('venta_movimiento');
+    $this->db->where('obra_cliente_id_obra_cliente',$new_id_obra);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+  public function UpdatePaysCustomer($id_obra,$data){
+    $this->db->where('id_obra_cliente', $id_obra);
+    $this->db->update('obra_cliente', $data);
+    if ($this->db->affected_rows() > 0) {
+      return 1;
+    } else{
+      return 2;
+    }
+  }
+
+  public function Datos_obra($id_obra){
+    $this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
+    $this->db->from('obra_cliente');
+    $this->db->Where('id_obra_cliente',$id_obra);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+  public function GetPayments_List($id_obra){
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto');
+    $this->db->from('venta_movimiento');
+    $this->db->where('obra_cliente_id_obra_cliente',$id_obra);
+    $this->db->order_by('venta_mov_fecha');
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function UpdateProject_Pay($data,$id){
+    $this->db->where('id_venta_mov', $id);
+    $this->db->update('venta_movimiento', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Id_Proyecto($id_movimiento){
+    $this->db->select('obra_cliente_id_obra_cliente');
+    $this->db->from('venta_movimiento');
+    $this->db->where('id_venta_mov',$id_movimiento);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+
+
 }
+
+
 
 ?>

@@ -556,8 +556,90 @@ function Update_Inv_Consu(){
 						'evento_mobiliario_coment' => $coment);
 		$table="evento_mobiliario";
 		echo $this->QM_model->Insert($table, $data);
-
 	}
+
+		public function CustomerPayments(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data=array('customerspays'=>$this->QM_model->GetAllCustomer_Payments($idcompany->id_empresa));
+		$this->load->view('Quinta/Customer_Payments',$data);
+	}
+		public function Customer_Payments_tbl(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$activo=$_POST["activo"];
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data=array('customerspays'=>$this->QM_model->GetAllCustomer_Payments($idcompany->id_empresa),
+					'filtro'=>$activo);
+		$this->load->view('Quinta/Customer_Payments_tbl',$data);
+	}
+
+	public function AddCustomersPay(){
+		$this->load->model('QM_model');
+		$new_id_obra=$_POST["id_obra"];
+		$new_cant_pago=$_POST["cant_pago"];
+		$new_fecha=$_POST["fecha"];
+		$new_coment=$_POST["coment"];
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+
+		$data = array('obra_cliente_empresa_id_empresa' => $idcomp->id_empresa,
+			'venta_mov_fecha' => $new_fecha,
+			'venta_mov_comentario' => $new_coment,
+			'venta_mov_monto' => $new_cant_pago,
+			'obra_cliente_id_obra_cliente' => $new_id_obra);
+		//var_dump($data);
+
+		$result=$this->QM_model->AddCustomer_Pay($data);
+
+		$sum_pagos=$this->QM_model->SumPagos_Obra($new_id_obra);
+		$total_obra=$this->QM_model->Total_obra($new_id_obra);
+		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+		$fecha_ult_pago=$this->QM_model->Fecha_Ult_Pago($new_id_obra);
+		//var_dump($fecha_ult_pago->venta_mov_fecha);
+		$saldo=array('obra_cliente_saldo' => $resta,
+					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
+		$actualiza=$this->QM_model->UpdatePaysCustomer($new_id_obra,$saldo);
+		//var_dump($saldo);
+		echo $result;
+	}
+
+	public function Payments_List(){
+		$this->load->model('QM_model');
+		$id_obra=$_POST["id_obra"];
+		$data2=$this->QM_model->Datos_obra($id_obra);
+		$data=array('payments_list'=>$this->QM_model->GetPayments_List($id_obra),
+					'obra'=>$data2);
+		$this->load->view('Quinta/Customer_Payments_List',$data);
+	}
+	
+	public function EditCustomerPay(){
+		$id_movimiento=$_POST["id"];
+		$this->load->model('QM_model');
+		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
+						'venta_mov_monto' => $this->input->post('act_imp'),
+						'venta_mov_comentario' => $this->input->post('act_coment') );
+		//var_dump($id_movimiento);
+		if ($this->QM_model->UpdateProject_Pay($data,$id_movimiento)) {
+			$id_obra=$this->QM_model->Id_Proyecto($id_movimiento);
+			$sum_pagos=$this->QM_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
+			$total_obra=$this->QM_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
+			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+
+			$fecha_ult_pago=$this->QM_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
+
+			$saldo=array('obra_cliente_saldo' => $resta,
+					'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+					'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
+			$actualiza=$this->QM_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
+			echo 'actualizado';
+		}else{
+			echo 'error';
+		}
+	}
+
 
 
 }

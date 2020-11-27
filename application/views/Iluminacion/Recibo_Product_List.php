@@ -8,7 +8,7 @@
     <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Recibo_Entrega" method="POST" target='_blank'>
      <input type="text" hidden="true" id="id_lista_recibo_entrega" name="id_lista_recibo_entrega" value="<?php echo $recibo_info->id_recibo_entrega; ?>">
      <input hidden="true" type="text" id="folio" name="folio" value="<?php echo $recibo_info->recibo_entrega_folio; ?>">
-     <button class="btn btn-primary" type="submit" title="Imprimir Cotización">Imprimir Recibo de Entrega</button>
+     <button class="btn btn-primary" type="submit" title="Imprimir Recibo de Entrega">Imprimir Recibo de Entrega</button>
    </form>
  </div>
 </div>

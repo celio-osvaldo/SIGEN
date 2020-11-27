@@ -50,9 +50,9 @@
           </td>
           <td style="text-align: left;"> 
             <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Recibo_Entrega" method="POST" target='_blank'>
-             <input type="text" hidden="true"  value="<?php echo $row->id_recibo_entrega; ?>">
-             <input hidden="true" type="text" value="<?php echo $row->recibo_entrega_folio; ?>">
-             <button class="btn btn-outline-secondary" type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
+             <input type="text" hidden="false" id="id_lista_recibo_entrega" name="id_lista_recibo_entrega"  value="<?php echo $row->id_recibo_entrega; ?>">
+             <input hidden="false" id="folio" type="text" name="folio" value="<?php echo $row->recibo_entrega_folio; ?>">
+              <button class="btn btn-outline-secondary"  type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
            </form>
          </td>
         </tr>
@@ -308,6 +308,26 @@
               alert('Recibo de Entrega Eliminado');
             }else{
               alert('Falló el servidor. Recibo de Entrega No Eliminado');
+            }
+          }
+        });
+      Update(); 
+    });
+
+        $('#Imprime').click(function(){
+          id_recibo_entrega=$("#btn_imprime").val();
+          var folio=$("#folio"+id_recibo_entrega).text();
+          
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/Genera_PDF_Recibo_Entrega",
+          data:{id_recibo_entrega:id_recibo_entrega, folio:folio},
+          success:function(result){
+            //alert(result);
+            if(result){
+              alert('Recibo de Entrega Generado');
+            }else{
+              alert('Falló el servidor. Recibo de Entrega No Generado');
             }
           }
         });

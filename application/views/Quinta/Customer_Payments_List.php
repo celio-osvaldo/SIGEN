@@ -1,4 +1,4 @@
-<!--Mostrar lista de Pagos de Proyectos -->
+<!--Mostrar lista de Pagos de Eventos -->
 
 <div class="row">
   <div class="col">
@@ -48,7 +48,7 @@
           <th>Fecha de Pago</th>
           <th>Pago</th>
           <th>Concepto</th>
-          <th>Editar</th>
+          <th>Acciones</th>
 
         </tr>
       </thead>
@@ -62,7 +62,8 @@
             <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
           </td>
           <td>
-            <a class="navbar-brand" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></button></a>
+            <a class="btn btn-outline-secondary" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20" title="Editar" style="filter: invert(100%)" /></a>
+            <a class="btn btn-outline-secondary" onclick="Print_Recibo(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\imprimir.ico" width="20" title="Imprimir Recibo" style="filter: invert(100%)" /></a>
           </td>
         </tr>
         <?php 
@@ -93,7 +94,7 @@
           </div>
           <div class="col-md-6">
             <label class="label-control">Importe de Pago</label>
-            <input type="text" onblur="Separa_Miles(this.id)" id="edit_imp_pago" class="form-control input-sm">
+            <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_pago" class="form-control input-sm">
           </div>
         </div>
         <div class="row">
@@ -161,7 +162,7 @@
         //  if(act_fecha.trim()!=fecha.trim()||total!=0){
 
             //alert(act_fecha+" "+fecha+" dif fecha"+dif_fecha+" "+act_imp+" "+importe+" total:"+total);
-            $("#JustificaModal").modal();//Abrimos modal para solicitar la justificación del cambio
+            //$("#JustificaModal").modal();//Abrimos modal para solicitar la justificación del cambio
 
          // }else{
             $.ajax({
@@ -235,6 +236,11 @@ function Edit_pay2($id){
     $("#edit_imp_pago").val(parseFloat(pago[1]));
     $("#edit_coment").val(coment);
     $("#edit_id_vent_mov").val(id_venta_mov);
+  }
+  
+//Función para Mostrar Modal de Editar un registro Pago
+function Print_Recibo($id){
+
   }
 
   function Update_Page(){

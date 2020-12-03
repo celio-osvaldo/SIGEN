@@ -366,6 +366,7 @@ class Iluminacion_model extends CI_Model
     $this->db->select('id_anticipo, obra_cliente_id_obra_cliente, catalogo_cliente_empresa, anticipo_fecha_deposito, anticipo_total, anticipo_pago, anticipo_resto, anticipo_status, anticipo_fecha_finiquito, anticipo_fecha_entrega, anticipo_coment');
     $this->db->from('anticipo');
     $this->db->join('catalogo_cliente', 'obra_cliente_id_obra_cliente=id_catalogo_cliente');
+    $this->db->where('anticipo_status','Activo');
     $result=$this->db->get();
     return $result;
   }

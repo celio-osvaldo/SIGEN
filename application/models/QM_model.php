@@ -249,7 +249,7 @@ public function Get_Product_History_Consu($id_producto){
   }
 
   public function GetAllCustomer_Project($idcompany){
-      $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente, id_evento_detalle, evento_detalle_id_obra_cliente, evento_detalle_fecha, evento_detalle_personas, evento_detalle_tipo_evento, evento_detalle_permiso, detalle_evento_mobiliario, evento_detalle_total_horas, evento_detalle_hora_inicio, evento_detalle_hora_fin, evento_detalle_fecha_fin, evento_detalle_anticipo');
+      $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente, obra_cliente_contrato, id_evento_detalle, evento_detalle_id_obra_cliente, evento_detalle_fecha, evento_detalle_personas, evento_detalle_tipo_evento, evento_detalle_permiso, detalle_evento_mobiliario, evento_detalle_total_horas, evento_detalle_hora_inicio, evento_detalle_hora_fin, evento_detalle_fecha_fin, evento_detalle_anticipo');
       $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
       $this->db->join('evento_detalle','evento_detalle_id_obra_cliente=id_obra_cliente');
@@ -363,7 +363,7 @@ public function Get_Product_History_Consu($id_producto){
   }
 
    public function GetAllCustomer_Payments($idcompany){
-    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios, obra_cliente_estado');
+    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios, obra_cliente_estado, obra_cliente_contrato');
       $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
       $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
@@ -409,7 +409,7 @@ public function Get_Product_History_Consu($id_producto){
   }
 
   public function Datos_obra($id_obra){
-    $this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
+    $this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios, obra_cliente_contrato');
     $this->db->from('obra_cliente');
     $this->db->Where('id_obra_cliente',$id_obra);
     $query=$this->db->get();
@@ -417,7 +417,7 @@ public function Get_Product_History_Consu($id_producto){
     return $result;
   }
   public function GetPayments_List($id_obra){
-    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto');
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto, venta_mov_factura');
     $this->db->from('venta_movimiento');
     $this->db->where('obra_cliente_id_obra_cliente',$id_obra);
     $this->db->order_by('venta_mov_fecha');
@@ -443,6 +443,36 @@ public function Get_Product_History_Consu($id_producto){
     $result=$query->row();
     return $result;
   }
+
+  public function GetRecibo_Info($id_venta_mov){
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, venta_mov_referencia, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, venta_mov_estim_estatus, venta_mov_estim_amor_ant, venta_mov_estim_ant_amort, venta_mov_estim_fecha, evento_detalle_fecha, evento_detalle_tipo_evento, catalogo_cliente_empresa, venta_mov_monto_letra, obra_cliente_contrato');
+    $this->db->from('venta_movimiento');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->join('catalogo_cliente','id_catalogo_cliente=obra_cliente_id_cliente');
+    $this->db->join('evento_detalle', 'evento_detalle_id_obra_cliente=obra_cliente_id_obra_cliente');
+    $this->db->where('id_venta_mov',$id_venta_mov);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+    public function Get_MAXFOLIO_contrato($company){
+    $this->db->select_max('obra_cliente_contrato');//the name of fields to query in the login
+    $this->db->from('obra_cliente');
+    $this->db->where('empresa_id_empresa', $company);#the field must match the entered parameter of password
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
+    public function Get_MAXFOLIO_recibo($company){
+    $this->db->select_max('venta_mov_factura');//the name of fields to query in the login
+    $this->db->from('venta_movimiento');
+    $this->db->where('obra_cliente_empresa_id_empresa', $company);#the field must match the entered parameter of password
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
+
 
 
 

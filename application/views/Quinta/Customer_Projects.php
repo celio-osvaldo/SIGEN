@@ -5,7 +5,7 @@
     <h3 align="center">Lista de Eventos</h3>
   </div>
   <div class="col-3">
-    <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewClientModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Evento</button>
+    <button type="button" class="btn btn-outline-success" onclick="Max_ID()" data-toggle="modal" data-target="#NewClientModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Evento</button>
   </div>
 
 <div class="row">
@@ -39,9 +39,13 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <label class="label-control">Nombre Evento*</label>
             <input type="text" maxlength="150" name="" id="nom_obra" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Contrato</label>
+             <input type="text" name="contrato" id="contrato" class="form-control" maxlength="200">
           </div>
         </div>
         <div class="row">
@@ -153,9 +157,13 @@
       <div class="modal-body">
         <input type="text" hidden="true" name="edit_id_obra" id="edit_id_obra">
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-8">
             <label class="label-control">Nombre Evento*</label>
             <input type="text" maxlength="150" name="edit_nom_obra" id="edit_nom_obra" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Contrato</label>
+             <input type="text" name="edit_contrato" id="edit_contrato" class="form-control" maxlength="200">
           </div>
         </div>
         <div class="row">
@@ -340,12 +348,13 @@ $(function() {
       anticipo=$("#anticipo").val().replace(/\,/g, '');
       fecha_fin=$("#fecha_fin").val();
       coment=$('#coment_obra').val();
+      contrato=$('#contrato').val();
 
       if (nombre!=""&&importe!=""&&id_cliente!=null) {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Quinta/AddCustomerProject",
-          data:{nombre:nombre, id_cliente:id_cliente, importe:importe,coment:coment, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso, total_horas:total_horas, hora_inicio:hora_inicio, hora_fin:hora_fin, anticipo:anticipo, fecha_fin:fecha_fin},
+          data:{nombre:nombre, id_cliente:id_cliente, importe:importe,coment:coment, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso, total_horas:total_horas, hora_inicio:hora_inicio, hora_fin:hora_fin, anticipo:anticipo, fecha_fin:fecha_fin, contrato:contrato},
           success:function(result){
             //alert(result);
             if(result==1){
@@ -371,6 +380,7 @@ $(function() {
       act_estado=$("#edit_estado_obra").val();
       act_coment=$("#edit_coment_obra").val();
       id=$("#edit_id_obra").val();
+      contrato=$("#edit_contrato").val();
 
       fecha_evento=$("#edit_fecha_evento").val();
       tipo_evento=$("#edit_tipo_evento").val();
@@ -401,7 +411,7 @@ $(function() {
             $.ajax({
             type:"POST",
             url:"<?php echo base_url();?>Quinta/EditCustomerProject",
-            data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso, total_horas:total_horas, hora_inicio:hora_inicio, hora_fin:hora_fin, anticipo:anticipo, fecha_fin:fecha_fin},
+            data:{act_nom:act_nom, act_cliente:act_cliente, act_imp:act_imp, act_estado:act_estado, act_coment:act_coment,id:id, fecha_evento:fecha_evento, tipo_evento:tipo_evento, cant_persona:cant_persona, mobiliario:mobiliario, permiso:permiso, total_horas:total_horas, hora_inicio:hora_inicio, hora_fin:hora_fin, anticipo:anticipo, fecha_fin:fecha_fin, contrato:contrato},
               success:function(result){
                 //alert(result);
                 if(result==1){
@@ -475,6 +485,7 @@ $(function() {
     var hora_fin=$("#hora_fin"+$id).text();
     var fecha_fin=$("#fecha_fin"+$id).text();
     var anticipo=$("#anticipo_estab"+$id).text().split("$");
+    var contrato=$("#contrato"+$id).text();
 
     $("#EditClientModal").modal();
     $("#edit_nom_obra").val(nombre);
@@ -493,6 +504,7 @@ $(function() {
     $("#edit_hora_fin").val(hora_fin);
     $("#edit_fecha_fin").val(fecha_fin);
     $("#edit_anticipo").val(anticipo[1]);
+    $("#edit_contrato").val(contrato);
 
     }
   function Detalles($id){
@@ -505,6 +517,17 @@ $(function() {
    var activo=$activo;
    //alert(activo);
    $("#tbl_body").load("Customer_Project_tbl",{activo:activo});                
+ }
+
+ function Max_ID(){
+  id_max_contrato="<?php echo $id_max_contrato->obra_cliente_contrato ?>";
+    if(id_max_contrato==''){
+    id_max_contrato="0/0";
+  }
+  id_max_contrato=id_max_contrato.split('/');
+  anio=<?php echo date('yy'); ?>;
+  next_id=parseInt(id_max_contrato[1])+1;
+  $("#contrato").val(anio+'/'+next_id);
  }
 
 </script>

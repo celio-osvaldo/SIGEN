@@ -2,6 +2,7 @@
   <table id="table_customer" class="table table-striped table-hover display" style="font-size: 9pt;">
     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
       <tr>
+        <th>Contrato</th>
         <th>Evento</th>
         <th>Cliente</th>
         <th hidden="true">id_cliente</th>
@@ -27,6 +28,7 @@
      foreach ($proyectlist->result() as $row) {
        if(stristr($filtro, $row->obra_cliente_estado)){?>
       <tr id="<?php echo "fila".$row->id_obra_cliente; ?>">          
+         <td id="<?php echo "contrato".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_contrato.""; ?></td>
         <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
         <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
         <td hidden="true" id="<?php echo "id_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_id_cliente.""; ?></td>

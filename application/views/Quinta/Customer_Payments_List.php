@@ -6,6 +6,11 @@
     <div class="col" align="center">
       <span class="badge badge-info">
         <h6 align="center">
+          Contrato:<hr><?php echo $obra->obra_cliente_contrato; ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
           Evento/Cliente:<hr><?php echo $obra->obra_cliente_nombre; ?>
         </h6>
       </span>
@@ -45,6 +50,7 @@
     <table id="table_payments_list" class="table table-striped table-hover display" style="font-size: 10pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
+          <th>No.</th>
           <th>Fecha de Pago</th>
           <th>Pago</th>
           <th>Concepto</th>
@@ -57,13 +63,20 @@
         foreach ($payments_list->result() as $row) {
           ?>
           <tr>
+            <td id="<?php echo "no_recibo".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_factura.""; ?>  </td>
             <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
             <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?> </td>
             <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
           </td>
           <td>
+           <div class="row">
+            <form action="<?php echo base_url();?>Quinta/Genera_PDF_Recibo_Pago" method="POST" target='_blank'>
+             <input type="text" hidden="true" id="id_venta_mov" name="id_venta_mov" value="<?php echo $row->id_venta_mov ?>">
+             <input hidden="true" id="folio" type="text" name="folio">
+              <button class="btn btn-outline-secondary"  type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
+           </form>
             <a class="btn btn-outline-secondary" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20" title="Editar" style="filter: invert(100%)" /></a>
-            <a class="btn btn-outline-secondary" onclick="Print_Recibo(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\imprimir.ico" width="20" title="Imprimir Recibo" style="filter: invert(100%)" /></a>
+
           </td>
         </tr>
         <?php 
@@ -88,11 +101,15 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-3">
+            <label class="label-control">#Recibo</label>
+            <input type="text" name="edit_no_recibo" id="edit_no_recibo" class="form-control">
+          </div>
+          <div class="col-md-5">
             <label class="label-control">Fecha de Pago</label>
             <input type="date" name="" id="edit_fecha" class="form-control input-sm">
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <label class="label-control">Importe de Pago</label>
             <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_pago" class="form-control input-sm">
           </div>
@@ -148,6 +165,7 @@
           act_imp=act_imp.replace(/\,/g, '');
           act_coment=$("#edit_coment").val();
           id=$("#edit_id_vent_mov").val();
+          no_recibo=$("#edit_no_recibo").val();
           //alert(act_fecha+act_imp+act_coment+id);
 
           fecha=$("#fecha"+id).text();
@@ -155,6 +173,7 @@
           importe=importe.replace(/\$/g, '');
           importe=importe.replace(/\,/g, '');
           coment=$("#coment"+id).text();
+          cant_pago_letra=NumeroALetras(act_imp);
 
       if (act_fecha!=""&&act_imp!="") {//Verificamos que los campos no estén vacíos
           
@@ -168,7 +187,7 @@
             $.ajax({
               type:"POST",
               url:"<?php echo base_url();?>Quinta/EditCustomerPay",
-              data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment,id:id},
+              data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment,id:id, cant_pago_letra:cant_pago_letra, no_recibo:no_recibo},
               success:function(result){
                 //alert(result);
                 if(result=='actualizado'){
@@ -230,12 +249,14 @@ function Edit_pay2($id){
     //alert(pago);
     var coment=$("#coment"+$id).text().trim();
     var id_venta_mov=$id;
+    var no_recibo=$("#no_recibo"+$id).text().trim();
     //alert(id_venta_mov);
     $("#EditPayModal").modal();
     document.getElementById("edit_fecha").valueAsDate = new Date(fecha);
     $("#edit_imp_pago").val(parseFloat(pago[1]));
     $("#edit_coment").val(coment);
     $("#edit_id_vent_mov").val(id_venta_mov);
+    $("#edit_no_recibo").val(no_recibo);
   }
   
 //Función para Mostrar Modal de Editar un registro Pago

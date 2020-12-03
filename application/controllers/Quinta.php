@@ -36,6 +36,17 @@ class Quinta extends CI_Controller {
 		$this->LogIn();
 	}
 
+
+	public function Verifica_Sesion() //Después de 45 min de inactividad la sesión se cierra de manera automática
+	{
+		if ($this->session->userdata('usuario_alias')) {#verified if a user is logged and don´t lose the session
+          echo true;
+       	}
+       	else{
+       		echo false;
+       	}
+	}
+
 	public function Configuracion(){
 		   	$data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
           	$data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
@@ -358,8 +369,10 @@ function Update_Inv_Consu(){
 		$this->load->model('QM_model');
 		$company='QM';
 		$idcompany=$this->QM_model->IdCompany($company);
+
 		$data=array('proyectlist'=>$this->QM_model->GetAllCustomer_Project($idcompany->id_empresa),
-					'customerlist'=>$this->QM_model->Get_Customer_List($idcompany->id_empresa));
+					'customerlist'=>$this->QM_model->Get_Customer_List($idcompany->id_empresa),
+					'id_max_contrato'=>$this->QM_model->Get_MAXFOLIO_contrato($idcompany->id_empresa));
 		$this->load->view('Quinta/Customer_Projects',$data);
 	}
 	public function Customer_Project_tbl(){
@@ -388,6 +401,7 @@ function Update_Inv_Consu(){
 		$hora_fin=$_POST["hora_fin"];
 		$anticipo=$_POST["anticipo"];
 		$fecha_fin=$_POST["fecha_fin"];
+		$contrato=$_POST["contrato"];
 		$company='QM';
 		$idcomp=$this->QM_model->IdCompany($company);
 				$data=array('empresa_id_empresa' => $idcomp->id_empresa,
@@ -396,7 +410,8 @@ function Update_Inv_Consu(){
 					'obra_cliente_imp_total'=>$importe,
 					'obra_cliente_saldo'=>$importe,
 					'obra_cliente_estado'=>1,
-					'obra_cliente_comentarios'=>$coment);
+					'obra_cliente_comentarios'=>$coment,
+					'obra_cliente_contrato' => $contrato);
 		$id_evento=$this->QM_model->AddCustomer_Project($data);
 		if ($id_evento) {
 			$data2 = array('evento_detalle_id_obra_cliente' => $id_evento,
@@ -480,6 +495,7 @@ function Update_Inv_Consu(){
 		$act_estado=$_POST["act_estado"];
 		$act_coment=$_POST["act_coment"];
 		$id=$_POST["id"];
+		$contrato=$_POST["contrato"];
 
 		$fecha_evento=$_POST["fecha_evento"];
 		$tipo_evento=$_POST["tipo_evento"];
@@ -510,8 +526,8 @@ function Update_Inv_Consu(){
         'obra_cliente_pagado'=>$suma_pagos,
         'obra_cliente_saldo'=>$saldo,
         'obra_cliente_estado' => $act_estado,
-        'obra_cliente_comentarios' => $act_coment
-			);
+        'obra_cliente_comentarios' => $act_coment,
+    	'obra_cliente_contrato' => $contrato);
 
 		$data2 = array('evento_detalle_fecha' => $fecha_evento,
 						'evento_detalle_personas' => $cant_persona,
@@ -562,7 +578,8 @@ function Update_Inv_Consu(){
 		$this->load->model('QM_model');
 		$company='QM';
 		$idcompany=$this->QM_model->IdCompany($company);
-		$data=array('customerspays'=>$this->QM_model->GetAllCustomer_Payments($idcompany->id_empresa));
+		$data=array('customerspays'=>$this->QM_model->GetAllCustomer_Payments($idcompany->id_empresa),
+					'id_max_recibo'=> $this->QM_model->Get_MAXFOLIO_recibo($idcompany->id_empresa));
 		$this->load->view('Quinta/Customer_Payments',$data);
 	}
 		public function Customer_Payments_tbl(){
@@ -581,6 +598,8 @@ function Update_Inv_Consu(){
 		$new_cant_pago=$_POST["cant_pago"];
 		$new_fecha=$_POST["fecha"];
 		$new_coment=$_POST["coment"];
+		$cant_pago_letra=$_POST["cant_pago_letra"];
+		$no_recibo=$_POST["no_recibo"];
 		$company='QM';
 		$idcomp=$this->QM_model->IdCompany($company);
 
@@ -588,7 +607,9 @@ function Update_Inv_Consu(){
 			'venta_mov_fecha' => $new_fecha,
 			'venta_mov_comentario' => $new_coment,
 			'venta_mov_monto' => $new_cant_pago,
-			'obra_cliente_id_obra_cliente' => $new_id_obra);
+			'obra_cliente_id_obra_cliente' => $new_id_obra,
+			'venta_mov_monto_letra' => $cant_pago_letra,
+			'venta_mov_factura' => $no_recibo);
 		//var_dump($data);
 
 		$result=$this->QM_model->AddCustomer_Pay($data);
@@ -608,8 +629,10 @@ function Update_Inv_Consu(){
 
 	public function Payments_List(){
 		$this->load->model('QM_model');
+		$company='QM';
 		$id_obra=$_POST["id_obra"];
 		$data2=$this->QM_model->Datos_obra($id_obra);
+		$idcompany=$this->QM_model->IdCompany($company);
 		$data=array('payments_list'=>$this->QM_model->GetPayments_List($id_obra),
 					'obra'=>$data2);
 		$this->load->view('Quinta/Customer_Payments_List',$data);
@@ -620,7 +643,9 @@ function Update_Inv_Consu(){
 		$this->load->model('QM_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->post('act_coment') );
+						'venta_mov_comentario' => $this->input->post('act_coment'),
+						'venta_mov_monto_letra' => $this->input->post('cant_pago_letra'),
+						'venta_mov_factura' => $this->input->post('no_recibo'));
 		//var_dump($id_movimiento);
 		if ($this->QM_model->UpdateProject_Pay($data,$id_movimiento)) {
 			$id_obra=$this->QM_model->Id_Proyecto($id_movimiento);
@@ -639,6 +664,41 @@ function Update_Inv_Consu(){
 			echo 'error';
 		}
 	}
+
+	public function Genera_PDF_Recibo_Pago(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$id_venta_mov=$_POST["id_venta_mov"];
+		//$folio=$_POST["folio"];
+		$idcomp=$this->QM_model->IdCompany($company);
+		$data = array('recibo_info'=>$this->QM_model->GetRecibo_Info($id_venta_mov));
+			//'recibo_products' => $this->QM_model->GetRecibo_Products($id_lista_recibo_entrega));
+
+		$css=file_get_contents('assets/Personalized/css/Recibo_Pago_QM.css');
+		$mpdf = new \Mpdf\Mpdf([
+			"format" => "letter",
+			 'orientation' => 'L'
+			//'pagenumPrefix' => 'Hoja ',
+			//'nbpgPrefix' => ' de '
+		]);
+		$hola="";
+		$html = $this->load->view('Quinta/Recibo_Entrega_Formato',$data,true);
+		//$mpdf->setFooter('{PAGENO}{nbpg}');
+		$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
+		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
+		$mpdf->Output('Recibo_Pago_'.'.pdf','I'); 
+	}
+
+	public function Num_letras(){
+		$this->load->model('QM_model');
+		
+		$this->load->view('Quinta/Num_letras');
+	}
+
+
+
+
+
 
 
 

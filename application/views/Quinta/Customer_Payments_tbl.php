@@ -2,6 +2,7 @@
   <table id="table_customer" class="table table-striped table-hover display" style="font-size: 10pt;">
     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
       <tr>
+        <th>Contrato</th>
         <th>Proyecto</th>
         <th>Cliente</th>
         <th>Importe Total</th>
@@ -20,6 +21,7 @@
          if(stristr($filtro, $row->obra_cliente_estado)){
        ?>
        <tr>
+         <td id="<?php echo "contrato".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_contrato.""; ?></td>
          <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
          <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
          <td id="<?php echo "imp_obra".$row->id_obra_cliente;?>">$<?php echo number_format($row->obra_cliente_imp_total,2,'.',',').""; ?></td>

@@ -167,7 +167,7 @@ class QM_model extends CI_Model
     return $result;
   }
   public function GetAll_Provider($idcompany){
-    $this->db->select('id_catalogo_proveedor, catalogo_proveedor_nom_fiscal, catalogo_proveedor_empresa, catalogo_proveedor_id_giro, nombre_giro, rfc, catalogo_proveedor_contacto1, catalogo_proveedor_contacto2, catalogo_proveedor_puesto1, catalogo_proveedor_puesto2, catalogo_proveedor_tel1, catalogo_proveedor_tel2, catalogo_proveedor_cel1, catalogo_proveedor_cel2, catalogo_proveedor_email1, catalogo_proveedor_email2, catalogo_proveedor_coment');
+    $this->db->select('id_catalogo_proveedor, catalogo_proveedor_nom_fiscal, catalogo_proveedor_empresa, catalogo_proveedor_id_giro, nombre_giro, rfc, catalogo_proveedor_contacto1, catalogo_proveedor_contacto2, catalogo_proveedor_puesto1, catalogo_proveedor_puesto2, catalogo_proveedor_tel1, catalogo_proveedor_tel2, catalogo_proveedor_cel1, catalogo_proveedor_cel2, catalogo_proveedor_email1, catalogo_proveedor_email2, catalogo_proveedor_coment, catalogo_proveedor_nom_fiscal');
     $this->db->from('catalogo_proveedor');
     $this->db->join('catalogo_giro_proveedor','catalogo_proveedor_id_giro=id_catalogo_giro');
     $this->db->where('empresa_id_empresa', $idcompany);
@@ -473,7 +473,61 @@ public function Get_Product_History_Consu($id_producto){
     return $result;#if the query has data, returns the data query
   }
 
+  public function GetAllProducts($idcompany){
+    $this->db->select('id_catalogo_producto, catalogo_producto_nombre, catalogo_producto_umedida, catalogo_producto_precio, catalogo_proveedor_empresa, catalogo_producto_fecha_actualizacion, empresa_id_empresa, unidad_medida, catalogo_proveedor_empresa_id_empresa, catalogo_producto_url_imagen, catalogo_proveedor_nom_fiscal');
+    $this->db->from('catalogo_producto');
+    $this->db->join('unidades_de_medida', 'id_uMedida = catalogo_producto_umedida');
+    $this->db->join('catalogo_proveedor', 'catalogo_proveedor_id_catalogo_proveedor = id_catalogo_proveedor');
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $query = $this->db->get();
+    if($query -> num_rows() >0){
+      return $query;
+    }else{
+      return $query;
+    }
+  }
 
+  function IDMAX($table, $id){
+    $this->db->select_max($id);
+    $q = $this->db->get($table);
+    if($q->num_rows() > 0){
+      return $q;
+    }else{
+      return $q;
+    }
+  }
+
+  public function UpdateProduct($id, $data){
+      $this->db->where('id_catalogo_producto', $id);
+      $this->db->update('catalogo_producto', $data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+      } else{
+        return false;
+      }
+  }
+
+  public function Get_Product_Record($id_producto){
+    $this->db->select('id_historial_precio_producto, historial_precio_producto_precio, id_producto, catalogo_producto_nombre, catalogo_producto_umedida,unidad_medida, catalogo_producto_precio, historial_fecha_actualizacion, historial_id_proveedor, catalogo_proveedor_empresa, catalogo_proveedor_nom_fiscal');
+    $this->db->from('historial_precio_producto');
+    $this->db->join('catalogo_proveedor','historial_id_proveedor=id_catalogo_proveedor');
+    $this->db->join('catalogo_producto','id_producto=id_catalogo_producto');
+    $this->db->join('unidades_de_medida', 'id_uMedida=catalogo_producto_umedida');
+    $this->db->where('id_producto', $id_producto);
+    $result=$this->db->get();
+    return $result;
+  }
+
+  public function Get_Product_Info($id_producto){
+    $this->db->select('id_catalogo_producto, catalogo_producto_nombre, catalogo_producto_umedida, catalogo_producto_precio, catalogo_proveedor_id_catalogo_proveedor, catalogo_proveedor_empresa_id_empresa, catalogo_producto_fecha_actualizacion, catalogo_producto_url_imagen,catalogo_proveedor_empresa, catalogo_proveedor_nom_fiscal');
+    $this->db->from('catalogo_producto');
+    $this->db->join('catalogo_proveedor','catalogo_proveedor_id_catalogo_proveedor=id_catalogo_proveedor');
+    $this->db->where('id_catalogo_producto',$id_producto);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
 
 
 }

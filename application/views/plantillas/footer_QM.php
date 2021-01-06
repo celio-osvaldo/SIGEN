@@ -30,7 +30,7 @@
 </div>
 
 
-		<script>//script to load the GetInventories controller on click at the link with the id Produc_inv
+		<script>//script to load the GetProducts/Services controller on click at the link with the id Produc_inv
 			$(document).ready(function(){
 				$("#Produc_inv").click(function(){
 					$("#page_content").load("GetInventories");

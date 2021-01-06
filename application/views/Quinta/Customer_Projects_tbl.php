@@ -40,7 +40,8 @@
             </a>
 
             <form action="<?php echo base_url();?>Quinta/Nuevo_Contrato" method="POST" target='_blank'>
-              <input type="text" hidden="false" id="id_contrato" name="id_contrato"  value="<?php echo $row->evento_detalle_id_obra_cliente ?>">
+              <input type="text" hidden="true" id="id_contrato" name="id_contrato"  value="<?php echo $row->evento_detalle_id_obra_cliente ?>">
+              <input type="text" hidden="true" name="num_contrato" id="num_contrato" value="<?php echo $row->obra_cliente_contrato?>">
               <button class="btn btn-outline-secondary"  type="submit" title="Imprimir Contrato"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
             </form> 
 

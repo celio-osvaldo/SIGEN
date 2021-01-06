@@ -51,17 +51,17 @@ class Quinta extends CI_Controller {
 		   	$data['alias'] = $this->session->userdata('usuario_alias');#Return the name alias of user for showing
           	$data['type'] = $this->session->userdata('nombre_tipo');#it will know who type of user start session and show its navbar
           	$data['corp'] = $this->session->userdata('empresa_nom');#for applicated the color in navbar
-			$data['title']='SiGeN | SALINAS';
-			$this->load->model('Salinas_model');
- 			$company='SALINAS';
-			$idcompany=$this->Salinas_model->IdCompany($company);
- 			$data['solicitudes']=$this->Salinas_model->Get_solicitudes($idcompany->id_empresa);
-            $data['solicitudes_pago']=$this->Salinas_model->Get_solicitudes_pago($idcompany->id_empresa);
-            $data['datos_empresa']=$this->Salinas_model->Get_datos_empresa($idcompany->id_empresa);
-	   		$this->load->view('plantillas/header_salinas', $data);
-			$this->load->view('Salinas/Configuracion',$data);
-       		$this->load->view('plantillas/footer_salinas');
-		//$data=array('datos_empresa'=>$this->Salinas_model->Get_datos_empresa($idcompany->id_empresa));
+			$data['title']='SiGeN | QM';
+			$this->load->model('QM_model');
+ 			$company='QM';
+			$idcompany=$this->QM_model->IdCompany($company);
+ 			$data['solicitudes']=$this->QM_model->Get_solicitudes($idcompany->id_empresa);
+            $data['solicitudes_pago']=$this->QM_model->Get_solicitudes_pago($idcompany->id_empresa);
+            $data['datos_empresa']=$this->QM_model->Get_datos_empresa($idcompany->id_empresa);
+	   		$this->load->view('plantillas/header_QM', $data);
+			$this->load->view('Quinta/Configuracion',$data);
+       		$this->load->view('plantillas/footer_QM');
+		//$data=array('datos_empresa'=>$this->QM_model->Get_datos_empresa($idcompany->id_empresa));
 		//var_dump($data);
 	}
 
@@ -732,6 +732,7 @@ function Update_Inv_Consu(){
 		$idcompany=$this->QM_model->IdCompany($company);
 
 		$id_contrato=$_POST["id_contrato"];
+		$num_contrato=$_POST["num_contrato"];
 
 		if($id_contrato==0){
 			$data = array('id_max_contrato'=>$this->QM_model->Get_MAXFOLIO_contrato($idcompany->id_empresa));
@@ -794,7 +795,7 @@ function Update_Inv_Consu(){
 		$mpdf->AddPage();
 		$html3 = $this->load->view('Quinta/Croquis_Evento',$data2,true);
 		$mpdf->WriteHTML($html3,\Mpdf\HTMLParserMode::HTML_BODY);
-		$mpdf->Output('Contrato_quinta'.'.pdf','I'); 
+		$mpdf->Output('Contrato_quinta_'.$num_contrato.'.pdf','I'); 
 	}
 
 	function Croquis(){
@@ -811,10 +812,154 @@ function Update_Inv_Consu(){
 		$this->load->view('Quinta/Croquis_Evento',$data);
 	}
 
+	public function GetInventories(){
+		$this->load->model('QM_model');
+		$table = 'catalogo_producto';
+		$id = 'id_catalogo_producto';
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data = array('inventories' => $this->QM_model->GetAllProducts($idcompany->id_empresa),
+						'providers' => $this->QM_model->GetAll_Provider($idcompany->id_empresa),
+						'measure' => $this->QM_model->GetAllMeasurements(),
+						'max'=>$this->QM_model->IDMAX($table, $id));
+		$this->load->view('Quinta/Product_Catalog', $data);
+	}
+
+	public function AddProduct(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+
+		if (isset($_FILES['file']['name'])) {
+			$filename = $_FILES['file']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Products&Services/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
+		$table = 'catalogo_producto';
+		$data = array('catalogo_producto_nombre'=> $this->input->post('nameProductInsert'),
+			'catalogo_producto_umedida'=> $this->input->post('medidaInsert'),
+			'catalogo_producto_precio'=> $this->input->post('priceInsert'),
+			'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerInsert'),
+			'catalogo_proveedor_empresa_id_empresa'=> $idcomp->id_empresa,
+			'catalogo_producto_fecha_actualizacion' => $this->input->post('dateInsert'));
+
+		$id_producto=$this->QM_model->Insert($table, $data);
+
+		$data_historial = array('id_producto' => $id_producto,
+								'historial_fecha_actualizacion' => $this->input->post('dateInsert'),
+								'historial_id_proveedor'=> $this->input->post('providerInsert'),
+								'historial_precio_producto_precio' => $this->input->post('priceInsert'));
+		$tabla_historial='historial_precio_producto';
+
+		$this->QM_model->Insert($tabla_historial,$data_historial);
+
+		$url_imagen='Resources/Products&Services/Qm/Product_Service_'.$id_producto.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_producto!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
+
+				$data2 = array('catalogo_producto_url_imagen' => $url_imagen);
+				$this->QM_model->UpdateProduct($id_producto, $data2);
+				echo true;
+			}else{
+				echo false;
+			}
+    	}
+    	echo true;
+    }
+
+public function UpdateInfoProduct(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+		$id = $_POST["idE"];
+		$priceE=$_POST["priceE"];
+		//$priceE=$priceE.replace(/\,/g, '');
+		$priceE = str_replace(',', '', $priceE); 
+
+
+		if (isset($_FILES['imageE']['name'])) {
+			$filename = $_FILES['imageE']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Products&Services/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 
 
 
+		$url_imagen='Resources/Products&Services/QM/Product_Service_'.$id.'.'.$file_extension;
 
+		if ($filename=="") {
+			$id = $_POST["idE"];
+			$data = array(
+				'catalogo_producto_nombre' => $this->input->post('nameProductE'),
+				'catalogo_producto_umedida' => $this->input->post('medidaE'),
+				'catalogo_producto_precio'=>$priceE,
+				'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
+				'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'));
+
+				$this->QM_model->UpdateProduct($id, $data);
+
+                $data_historial = array('id_producto' => $id,
+                'historial_fecha_actualizacion' => $this->input->post('dateE'),
+                'historial_id_proveedor'=> $this->input->post('providerE'),
+            	'historial_precio_producto_precio' => $priceE);
+    			$tabla_historial='historial_precio_producto';
+
+    			$this->QM_model->Insert($tabla_historial,$data_historial);
+
+			echo true;
+		}else{
+			if(in_array($file_extension,$image_ext)&&$id!=""){
+					// Upload file
+				if(move_uploaded_file($_FILES['imageE']['tmp_name'],$url_imagen)){
+					$id = $_POST["idE"];
+					$data = array(
+						'catalogo_producto_nombre' => $this->input->post('nameProductE'),
+						'catalogo_producto_umedida' => $this->input->post('medidaE'),
+						'catalogo_producto_precio'=>$priceE,
+						'catalogo_proveedor_id_catalogo_proveedor' => $this->input->post('providerE'),
+						'catalogo_producto_fecha_actualizacion' => $this->input->post('dateE'),
+						'catalogo_producto_url_imagen' => $url_imagen);
+					$this->QM_model->UpdateProduct($id, $data);
+					echo true;
+				}else{
+					echo false;
+				}
+			}
+		}
+	}
+
+
+	public function Product_Record(){
+		$this->load->model('QM_model');
+		$id_producto=$_POST['id_product'];
+		$data = array('record_product' => $this->QM_model->Get_Product_Record($id_producto),
+					  'product_info' => $this->QM_model->Get_Product_Info($id_producto));
+		$this->load->view('Quinta/Record_Product', $data);
+
+	}
+	
 
 
 

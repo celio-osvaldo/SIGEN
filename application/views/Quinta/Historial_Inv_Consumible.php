@@ -73,7 +73,7 @@
           <td>$<?php echo number_format($row->prod_alm_prec_unit_old,2,'.',','); ?></td>
           <td>$<?php echo number_format($row->prod_alm_prec_unit_new,2,'.',','); ?></td>
           <td><?php echo $row->historial_almacen_proveedor_old; ?></td>
-          <td><?php echo $row->catalogo_proveedor_empresa; ?></td>
+          <td><?php echo $row->catalogo_proveedor_nom_fiscal; ?></td>
           <td><?php echo $row->historial_almacen_producto_movimiento ?></td>
           <td><?php echo $row->historial_almacen_producto_procedencia ?></td>
           <td><?php echo $row->historial_almacen_producto_referencia ?></td>

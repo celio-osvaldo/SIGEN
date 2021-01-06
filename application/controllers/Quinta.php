@@ -403,6 +403,13 @@ function Update_Inv_Consu(){
 		$fecha_fin=$_POST["fecha_fin"];
 		$contrato=$_POST["contrato"];
 		$company='QM';
+
+		$importe_txt=$_POST["importe_txt"];
+		$anticipo_txt=$_POST["anticipo_txt"];
+		$resto=$_POST["resto_2"];
+		$resto_txt=$_POST["resto_txt"];
+
+
 		$idcomp=$this->QM_model->IdCompany($company);
 				$data=array('empresa_id_empresa' => $idcomp->id_empresa,
 					'obra_cliente_nombre'=> $nombre,
@@ -424,7 +431,11 @@ function Update_Inv_Consu(){
 							'evento_detalle_hora_inicio' => $hora_inicio,
 							'evento_detalle_hora_fin' => $hora_fin,
 							'evento_detalle_fecha_fin' => $fecha_fin,
-							'evento_detalle_anticipo' => $anticipo);
+							'evento_detalle_anticipo' => $anticipo,
+							'evento_detalle_anticipo_txt' => $anticipo_txt,
+							'evento_detalle_monto_txt' => $importe_txt,
+							'evento_detalle_resto' => $resto,
+							'evento_detalle_resto_txt' => $resto_txt);
 			$table="evento_detalle";
 			$id_detalle=$this->QM_model->Insert($table, $data2);
 			echo true;
@@ -459,7 +470,12 @@ function Update_Inv_Consu(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->post('coment'));
+						'catalogo_cliente_coment' => $this->input->post('coment'),
+						'catalogo_cliente_calle' => $this->input->post('calle'),
+						'catalogo_cliente_numero' => $this->input->post('numero'),
+						'catalogo_cliente_colonia' => $this->input->post('colonia'),
+						'catalogo_cliente_cp' => $this->input->post('cp'),
+						'catalogo_cliente_mun_estado' => $this->input->post('mun_estado'));
 		if($this->QM_model->New_Customer($data)){
 			echo true;
 		}else{
@@ -478,7 +494,12 @@ function Update_Inv_Consu(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->post('coment'));
+						'catalogo_cliente_coment' => $this->input->post('coment'),
+						'catalogo_cliente_calle' => $this->input->post('calle'),
+						'catalogo_cliente_numero' => $this->input->post('numero'),
+						'catalogo_cliente_colonia' => $this->input->post('colonia'),
+						'catalogo_cliente_cp' => $this->input->post('cp'),
+						'catalogo_cliente_mun_estado' => $this->input->post('mun_estado'),);
 		if($this->QM_model->Update_Customer($id_cust,$data)){
 			echo true;
 		}else{
@@ -509,6 +530,11 @@ function Update_Inv_Consu(){
 		$anticipo=$_POST["anticipo"];
 		$fecha_fin=$_POST["fecha_fin"];
 
+		$importe_txt=$_POST["importe_txt"];
+		$anticipo_txt=$_POST["anticipo_txt"];
+		$resto=$_POST["resto_2"];
+		$resto_txt=$_POST["resto_txt"];
+
 
 		$company='QM';
 		$idcomp=$this->QM_model->IdCompany($company);
@@ -538,7 +564,11 @@ function Update_Inv_Consu(){
 						'evento_detalle_hora_inicio' => $hora_inicio,
 						'evento_detalle_hora_fin' => $hora_fin,
 						'evento_detalle_fecha_fin' => $fecha_fin,
-						'evento_detalle_anticipo' => $anticipo);
+						'evento_detalle_anticipo' => $anticipo,
+						'evento_detalle_anticipo_txt' => $anticipo_txt,
+						'evento_detalle_monto_txt' => $importe_txt,
+						'evento_detalle_resto' => $resto,
+						'evento_detalle_resto_txt' => $resto_txt,);
 		$this->QM_model->Edit_CustomerProject($id,$data);
 		$this->QM_model->Edit_Evento_Detallest($id,$data2);
 		echo true;
@@ -693,6 +723,92 @@ function Update_Inv_Consu(){
 		$this->load->model('QM_model');
 		
 		$this->load->view('Quinta/Num_letras');
+	}
+
+
+	public function Nuevo_Contrato(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+
+		$id_contrato=$_POST["id_contrato"];
+
+		if($id_contrato==0){
+			$data = array('id_max_contrato'=>$this->QM_model->Get_MAXFOLIO_contrato($idcompany->id_empresa));
+			$this->load->view('Quinta/Formato_Contrato',$data);
+		}else{
+			$data2=array('datos_evento'=>$this->QM_model->Datos_evento($id_contrato),
+					'detalles_evento' => $this->QM_model->Detalles_evento($id_contrato),
+					'detalles_mobiliario' => $this->QM_model->Detalles_mobiliario($id_contrato),
+					'lista_mobiliario' => $this->QM_model->GetInventorie_Products($idcompany->id_empresa),
+					'unidades_medida'=>$this->QM_model->GetAllMeasurements(),
+					'id_max_contrato'=>$this->QM_model->Get_MAXFOLIO_contrato($idcompany->id_empresa));
+		//$this->load->view('Quinta/Formato_Contrato',$data2);
+		}
+
+		$css=file_get_contents('assets/Personalized/css/PDFStyles_Contrato_QM.css');
+		$mpdf = new \Mpdf\Mpdf([
+			"format" => "letter",
+			'orientation' => 'P',
+			'pagenumPrefix' => 'Hoja ',
+			'nbpgPrefix' => ' de ',
+			'margin_left' => 30,
+		    'margin_right' => 30,
+		    'margin_top' => 30,
+		    'margin_bottom' => 30,
+
+
+		]);
+	$mpdf->defaultfooterline=0; //Eliminamos la línea del pie de página
+	$mpdf->defaultheaderline=0; //Eliminamos la línea del encabezado
+	$mpdf->setheader('
+<table style="width: 100%">
+	<tr>
+		<td>
+			<img style="filter: invert(50%)" src="Resources/Logos/logo_qm.png">
+		</td>
+
+		<td style="width: 80%">
+			<label class="label-control" style="margin-top: 1em; font-style: gray; font-size: 14"><b>Quinta Monticello, Salón de Eventos.</b></label>
+			<br>
+			<hr style="height:2px; width: 98%;border-width:0;color:gray;background-color:gray; margin-top: 0.1em;">
+		</td>
+	</tr>
+</table>');
+
+
+		$html = $this->load->view('Quinta/Formato_Contrato',$data2,true);
+		$mpdf->setFooter('<table class="tb_footer" style="text-align: center; width: 100%">
+	<tr>
+		<td>
+			<img class="img_footer" style="height: 1.56cm; width: 3.34cm" src="Resources/Logos/QM.png">
+		</td>
+	</tr>
+</table> {PAGENO}{nbpg}');
+		$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
+		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
+		$mpdf->AddPage();
+		$html2 = $this->load->view('Quinta/Reglamento_Contrato',$data2,true);
+		$mpdf->WriteHTML($html2,\Mpdf\HTMLParserMode::HTML_BODY);
+
+		$mpdf->AddPage();
+		$html3 = $this->load->view('Quinta/Croquis_Evento',$data2,true);
+		$mpdf->WriteHTML($html3,\Mpdf\HTMLParserMode::HTML_BODY);
+		$mpdf->Output('Contrato_quinta'.'.pdf','I'); 
+	}
+
+	function Croquis(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$id_evento=$_POST["id_evento"];
+		$data=array('datos_evento'=>$this->QM_model->Datos_evento($id_evento),
+					'detalles_evento' => $this->QM_model->Detalles_evento($id_evento),
+					'detalles_mobiliario' => $this->QM_model->Detalles_mobiliario($id_evento),
+					'lista_mobiliario' => $this->QM_model->GetInventorie_Products($idcompany->id_empresa),
+					'unidades_medida'=>$this->QM_model->GetAllMeasurements());
+
+		$this->load->view('Quinta/Croquis_Evento',$data);
 	}
 
 

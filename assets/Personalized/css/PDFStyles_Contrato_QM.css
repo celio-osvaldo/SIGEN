@@ -1,0 +1,103 @@
+p{
+	font-family: 'Geneva';
+	font-size: 12;
+	text-align: justify;
+	}
+
+table {
+  color: gray;
+  font-family: 'Geneva';
+  text-align: justify;
+  border-collapse: collapse;
+  border-width: 1px
+
+}
+.tb2{
+	color:black;
+	font-family: 'Geneva';
+	font-size: 12;
+	text-align: justify;
+	border-width: 1px
+}
+
+.td_pasto_final{
+	border: solid;
+	width: 12.5cm; 
+	height: 1cm;
+	border-top-style: solid;
+	border-top-color: black;
+	border-bottom-style: dotted;
+	border-bottom-color: #AFABAB;
+	border-width: 1px;
+	text-align: center
+}
+.td_mesa_pasto_final{
+	border: solid;
+	height: 2cm;
+	width: 1.66cm;
+	border-style: dotted;
+	border-width: 1px;
+	border-color: #AFABAB;
+	text-align: center
+}
+
+.td_mesa_pista_1{
+	background-color: #FFF2CC;
+	border: solid;
+	height: 2cm;
+	width: 1.66cm;
+	border-style: dotted;
+	border-color: #AFABAB;
+	border-width: 1px;
+	text-align: center
+}
+
+.td_entrada{
+	border: solid;
+	height: 2cm;
+	width: 1.66cm;
+	border-style: dotted;
+	border-color: #AFABAB;
+	border-width: 1px;
+	text-align: center
+}
+
+.td_mesa_pista_baile{
+
+	height: 2.78cm;
+	width: 1.66cm;	
+}
+
+
+.td_recepcion{
+	
+	border: solid;
+	height: 4.15cm;
+	width: 2.75cm;
+	border-style: solid;
+	border-width: 1px;
+	text-align: center
+}
+
+
+img {
+  opacity: 0.5;
+}
+.img_mesa{
+	height: 1cm;
+  width: 1cm;
+}
+.img_footer{
+  	height: 1.56cm;
+  	width: 3.34cm
+}
+ul{
+	font-family: 'Geneva';
+	font-size: 12;
+	text-align: justify;
+}
+li{
+	font-family: 'Geneva';
+	font-size: 12;
+	text-align: justify;
+}

@@ -17,6 +17,7 @@
         <tr>
           <th>Editar</th>
           <th>Cliente</th>
+          <th>Domicilio</th>
           <th>Contactos</th>
           <th>Telefonos</th>
           <th>Celular</th>
@@ -34,7 +35,15 @@
             </button>
           </a></td>
            <td id="<?php echo "cliente".$row->id_catalogo_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
-           
+
+           <td id="<?php echo "domicilio".$row->id_catalogo_cliente;?>">
+             <label id="calle"><?php echo $row->catalogo_cliente_calle; ?></label>
+             <label id="numero"><?php echo $row->catalogo_cliente_numero; ?></label>
+             <label id="colonia"><?php echo $row->catalogo_cliente_colonia ;?></label>
+             <label id="cp"><?php echo $row->catalogo_cliente_cp; ?></label>
+             <label id="mun_estado"><?php echo $row->catalogo_cliente_mun_estado; ?></label>
+           </td>
+
            <td id="<?php echo "contactos".$row->id_catalogo_cliente;?>"><?php echo "".$row->catalogo_cliente_contacto1 ?><hr><?php echo "*". $row->catalogo_cliente_contacto2; ?></td>
            <td id="<?php echo "tels".$row->id_catalogo_cliente;?>"><?php echo "".$row->catalogo_cliente_tel1 ?><hr><?php echo "*".$row->catalogo_cliente_tel2; ?></td>
            <td id="<?php echo "cels".$row->id_catalogo_cliente;?>"><?php echo "".$row->catalogo_cliente_cel1 ?><hr><?php echo "*".$row->catalogo_cliente_cel2; ?></td>
@@ -61,30 +70,93 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Cliente</label>
-        <input type="text" id="new_nom_comer" class="form-control input-sm">
-        <label>Contacto 1</label><br>
-        <input type="text" id="new_cont1" class="form-control input-sm"><br>
-        <label>Teléfono 1</label><br>
-        <input type="text" id="new_tel1" class="form-control input-sm"><br>
-        <label>Celular 1</label><br>
-        <input type="text" id="new_cel1" class="form-control input-sm"><br>
-        <label>Email 1</label><br>
-        <input type="email" id="new_email1" class="form-control input-sm" required="true"><br>
-        <label>Contacto 2</label><br>
-        <input type="text" id="new_cont2" class="form-control input-sm"><br>
-        <label>Teléfono 2</label><br>
-        <input type="text" id="new_tel2" class="form-control input-sm"><br>
-        <label>Celular 2</label><br>
-        <input type="text" id="new_cel2" class="form-control input-sm"><br>
-        <label>Email 2</label><br>
-        <input type="email" id="new_email2" class="form-control input-sm"><br>
-        <label>Comentarios</label><br>
-        <textarea id="new_coment" maxlength="200" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-12">
+             <label class="label-control">Nombre Cliente</label>
+            <input type="text" id="new_nom_comer" class="form-control input-sm">
+          </div>
+        </div>
+        <label class="label-control">Domicilio del Cliente</label>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Calle</label>
+            <input type="text" name="calle" id="calle" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Número</label>
+            <input type="text" name="numero" id="numero" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7">
+            <label class="label-control">Colonia</label>
+            <input type="text" name="colonia" id="colonia" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">CP</label>
+            <input type="text" name="cp" id="cp" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Municipio,Estado</label>
+            <input type="text" name="mun_estado" id="mun_estado" class="form-control" placeholder="Municipio, Estado">
+          </div>
+        </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Nombre Contacto 1</label>
+            <input type="text" id="new_cont1" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-6">
+            <label class="label-control">Teléfono 1</label>
+            <input type="text" id="new_tel1" class="form-control input-sm">
+         </div>
+         <div class="col-md-6">
+            <label class="label-control">Celular 1</label>
+            <input type="text" id="new_cel1" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Email 1</label>
+            <input type="email" id="new_email1" class="form-control input-sm" required="true">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Nombre Contacto 2</label>
+        <input type="text" id="new_cont2" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-6">
+             <label class="label-control">Teléfono 2</label>
+        <input type="text" id="new_tel2" class="form-control input-sm">
+         </div>
+         <div class="col-md-6">
+            <label class="label-control">Celular 2</label>
+            <input type="text" id="new_cel2" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Email 2</label>
+            <input type="email" id="new_email2" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+           <label class="label-control">Comentarios</label><br>
+          <textarea id="new_coment" maxlength="200" class="form-control input-sm"></textarea>
+         </div>
+       </div>        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="NewCustomer" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="NewCustomer" data-dismiss="modal">Guardar</button>
       </div>
     </div>
   </div>
@@ -102,26 +174,89 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Cliente</label>
-        <input type="text" id="edit_nom_customer" class="form-control input-sm">
-        <label>Contacto 1</label><br>
-        <input type="text" id="edit_cont1" class="form-control input-sm"><br>
-        <label>Teléfono 1</label><br>
-        <input type="text" id="edit_tel1" class="form-control input-sm"><br>
-        <label>Celular 1</label><br>
-        <input type="text" id="edit_cel1" class="form-control input-sm"><br>
-        <label>Email 1</label><br>
-        <input type="email" id="edit_email1" class="form-control input-sm" required="true"><br>
-        <label>Contacto 2</label><br>
-        <input type="text" id="edit_cont2" class="form-control input-sm"><br>
-        <label>Teléfono 2</label><br>
-        <input type="text" id="edit_tel2" class="form-control input-sm"><br>
-        <label>Celular 2</label><br>
-        <input type="text" id="edit_cel2" class="form-control input-sm"><br>
-        <label>Email 2</label><br>
-        <input type="email" id="edit_email2" class="form-control input-sm"><br>
-        <label>Comentarios</label><br>
-        <textarea id="edit_coment" maxlength="200" class="form-control input-sm"></textarea>
+       <div class="row">
+          <div class="col-md-12">
+             <label class="label-control">Nombre Cliente</label>
+            <input type="text" id="edit_nom_customer" class="form-control input-sm">
+          </div>
+        </div>
+        <label class="label-control">Domicilio del Cliente</label>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Calle</label>
+            <input type="text" name="edit_calle" id="edit_calle" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Número</label>
+            <input type="text" name="edit_numero" id="edit_numero" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-7">
+            <label class="label-control">Colonia</label>
+            <input type="text" name="edit_colonia" id="edit_colonia" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">CP</label>
+            <input type="text" name="edit_cp" id="edit_cp" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Municipio,Estado</label>
+            <input type="text" name="edit_mun_estado" id="edit_mun_estado" class="form-control" placeholder="Municipio, Estado">
+          </div>
+        </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Nombre Contacto 1</label>
+            <input type="text" id="edit_cont1" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-6">
+            <label class="label-control">Teléfono 1</label>
+            <input type="text" id="edit_tel1" class="form-control input-sm">
+         </div>
+         <div class="col-md-6">
+            <label class="label-control">Celular 1</label>
+            <input type="text" id="edit_cel1" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Email 1</label>
+            <input type="email" id="edit_email1" class="form-control input-sm" required="true">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Nombre Contacto 2</label>
+        <input type="text" id="edit_cont2" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-6">
+             <label class="label-control">Teléfono 2</label>
+        <input type="text" id="edit_tel2" class="form-control input-sm">
+         </div>
+         <div class="col-md-6">
+            <label class="label-control">Celular 2</label>
+            <input type="text" id="edit_cel2" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+            <label class="label-control">Email 2</label>
+            <input type="email" id="edit_email2" class="form-control input-sm">
+         </div>
+       </div>
+       <div class="row">
+         <div class="col-md-12">
+           <label class="label-control">Comentarios</label><br>
+          <textarea id="edit_coment" maxlength="200" class="form-control input-sm"></textarea>
+         </div>
+       </div>        
         <input type="text" id="edit_id_customer" hidden="true">
       </div>
       <div class="modal-footer">
@@ -155,12 +290,18 @@
       email2=$("#edit_email2").val();
       coment=$("#edit_coment").val();
       id_cat=$("#edit_id_customer").val();
+
+      calle=$("#edit_calle").val();
+      numero=$("#edit_numero").val();
+      colonia=$("#edit_colonia").val();
+      cp=$("#edit_cp").val();
+      mun_estado=$("#edit_mun_estado").val();
       //alert(nom_fiscal+nom_comer+rfc+cont1+puesto1+tel1+cel1+email1+cont2+puesto2+tel2+cel2+email2+coment);
       if (nom_comer!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Quinta/UpdateCustomer",
-          data:{nom_comer:nom_comer,cont1:cont1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, tel2:tel2, cel2:cel2, email2:email2, coment:coment,id_cat:id_cat},
+          data:{nom_comer:nom_comer,cont1:cont1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, tel2:tel2, cel2:cel2, email2:email2, coment:coment,id_cat:id_cat, calle:calle, numero:numero, colonia:colonia, cp:cp, mun_estado:mun_estado},
           success:function(result){
             //alert(result);
             if(result){
@@ -191,12 +332,19 @@
       cel2=$("#new_cel2").val();
       email2=$("#new_email2").val();
       coment=$("#new_coment").val();
+
+      calle=$("#calle").val();
+      numero=$("#numero").val();
+      colonia=$("#colonia").val();
+      cp=$("#cp").val();
+      mun_estado=$("#mun_estado").val();
+
       //alert(nom_fiscal+nom_comer+rfc+cont1+puesto1+tel1+cel1+email1+cont2+puesto2+tel2+cel2+email2+coment);
       if (nom_comer!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Quinta/NewCustomer",
-          data:{nom_comer:nom_comer,cont1:cont1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, tel2:tel2, cel2:cel2,email2:email2,coment:coment},
+          data:{nom_comer:nom_comer,cont1:cont1, tel1:tel1,cel1:cel1, email1:email1, cont2:cont2, tel2:tel2, cel2:cel2,email2:email2,coment:coment, calle:calle, numero:numero, colonia:colonia, cp:cp, mun_estado:mun_estado},
           success:function(result){
             //alert(result);
             if(result){
@@ -229,6 +377,11 @@
     var cels=$('#cels'+id_cat).text().split("*");
     var emails=$('#emails'+id_cat).text().split("*");
     var coment=$('#coment'+id_cat).text();
+    calle=$("#calle").text();
+    numero=$("#numero").text();
+    colonia=$("#colonia").text();
+    cp=$("#cp").text();
+    mun_estado=$("#mun_estado").text();
     $("#EditCustomerModal").modal();
     //$("#edit_nom_fiscal").val(nom_fiscal);
     $("#edit_nom_customer").val(nom_comer);
@@ -245,6 +398,13 @@
     $("#edit_email2").val(emails[1]);
     $("#edit_coment").val(coment);
     $("#edit_id_customer").val(id_cat);
+
+    $("#edit_calle").val(calle);
+    $("#edit_numero").val(numero);
+    $("#edit_colonia").val(colonia);
+    $("#edit_cp").val(cp);
+    $("#edit_mun_estado").val(mun_estado);
+
     }
 
   function Update(){

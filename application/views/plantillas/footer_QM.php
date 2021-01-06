@@ -45,6 +45,8 @@
 					});
 			});
 		</script>
+		
+
 
 		<script>
 			$(document).ready(function(){//script to load the CustomerProjects controller on click at the link with the id Customers_list

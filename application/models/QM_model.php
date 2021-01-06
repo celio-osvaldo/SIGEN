@@ -158,7 +158,7 @@ class QM_model extends CI_Model
     return $result;
   }
   public function GetInventorie_Office($idcompany){
-    $this->db->select('id_prod, producto_consu_nom, unidad_medida, producto_consu_prec_unit, producto_consu_exist, producto_consu_ult_compra, producto_consu_periodicidad, producto_consu_prox_compra, catalogo_proveedor_empresa');
+    $this->db->select('id_prod, producto_consu_nom, unidad_medida, producto_consu_prec_unit, producto_consu_exist, producto_consu_ult_compra, producto_consu_periodicidad, producto_consu_prox_compra, catalogo_proveedor_empresa, catalogo_proveedor_nom_fiscal');
     $this->db->from('producto_consumible');
     $this->db->join('unidades_de_medida','producto_consu_medida=id_uMedida');
     $this->db->join('catalogo_proveedor','producto_consu_ult_proveedor=id_catalogo_proveedor');
@@ -192,7 +192,7 @@ class QM_model extends CI_Model
       }
   }
 public function Get_Product_History_Consu($id_producto){
-    $this->db->select('id_historial_almacen_producto, historial_almacen_consumible.id_prod_alm, prod_alm_prec_unit_new, prod_alm_prec_unit_old, historial_almacen_producto_cantidad_new, historial_almacen_producto_cantidad_old, historial_almacen_proveedor_old, historial_almacen_proveedor_new, historial_almacen_producto_fecha, historial_almacen_producto_movimiento, historial_almacen_producto_procedencia, historial_almacen_producto_referencia, producto_consu_nom, unidad_medida, catalogo_proveedor_empresa');
+    $this->db->select('id_historial_almacen_producto, historial_almacen_consumible.id_prod_alm, prod_alm_prec_unit_new, prod_alm_prec_unit_old, historial_almacen_producto_cantidad_new, historial_almacen_producto_cantidad_old, historial_almacen_proveedor_old, historial_almacen_proveedor_new, historial_almacen_producto_fecha, historial_almacen_producto_movimiento, historial_almacen_producto_procedencia, historial_almacen_producto_referencia, producto_consu_nom, unidad_medida, catalogo_proveedor_empresa,catalogo_proveedor_nom_fiscal');
     $this->db->from('historial_almacen_consumible');
     $this->db->join('producto_consumible','historial_almacen_consumible.id_prod_alm=producto_consumible.id_prod');
     $this->db->join('unidades_de_medida', 'id_uMedida=producto_consu_medida');
@@ -279,7 +279,7 @@ public function Get_Product_History_Consu($id_producto){
   }
 
   public function GetAll_Customer($idcompany){
-    $this->db->select('id_catalogo_cliente, catalogo_cliente_nom_fiscal, catalogo_cliente_empresa, catalogo_cliente_rfc, catalogo_cliente_contacto1, catalogo_cliente_contacto2, catalogo_cliente_puesto1, catalogo_cliente_puesto2, catalogo_cliente_tel1, catalogo_cliente_tel2, catalogo_cliente_cel1, catalogo_cliente_cel2, catalogo_cliente_email1, catalogo_cliente_email2, catalogo_cliente_coment');
+    $this->db->select('id_catalogo_cliente, catalogo_cliente_nom_fiscal, catalogo_cliente_empresa, catalogo_cliente_rfc, catalogo_cliente_contacto1, catalogo_cliente_contacto2, catalogo_cliente_puesto1, catalogo_cliente_puesto2, catalogo_cliente_tel1, catalogo_cliente_tel2, catalogo_cliente_cel1, catalogo_cliente_cel2, catalogo_cliente_email1, catalogo_cliente_email2, catalogo_cliente_coment, catalogo_cliente_calle, catalogo_cliente_numero, catalogo_cliente_colonia, catalogo_cliente_cp, catalogo_cliente_mun_estado');
     $this->db->from('catalogo_cliente');
     $this->db->where('empresa_id_empresa', $idcompany);
     $this->db->order_by('catalogo_cliente_empresa', 'ASC');
@@ -334,7 +334,7 @@ public function Get_Product_History_Consu($id_producto){
   }
 
   public function Datos_evento($id_evento){
-    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente');
+    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente, obra_cliente_contrato, catalogo_cliente_calle, catalogo_cliente_numero, catalogo_cliente_colonia, catalogo_cliente_cp, catalogo_cliente_mun_estado');
     $this->db->from('obra_cliente');
     $this->db->where('id_obra_cliente',$id_evento);
     $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
@@ -344,7 +344,7 @@ public function Get_Product_History_Consu($id_producto){
   }
  
   public function  Detalles_evento($id_evento){
-    $this->db->select('id_evento_detalle, evento_detalle_id_obra_cliente, evento_detalle_fecha, evento_detalle_personas, evento_detalle_tipo_evento, evento_detalle_permiso, detalle_evento_mobiliario, evento_detalle_total_horas, evento_detalle_hora_inicio, evento_detalle_hora_fin, evento_detalle_fecha_fin, evento_detalle_anticipo');
+    $this->db->select('id_evento_detalle, evento_detalle_id_obra_cliente, evento_detalle_fecha, evento_detalle_personas, evento_detalle_tipo_evento, evento_detalle_permiso, detalle_evento_mobiliario, evento_detalle_total_horas, evento_detalle_hora_inicio, evento_detalle_hora_fin, evento_detalle_fecha_fin, evento_detalle_anticipo, evento_detalle_anticipo_txt, evento_detalle_monto_txt, evento_detalle_resto, evento_detalle_resto_txt');
     $this->db->from('evento_detalle');
     $this->db->where('evento_detalle_id_obra_cliente',$id_evento);
     $query=$this->db->get();

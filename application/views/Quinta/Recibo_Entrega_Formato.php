@@ -2,7 +2,7 @@
 
 <?php date_default_timezone_set("America/Mexico_City") ?>
 
-<table style="width: 75%">
+<table style="width: 100%">
   <tr>
     <td>
       <table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 12;  ">
@@ -48,7 +48,7 @@
 
 
     <td>
-<table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 12; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
+<table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 14  ; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
   <tr class="td">
 
     <td class="t2-1" style="border-left: 1px solid black; border-top: 1px solid black " ></td>
@@ -95,7 +95,7 @@
   </tr>
   <tr>
  <td style="border-left: 1px solid black; font-size: 12pt">por concepto de:</td>
-    <td colspan="5" style="border-bottom: 1px dotted black"><b><?php echo $recibo_info->venta_mov_comentario ?> SALON DE EVENTOS <?php echo $recibo_info->evento_detalle_fecha ?></b></td>
+    <td colspan="5" style="border-bottom: 1px dotted black"><b><?php echo $recibo_info->venta_mov_comentario ?> </b></td>
     <td></td>
     <td style="border-right: 1px solid black"></td>
   </tr>
@@ -139,7 +139,7 @@
 <br>
 <br>
 
-<table style="width: 75%">
+<table style="width: 100%">
   <tr>
     <td>
       <table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 12;  ">
@@ -185,7 +185,7 @@
 
 
     <td>
-<table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 12; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
+<table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 14; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
   <tr class="td">
 
     <td class="t2-1" style="border-left: 1px solid black; border-top: 1px solid black " ></td>
@@ -232,7 +232,7 @@
   </tr>
   <tr>
  <td style="border-left: 1px solid black; font-size: 12pt">por concepto de:</td>
-    <td colspan="5" style="border-bottom: 1px dotted black"><b><?php echo $recibo_info->venta_mov_comentario ?> SALON DE EVENTOS <?php echo $recibo_info->evento_detalle_fecha ?></b></td>
+    <td colspan="5" style="border-bottom: 1px dotted black"><b><?php echo $recibo_info->venta_mov_comentario ?> </b></td>
     <td></td>
     <td style="border-right: 1px solid black"></td>
   </tr>

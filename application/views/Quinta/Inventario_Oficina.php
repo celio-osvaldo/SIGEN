@@ -43,7 +43,7 @@
           <td id="<?php echo "ult_compra".$row->id_prod;?>"><?php echo "".$row->producto_consu_ult_compra.""; ?></td>
           <td id="<?php echo "periodicidad".$row->id_prod;?>"><?php echo "".$row->producto_consu_periodicidad."-días"; ?></td>
           <td id="<?php echo "prox_compra".$row->id_prod;?>"><?php echo "".$row->producto_consu_prox_compra.""; ?></td>
-          <td id="<?php echo "ult_proveed".$row->id_prod;?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
+          <td id="<?php echo "ult_proveed".$row->id_prod;?>"><?php echo "".$row->catalogo_proveedor_nom_fiscal.""; ?></td>
           <td><button title="Historial" class="btn btn-outline-secondary" onclick="Product_History(this.id)" role="button" id="<?php echo $row->id_prod; ?>"><img width="20" height="20" src="..\Resources\Icons\historial.ico" alt="Historial"/></button></td>
         </tr>
         <?php 
@@ -106,7 +106,7 @@
             <select class="form-control" name="new_provider" id="new_provider">
               <option disabled selected>----Seleccionar Proveedor----</option>
               <?php foreach ($providers->result() as $row){ ?>
-                <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
+                <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_nom_fiscal.""; ?></option>
               <?php } ?>
             </select>
           </div>
@@ -173,7 +173,7 @@
           <select class="form-control" name="edit_provider" id="edit_provider">
             <option disabled selected>----Seleccionar Proveedor----</option>
             <?php foreach ($providers->result() as $row){ ?>
-              <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
+              <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_nom_fiscal.""; ?></option>
             <?php } ?>
           </select>
         </div>
@@ -274,7 +274,7 @@
             <select class="form-control" name="inv_proveedor_new" id="inv_proveedor_new">
               <option disabled selected>----Seleccionar Proveedor----</option>
               <?php foreach ($providers->result() as $row){ ?>
-                <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
+                <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_nom_fiscal.""; ?></option>
               <?php } ?>
             </select>
           </div>

@@ -65,6 +65,63 @@ class Quinta extends CI_Controller {
 		//var_dump($data);
 	}
 
+
+	public function Edit_Datos_Emp(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+
+		if (isset($_FILES['file']['name'])) {
+			$filename = $_FILES['file']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Logos/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		$id_empresa=$_POST["id_empresa"];
+		$empresa_nom_fiscal=$_POST["empresa_nom"];
+		$rfc=$_POST["rfc"];
+		$domicilio=$_POST["domicilio"];
+		$tel=$_POST["tel"];
+		$email=$_POST["email"];
+		$web=$_POST["sitio_web"];
+		$whatsapp=$_POST["whatsapp"];
+
+		$data = array('empresa_nom_fiscal' => $empresa_nom_fiscal,
+			'empresa_rfc' => $rfc,
+			'empresa_domic' => $domicilio,
+			'emp_tel' => $tel,
+			'emp_email' => $email,
+			'emp_web' => $web,
+			'emp_whatsapp' => $whatsapp);
+		$result=0;
+		if($this->QM_model->Update_datos($data,$idcompany->id_empresa)){
+			$result+=1;
+		}
+		$url_imagen='Resources/Logos/Slogan_QM'.'.'.$file_extension;
+
+			if(in_array($file_extension,$image_ext)&&$filename!=""){
+  			// Upload file
+				if(move_uploaded_file($_FILES['file']['tmp_name'],$url_imagen)){
+
+					$data2 = array('empresa_logo' => $url_imagen);
+					$this->QM_model->Update_datos($data2,$idcompany->id_empresa);
+					echo true;
+
+				}
+			$result+=1;
+			}
+		echo $result;
+	}
+
 	public function InventarioProductos(){
 		$this->load->model('QM_model');
 		$company='QM';
@@ -604,6 +661,28 @@ function Update_Inv_Consu(){
 		echo $this->QM_model->Insert($table, $data);
 	}
 
+	function Update_Mob_Serv(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$id_evento_mobiliario=$_POST["id_evento_mobiliario"];
+
+		$mob_serv_cantidad=$_POST["mob_serv_cantidad"];
+		$coment=$_POST["coment"];
+		$data = array('evento_mobiliario_cantidad' => $mob_serv_cantidad,
+						'evento_mobiliario_coment' => $coment);
+		echo $this->QM_model->Update_Mobiliario($id_evento_mobiliario, $data);
+	}
+
+	function Delete_Mob_Serv(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$id_evento_mobiliario=$_POST["id_evento_mobiliario"];
+
+		echo $this->QM_model->Delete_Mobiliario($id_evento_mobiliario);
+	}
+
 		public function CustomerPayments(){
 		$this->load->model('QM_model');
 		$company='QM';
@@ -809,7 +888,7 @@ function Update_Inv_Consu(){
 					'lista_mobiliario' => $this->QM_model->GetInventorie_Products($idcompany->id_empresa),
 					'unidades_medida'=>$this->QM_model->GetAllMeasurements());
 
-		$this->load->view('Quinta/Croquis_Evento',$data);
+		$this->load->view('Quinta/Croquis_Evento_Edit',$data);
 	}
 
 	public function GetInventories(){

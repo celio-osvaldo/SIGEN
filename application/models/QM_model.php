@@ -529,6 +529,35 @@ public function Get_Product_History_Consu($id_producto){
     return $result;
   }
 
+  public function Update_datos($data,$idcompany){
+    $this->db->where('id_empresa',$idcompany);
+    $this->db->update('empresa', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Update_Mobiliario($id_evento_mobiliario, $data){
+    $this->db->where('id_evento_mobiliario',$id_evento_mobiliario);
+    $this->db->update('evento_mobiliario', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Delete_Mobiliario($id_evento_mobiliario){
+    $this->db->where('id_evento_mobiliario',$id_evento_mobiliario);
+    $this->db->delete('evento_mobiliario');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
 }
 

@@ -78,7 +78,7 @@
                   <a href="<?php echo base_url() ?>Welcome/Quinta"><img class="img-fluid" width="100px" src="<?php echo base_url() ?>Resources/Logos/QM.png"></a>                
                 </div>
                   <div class="card-footer text-left">
-                     <a href="<?php echo base_url() ?>QM/Configuracion"><img width="25px" class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label style="font-size: 10pt;"><b>Configuración</b></label></a>
+                     <a href="<?php echo base_url() ?>Quinta/Configuracion"><img width="25px" class="img-fluid" src="<?php echo base_url() ?>Resources/Logos/system2.ico"><label style="font-size: 10pt;"><b>Configuración</b></label></a>
                   </div>
               </div>
               <?php

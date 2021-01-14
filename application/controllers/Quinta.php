@@ -822,7 +822,9 @@ function Update_Inv_Consu(){
 					'detalles_mobiliario' => $this->QM_model->Detalles_mobiliario($id_contrato),
 					'lista_mobiliario' => $this->QM_model->GetInventorie_Products($idcompany->id_empresa),
 					'unidades_medida'=>$this->QM_model->GetAllMeasurements(),
-					'id_max_contrato'=>$this->QM_model->Get_MAXFOLIO_contrato($idcompany->id_empresa));
+					'id_max_contrato'=>$this->QM_model->Get_MAXFOLIO_contrato($idcompany->id_empresa),
+					'croquis_acomodo' => $this->QM_model->Get_Acomodo($id_contrato));
+
 		//$this->load->view('Quinta/Formato_Contrato',$data2);
 		}
 
@@ -886,7 +888,8 @@ function Update_Inv_Consu(){
 					'detalles_evento' => $this->QM_model->Detalles_evento($id_evento),
 					'detalles_mobiliario' => $this->QM_model->Detalles_mobiliario($id_evento),
 					'lista_mobiliario' => $this->QM_model->GetInventorie_Products($idcompany->id_empresa),
-					'unidades_medida'=>$this->QM_model->GetAllMeasurements());
+					'unidades_medida' => $this->QM_model->GetAllMeasurements(),
+					'croquis_acomodo' => $this->QM_model->Get_Acomodo($id_evento));
 
 		$this->load->view('Quinta/Croquis_Evento_Edit',$data);
 	}
@@ -1048,6 +1051,15 @@ public function UpdateInfoProduct(){
 		 				'croquis_acomodo_obj' => $objeto_id);
 		$table="croquis_acomodo";
 		$result=$this->QM_model->Insert($table,$data);
+		echo $result;
+	}
+
+	public function Delete_Obj_Croquis(){
+		$this->load->model('QM_model');
+		$lugar=$_POST["lugar"];
+		$id_evento=$_POST["id_evento"];
+
+		$result=$this->QM_model->Delete_Obj_Croquis($id_evento,$lugar);
 		echo $result;
 	}
 	

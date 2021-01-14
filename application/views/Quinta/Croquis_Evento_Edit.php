@@ -13,6 +13,34 @@
 </script>
 
 
+<script type="text/javascript">
+	<?php foreach ($croquis_acomodo->result() as $row) {		
+	?>
+
+		objeto="<?php echo $row->croquis_acomodo_obj;?>";
+
+		id_objeto=document.querySelector('#'+objeto);
+		objeto_id=objeto;
+
+		lugar2="<?php echo $row->croquis_acomodo_pos; ?>";
+		id_lugar =document.querySelector('#'+lugar2);
+		id_lugar.addEventListener('dragover', e=>{
+			e.preventDefault();
+		//console.log('Drag Over'+$id_lugar);
+	});
+
+
+		var x = id_objeto.cloneNode(false);
+        x.setAttribute("id", "objeto_"+lugar2);
+        x.setAttribute("ondragstart", "Selecciona(this.id)");
+        id_lugar.appendChild(x);
+
+	<?php
+	} ?>
+	id_objeto="";
+	id_lugar="";
+</script>
+
 <div class="row">
 	<div class="col-md-12" align="center">
 		<label><b>CROQUIS DE ACOMODO DE MOBILIARIO PARA EVENTO</b></label>
@@ -92,36 +120,60 @@
 
 	}
 	function Clona($id_lugar){
-		//id_lugar.appendChild(id_objeto.cloneNode(true));
-		var x = id_objeto.cloneNode(false);
-		x.setAttribute("id", "objeto_"+$id_lugar);
-		x.setAttribute("ondragleave", "Selecciona(this.id)");
-		id_lugar.appendChild(x);
-
 		lugar=$id_lugar;
 		id_evento=<?php echo $datos_evento->id_obra_cliente; ?>;
 		//alert("id_lugar: "+$id_lugar+" id_objeto: "+objeto_id+" id_evento "+id_evento);
-        $.ajax({
-          type:"POST",
-          url:"<?php echo base_url();?>Quinta/Add_Obj_Croquis",
-          data:{lugar:lugar, objeto_id:objeto_id, id_evento:id_evento},
-          success:function(result){
+		existe=objeto_id.split("_");
+		//alert(existe[0]);
+		if ( !$("#objeto_"+$id_lugar).length > 0 && existe[0]!="objeto") {
+			$.ajax({
+				type:"POST",
+				url:"<?php echo base_url();?>Quinta/Add_Obj_Croquis",
+				data:{lugar:lugar, objeto_id:objeto_id, id_evento:id_evento},
+				success:function(result){
             //alert(result);
             if(result){
-              alert('Objeto Agregado');
-            }else{
-              alert('Falló el servidor. Objeto no Agregado');
-            }
+              //alert('Objeto Agregado');
+              	//id_lugar.appendChild(id_objeto.cloneNode(true));
+              	var x = id_objeto.cloneNode(false);
+              	x.setAttribute("id", "objeto_"+$id_lugar);
+              	x.setAttribute("ondragstart", "Selecciona(this.id)");
+              	id_lugar.appendChild(x);
+              }else{
+              	alert('Falló el servidor. Objeto no Agregado');
+              }
           }
-        });
+      	});
+		}
 	}
 
 	function Elimina($id_lugar2){
-		id_objeto=objeto_id.split("_");
-		if(id_objeto[0]=="objeto"){
-			$('#'+objeto_id).remove();
 
+		id_objeto=objeto_id.split("_");
+		lugar=id_objeto[1];
+		id_evento=<?php echo $datos_evento->id_obra_cliente; ?>;
+
+		if(id_objeto[0]=="objeto"){
 			
+
+			$.ajax({
+				type:"POST",
+				url:"<?php echo base_url();?>Quinta/Delete_Obj_Croquis",
+				data:{lugar:lugar, id_evento:id_evento},
+				success:function(result){
+            //alert(result);
+            if(result){
+              //alert('Objeto Eliminado');
+              $('#'+objeto_id).remove();
+          }else{
+          	alert('Falló el servidor. Objeto no Eliminado');
+          }
+      }
+  });
+
+
+
+
 		}
 		//document.getElementById(id_objeto).removeAttribute('src');
 
@@ -142,25 +194,25 @@
 			<td class="td_mesa_pasto_final" style="width: 0.89cm; border-left-style: solid; border-left-color: black" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_1" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto1" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_2" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto2" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_3" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto3" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_4" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto4" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_5" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto5" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_6" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto6" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_7" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" style="border-right-style: solid; border-right-color: black" >
+			<td id="pasto7" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" style="border-right-style: solid; border-right-color: black" >
 			</td>
 		</tr>
 
@@ -168,25 +220,25 @@
 			<td class="td_mesa_pasto_final" style="width: 0.89cm; border-left-style: solid; border-left-color: black" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_8" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto8" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_9" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto9" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_10" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto10" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_11" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto11" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_12" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto12" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_13" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
+			<td id="pasto13" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 
 			</td>
-			<td id="pasto_14" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" style="border-right-style: solid; border-right-color: black" >
+			<td id="pasto14" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_mesa_pasto_final" bgcolor="#A9D18E" style="border-right-style: solid; border-right-color: black" >
 			</td>
 		</tr>
 

@@ -559,6 +559,27 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
 
+
+  public function Delete_Obj_Croquis($id_evento,$lugar){
+    $this->db->where('id_evento',$id_evento);
+    $this->db->where('croquis_acomodo_pos',$lugar);
+    $this->db->delete('croquis_acomodo');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Get_Acomodo($id_evento){
+    $this->db->select('id_croquis_acomodo, id_evento, croquis_acomodo_pos, croquis_acomodo_obj');
+    $this->db->from('croquis_acomodo');
+    $this->db->where('id_evento',$id_evento);
+    $result=$this->db->get();
+    return $result;
+  }
+
+
 }
 
 

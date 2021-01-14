@@ -11,13 +11,15 @@
         <th hidden="true">Estado_id</th>
         <th>Estado</th>
         <th>Comentarios</th>
+        <th>Aplica a Flujo Efectivo</th>
         <th>Editar</th>
       </tr>
     </thead>
     <tbody>
      <?php
      foreach ($proyectlist->result() as $row) {
-       if(stristr($filtro, $row->obra_cliente_estado)){?>
+      if(stristr($filtro, $row->obra_cliente_estado)){
+        ?>
       <tr id="<?php echo "fila".$row->id_obra_cliente; ?>">          
         <td id="<?php echo "nom_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
         <td id="<?php echo "nom_cliente".$row->id_obra_cliente;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
@@ -47,6 +49,19 @@
           ?>
         </td>
         <td id="<?php echo "coment_obra".$row->id_obra_cliente;?>"><?php echo "".$row->obra_cliente_comentarios.""; ?></td>
+
+          <td id="<?php echo "aplica_flujo".$row->id_obra_cliente; ?>">
+           <?php if ($row->obra_cliente_aplica_flujo=="1"): ?>
+             <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+             <label hidden="true">1</label>
+           <?php endif?>
+           <?php if ($row->obra_cliente_aplica_flujo=="0"): ?>
+             <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+             <label hidden="true">0</label>
+           <?php endif?>
+
+         </td>
+
         <td>
           <a class="navbar-brand" onclick="Edit(this.id)" role="button" id="<?php echo $row->id_obra_cliente; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" />
           </button></a>

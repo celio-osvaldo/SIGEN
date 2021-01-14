@@ -442,7 +442,6 @@ class DASA extends CI_Controller {
 		$new_fecha=$_POST["fecha"];
 		$new_coment=$_POST["coment"];
 		$addflujo=$_POST["addflujo"];
-
 		$company='DASA';
 		$idcomp=$this->Dasa_model->IdCompany($company);
 		$data = array('obra_cliente_empresa_id_empresa' => $idcomp->id_empresa,
@@ -454,9 +453,7 @@ class DASA extends CI_Controller {
 		//var_dump($data);
 		$result=$this->Dasa_model->AddCustomer_Pay($data);
 		$sum_pagos=$this->Dasa_model->SumPagos_Obra($new_id_obra);
-
 		$total_obra=$this->Dasa_model->Total_obra($new_id_obra);
-		
 		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->sum_pagos);
 		$fecha_ult_pago=$this->Dasa_model->Fecha_Ult_Pago($new_id_obra);
 		//var_dump($fecha_ult_pago);

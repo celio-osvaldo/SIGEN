@@ -210,7 +210,6 @@
       } 
     });
 
-
     $('#Solicita_Cambio').click(function(){
       txt_justifica=$("#txt_justifica").val();
       fecha_old=$("#fecha"+id).text();
@@ -270,8 +269,6 @@ function Edit_pay2($id){
       $("#edit_aplica_flujo").val(0);
       $("#edit_aplica_flujo").attr('disabled','true');
     }
-
-
   }
 
   function Update_Page(){

@@ -44,8 +44,8 @@
           <th>Fecha de Pago</th>
           <th>Pago</th>
           <th>Comentarios</th>
+          <th>Aplica a Flujo</th>
           <th>Editar</th>
-
         </tr>
       </thead>
       <tbody>
@@ -55,8 +55,28 @@
           <tr>
             <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
             <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,5,'.',',').""; ?> </td>
-            <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
-          </td>
+            <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?></td>
+
+            <?php if ($obra->obra_cliente_aplica_flujo=="1"){ ?>
+              <td id="<?php echo "aplica_flujo".$row->id_venta_mov; ?>">
+                     <?php if ($row->venta_mov_estim_estatus=="1"): ?>
+                         <img src="<?php echo base_url() ?>Resources/Icons/paloma.ico">
+                         <label hidden="true">1</label>
+                     <?php endif?>
+                     <?php if ($row->venta_mov_estim_estatus=="0"): ?>
+                         <img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                         <label hidden="true">0</label>
+                     <?php endif?>
+
+                 </td>              
+            <?php }else{ ?>
+              <td id="<?php echo "aplica_flujo".$row->id_venta_mov; ?>"><img src="<?php echo base_url() ?>Resources/Icons/tacha.ico">
+                         <label hidden="true">0</label>                
+              </td>
+
+             <?php } ?>
+                 
+
           <td>
             <a class="navbar-brand" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></button></a>
           </td>
@@ -82,12 +102,31 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Fecha de Pago</label>
-        <input type="date" name="" id="edit_fecha" class="form-control input-sm">
-        <label>Importe de Pago</label>
-        <input type="text" onblur="Separa_Miles(this.id)" id="edit_imp_pago" class="form-control input-sm">
-        <label>Comentarios</label>
-        <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Fecha de Pago</label>
+            <input type="date" name="" id="edit_fecha" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Aplica a Flujo</label>
+            <select id="edit_aplica_flujo" class="form-control">
+              <option value="1">SI</option>
+              <option value="0">NO</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Importe de Pago</label>
+            <input type="text" onblur="Separa_Miles(this.id)" id="edit_imp_pago" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentarios</label>
+            <textarea id="edit_coment" class="form-control input-sm" maxlength="200"></textarea>
+          </div>
+        </div>
         <input type="text" id="edit_id_vent_mov" hidden="true">
       </div>
       <div class="modal-footer">
@@ -133,6 +172,7 @@
           act_imp=act_imp.replace(/\,/g, '');
           act_coment=$("#edit_coment").val();
           id=$("#edit_id_vent_mov").val();
+          act_aplica_flujo_new=$("#edit_aplica_flujo").val();
           //alert(act_fecha+act_imp+act_coment+id);
 
           fecha=$("#fecha"+id).text();
@@ -153,7 +193,7 @@
             $.ajax({
               type:"POST",
               url:"<?php echo base_url();?>Iluminacion/EditCustomerPay",
-              data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment,id:id},
+              data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment, id:id, act_aplica_flujo_new:act_aplica_flujo_new},
               success:function(result){
                 //alert(result);
                 if(result=='actualizado'){
@@ -170,7 +210,6 @@
       } 
     });
 
-
     $('#Solicita_Cambio').click(function(){
       txt_justifica=$("#txt_justifica").val();
       fecha_old=$("#fecha"+id).text();
@@ -178,12 +217,13 @@
       importe_old=importe_old.replace(/\$/g, '');
       importe_old=importe_old.replace(/\,/g, '');
       coment_old=$("#coment"+id).text();
+      act_aplica_flujo_old=$("#aplica_flujo"+id).text().trim();
       //alert(importe_old);
       if(txt_justifica!=""){
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Iluminacion/EditCustomerPay_Admin",
-          data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment, fecha_old:fecha_old, importe_old:importe_old, coment_old:coment_old, id:id, txt_justifica:txt_justifica},
+          data:{act_fecha:act_fecha, act_imp:act_imp, act_coment:act_coment, fecha_old:fecha_old, importe_old:importe_old, coment_old:coment_old, id:id, txt_justifica:txt_justifica, act_aplica_flujo_new:act_aplica_flujo_new, act_aplica_flujo_old:act_aplica_flujo_old},
                 success:function(result){
                   //alert(result);
                   if(result){
@@ -215,12 +255,20 @@ function Edit_pay2($id){
     //alert(pago);
     var coment=$("#coment"+$id).text();
     var id_venta_mov=$id;
-    //alert(id_venta_mov);
+    var aplica_flujo=$("#aplica_flujo"+id_venta_mov).text().trim();
+    //alert(aplica_flujo);
     $("#EditPayModal").modal();
     document.getElementById("edit_fecha").valueAsDate = new Date(fecha);
     $("#edit_imp_pago").val(parseFloat(pago[1]));
     $("#edit_coment").val(coment);
     $("#edit_id_vent_mov").val(id_venta_mov);
+    if (<?php echo $obra->obra_cliente_aplica_flujo ?>=="1") {
+        $("#edit_aplica_flujo").val(aplica_flujo);
+        $("#edit_aplica_flujo").removeAttr('disabled');
+    }else{
+      $("#edit_aplica_flujo").val(0);
+      $("#edit_aplica_flujo").attr('disabled','true');
+    }
   }
 
   function Update_Page(){

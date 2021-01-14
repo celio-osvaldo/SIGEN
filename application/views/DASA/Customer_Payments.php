@@ -20,8 +20,6 @@
 </div>
 
 
-
-
 <div class="card bg-card" id="tbl_body"> 
 
 </div>
@@ -151,7 +149,6 @@ $(document).ready(function() {
      $("#addflujo").attr('disabled',true);
       $("#addflujo").removeAttr('disabled');
     }
-
   }
 
 

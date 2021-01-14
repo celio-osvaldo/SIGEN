@@ -55,6 +55,7 @@ class Dasa_model extends CI_Model
   		$this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
   		$this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
+      $this->db->order_by('obra_cliente_nombre');
   		$query = $this->db->get();
   		return $query;			
   }
@@ -123,6 +124,7 @@ class Dasa_model extends CI_Model
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
       $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
       //$this->db->where('obra_cliente_estado',1);
+      $this->db->order_by('obra_cliente_nombre');
       $query = $this->db->get();
       return $query; 
   }

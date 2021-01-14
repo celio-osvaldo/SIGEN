@@ -250,6 +250,7 @@ class Iluminacion extends CI_Controller {
 		$id_cliente=$_POST["id_cliente"];
 		$importe=$_POST["importe"];
 		$coment=$_POST["coment"];
+		$add_flujo=$_POST["addflujo"];
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 				$data=array('empresa_id_empresa' => $idcomp->id_empresa,
@@ -258,7 +259,8 @@ class Iluminacion extends CI_Controller {
 					'obra_cliente_imp_total'=>$importe,
 					'obra_cliente_saldo'=>$importe,
 					'obra_cliente_estado'=>1,
-					'obra_cliente_comentarios'=>$coment);
+					'obra_cliente_comentarios'=>$coment,
+					'obra_cliente_aplica_flujo' => $add_flujo);
 		$result=$this->Iluminacion_model->AddCustomer_Project($data);
 		echo $result;		
 	}
@@ -271,6 +273,7 @@ class Iluminacion extends CI_Controller {
 		$act_estado=$_POST["act_estado"];
 		$act_coment=$_POST["act_coment"];
 		$id=$_POST["id"];
+		$act_addflujo=$_POST["act_addflujo"];
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$sum_pagos=$this->Iluminacion_model->SumPagos_Obra($id);
@@ -287,8 +290,8 @@ class Iluminacion extends CI_Controller {
         'obra_cliente_pagado'=>$suma_pagos,
         'obra_cliente_saldo'=>$saldo,
         'obra_cliente_estado' => $act_estado,
-        'obra_cliente_comentarios' => $act_coment
-			);
+        'obra_cliente_comentarios' => $act_coment,
+        'obra_cliente_aplica_flujo'=> $act_addflujo);
 		$result=$this->Iluminacion_model->Edit_CustomerProject($id,$data);
 		echo $result;
 	}
@@ -302,6 +305,7 @@ class Iluminacion extends CI_Controller {
 		$act_coment=$_POST["act_coment"];
 		$txt_justifica=$_POST["txt_justifica"];
 		$id=$_POST["id"];
+		$act_addflujo=$_POST["act_addflujo"];
 
 		$nombre_old=$_POST["nombre_old"];
 		$cliente_old=$_POST["cliente_old"];
@@ -327,7 +331,8 @@ class Iluminacion extends CI_Controller {
         'historial_proyecto_coment_old' => $coment_old,
         'historial_proyecto_coment_justifica' => $txt_justifica,
     	'historial_proyecto_autoriza' => "1",
-    	'historial_proyecto_usuario_solicita' => $this->session->userdata('id_usuario'));
+    	'historial_proyecto_usuario_solicita' => $this->session->userdata('id_usuario'),
+    	'historial_proyecto_aplica_flujo' => $act_addflujo);
 
 		$result=$this->Iluminacion_model->Add_Solicita_Update($data);
 		echo $result;
@@ -347,18 +352,17 @@ class Iluminacion extends CI_Controller {
 		$new_cant_pago=$_POST["cant_pago"];
 		$new_fecha=$_POST["fecha"];
 		$new_coment=$_POST["coment"];
+		$addflujo=$_POST["addflujo"];
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
-
 		$data = array('obra_cliente_empresa_id_empresa' => $idcomp->id_empresa,
 			'venta_mov_fecha' => $new_fecha,
 			'venta_mov_comentario' => $new_coment,
 			'venta_mov_monto' => $new_cant_pago,
-			'obra_cliente_id_obra_cliente' => $new_id_obra);
+			'obra_cliente_id_obra_cliente' => $new_id_obra,
+			'venta_mov_estim_estatus' => $addflujo);
 		//var_dump($data);
-
 		$result=$this->Iluminacion_model->AddCustomer_Pay($data);
-
 		$sum_pagos=$this->Iluminacion_model->SumPagos_Obra($new_id_obra);
 		$total_obra=$this->Iluminacion_model->Total_obra($new_id_obra);
 		$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
@@ -386,7 +390,8 @@ class Iluminacion extends CI_Controller {
 		$this->load->model('Iluminacion_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->post('act_coment') );
+						'venta_mov_comentario' => $this->input->post('act_coment'),
+						'venta_mov_estim_estatus' => $this->input->post('act_aplica_flujo_new') );
 		//var_dump($id_movimiento);
 		if ($this->Iluminacion_model->UpdateProject_Pay($data,$id_movimiento)) {
 			$id_obra=$this->Iluminacion_model->Id_Proyecto($id_movimiento);

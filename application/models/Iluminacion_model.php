@@ -115,13 +115,13 @@ class Iluminacion_model extends CI_Model
 
 
   public function GetAllCustomer_Project($idcompany){
-  		$this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_id_cliente');
-  		$this->db->from('obra_cliente');
+      $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_saldo, obra_cliente_pagado, obra_cliente_estado, obra_cliente_comentarios, obra_cliente_aplica_flujo, obra_cliente_id_cliente');
+      $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
-  		$this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
+      $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
       $this->db->order_by('obra_cliente_nombre');
-  		$query = $this->db->get();
-  		return $query;			
+      $query = $this->db->get();
+      return $query;      
   }
 
   public function GetAllCustomer_SFV($idcompany){
@@ -184,7 +184,7 @@ class Iluminacion_model extends CI_Model
 
 
 	 public function GetAllCustomer_Payments($idcompany){
-    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios, obra_cliente_estado');
+    $this->db->select('id_obra_cliente, obra_cliente_nombre,catalogo_cliente_empresa, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_ult_pago, obra_cliente_comentarios, obra_cliente_aplica_flujo,  obra_cliente_estado');
       $this->db->from('obra_cliente');
       $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
       $this->db->where('obra_cliente.empresa_id_empresa',$idcompany);
@@ -232,7 +232,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Datos_obra($id_obra){
-  	$this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
+  	$this->db->select('obra_cliente_nombre, obra_cliente_imp_total, obra_cliente_aplica_flujo, obra_cliente_pagado, obra_cliente_saldo, obra_cliente_comentarios');
   	$this->db->from('obra_cliente');
   	$this->db->Where('id_obra_cliente',$id_obra);
   	$query=$this->db->get();
@@ -241,7 +241,7 @@ class Iluminacion_model extends CI_Model
   }
 
   public function GetPayments_List($id_obra){
-  	$this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto');
+  	$this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_monto, venta_mov_estim_estatus');
   	$this->db->from('venta_movimiento');
   	$this->db->where('obra_cliente_id_obra_cliente',$id_obra);
   	$this->db->order_by('venta_mov_fecha');
@@ -1073,6 +1073,8 @@ class Iluminacion_model extends CI_Model
     $this->db->where('MONTH(venta_mov_fecha)',$mes);
     $this->db->where('YEAR(venta_mov_fecha)',$anio);
     $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->where('obra_cliente_aplica_flujo','1');
+     $this->db->where('venta_mov_estim_estatus','1');
     $this->db->order_by('venta_mov_fecha');
     $result = $this->db->get();
     return $result;

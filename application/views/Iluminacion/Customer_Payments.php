@@ -20,9 +20,9 @@
 </div>
 
 
-      <div class="card bg-card" id="tbl_body">
-        
-    </div>
+<div class="card bg-card" id="tbl_body"> 
+
+</div>
 
 
 
@@ -37,12 +37,31 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Cantidad de Pago</label>
-        <input type="text" onblur="Separa_Miles(this.id)" name="" id="pago_obra" class="form-control input-sm" required="true">
-        <label>Fecha de Pago</label>
-        <input type="date" id="fecha_pago" class="form-control input-sm" required="true">
-        <label>Comentario del Pago</label>
-        <textarea id="coment_obra" class="form-control input-sm" maxlength="50"></textarea>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Cantidad de Pago</label>
+            <input type="text" min="0" onblur="Separa_Miles(this.id)" id="pago_obra" class="form-control input-sm" required="true">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Fecha de Pago</label>
+            <input type="date" id="fecha_pago" class="form-control input-sm" required="true">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Aplica a Flujo</label>
+             <select class="form-control" id="addflujo" name="addflujo">
+              <option value="1">SI</option>
+              <option value="0">NO</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentario del Pago</label>
+            <textarea id="coment_obra" class="form-control input-sm" maxlength="50"></textarea>        
+          </div>
+        </div>
         <input type="number" id="id_obra" hidden="true">
       </div>
       <div class="modal-footer">
@@ -84,12 +103,13 @@ $(function() {
       cant_pago=cant_pago.replace(/\,/g, '');
       fecha=$('#fecha_pago').val();
       coment=$('#coment_obra').val();
+      addflujo=$('#addflujo').val();
       //alert(id_obra+" "+cant_pago+" "+fecha+" "+coment);
        if (cant_pago>0&&fecha_pago!="") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Iluminacion/AddCustomersPay",
-          data:{id_obra:id_obra, cant_pago:cant_pago, fecha:fecha, coment:coment},
+          data:{id_obra:id_obra, cant_pago:cant_pago, fecha:fecha, coment:coment, addflujo:addflujo},
           success:function(result){
             //alert(result);
             refrescar();
@@ -115,8 +135,17 @@ $(function() {
   function AddPay($id) {
     $('#AddPayments').modal();
     var obra=$('#nom_obra'+$id).text();
+    aplica_flujo=$('#aplica_flujo'+$id).text().trim();
     $('#id_obra').val($id);
     $('#Obra_nombre').val(obra);
+    if(aplica_flujo=="0"){
+     document.getElementById("addflujo").value = aplica_flujo;
+     $("#addflujo").attr('disabled',true);
+    }else{
+      document.getElementById("addflujo").value = aplica_flujo;
+     $("#addflujo").attr('disabled',true);
+      $("#addflujo").removeAttr('disabled');
+    }
   }
 
 

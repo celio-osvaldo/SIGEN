@@ -13,7 +13,7 @@
         <label class="col-md-6">Ver Proyectos</label>
     <div class="col-md-6">
       <select multiple="multiple" class="multiple-select" id="estado_proyecto" placeholder="Seleccione">
-          <option value="1">Activo</option>
+          <option value="1" selected="true">Activo</option>
           <option value="2">Pagado</option>
           <option value="3">Cancelado</option>
       </select>
@@ -299,7 +299,7 @@
       importe_old=importe.replace(/\$/g, '');
       estado_old=$("#estado_obra"+id).text();
       coment_old=$("#coment_obra"+id).text();
-      //alert("1*"+act_nom+" 2*"+nombre_old+" 3*"+act_cliente+" 4*"+cliente_old+" 5*"+act_imp+" 6*"+importe_old+" 7*"+act_estado+" 8*"+estado_old+" 9*"+act_coment+" 10*"+coment_old+" 11*"+id+" 12*"+txt_justifica+" 13*"+act_addflujo);
+      //alert("1*"+act_nom+" 2*"+nombre_old+" 3*"+act_cliente+" 4*"+cliente_old+" 5*"+act_imp+" 6*"+importe_old+" 7*"+act_estado+" 
       if(txt_justifica!=""){
         $.ajax({
           type:"POST",
@@ -319,7 +319,6 @@
             alert("Actualización de datos no completada. Debe justificar los cambios solicitados ya que estos requieren autorización del Administrador.");
            }
     });
-
 
   });
 

@@ -1036,7 +1036,19 @@ public function UpdateInfoProduct(){
 		$data = array('record_product' => $this->QM_model->Get_Product_Record($id_producto),
 					  'product_info' => $this->QM_model->Get_Product_Info($id_producto));
 		$this->load->view('Quinta/Record_Product', $data);
+	}
 
+	public function Add_Obj_Croquis(){
+		$this->load->model('QM_model');
+		$lugar=$_POST["lugar"];
+		$objeto_id=$_POST["objeto_id"];
+		$id_evento=$_POST["id_evento"];
+		$data = array('id_evento' => $id_evento,
+		 				'croquis_acomodo_pos' => $lugar,
+		 				'croquis_acomodo_obj' => $objeto_id);
+		$table="croquis_acomodo";
+		$result=$this->QM_model->Insert($table,$data);
+		echo $result;
 	}
 	
 

@@ -17,14 +17,32 @@
 			<td id="pasto1"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto1") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -34,14 +52,32 @@
 			<td id="pasto2"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto2") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -52,6 +88,33 @@
 			<td id="pasto3"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto3") {
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
+						}
 						if ($row->croquis_acomodo_obj=="mesa_inv") {
 						?>
 						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
@@ -60,8 +123,7 @@
 							?>
 						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
 						<?php
-						}
-					}
+						}					}
 					?>
 					<?php
 				} ?>
@@ -69,14 +131,32 @@
 			<td id="pasto4"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto4") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+						switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -86,14 +166,32 @@
 			<td id="pasto5"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto5") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -103,14 +201,32 @@
 			<td id="pasto6"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto6") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -120,14 +236,32 @@
 			<td id="pasto7"  class="td_mesa_pasto_final" bgcolor="#A9D18E" style="border-right-style: solid; border-right-color: black" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto7") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -143,14 +277,32 @@
 			<td id="pasto8"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto8") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -160,14 +312,32 @@
 			<td id="pasto9"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto9") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -177,14 +347,32 @@
 			<td id="pasto10"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto10") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -194,14 +382,32 @@
 			<td id="pasto11"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto11") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -211,14 +417,32 @@
 			<td id="pasto12"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto12") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -228,14 +452,32 @@
 			<td id="pasto13"  class="td_mesa_pasto_final" bgcolor="#A9D18E" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto13") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -245,14 +487,32 @@
 			<td id="pasto14"  class="td_mesa_pasto_final" bgcolor="#A9D18E" style="border-right-style: solid; border-right-color: black" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pasto14") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -269,14 +529,32 @@
 			<td id="pista1"  class="td_mesa_pista_1" style="border-left-style: solid;border-left-color: black">
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista1") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -286,14 +564,32 @@
 			<td id="pista2"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista2") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -303,14 +599,32 @@
 			<td id="pista3"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista3") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -320,14 +634,32 @@
 			<td id="pista4"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista4") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -337,14 +669,32 @@
 			<td id="pista5"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista5") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -354,14 +704,32 @@
 			<td id="pista6"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista6") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -371,14 +739,32 @@
 			<td id="pista7"  class="td_mesa_pista_1" style="border-right-style: solid; border-right-color: black;"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista7") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -394,14 +780,32 @@
 			<td id="pista8"  class="td_mesa_pista_1" style="border-left-style: solid;border-left-color: black">
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista8") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -411,14 +815,32 @@
 			<td id="pista9"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista9") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -428,14 +850,32 @@
 			<td id="pista10"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista10") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -445,14 +885,32 @@
 			<td id="pista11"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista11") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -462,14 +920,32 @@
 			<td id="pista12"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista12") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -479,14 +955,32 @@
 			<td id="pista13"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista13") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -496,14 +990,32 @@
 			<td id="pista14"  class="td_mesa_pista_1" style="border-right-style: solid; border-right-color: black;"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista14") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -519,14 +1031,32 @@
 			<td id="pista15"  class="td_mesa_pista_1" style="border-left-style: solid;border-left-color: black"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista15") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -536,14 +1066,32 @@
 			<td id="pista16"  class="td_mesa_pista_baile" style="border: dotted; border-width: 1px; border-color: #AFABAB" bgcolor=" #FFF2CC"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista16") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -565,14 +1113,32 @@
 			<td id="pista17"  class="td_mesa_pista_1" style="border-left-style: solid;border-left-color: black"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista17") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -582,14 +1148,32 @@
 			<td id="pista18"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista18") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -599,14 +1183,32 @@
 			<td id="pista19"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista19") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -619,14 +1221,32 @@
 			<td id="pista20"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista20") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -636,14 +1256,32 @@
 			<td id="pista21"  class="td_mesa_pista_1"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista21") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -653,14 +1291,32 @@
 			<td id="pista22"  class="td_mesa_pista_1" style="border-right-style: solid; border-right-color: black"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista22") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -676,14 +1332,32 @@
 			<td id="pista23"  class="td_mesa_pista_1" style="border-left-style: solid;border-left-color: black; border-bottom-style: solid; border-bottom-color: black"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista23") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -693,14 +1367,32 @@
 			<td id="pista24"  class="td_mesa_pista_1" style=" border-bottom-style: solid; border-bottom-style: solid; border-bottom-color: black" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista24") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -710,14 +1402,32 @@
 			<td id="pista25"  class="td_mesa_pista_1" style=" border-bottom-style: solid; border-bottom-style: solid; border-bottom-color: black" >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista25") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -731,14 +1441,32 @@
 			<td id="pista26"  class="td_mesa_pista_1" style=" border-bottom-style: solid; border-bottom-style: solid; border-bottom-color: black"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista26") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -748,14 +1476,32 @@
 			<td id="pista27"  class="td_mesa_pista_1" style="border-right-style: solid; border-right-color: black; border-bottom-style: solid; border-bottom-style: solid; border-bottom-color: black"  >
 				<?php foreach ($croquis_acomodo->result() as $row) {
 					if ($row->croquis_acomodo_pos=="pista27") {
-						if ($row->croquis_acomodo_obj=="mesa_inv") {
-						?>
-						<img id="mesa_princi" src="Resources\Icons\mesa1.png" width="30px" height="30px">
-						<?php
-						}else{
-							?>
-						<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
-						<?php
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
 						}
 					}
 					?>
@@ -768,14 +1514,164 @@
 	<table class="tb_croquis" style="margin: 0 auto;">
 		<tr>
 			<td colspan="4" class="" style="border: none"></td>
-			
-		</td>
-		<td class="td_recepcion" style=" border-color: black;color: white" bgcolor="#AFABAB" >
-			ENTRADA PRINCIPAL
-		</td>
-		<td class="" style=" border-bottom-style: solid" >
-			
-		</td>
 
-	</tr>
-</table>
+
+			<td  id="entrada1" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style=" color: white" bgcolor="#AFABAB" >
+								<?php foreach ($croquis_acomodo->result() as $row) {
+					if ($row->croquis_acomodo_pos=="entrada1") {
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
+						}
+					}
+					?>
+					<?php
+				} ?>
+			</td>
+			<td  id="entrada2" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style=" color: white" bgcolor="#AFABAB">
+								<?php foreach ($croquis_acomodo->result() as $row) {
+					if ($row->croquis_acomodo_pos=="entrada2") {
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
+						}
+					}
+					?>
+					<?php
+				} ?>
+			</td>
+			<td class="" style="" >
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="4" class="" style="border: none"></td>
+
+
+			<td  id="entrada3" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style=" color: white" bgcolor="#AFABAB" >
+								<?php foreach ($croquis_acomodo->result() as $row) {
+					if ($row->croquis_acomodo_pos=="entrada3") {
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
+						}
+					}
+					?>
+					<?php
+				} ?>
+			</td>
+			<td  id="entrada4" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style="color: white" bgcolor="#AFABAB">
+								<?php foreach ($croquis_acomodo->result() as $row) {
+					if ($row->croquis_acomodo_pos=="entrada4") {
+							switch ($row->croquis_acomodo_obj) {
+							case 'mesa_princi':
+								?>
+								<img id="mesa_princi" src="Resources\Icons\mesa2.png" width="30px" height="30px">
+								<?php
+								break;
+							case 'mesa_inv':
+								?>
+								<img id="mesa_inv" src="Resources\Icons\mesa1.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'mesa_regalo':
+								?>
+								<img id="mesa_regalo" src="Resources\Icons\regalos.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'modulo_sanit':
+								?>
+								<img id="modulo_sanit" src="Resources\Icons\cabina.png" width="30px" height="30px">
+								<?php
+							break;
+							case 'esc_fotos':
+								?>
+								<img id="esc_fotos" src="Resources\Icons\fotos.png" width="30px" height="30px">
+								<?php
+							break;
+						}
+					}
+					?>
+					<?php
+				} ?>
+			</td>
+			<td class="" style=" " >
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="4" class="" style="border: none"></td>
+			<td>ENTRADA PRINCIPAL</td>
+		</tr>
+
+
+	</table>

@@ -68,15 +68,15 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Fiscal</label>
+        <label>Nombre Fiscal*</label>
         <input type="text" id="new_nom_fiscal" class="form-control input-sm">
         <label>Nombre Comercial</label>
         <input type="text" id="new_nom_comer" class="form-control input-sm">
         <label>RFC</label><br>   
         <input type="text" maxlength="13" id="new_rfc" class="form-control input-sm"><br>
-        <label>Giro</label>
+        <label>Giro*</label>
         <select class="form-control" type="text" name="new_giro" id="new_giro" required="true">
-          <option selected>Seleccionar Giro</option>
+          <option value="0" selected>Seleccionar Giro</option>
           <?php foreach ($catalogo_giro->result() as $row){ ?>
             <option value="<?php echo "".$row->id_catalogo_giro.""; ?>"><?php echo "".$row->nombre_giro.""; ?></option>
           <?php } ?>
@@ -128,7 +128,6 @@
         <input type="text" id="edit_nom_fiscal" class="form-control input-sm">
         <label>Giro</label>
         <select class="form-control" type="text" name="edit_id_giro" id="edit_id_giro" required="true">
-          <option selected>Seleccionar Giro</option>
           <?php foreach ($catalogo_giro->result() as $row){ ?>
             <option value="<?php echo "".$row->id_catalogo_giro.""; ?>"><?php echo "".$row->nombre_giro.""; ?></option>
           <?php } ?>
@@ -228,7 +227,7 @@
       email2=$("#new_email2").val();
       coment=$("#new_coment").val();
       //alert(nom_fiscal+nom_comer+rfc+cont1+puesto1+tel1+cel1+email1+cont2+puesto2+tel2+cel2+email2+coment);
-      if (nom_fiscal!="") {//Verificamos que los campos no estén vacíos
+      if (nom_fiscal!=""&&giro!="0") {//Verificamos que los campos no estén vacíos
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Quinta/NewProvider",
@@ -244,7 +243,7 @@
           }
         });
       }else{
-        alert("Debe ingresar nombre de Proveedor");
+        alert("Debe ingresar nombre de Proveedor y Giro");
       }
     });
 

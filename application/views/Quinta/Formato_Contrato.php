@@ -123,9 +123,15 @@ En virtud de las Declaraciones anteriores, “Las partes” convienen en obligar
 
  	<?php 
         foreach ($detalles_mobiliario->result() as $row) {
+        	if ($row->id_mobiliario=="0") {
+        		?>
+        		<li><?php echo $row->evento_mobiliario_cantidad." ". $row->evento_mobiliario_coment; ?></li>
+        		<?php
+        	}else{
     ?>
     	<li><?php echo $row->evento_mobiliario_cantidad." ". $row->prod_alm_descripcion; ?></li>
     <?php
+		}
 	}
 	?>
 	</ul>

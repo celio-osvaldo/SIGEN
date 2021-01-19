@@ -71,10 +71,9 @@ table {
 
 .td_recepcion{
 	
-	border: solid;
-	height: 4.15cm;
-	width: 2.75cm;
-	border-style: solid;
+	border: none;
+	height: 2.075cm;
+	width: 1.375cm;
 	border-width: 1px;
 	text-align: center
 }

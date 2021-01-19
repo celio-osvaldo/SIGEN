@@ -48,22 +48,44 @@
 </div>
 
 <div class="row">
-	<div class="col-md-2" align="right" style="margin: auto">
+	<div class="col-md-3" align="right" style="margin: auto">
 		<div class="row">
 			<div class="col-md-12">
 				<label class="label-control">Mesa Invitados</label>
 				<a class="btn btn-outline-secondary"><img id="mesa_inv" draggable="true" ondragstart="Selecciona(this.id)" src="..\Resources\Icons\mesa1.ico" width="30px" height="30px"><br></a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
 				<label class="label-control">Mesa Principal</label>
 				<a class="btn btn-outline-secondary"><img draggable="true" id="mesa_princi" src="..\Resources\Icons\mesa2.ico" ondragstart="Selecciona(this.id)" width="30px" height="30px"></a>
 			</div>
 		</div>
-		<div class="row" style="text-align: left; ;background-color: #; width: 100%;  border: 3px solid #FF5959">
-			<div class="col-md-12" id="zona_elimina" ondrop="Elimina(this.id)" ondragenter="Lugar(this.id)">
+		<div class="row">
+			<div class="col-md-12">
+				<label class="label-control">Mesa Regalos</label>
+				<a class="btn btn-outline-secondary"><img draggable="true" id="mesa_regalo" src="..\Resources\Icons\regalos.png" ondragstart="Selecciona(this.id)" width="30px" height="30px"></a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<label class="label-control">Módulo Sanitizante</label>
+				<a class="btn btn-outline-secondary"><img draggable="true" id="modulo_sanit" src="..\Resources\Icons\cabina.png" ondragstart="Selecciona(this.id)" width="30px" height="30px"></a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-12">
+				<label class="label-control">Escenario Fotos</label>
+				<a class="btn btn-outline-secondary"><img draggable="true" id="esc_fotos" src="..\Resources\Icons\fotos.png" ondragstart="Selecciona(this.id)" width="30px" height="30px"></a>
+			</div>
+		</div>
+		<div style="text-align: left;background-color: #; width: 100%;  border: 3px solid #FF5959; height: 100px">
+			<div class="col-md-12" id="zona_elimina" ondrop="Elimina(this.id)" ondragenter="Lugar(this.id)" style="height: 100px">
 				<img draggable="false" src="..\Resources\Icons\delete.ico">
 				<label class="label-control">Ingresa mobiliario para Eliminar</label>
 			</div>
-
 		</div>
+
 	</div>
 
 	<script type="text/javascript">
@@ -370,17 +392,35 @@
 	<table class="tb_croquis" style="margin: 0 auto;">
 		<tr>
 			<td colspan="4" class="" style="border: none"></td>
-			
-		</td>
-		<td class="td_recepcion" style=" border-color: black;color: white" bgcolor="#AFABAB" >
-			ENTRADA PRINCIPAL
-		</td>
-		<td class="" style=" border-bottom-style: solid" >
-			
-		</td>
 
-	</tr>
-</table>
+
+			<td  id="entrada1" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style=" color: white" bgcolor="#AFABAB" >
+			</td>
+			<td  id="entrada2" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style=" color: white" bgcolor="#AFABAB">
+			</td>
+			<td class="" style="" >
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="4" class="" style="border: none"></td>
+
+
+			<td  id="entrada3" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style=" color: white" bgcolor="#AFABAB" >
+			</td>
+			<td  id="entrada4" ondrop="Clona(this.id)" ondragover="Lugar(this.id)" class="td_recepcion" style="color: white" bgcolor="#AFABAB">
+			</td>
+			<td class="" style=" " >
+			</td>
+		</tr>
+
+		<tr>
+			<td colspan="4" class="" style="border: none"></td>
+			<td>ENTRADA PRINCIPAL</td>
+		</tr>
+
+
+	</table>
 </div>
 </div>
 

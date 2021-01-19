@@ -30,6 +30,7 @@
       <tbody>
        <?php 
         foreach ($inventario_productos->result() as $row) {
+          if($row->id_prod_alm!="0"){
          ?>
          <tr>
           <td>
@@ -47,6 +48,7 @@
           <td><button title="Historial" class="btn btn-outline-secondary" onclick="Product_History(this.id)" role="button" id="<?php echo $row->id_prod_alm; ?>"><img width="20" height="20" src="..\Resources\Icons\historial.ico" alt="Historial"/></button></td>
          </tr>
          <?php 
+          }
        }
        ?>
      </tbody>

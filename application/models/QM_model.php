@@ -459,6 +459,7 @@ public function Get_Product_History_Consu($id_producto){
     public function Get_MAXFOLIO_contrato($company){
     $this->db->select_max('obra_cliente_contrato');//the name of fields to query in the login
     $this->db->from('obra_cliente');
+    $this->db->where('obra_cliente_contrato !=', 'S/N');
     $this->db->where('empresa_id_empresa', $company);#the field must match the entered parameter of password
     $query = $this->db->get();#the query is obtained and stored within the variable
     $result = $query->row();#the result displays in a row

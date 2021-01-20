@@ -544,7 +544,7 @@ $(function() {
     id_max_contrato="0/0";
   }
   id_max_contrato=id_max_contrato.split('/');
-  anio=<?php echo date('yy'); ?>;
+  anio=<?php echo date('Y'); ?>;
   next_id=parseInt(id_max_contrato[1])+1;
   $("#contrato").val(anio+'/'+next_id);
  }

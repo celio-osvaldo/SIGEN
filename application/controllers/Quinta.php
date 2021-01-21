@@ -790,12 +790,12 @@ function Update_Inv_Consu(){
 			//'pagenumPrefix' => 'Hoja ',
 			//'nbpgPrefix' => ' de '
 		]);
-		$hola="";
+		$num_recibo=$data["recibo_info"];
 		$html = $this->load->view('Quinta/Recibo_Entrega_Formato',$data,true);
 		//$mpdf->setFooter('{PAGENO}{nbpg}');
 		$mpdf->WriteHTML($css,\Mpdf\HTMLParserMode::HEADER_CSS);
 		$mpdf->WriteHTML($html,\Mpdf\HTMLParserMode::HTML_BODY);
-		$mpdf->Output('Recibo_Pago_'.'.pdf','I'); 
+		$mpdf->Output('Recibo_Pago_'.$num_recibo->venta_mov_factura.'_contrato_'. $num_recibo->obra_cliente_contrato.'.pdf','I'); 
 	}
 
 	public function Num_letras(){
@@ -876,7 +876,7 @@ function Update_Inv_Consu(){
 		$mpdf->AddPage();
 		$html3 = $this->load->view('Quinta/Croquis_Evento',$data2,true);
 		$mpdf->WriteHTML($html3,\Mpdf\HTMLParserMode::HTML_BODY);
-		$mpdf->Output('Contrato_quinta_'.$num_contrato.'.pdf','I'); 
+		$mpdf->Output('Contrato_quinta_'.$data2["datos_evento"]->obra_cliente_contrato.'.pdf','I'); 
 	}
 
 	function Croquis(){
@@ -1061,6 +1061,63 @@ public function UpdateInfoProduct(){
 
 		$result=$this->QM_model->Delete_Obj_Croquis($id_evento,$lugar);
 		echo $result;
+	}
+
+	public function Nomina(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data=array('lista_nomina'=>$this->QM_model->Lista_nomina($idcompany->id_empresa));
+		$this->load->view('Quinta/Lista_nomina',$data);
+	}
+
+	public function AddNew_Nomina(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+
+
+		$new_monto=$_POST['new_monto'];
+		$new_monto=str_replace(',', '', $new_monto);
+
+
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Nomina/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$table = 'gasto_nomina';
+		$data = array('gasto_nomina_id_empresa'=> $idcompany->id_empresa,
+						'gasto_nomina_fecha'=> $this->input->post('new_fecha'),
+						'gasto_nomina_id_empleado'=> $this->input->post('new_empleado'),
+						'gasto_nomina_concepto'=> $this->input->post('new_concepto'),
+						'gasto_nomina_monto'=> $new_monto,
+						'gasto_nomina_comentario' => $this->input->post('new_comentario'));
+
+		$id_gasto_nomina=$this->QM_model->Insert($table, $data);
+		$url_imagen='Resources/Bills/Nomina/QM/gasto_nomina'.$id_gasto_nomina.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_gasto_nomina!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_nomina_url_comprobante' => $url_imagen);//nombre del url
+				$this->QM_model->UpdateGasto_nomina($id_gasto_nomina, $data2);
+			}				
+        }
+        echo true;		
 	}
 	
 

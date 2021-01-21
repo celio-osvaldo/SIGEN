@@ -580,6 +580,23 @@ public function Get_Product_History_Consu($id_producto){
     return $result;
   }
 
+  public function Lista_nomina($idcompany){
+    $this->db->where('gasto_nomina_id_empresa', $idcompany);
+    $q = $this->db->get('gasto_nomina');
+    return $q;
+  }
+
+  public function UpdateGasto_nomina($id, $data){
+    $this->db->where('id_gasto_nomina', $id);
+    $this->db->update('gasto_nomina', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+
 
 }
 

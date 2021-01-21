@@ -12,7 +12,7 @@
 
 <div class="card bg-card">
   <div class="table-responsive">
-    <table id="table_Inv_Prod" class="table table-striped table-hover display" style="font-size: 9pt;">
+    <table id="table_nomina" class="table table-striped table-hover display" style="font-size: 9pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
           <th>Acciones</th>
@@ -269,7 +269,7 @@
 
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#table_Inv_Prod').DataTable();
+    $('#table_nomina').DataTable();
 
     $('#UpdateProduct').click(function(){
       nom_prod=$("#edit_nom_prod").val();

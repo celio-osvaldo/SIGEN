@@ -98,9 +98,9 @@ header("Pragma: no-cache");
 						<div class="dropdown-submenu">
 							<a class="dropdown-item">Operativos</a>
 							<ul class="dropdown-menu">
-								<li><a class="dropdown-item" id="pettyCashV">Caja Chica</a></li>
+								<li><a class="dropdown-item" id="nomina">Nómina</a></li>
+								<li><a class="dropdown-item" id="servicios">Servicios</a></li>
 								<li><a class="dropdown-item"  id="other_expens">Otros Gastos</a></li>
-								<!--<li><a class="dropdown-item" id="viaticsV">Viaticos</a></li> -->
 							</ul>
 						</div>
 					</div>

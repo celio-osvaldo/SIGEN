@@ -134,6 +134,16 @@
 			$('#page_content').load('Lista_Solicitudes');
 		});
 	</script>
+
+		<script>//script to load Office Product Inventorie
+			$(document).ready(function(){
+				$("#nomina").click(function(){
+					$("#page_content").load("Nomina");
+				});
+			});
+		</script>
+
+
 <script type="text/javascript">
 function countChars(obj){
     var maxLength = 500;

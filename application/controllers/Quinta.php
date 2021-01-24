@@ -1104,7 +1104,7 @@ public function UpdateInfoProduct(){
 						'gasto_nomina_comentario' => $this->input->post('new_comentario'));
 
 		$id_gasto_nomina=$this->QM_model->Insert($table, $data);
-		$url_imagen='Resources/Bills/Nomina/QM/gasto_nomina'.$id_gasto_nomina.'.'.$file_extension;
+		$url_imagen='Resources/Bills/Nomina/QM/gasto_nomina_'.$id_gasto_nomina.'.'.$file_extension;
 	
 
 		if(in_array($file_extension,$image_ext)&&$id_gasto_nomina!=""&&$filename!=""){
@@ -1119,7 +1119,72 @@ public function UpdateInfoProduct(){
         }
         echo true;		
 	}
+
+	public function Update_Nomina(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+
+		$edit_id_gasto_nomina=$_POST['edit_id_gasto_nomina'];
+		$edit_fecha=$_POST['edit_fecha'];
+		$edit_empleado=$_POST['edit_empleado'];
+		$edit_concepto=$_POST['edit_concepto'];
+		$edit_monto=$_POST['edit_monto'];
+		$edit_monto=str_replace(',', '', $edit_monto); 
+		$edit_comentario=$_POST['edit_comentario'];
+
+
+		if (isset($_FILES['edit_Bill']['name'])) {
+			$filename = $_FILES['edit_Bill']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Nomina/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$url_imagen='Resources/Bills/Nomina/QM/gasto_nomina_'.$edit_id_gasto_nomina.'.'.$file_extension;
+
+		$data = array('gasto_nomina_id_empresa'=> $idcomp->id_empresa,
+						'gasto_nomina_fecha'=> $this->input->post('edit_fecha'),
+						'gasto_nomina_id_empleado'=> $this->input->post('edit_empleado'),
+						'gasto_nomina_concepto'=> $this->input->post('edit_concepto'),
+						'gasto_nomina_monto'=> $this->input->post('edit_monto'),
+						'gasto_nomina_comentario' => $this->input->post('edit_comentario'));
+		        $this->QM_model->UpdateNomina($edit_id_gasto_nomina, $data);
+
+		if(in_array($file_extension,$image_ext)&&$edit_id_gasto_nomina!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['edit_Bill']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_nomina_url_comprobante' => $url_imagen );
+				$this->QM_model->UpdateNomina($edit_id_gasto_nomina, $data2);
+			}				
+        }
+        echo true;
+	}
+
 	
+	public function Delete_Nomina(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+
+		$delete_id_gasto_nomina=$_POST['delete_id_gasto_nomina'];
+
+		$url_imagen=$_POST['delete_url_factura'];
+
+		
+		$borrado=$this->QM_model->Delete_Nomina($delete_id_gasto_nomina);
+  		echo $borrado;
+	}
 
 
 

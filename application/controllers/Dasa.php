@@ -667,11 +667,7 @@ class DASA extends CI_Controller {
 				$this->Dasa_model->UpdateExpendInfo($id_otros_gastos, $data2);
 			}				
         }
-
-
         echo true;
-
-
 	}
 
 	public function AddReportPettyCash(){

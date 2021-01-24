@@ -14,7 +14,7 @@
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
             <th>Fecha de Pago</th>
-            <th>Id_empleado</th>
+            <th>Empleado</th>
             <th>Concepto de Pago</th>
             <th>Monto</th>
             <th>Comentario</th>
@@ -33,7 +33,10 @@
             <td id="<?php echo "comentario".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_comentario.""; ?></td>
             <td align="center" id="<?php echo "factura".$row->id_gasto_nomina.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_nomina.""; ?>"  onclick="Display_bill(this.id)"><img height="20" src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
             <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_nomina.""; ?>"><?php echo $row->gasto_nomina_url_comprobante ?></td>
-            <td><a role="button" class="btn btn-outline-dark" onclick="Edit_pago(this.id)" id="<?php echo "".$row->id_gasto_nomina.""; ?>" data-toggle="modal" data-target="#editnomina"><img height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a></td>
+            <td>
+                <a role="button" class="btn btn-outline-dark" onclick="Edit_nomina(this.id)" id="<?php echo "".$row->id_gasto_nomina.""; ?>" data-toggle="modal" data-target="#editnomina"><img height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                <a role="button" class="btn btn-outline-dark" onclick="Delete_pago(this.id)" id="<?php echo "".$row->id_gasto_nomina.""; ?>" data-toggle="modal" data-target="#deletenomina"><img height="20" src="..\Resources\Icons\delete.ico" alt="Eliminar" style="filter: invert(100%)" /></a>
+            </td>
         </tr>
     <?php } ?>
 </tbody>
@@ -51,155 +54,163 @@
         <h5 class="modal-title" id="exampleModalLabel">Nuevo Registro de Nómina</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-        <form class="form-group" id="newExpend">
-          <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label class="label-control">Fecha de pago:</label>
-                            <input class="form-control" type="date" name="new_fecha" id="new_fecha" value="<?php date_default_timezone_set("America/Mexico_City"); echo date("Y-m-d"); ?>" required="true">
-                        </div>
-                        <div class="col-md-9">
-                            <label class="label-control">Empleado:</label>
-                            <input type="text" name="new_empleado" id="new_empleado" class="form-control" required="true">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label for="">Concepto de Pago:</label>
-                            <input type="text" maxlength="200" id="new_concepto" name="new_concepto" class="form-control" required="true">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <label class="label-control">Monto:</label>
-                            <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="new_monto" id="new_monto" required="true">
-                        </div>
-                        <div class="col-md-9">
-                            <label class="label-control">Comentario:</label>
-                            <textarea type="text" class="form-control" name="new_comentario" id="new_comentario" maxlength="300"></textarea>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label class="label-control">Factura:</label>
-                            <input type="file" class="form-control" name="addBill" id="addBill" accept="application/pdf, image/*">
-                        </div>                            
-                    </div>
-
-
-                  </div>
-            <div class="modal-footer">
-                <button type="submit" class="btn btn-outline-success submitBtn" id="saveCost">Guardar</button>
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
-            </div>
-
-        </form>
-
-    </div>
+      </button>
   </div>
+  <form class="form-group" id="newExpend">
+      <div class="modal-body">
+        <div class="row">
+            <div class="col-md-3">
+                <label class="label-control">Fecha de pago:</label>
+                <input class="form-control" type="date" name="new_fecha" id="new_fecha" value="<?php date_default_timezone_set("America/Mexico_City"); echo date("Y-m-d"); ?>" required="true">
+            </div>
+            <div class="col-md-9">
+                <label class="label-control">Empleado:</label>
+                <input type="text" name="new_empleado" id="new_empleado" class="form-control" required="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="">Concepto de Pago:</label>
+                <input type="text" maxlength="200" id="new_concepto" name="new_concepto" class="form-control" required="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label class="label-control">Monto:</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="new_monto" id="new_monto" required="true">
+            </div>
+            <div class="col-md-9">
+                <label class="label-control">Comentario:</label>
+                <textarea type="text" class="form-control" name="new_comentario" id="new_comentario" maxlength="300"></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label class="label-control">Factura:</label>
+                <input type="file" class="form-control" name="addBill" id="addBill" accept="application/pdf, image/*">
+            </div>                            
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success submitBtn" id="saveCost">Guardar</button>
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" >Cancelar</button>
+    </div>
+</form>
+
+</div>
+</div>
 </div>
 <!-- end modal -->
 
 
 <!-- edit bill -->
-<div class="modal fade" id="editCostSale"data-backdrop="static" tabindex="-1" role="dialog">
+<div class="modal fade" id="editnomina"data-backdrop="static" tabindex="-1" role="dialog">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Nueva factura</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Editar Datos Pago Nómina</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
       </button>
   </div>
-  <form class="form-group" id="editCost">
+  <form class="form-group" id="edit_nomina">
       <div class="modal-body">
         <div class="row">
-            <div class="col-md-4">
-                <input type="hidden" name="idE" id="idE">
-                <label class="control-label">Folio Factura/Comprobante:</label>
-                <input class="form-control" type="text" name="editFolio" id="editFolio" value="" required="true">
-            </div>
+            <input type="text" name="edit_id_gasto_nomina" id="edit_id_gasto_nomina" hidden="true">
             <div class="col-md-3">
-                <label class="label-control">Fecha de emisión:</label>
-                <input class="form-control" type="date" name="editEmitionDate" id="editEmitionDate" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>" required="true">
+                <label class="label-control">Fecha de pago:</label>
+                <input class="form-control" type="date" name="edit_fecha" id="edit_fecha" required="true">
             </div>
-            <div class=" col-md-4">
-                <label class="label-control">Aplicar a Flujo de Efectivo:</label>
-                <select class="form-control" id="edit_flujo" name="edit_flujo">
-                    <option value="1">SI</option>
-                    <option value="0">NO</option>
-                </select>
+            <div class="col-md-9">
+                <label class="label-control">Empleado:</label>
+                <input type="text" name="edit_empleado" id="edit_empleado" class="form-control" required="true">
             </div>
         </div>
         <div class="row">
-            <div class="col-md-8">
-                <label for="">Concepto:</label>
-                <input type="text" id="editConcept" name="editConcept" class="form-control" required="true">
+            <div class="col-md-12">
+                <label for="">Concepto de Pago:</label>
+                <input type="text" maxlength="200" id="edit_concepto" name="edit_concepto" class="form-control" required="true">
             </div>
         </div>
         <div class="row">
             <div class="col-md-3">
-                <label class="label-control">Monto</label>
-                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="editAmount" id="editAmount" required="true">
+                <label class="label-control">Monto:</label>
+                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_monto" id="edit_monto" required="true">
             </div>
-            <div class="col-md-3">
-                <label class="label-control">IVA</label>
-                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_iva" id="edit_iva" required="true">
-            </div>
-            <div class="col-md-3">
-                <label class="label-control">Ret IVA</label>
-                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_ret_iva" id="edit_ret_iva" required="true">
-            </div>
-            <div class="col-md-3">
-                <label class="label-control">Ret ISR</label>
-                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_ret_isr" id="edit_ret_isr" required="true">
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <label class="label-control">IEPS</label>
-                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_ieps" id="edit_ieps" required="true">
-            </div>
-            <div class="col-md-2">
-                <label class="label-control">DAP</label>
-                <input type="text" onblur="SeparaMiles(this.id)" class="form-control" name="edit_dap" id="edit_dap" required="true">
-            </div>
-            <div class="col-md-3">
-                <label for="">Fecha de pago:</label>
-                <input type="date" id="editDate" name="editDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
-            </div>
-            <div class="col-md-4">
-                <label class="label-control">Referencia:</label>
-                <select id="edit_ref" name="edit_ref" class="form-control">
-                    <option value="Transferencia" selected="true">Transferencia</option>
-                    <option value="Deposito_cheque">Depósito en Cheque</option>
-                    <option value="Efectivo">Efectivo</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-9">
                 <label class="label-control">Comentario:</label>
-                <textarea class="form-control" id="editComment" name="editComment" cols="6" rows="2"></textarea>
+                <textarea type="text" class="form-control" name="edit_comentario" id="edit_comentario" maxlength="300"></textarea>
             </div>
-            <div class="col-md-6">
+        </div>
+        <div class="row">
+            <div class="col-md-12">
                 <label class="label-control">Factura:</label>
-                <input type="file" class="form-control" name="editBill" id="editBill" accept="application/pdf, image/*">
+                <input type="file" class="form-control" name="edit_Bill" id="edit_Bill" accept="application/pdf, image/*">
             </div>                            
         </div>
     </div>
     <div class="modal-footer">
-        <button type="submit" class="btn btn-outline-success submitBtn" id="updateCost">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="submit" class="btn btn-outline-success submitBtn" id="update_nomina">Actualizar</button>
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" >Cancelar</button>
     </div>
 </form>
 </div>
 </div>
 </div>
 <!-- end modal -->
+
+
+
+
+<!-- delete bill -->
+<div class="modal fade" id="deletenomina"data-backdrop="static" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="background-color: red;">
+        <h5 class="modal-title" id="exampleModalLabel">Eliminar Registro Pago Nómina</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+      </button>
+  </div>
+  <form class="form-group" id="delete_nomina">
+      <div class="modal-body" disabled="true">
+        <div class="row">
+            <input type="text" name="delete_id_gasto_nomina" id="delete_id_gasto_nomina" hidden="true">
+            <div class="col-md-3">
+                <label class="label-control">Fecha de pago:</label>
+                <input disabled="true" class="form-control" type="date" name="delete_fecha" id="delete_fecha" required="true">
+            </div>
+            <div class="col-md-9">
+                <label class="label-control">Empleado:</label>
+                <input disabled="true" type="text" name="delete_empleado" id="delete_empleado" class="form-control" required="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <label for="">Concepto de Pago:</label>
+                <input disabled="true" type="text" maxlength="200" id="delete_concepto" name="delete_concepto" class="form-control" required="true">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                <label class="label-control">Monto:</label>
+                <input disabled="true" type="text" onblur="SeparaMiles(this.id)" class="form-control" name="delete_monto" id="delete_monto" required="true">
+            </div>
+            <div class="col-md-9">
+                <label class="label-control">Comentario:</label>
+                <textarea disabled="true" type="text" class="form-control" name="delete_comentario" id="delete_comentario" maxlength="300"></textarea>
+                <input type="text" disabled="true" hidden="true" name="delete_url_factura" id="delete_url_factura">
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-outline-success submitBtn" id="delete_nomina_btn">Eliminar</button>
+        <button type="button" class="btn btn-outline-danger" data-dismiss="modal" >Cancelar</button>
+    </div>
+</form>
+</div>
+</div>
+</div>
 
 
 
@@ -218,7 +229,10 @@
 
 <script type="text/javascript">
     $(document).ready( function () {
-        $('#table_Nomina').DataTable();
+        $('#table_Nomina').DataTable({
+            "bSort": true,
+            "order": [[ 0, "desc" ]]
+        });
     } );
 </script>
 
@@ -280,48 +294,41 @@ function CloseModal(){
 
 <!-- Script thats return data of an object selected -->
 <script>
-  function Edit_product($id){
-    // alert("Editar "+$id);
+  function Edit_nomina($id){
     var id=$id;
-    var enviroment=$("#bill"+$id).text();
-    var emition=$("#emition"+$id).text();
-    var concept=$("#concept"+$id).text();
-    var expend=$("#expend"+$id).text().split('$');
-    var comment=$("#comment"+$id).text();
-    var bill=$("#bill"+$id).text();
-    var dateEx=$("#dateEx"+$id).text();
-    var edit_flujo=$("#aplica_flujo"+id).text().trim();;
-    if(edit_flujo==0){
-        edit_flujo="NO";
-    }else{
-        edit_flujo="SI";
+    fecha=$("#fecha"+id).text();
+    id_empleado=$("#id_empleado"+id).text();
+    concepto=$("#concepto"+id).text();
+    monto=$("#monto"+id).text().replace('$','');
+    comentario=$("#comentario"+id).text();
+
+    $("#editnomina").modal();
+    $("#edit_id_gasto_nomina").val(id);
+    $("#edit_fecha").val(fecha);
+    $("#edit_empleado").val(id_empleado);
+    $("#edit_concepto").val(concepto);
+    $("#edit_monto").val(monto);
+    $("#edit_comentario").val(comentario);    
     }
 
-    var iva=$("#iva"+id).text().split("$");
-    var ret_iva=$("#ret_iva"+id).text().split("$");
-    var ret_isr=$("#ret_isr"+id).text().split("$");
-    var ieps=$("#ieps"+id).text().split("$");
-    var dap=$("#dap"+id).text().split("$");
-    var tipo_ref=$("#tipo_ref"+id).text();
-        //alert(edit_flujo);
+    function Delete_pago($id_gasto_nomina){
+        var id=$id_gasto_nomina;
+        fecha=$("#fecha"+id).text();
+        id_empleado=$("#id_empleado"+id).text();
+        concepto=$("#concepto"+id).text();
+        monto=$("#monto"+id).text().replace('$','');
+        comentario=$("#comentario"+id).text();
+        url_factura=$("#url_factura"+id).text();
 
-    $("#editCostSale").modal();
-    $("#idE").val(id);
-    $("#editFolio").val(enviroment);
-    $("#editEmitionDate").val(emition);
-    $("#editConcept").val(concept);
-    $("#editAmount").val(expend[1]);
-    $("#editComment").val(comment);
-    $("#editDate").val(dateEx);
-    $("#edit_flujo option:contains("+edit_flujo+")").attr('selected', true);
-    $("#edit_iva").val(iva[1]);
-    $("#edit_ret_iva").val(ret_iva[1]);
-    $("#edit_ret_isr").val(ret_isr[1]);
-    $("#edit_ieps").val(ieps[1]);
-    $("#edit_dap").val(dap[1]);
-    $("#edit_ref").val(tipo_ref).attr('selected',true);
 
-   // $("#editBill").val(enviroment);
+        $("#deletenomina").modal();
+        $("#delete_id_gasto_nomina").val(id);
+        $("#delete_fecha").val(fecha);
+        $("#delete_empleado").val(id_empleado);
+        $("#delete_concepto").val(concepto);
+        $("#delete_monto").val(monto);
+        $("#delete_comentario").val(comentario); 
+        $("#delete_url_factura").val(url_factura);
     }
 
   function Update_Page(){
@@ -332,50 +339,70 @@ function CloseModal(){
 <!-- script by update cost -->
 <script>
   $(document).ready(function(e){
-    $("#editCost").on('submit', function(e){
+    $("#edit_nomina").on('submit', function(e){
         e.preventDefault();
         //fecha=$("#editDate").val();
         //fecha2=$("#editEmitionDate").val();
         //alert(fecha+" "+fecha2);
         $.ajax({
             type: 'POST',
-            url: '<?php echo base_url(); ?>Dasa/UpdateExpend',
+            url: '<?php echo base_url(); ?>Quinta/Update_Nomina',
             data: new FormData(this),
             contentType: false,
             cache: false,
             processData:false,
             beforeSend: function(){
                 $('.submitBtn').attr("disabled","disabled");
-                $('#editCost').css("opacity",".5");
+                $('#delete_nomina').css("opacity",".5");
             },
             success: function(data){
                 // $('.statusMsg').html('');
                 //alert(data);
                 if(data == 1){
-                    $('#editCost')[0].reset();
+                    $('#edit_nomina')[0].reset();
                     // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-                    alert('Reporte de gasto modificado correctamente');
+                    alert('Reporte de Nómina modificado correctamente');
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');
                 }
-                $('#editCost').css("opacity","");
+                $('#edit_nomina').css("opacity","");
+                $(".submitBtn").removeAttr("disabled");
+            }
+        });
+    });
+
+    $("#delete_nomina").on('submit', function(e){
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo base_url(); ?>Quinta/Delete_Nomina',
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData:false,
+            beforeSend: function(){
+                $('.submitBtn').attr("disabled","disabled");
+                $('#deletenomina').css("opacity",".5");
+            },
+            success: function(data){
+                // $('.statusMsg').html('');
+                //alert(data);
+                if(data){
+                    $('#delete_nomina')[0].reset();
+                    // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
+                    alert('Reporte de Nómina eliminado correctamente');
+                    CloseModal();
+                }else{
+                  alert('Falló el servidor. Intentelo nuevamente');
+                }
+                $('#delete_nomina').css("opacity","");
                 $(".submitBtn").removeAttr("disabled");
             }
         });
     });
     
-    //file type validation
-    $("#editBill").change(function() {
-        var file = this.files[0];
-        var imagefile = file.type;
-        // var match= ["*"];
-        if(!(imagefile)){
-            alert('Seleccione un archivo válido (PDF).');
-            $("#editBill").val('');
-            return false;
-        }
-    });
+
 });
 
 function CloseModal(){

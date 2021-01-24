@@ -596,6 +596,25 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
 
+  public function UpdateNomina($id, $data){
+    $this->db->where('id_gasto_nomina', $id);
+    $this->db->update('gasto_nomina', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Delete_Nomina($delete_id_gasto_nomina){
+    $this->db->where('id_gasto_nomina',$delete_id_gasto_nomina);
+    $this->db->delete('gasto_nomina');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
 
 
 }

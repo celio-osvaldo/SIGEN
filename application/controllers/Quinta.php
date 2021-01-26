@@ -1186,7 +1186,173 @@ public function UpdateInfoProduct(){
   		echo $borrado;
 	}
 
+	public function GetListCostOfSale(){
+		$this->load->model('QM_model');
+		$table = 'gasto_venta';
+		$id = 'id_gasto_venta';
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data=array('cost_sale'=>$this->QM_model->GetAllCostOfSale($idcompany->id_empresa),
+					'woks'=>$this->QM_model->GetAllWorks_Client($idcompany->id_empresa),
+					'max'=>$this->QM_model->IDMAX($table, $id));
+		if($data['woks']){
+			$this->load->view('Quinta/CostOfSale-List', $data);
+		}else{
+			$this->load->view('Quinta/CostOfSale-Error',);
+		}
+	}
 
+	public function AddCostOfSale(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+		$id_gasto_venta=$_POST['idCost'];
+		$monto=$_POST["addAmount"];
+		$monto=str_replace(',', '', $monto);
+		//$addflujo=$_POST['addflujo'];
+
+/*
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
+*/
+
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/CostOfSale/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		$table = 'gasto_venta';
+		$data = array('id_gasto_venta' => $id_gasto_venta,
+						'obra_cliente_id_obra_cliente'=> $this->input->post('addClientName'),
+						'obra_cliente_empresa_id_empresa'=> $idcomp->id_empresa,
+						'gasto_venta_fecha'=> $this->input->post('addEmitionDate'),
+						'gasto_venta_factura'=> $this->input->post('addFolio'),
+						'gasto_venta_monto'=> $monto,
+						'gasto_venta_concepto' => $this->input->post('addConcept'),
+						'gasto_venta_observacion' => $this->input->post('addComment'),
+						//'gasto_venta_estado_pago' => $this->input->post('addStatus'),
+						'gasto_venta_fecha_pago' => $this->input->post('addDate'),
+						//'gasto_venta_aplica_flujo' => $addflujo,
+						//'gasto_venta_iva' => $iva,
+						//'gasto_venta_iva_ret' => $ret_iva,
+						//'gasto_venta_isr_ret' => $ret_isr,
+						//'gasto_venta_ieps' => $ieps,
+						//'gasto_venta_dap' => $dap,
+						'gasto_venta_referencia'=> $this->input->post('add_ref'));
+
+		$this->QM_model->Insert($table, $data);
+
+		$url_imagen='Resources/Bills/CostOfSale/QM/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_gasto_venta!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_venta_url_factura' => $url_imagen);
+				$this->QM_model->UpdateCostSale($id_gasto_venta, $data2);
+			}
+    	}
+    	var_dump($id_gasto_venta);
+		echo true;		
+	}
+
+	public function EditCostOfSale(){
+		$this->load->model('QM_model');
+       	$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+		$id_gasto_venta=$_POST['idE'];
+		$monto=$_POST["amountE"];
+		$monto=str_replace(',', '', $monto);
+		//$editflujo=$_POST['editflujo'];
+/*
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
+*/
+
+		if (isset($_FILES['billE']['name'])) {
+			$filename = $_FILES['billE']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/CostOfSale/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+
+
+		$data = array('obra_cliente_id_obra_cliente'=> $this->input->post('clientNameE'),
+						'obra_cliente_empresa_id_empresa'=> $idcomp->id_empresa,
+						'gasto_venta_fecha'=> $this->input->post('emitionDateE'),
+						'gasto_venta_factura'=> $this->input->post('folioE'),
+						'gasto_venta_monto'=> $monto,
+						'gasto_venta_concepto' => $this->input->post('conceptE'),
+						'gasto_venta_observacion' => $this->input->post('commentE'),
+						//'gasto_venta_estado_pago' => $this->input->post('statusE'),
+						//'gasto_venta_fecha_pago' => $this->input->post('dateE'),
+						//'gasto_venta_aplica_flujo' => $editflujo,
+						//'gasto_venta_iva' => $iva,
+						//'gasto_venta_iva_ret' => $ret_iva,
+						//'gasto_venta_isr_ret' => $ret_isr,
+						//'gasto_venta_ieps' => $ieps,
+						//'gasto_venta_dap' => $dap,
+						'gasto_venta_referencia'=> $this->input->post('edit_ref'));
+		$this->QM_model->UpdateCostSale($id_gasto_venta, $data);
+
+		$url_imagen='Resources/Bills/CostOfSale/QM/Cost_Sale_'.$id_gasto_venta.'.'.$file_extension;
+
+		if(in_array($file_extension,$image_ext)&&$id_gasto_venta!=""&&$filename!=""){
+  			// Upload file
+			if(move_uploaded_file($_FILES['billE']['tmp_name'],$url_imagen)){
+				$data2 = array('gasto_venta_url_factura' => $url_imagen);
+				$this->QM_model->UpdateCostSale($id_gasto_venta, $data2);
+			}
+    	}
+
+    	echo true;
+				//var_dump($data);
+	}
+	
+	public function DeleteCostOfSale(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+
+		$id_gasto_venta=$_POST['deleteidE'];
+		
+		$borrado=$this->QM_model->Delete_CostSale($id_gasto_venta);
+  		echo $borrado;
+	}
 
 }
 

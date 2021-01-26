@@ -616,6 +616,46 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
 
+  public function GetAllCostOfSale($idcompany){
+    $this->db->select('id_gasto_venta, obra_cliente_nombre, empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, gasto_venta_url_factura,gasto_venta_aplica_flujo, gasto_venta_iva, gasto_venta_iva_ret, gasto_venta_isr_ret, gasto_venta_ieps, gasto_venta_dap, gasto_venta_referencia');
+    $this->db->from('obra_cliente');
+    $this->db->join('empresa', 'empresa_id_empresa = id_empresa');
+    $this->db->join('gasto_venta', 'obra_cliente_id_obra_cliente = id_obra_cliente');
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $query = $this->db->get();
+    return $query;
+  }
+
+  public function GetAllWorks_Client($IdCompany){
+    $this->db->where('empresa_id_empresa', $IdCompany);
+    $q = $this->db->get('obra_cliente');
+    if($q -> num_rows() >0){
+      return $q;
+    }else{
+      return false;
+    }
+  }
+
+  public function UpdateCostSale($id, $data){
+    $this->db->where('id_gasto_venta', $id);
+    $this->db->update('gasto_venta', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Delete_CostSale($id_gasto_venta){
+    $this->db->where('id_gasto_venta',$id_gasto_venta);
+    $this->db->delete('gasto_venta');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
 
 }
 

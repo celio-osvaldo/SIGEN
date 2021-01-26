@@ -1,6 +1,5 @@
 <div class="row">
-    <div class="col-md-1"></div>
-    <div class="col-md-7">
+    <div class="col-md-8">
         <h3 align="center">Listado Nómina</h3>
     </div>
     <div class="col-md-4">
@@ -9,39 +8,40 @@
 </div>
 
 <div class="card bg-card">
-  <div class="table-responsive">
-    <table id="table_Nomina" class="table table-striped table-hover display" style="font-size: 9pt;">
-      <thead class="bg-primary" style="color: #FFFFFF;" align="center">
-        <tr>
-            <th>Fecha de Pago</th>
-            <th>Empleado</th>
-            <th>Concepto de Pago</th>
-            <th>Monto</th>
-            <th>Comentario</th>
-            <th>Factura</th>
-            <th hidden="true">url_factura</th>
-            <th>Modificar</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr><?php
-        foreach ($lista_nomina->result() as $row) {?>
-            <td id="<?php echo "fecha".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_fecha.""; ?></td>
-            <td id="<?php echo "id_empleado".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_id_empleado.""; ?></td>
-            <td id="<?php echo "concepto".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_concepto.""; ?></td>
-            <td id="<?php echo "monto".$row->id_gasto_nomina.""; ?>">$<?php echo number_format($row->gasto_nomina_monto,2,'.',',').""; ?></td>
-            <td id="<?php echo "comentario".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_comentario.""; ?></td>
-            <td align="center" id="<?php echo "factura".$row->id_gasto_nomina.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_nomina.""; ?>"  onclick="Display_bill(this.id)"><img height="20" src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
-            <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_nomina.""; ?>"><?php echo $row->gasto_nomina_url_comprobante ?></td>
-            <td>
-                <a role="button" class="btn btn-outline-dark" onclick="Edit_nomina(this.id)" id="<?php echo "".$row->id_gasto_nomina.""; ?>" data-toggle="modal" data-target="#editnomina"><img height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
-                <a role="button" class="btn btn-outline-dark" onclick="Delete_pago(this.id)" id="<?php echo "".$row->id_gasto_nomina.""; ?>" data-toggle="modal" data-target="#deletenomina"><img height="20" src="..\Resources\Icons\delete.ico" alt="Eliminar" style="filter: invert(100%)" /></a>
-            </td>
-        </tr>
-    <?php } ?>
-</tbody>
-</table>
-</div>
+    <div class="table-responsive">
+        <table id="table_Nomina" class="table table-striped table-hover display" style="font-size: 9pt;">
+            <thead class="bg-primary" style="color: #FFFFFF;" align="center">
+                <tr>
+                    <th>Fecha de Pago</th>
+                    <th>Empleado</th>
+                    <th>Concepto de Pago</th>
+                    <th>Monto</th>
+                    <th>Comentario</th>
+                    <th>Factura</th>
+                    <th hidden="true">url_factura</th>
+                    <th>Modificar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($lista_nomina->result() as $row) {?>
+                    <tr>
+                        <td id="<?php echo "fecha".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_fecha.""; ?></td>
+                        <td id="<?php echo "id_empleado".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_id_empleado.""; ?></td>
+                        <td id="<?php echo "concepto".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_concepto.""; ?></td>
+                        <td id="<?php echo "monto".$row->id_gasto_nomina.""; ?>">$<?php echo number_format($row->gasto_nomina_monto,2,'.',',').""; ?></td>
+                        <td id="<?php echo "comentario".$row->id_gasto_nomina.""; ?>"><?php echo "".$row->gasto_nomina_comentario.""; ?></td>
+                        <td align="center" id="<?php echo "factura".$row->id_gasto_nomina.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_nomina.""; ?>"  onclick="Display_bill(this.id)"><img height="20" src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico" style="filter: invert(100%)"></a></td>
+                        <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_nomina.""; ?>"><?php echo $row->gasto_nomina_url_comprobante ?></td>
+                        <td>
+                            <a role="button" class="btn btn-outline-dark" onclick="Edit_nomina(this.id)" id="<?php echo "".$row->id_gasto_nomina.""; ?>" data-toggle="modal" data-target="#editnomina"><img height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                            <a role="button" class="btn btn-outline-dark" onclick="Delete_pago(this.id)" id="<?php echo "".$row->id_gasto_nomina.""; ?>" data-toggle="modal" data-target="#deletenomina"><img height="20" src="..\Resources\Icons\delete.ico" alt="Eliminar" style="filter: invert(100%)" /></a>
+                        </td>
+                    </tr>
+                <?php } ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
@@ -221,40 +221,36 @@
     <div class="modal-content">
       <div style="height: 600px;">
        <iframe width="100%" height="100%" id="showbill"></iframe>
-       </div>
-    </div>
-  </div>
+   </div>
+</div>
+</div>
 </div>
 <!-- end modal -->
 
-<script type="text/javascript">
-    $(document).ready( function () {
-        $('#table_Nomina').DataTable({
-            "bSort": true,
-            "order": [[ 0, "desc" ]]
-        });
-    } );
-</script>
 
 
 
 <!-- script by add new costofsale -->
 <script>
-$(document).ready(function(e){
-    $("#newExpend").on('submit', function(e){
-        e.preventDefault();
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo base_url(); ?>Quinta/AddNew_Nomina',
-            data: new FormData(this),
-            contentType: false,
-            cache: false,
-            processData:false,
-            beforeSend: function(){
-                $('.submitBtn').attr("disabled","disabled");
-                $('#newExpend').css("opacity",".5");
-            },
-            success: function(data){
+    $(document).ready(function(e){
+        $('#table_Nomina').DataTable({
+            "bSort": true,
+            "order": [ 0, "desc" ]
+        });
+        $("#newExpend").on('submit', function(e){
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '<?php echo base_url(); ?>Quinta/AddNew_Nomina',
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData:false,
+                beforeSend: function(){
+                    $('.submitBtn').attr("disabled","disabled");
+                    $('#newExpend').css("opacity",".5");
+                },
+                success: function(data){
                 // $('.statusMsg').html('');
                 //alert(data);
                 if(data == 1){
@@ -264,13 +260,13 @@ $(document).ready(function(e){
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Verifique que la información ingresada sea correcta');
-                }
-                $('#newExpend').css("opacity","");
-                $(".submitBtn").removeAttr("disabled");
-            }
+              }
+              $('#newExpend').css("opacity","");
+              $(".submitBtn").removeAttr("disabled");
+          }
+      });
         });
-    });
-    
+
     //file type validation
     $("#addBill").change(function() {
         var file = this.files[0];
@@ -282,63 +278,7 @@ $(document).ready(function(e){
             return false;
         }
     });
-});
 
-function CloseModal(){
-    $('#btncancelar').click();
-    $('#NewClientModal').modal("hide");
-    $('.modal-backdrop').remove();
-    $("#page_content").load("Nomina");
-  }
-</script>
-
-<!-- Script thats return data of an object selected -->
-<script>
-  function Edit_nomina($id){
-    var id=$id;
-    fecha=$("#fecha"+id).text();
-    id_empleado=$("#id_empleado"+id).text();
-    concepto=$("#concepto"+id).text();
-    monto=$("#monto"+id).text().replace('$','');
-    comentario=$("#comentario"+id).text();
-
-    $("#editnomina").modal();
-    $("#edit_id_gasto_nomina").val(id);
-    $("#edit_fecha").val(fecha);
-    $("#edit_empleado").val(id_empleado);
-    $("#edit_concepto").val(concepto);
-    $("#edit_monto").val(monto);
-    $("#edit_comentario").val(comentario);    
-    }
-
-    function Delete_pago($id_gasto_nomina){
-        var id=$id_gasto_nomina;
-        fecha=$("#fecha"+id).text();
-        id_empleado=$("#id_empleado"+id).text();
-        concepto=$("#concepto"+id).text();
-        monto=$("#monto"+id).text().replace('$','');
-        comentario=$("#comentario"+id).text();
-        url_factura=$("#url_factura"+id).text();
-
-
-        $("#deletenomina").modal();
-        $("#delete_id_gasto_nomina").val(id);
-        $("#delete_fecha").val(fecha);
-        $("#delete_empleado").val(id_empleado);
-        $("#delete_concepto").val(concepto);
-        $("#delete_monto").val(monto);
-        $("#delete_comentario").val(comentario); 
-        $("#delete_url_factura").val(url_factura);
-    }
-
-  function Update_Page(){
-    $("#page_content").load("Nomina");
-  }
-</script>
-
-<!-- script by update cost -->
-<script>
-  $(document).ready(function(e){
     $("#edit_nomina").on('submit', function(e){
         e.preventDefault();
         //fecha=$("#editDate").val();
@@ -365,11 +305,11 @@ function CloseModal(){
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Verifique que la información sea correcta');
-                }
-                $('#edit_nomina').css("opacity","");
-                $(".submitBtn").removeAttr("disabled");
-            }
-        });
+              }
+              $('#edit_nomina').css("opacity","");
+              $(".submitBtn").removeAttr("disabled");
+          }
+      });
     });
 
     $("#delete_nomina").on('submit', function(e){
@@ -395,14 +335,12 @@ function CloseModal(){
                     CloseModal();
                 }else{
                   alert('Falló el servidor. Intentelo nuevamente');
-                }
-                $('#delete_nomina').css("opacity","");
-                $(".submitBtn").removeAttr("disabled");
-            }
-        });
+              }
+              $('#delete_nomina').css("opacity","");
+              $(".submitBtn").removeAttr("disabled");
+          }
+      });
     });
-    
-
 });
 
 function CloseModal(){
@@ -410,17 +348,62 @@ function CloseModal(){
     $('#NewClientModal').modal("hide");
     $('.modal-backdrop').remove();
     $("#page_content").load("Nomina");
-  }
-</script>
+}
 
-<!-- view bill script -->
-<script>
-  function Display_bill($id){
+function Edit_nomina($id){
+    var id=$id;
+    fecha=$("#fecha"+id).text();
+    id_empleado=$("#id_empleado"+id).text();
+    concepto=$("#concepto"+id).text();
+    monto=$("#monto"+id).text().replace('$','');
+    comentario=$("#comentario"+id).text();
+
+    $("#editnomina").modal();
+    $("#edit_id_gasto_nomina").val(id);
+    $("#edit_fecha").val(fecha);
+    $("#edit_empleado").val(id_empleado);
+    $("#edit_concepto").val(concepto);
+    $("#edit_monto").val(monto);
+    $("#edit_comentario").val(comentario);    
+}
+
+function Delete_pago($id_gasto_nomina){
+    var id=$id_gasto_nomina;
+    fecha=$("#fecha"+id).text();
+    id_empleado=$("#id_empleado"+id).text();
+    concepto=$("#concepto"+id).text();
+    monto=$("#monto"+id).text().replace('$','');
+    comentario=$("#comentario"+id).text();
+    url_factura=$("#url_factura"+id).text();
+
+
+    $("#deletenomina").modal();
+    $("#delete_id_gasto_nomina").val(id);
+    $("#delete_fecha").val(fecha);
+    $("#delete_empleado").val(id_empleado);
+    $("#delete_concepto").val(concepto);
+    $("#delete_monto").val(monto);
+    $("#delete_comentario").val(comentario); 
+    $("#delete_url_factura").val(url_factura);
+}
+
+function Update_Page(){
+    $("#page_content").load("Nomina");
+}
+
+function CloseModal(){
+    $('#btncancelar').click();
+    $('#NewClientModal').modal("hide");
+    $('.modal-backdrop').remove();
+    $("#page_content").load("Nomina");
+}
+
+function Display_bill($id){
     var url="<?php echo base_url()?>"+$("#url_factura"+$id).text()+"?"+Date.now();
     var verifica=url.split("?");
     //alert(verifica[1]);
     if(verifica[0]!="<?php echo base_url()?>"){
-         $("#viewBill").modal();
+     $("#viewBill").modal();
        // $("#folios").val(invoice);
         // $("#folios").val(id);
         $("#showbill").prop("src", url);
@@ -433,12 +416,12 @@ function CloseModal(){
 function SeparaMiles($id){
   valor=$("#"+$id).val();
     valor=valor.replace(/\,/g, '');//si el valor ingresado contiene "comas", se eliminan
-  if(valor==""||isNaN(valor)){
+    if(valor==""||isNaN(valor)){
     //alert("entro");
     valor=0.00;
     //alert(valor);
-  }
-  var resultado=valor.toLocaleString("en");
-  $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-  }
+    }
+    var resultado=valor.toLocaleString("en");
+    $("#"+$id).val(parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+}
 </script>

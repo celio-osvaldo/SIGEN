@@ -293,7 +293,7 @@
             processData:false,
             beforeSend: function(){
                 $('.submitBtn').attr("disabled","disabled");
-                $('#delete_nomina').css("opacity",".5");
+                $('#edit_nomina').css("opacity",".5");
             },
             success: function(data){
                 // $('.statusMsg').html('');

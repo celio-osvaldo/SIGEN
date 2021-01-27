@@ -656,6 +656,32 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
 
+  public function GetOthersExpens($idcompany){
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $q = $this->db->get('otros_gastos');
+    return $q;
+  }
+
+  public function UpdateExpendInfo($id, $data){
+    $this->db->where('id_OGasto', $id);
+    $this->db->update('otros_gastos', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Delete_Expend($id_other_cost){
+    $this->db->where('id_OGasto',$id_other_cost);
+    $this->db->delete('otros_gastos');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
 
 }
 

@@ -1354,5 +1354,164 @@ public function UpdateInfoProduct(){
   		echo $borrado;
 	}
 
+	public function OtherExpens(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data=array('expens'=>$this->QM_model->GetOthersExpens($idcompany->id_empresa));
+		$this->load->view('Quinta/OtherCost', $data);
+	}
+
+	public function AddNewExpend(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$monto=$_POST["addAmount"];
+		$monto=str_replace(',', '', $monto); 
+
+/*
+		$add_flujo=$_POST["add_flujo"];
+		$iva=$_POST["add_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["add_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["add_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["add_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["add_dap"];
+		$dap=str_replace(',', '', $dap);
+*/
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Expends/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$table = 'otros_gastos';
+		$data = array('empresa_id_empresa'=> $idcompany->id_empresa,
+						'fecha_emision'=> $this->input->post('addEmitionDate'),
+						'concepto'=> $this->input->post('addConcept'),
+						'saldo'=> $monto,
+						'comentario'=> $this->input->post('addComment'),
+						'folio' => $this->input->post('addFolio'),
+						'fecha_pago_factura' => $this->input->post('addDate'),
+						//'otros_gastos_aplica_flujo' => $add_flujo,
+						'otros_gastos_referencia'=>$this->input->post('add_ref'),
+						/*'otros_gastos_iva'=>$iva,
+						'otros_gastos_iva_ret'=>$ret_iva,
+						'otros_gastos_isr_ret'=>$ret_isr,
+						'otros_gastos_ieps'=>$ieps,
+						'otros_gastos_dap'=>$dap
+						*/);
+
+		$id_otros_gastos=$this->QM_model->Insert($table, $data);
+		$url_imagen='Resources/Bills/Expends/QM/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('factura' => $url_imagen);//nombre del url
+				$this->QM_model->UpdateExpendInfo($id_otros_gastos, $data2);
+			}				
+        }
+        echo true;		
+	}
+
+	public function UpdateExpend(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+		$id_otros_gastos=$_POST["idE"];
+		//$edit_flujo=$_POST["edit_flujo"];
+
+		$monto=$_POST["editAmount"];
+		$monto=str_replace(',', '', $monto); 
+
+/*
+		$iva=$_POST["edit_iva"];
+		$iva=str_replace(',', '', $iva);
+		$ret_iva=$_POST["edit_ret_iva"];
+		$ret_iva=str_replace(',', '', $ret_iva);
+		$ret_isr=$_POST["edit_ret_isr"];
+		$ret_isr=str_replace(',', '', $ret_isr);
+		$ieps=$_POST["edit_ieps"];
+		$ieps=str_replace(',', '', $ieps);
+		$dap=$_POST["edit_dap"];
+		$dap=str_replace(',', '', $dap);
+*/
+
+		if (isset($_FILES['editBill']['name'])) {
+			$filename = $_FILES['editBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/Expends/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$url_imagen='Resources/Bills/Expends/QM/otros_gastos_'.$id_otros_gastos.'.'.$file_extension;
+
+		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
+						'fecha_emision'=> $this->input->post('editEmitionDate'),
+						'concepto'=> $this->input->post('editConcept'),
+						'saldo'=> $monto,
+						'comentario'=> $this->input->post('editComment'),
+						'folio' => $this->input->post('editFolio'),
+						'fecha_pago_factura' => $this->input->post('editDate'),
+						//'otros_gastos_aplica_flujo' => $edit_flujo,
+						'otros_gastos_referencia'=>$this->input->post('edit_ref'),
+						//'otros_gastos_iva'=>$iva,
+						//'otros_gastos_iva_ret'=>$ret_iva,
+						//'otros_gastos_isr_ret'=>$ret_isr,
+						//'otros_gastos_ieps'=>$ieps,
+						//'otros_gastos_dap'=>$dap,
+						);
+		        $this->QM_model->UpdateExpendInfo($id_otros_gastos, $data);
+
+		if(in_array($file_extension,$image_ext)&&$id_otros_gastos!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['editBill']['tmp_name'],$url_imagen)){
+				$data2 = array('factura' => $url_imagen );
+				$this->QM_model->UpdateExpendInfo($id_otros_gastos, $data2);
+			}				
+        }
+        echo true;
+	}
+
+	public function DeleteExpend(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+
+		$id_other_cost=$_POST['delete_idE'];
+		
+		$borrado=$this->QM_model->Delete_Expend($id_other_cost);
+  		echo $borrado;
+	}
+
+
+
+
 }
 

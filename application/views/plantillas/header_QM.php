@@ -99,7 +99,7 @@ header("Pragma: no-cache");
 							<a class="dropdown-item">Operativos</a>
 							<ul class="dropdown-menu">
 								<li><a class="dropdown-item" id="nomina">Nómina</a></li>
-								<li><a class="dropdown-item" id="servicios">Servicios</a></li>
+								<li><a class="dropdown-item" id="servicios">Servicios/Mantenimiento</a></li>
 								<li><a class="dropdown-item"  id="other_expens">Otros Gastos</a></li>
 							</ul>
 						</div>

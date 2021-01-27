@@ -77,8 +77,11 @@
                  <td align="center" id="<?php echo "bill".$row->id_gasto_venta.""; ?>"><a role="button" class="btn btn-outline-dark openfile" id="<?php echo "".$row->id_gasto_venta.""; ?>"  onclick="Display_bill(this.id)"><img width="20px" src="<?php echo base_url() ?>Resources/Icons/invoice_icon_128337.ico"  style="filter: invert(100%)"></a></td>
                  <td hidden="true" id="<?php echo "url_factura".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_url_factura.""; ?></td>
                  <td>
-                    <a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#editCostSale"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                    <div class="row">
+                        <a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#editCostSale"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
                      <a role="button" class="btn btn-outline-dark" onclick="Delete_pago(this.id)" id="<?php echo "".$row->id_gasto_venta.""; ?>" data-toggle="modal" data-target="#deletenomina"><img height="20" src="..\Resources\Icons\delete.ico" alt="Eliminar" style="filter: invert(100%)" /></a>
+                    </div>
+
                 </td>
              </tr>
          <?php } ?>

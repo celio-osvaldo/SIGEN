@@ -1510,7 +1510,128 @@ public function UpdateInfoProduct(){
   		echo $borrado;
 	}
 
+	public function Servicios(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data=array('lista_nomina'=>$this->QM_model->Lista_servicios($idcompany->id_empresa));
+		$this->load->view('Quinta/Lista_servicios',$data);
+	}
 
+	public function AddNew_Servicio(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+
+		$new_monto=$_POST['new_monto'];
+		$new_monto=str_replace(',', '', $new_monto);
+
+		if (isset($_FILES['addBill']['name'])) {
+			$filename = $_FILES['addBill']['name'];//imageE
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = 'Resources/Bills/SerMtto/QM/'.$filename;//Dirección para guardar la imagen/documento
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+		$table = 'serv_mtto';
+		$data = array('empresa_id_empresa'=> $idcompany->id_empresa,
+						'serv_mtto_fecha_emision'=> $this->input->post('new_fecha'),
+						'serv_mtto_folio'=> $this->input->post('new_folio'),
+						'serv_mtto_concepto'=> $this->input->post('new_concepto'),
+						'serv_mtto_monto'=> $new_monto,
+						'serv_mtto_comentario' => $this->input->post('new_comentario'),
+						'serv_mtto_referencia_pago' =>$this->input->post('add_ref'));
+
+		$id_serv_mtto=$this->QM_model->Insert($table, $data);
+		$url_imagen='Resources/Bills/SerMtto/QM/gasto_nomina_'.$id_serv_mtto.'.'.$file_extension;
+	
+
+		if(in_array($file_extension,$image_ext)&&$id_serv_mtto!=""&&$filename!=""){
+			if (file_exists($url_imagen)){
+  				unlink($url_imagen);
+  			} 
+  				// Upload file
+			if(move_uploaded_file($_FILES['addBill']['tmp_name'],$url_imagen)){
+				$data2 = array('serv_mtto_url_factura' => $url_imagen);//nombre del url
+				$this->QM_model->UpdateServ_Mtto($id_serv_mtto, $data2);
+			}				
+        }
+        echo true;		
+	}
+
+
+	public function Update_Serv_Mtto(){
+			$this->load->model('QM_model');
+			$company='QM';
+			$idcomp=$this->QM_model->IdCompany($company);
+
+			$edit_id_serv_mtto=$_POST['edit_id_serv_mtto'];
+			$edit_fecha=$_POST['edit_fecha'];
+			$edit_folio=$_POST['edit_folio'];
+			$edit_concepto=$_POST['edit_concepto'];
+			$edit_monto=$_POST['edit_monto'];
+			$edit_monto=str_replace(',', '', $edit_monto); 
+			$edit_comentario=$_POST['edit_comentario'];
+			$edit_ref=$_POST['edit_ref'];
+
+
+
+
+			if (isset($_FILES['editBill']['name'])) {
+				$filename = $_FILES['editBill']['name'];//imageE
+			} else {
+				$filename="";
+			}
+
+			//Obtenemos el nombre del documento que subiremos
+			$location = 'Resources/Bills/SerMtto/QM/'.$filename;//Dirección para guardar la imagen/documento
+			// file extension
+			$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+			$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+			// Valid image extensions
+			$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+			$url_imagen='Resources/Bills/SerMtto/QM/gasto_nomina_'.$edit_id_serv_mtto.'.'.$file_extension;
+
+			$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
+						'serv_mtto_fecha_emision'=> $this->input->post('edit_fecha'),
+						'serv_mtto_folio'=> $this->input->post('edit_folio'),
+						'serv_mtto_concepto'=> $this->input->post('edit_concepto'),
+						'serv_mtto_monto'=> $edit_monto,
+						'serv_mtto_comentario' => $this->input->post('edit_comentario'),
+						'serv_mtto_referencia_pago' =>$this->input->post('edit_ref'));
+			        $this->QM_model->UpdateServ_Mtto($edit_id_serv_mtto, $data);
+
+			if(in_array($file_extension,$image_ext)&&$edit_id_serv_mtto!=""&&$filename!=""){
+				if (file_exists($url_imagen)){
+	  				unlink($url_imagen);
+	  			} 
+	  				// Upload file
+				if(move_uploaded_file($_FILES['editBill']['tmp_name'],$url_imagen)){
+					$data2 = array('serv_mtto_url_factura' => $url_imagen );
+					$this->QM_model->UpdateServ_Mtto($edit_id_serv_mtto, $data2);
+				}				
+	        }
+	        echo true;
+		}
+	
+	public function Delete_Serv_Mtto(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcomp=$this->QM_model->IdCompany($company);
+
+		$delete_id_serv_mtto=$_POST['delete_id_serv_mtto'];
+		
+		$borrado=$this->QM_model->Delete_Serv_Mtto($delete_id_serv_mtto);
+  		echo $borrado;
+	}
 
 
 }

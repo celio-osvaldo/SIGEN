@@ -682,6 +682,35 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
 
+  public function Lista_servicios($idcompany){
+    $this->db->where('empresa_id_empresa', $idcompany);
+    $q = $this->db->get('serv_mtto');
+    return $q;
+  }
+
+  public function UpdateServ_Mtto($id_serv_mtto, $data2){
+    $this->db->where('id_serv_mtto', $id_serv_mtto);
+    $this->db->update('serv_mtto', $data2);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+
+  public function Delete_Serv_Mtto($delete_id_serv_mtto){
+    $this->db->where('id_serv_mtto',$delete_id_serv_mtto);
+    $this->db->delete('serv_mtto');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+
+
 
 }
 

@@ -143,6 +143,13 @@
 			});
 		</script>
 
+		<script>//script to load Office Product Inventorie
+			$(document).ready(function(){
+				$("#servicios").click(function(){
+					$("#page_content").load("Servicios");
+				});
+			});
+		</script>
 
 <script type="text/javascript">
 function countChars(obj){

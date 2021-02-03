@@ -4,71 +4,53 @@
      <!-- <th>No.</th>  -->
      <th>Fecha</th>
      <th>Concepto</th>
-     <th>Proveedor/Cliente</th>
+     <th>Cliente</th>
      <th>Cargos (-)</th>
      <th>Abonos(+)</th>
      <th>Ubicación</th>
-     <th>Aplica en Flujo</th>
    </tr>
  </thead>
  <tbody>
   <!--Datos de Ingresos -->
-  <?php  $no=1; $saldo_total=0;
+  <?php  $saldo_total=0;
     $suma_ingresos=0;
     $suma_egresos=0;
     foreach ($ingresos_venta_mov->result() as $row) {
-      if ($row->venta_mov_estim_estatus=="1"){
-            $saldo_total+=$row->venta_mov_monto;
-    $suma_ingresos+=$row->venta_mov_monto;
+     if ($row->venta_mov_estim_estatus=="1") {
+        $saldo_total+=$row->venta_mov_monto;
+        $suma_ingresos+=$row->venta_mov_monto;
   ?>
     <tr>
-     <!--       <td id="<?php// echo "no".$no;?>"><?php echo $no; ?>  </td> -->
      <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?> </td>
-     <td id="<?php echo "concepto".$row->id_venta_mov;?>"><?php echo "Pago Proyecto: ".$row->venta_mov_comentario.""; ?></td>
+     <td id="<?php echo "concepto".$row->id_venta_mov;?>"><?php echo "Pago Evento: ".$row->venta_mov_comentario.""; ?></td>
      <td id="<?php echo "cliente".$row->id_venta_mov;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
      <td></td>
      <td id="<?php echo "abono".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?></td>
      <td id="<?php echo "proyecto".$row->id_venta_mov;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-     <?php if ($row->venta_mov_estim_estatus=="1"){ ?>
-        <td>SI</td>
-     <?php } else{?>
-        <td>NO</td>
-       <?php }?>
+<!--
+     <td></td>
+   -->
    </tr>
    <?php 
-   $no++;
-       
-      }
-
+      } 
  } ?> 
 
 
-
-<!--Datos de Egresos Gasto Venta-->
-<?php  $no=1; foreach ($egresos_gasto_venta->result() as $row) {
+<!--Datos de Egresos Gasto Evento-->
+<?php   foreach ($egresos_gasto_venta->result() as $row) {
   $saldo_total-=$row->gasto_venta_monto;
   $suma_egresos+=$row->gasto_venta_monto;
   ?>
   <tr>
-   <!--       <td id="<?php// echo "no".$no;?>"><?php echo $no; ?>  </td> -->
    <td id="<?php echo "fecha".$row->id_gasto_venta;?>"><?php echo "".$row->gasto_venta_fecha.""; ?> </td>
-   <td id="<?php echo "concepto".$row->id_gasto_venta;?>"><?php echo "Gasto Venta:".$row->gasto_venta_concepto.""; ?></td>
+   <td id="<?php echo "concepto".$row->id_gasto_venta;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
    <td id="<?php echo "cliente".$row->id_gasto_venta;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
    <td id="<?php echo "cargo".$row->id_gasto_venta;?>">$<?php echo number_format($row->gasto_venta_monto,2,'.',',').""; ?></td>
    <td></td>
-   <td id="<?php echo "proyecto".$row->id_gasto_venta;?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
-        <td>
-       <?php if ($row->gasto_venta_aplica_flujo==1){ ?>
-         SI
-       <?php }else{?>
-        NO
-        <?php } ?>
-     </td>
+   <td id="<?php echo "proyecto".$row->id_gasto_venta;?>"><?php echo "Gasto Evento:".$row->gasto_venta_concepto.""; ?></td>
  </tr>
  <?php 
- $no++;
 } ?>
-
 
 
 </tbody>
@@ -89,11 +71,11 @@
 
     $('#table_flujo_efectivo').DataTable( 
     { 
-      dom: 'Bfrtip',
+      dom: 'Blfrtip',
       buttons: [ 
         {
             extend: 'pdf',
-            title: 'Flujo de Efectivo\n Empresa: DASA \n'+$('#fecha_letra').text(),
+            title: 'Flujo de Efectivo\n Empresa: Quinta Monticello \n'+$('#fecha_letra').text(),
             orientation: 'landscape',
             pageSize: 'LETTER',
             exportOptions: {
@@ -106,7 +88,7 @@
         },
                 {
             extend: 'copy',
-            title: 'Flujo de Efectivo\n Empresa: DASA \n'+$('#fecha_letra').text(),
+            title: 'Flujo de Efectivo\n Empresa: Quinta Monticello \n'+$('#fecha_letra').text(),
             orientation: 'landscape',
             pageSize: 'LETTER',
             exportOptions: {

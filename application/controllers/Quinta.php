@@ -1767,10 +1767,10 @@ public function UpdateInfoProduct(){
 		}else{
 			$data = array('ingresos_venta_mov' => $this->QM_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
 					  	   'sal_ban_ant'=> $saldo_guardado->flujo_efectivo_saldo_ini,
-					  	   'egresos_caja_chica' => $this->QM_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
-					  	   'egresos_gasto_venta' => $this->QM_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
-					  	   'egresos_viatico' => $this->QM_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
-					  	   'egresos_otros_gastos' => $this->QM_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_gasto_venta' => $this->QM_model->Get_Egresos_Gasto_Evento($idcompany->id_empresa,$anio,$mes),
+					       'egresos_nomina' => $this->QM_model->Get_Egresos_Gasto_Nomina($idcompany->id_empresa,$anio,$mes),
+					       'egresos_otros_gastos' => $this->QM_model->Get_Egresos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
+					       'egresos_serv_mtto' => $this->QM_model->Get_Egresos_Serv_Mtto($idcompany->id_empresa,$anio,$mes),
 					  	   'mes'=>$mes_letra,
 					  	   'anio'=>$anio );
 		}	
@@ -1801,6 +1801,27 @@ public function UpdateInfoProduct(){
 			$this->QM_model->Update_Flujo($mes,$anio,$idcompany->id_empresa,$data);
 			echo "existe";
 		}
+	}
+
+	public function FlujoEfectivo_Proyecto(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$data = array('proyectos' => $this->QM_model->GetAllCustomer_Project($idcompany->id_empresa) , );
+		$this->load->view('Quinta/Report_Flujo_Efectivo_proyecto',$data);
+	}
+
+	public function Reporte_flujo_efectivo_proyecto(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$id_obra_cliente=$_POST["id_obra_cliente"];
+
+		$data = array('ingresos_venta_mov' => $this->QM_model->Get_Ingresos_Pagos_Evento($id_obra_cliente),
+					    'egresos_gasto_venta' => $this->QM_model->Get_Egresos_Evento_Gasto_Evento($id_obra_cliente));
+		//var_dump($data);
+		$this->load->view('Quinta/Tabla_flujo_efectivo_proyecto', $data);
+
 	}
 
 }

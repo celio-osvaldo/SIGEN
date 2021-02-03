@@ -31,8 +31,8 @@
     $suma_egresos=0;
     foreach ($ingresos_venta_mov->result() as $row) {
      if ($row->venta_mov_estim_estatus=="1") {
-         $saldo_total+=$row->venta_mov_monto;
-    $suma_ingresos+=$row->venta_mov_monto;
+        $saldo_total+=$row->venta_mov_monto;
+        $suma_ingresos+=$row->venta_mov_monto;
   ?>
     <tr>
      <!--       <td id="<?php// echo "no".$no;?>"><?php echo $no; ?>  </td> -->

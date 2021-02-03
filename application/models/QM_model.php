@@ -709,6 +709,125 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
 
+  public function Verifica_Flujo($idcompany,$anio,$mes){
+    $this->db->select('id_flujo_efectivo');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes);
+    $this->db->where('flujo_efectivo_anio',$anio);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_sal_ban_ant($idcompany,$anio_ant,$mes_ant){
+    $this->db->select('flujo_efectivo_saldo_fin');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes_ant);
+    $this->db->where('flujo_efectivo_anio',$anio_ant);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_sal_ban_guardado($idcompany,$anio,$mes_letra){
+    $this->db->select('flujo_efectivo_saldo_ini');
+    $this->db->from('flujo_efectivo');
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('flujo_efectivo_mes',$mes_letra);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_Ingresos_Pagos($idcompany,$anio,$mes){
+    $this->db->select('id_venta_mov, venta_mov_fecha, venta_mov_comentario, venta_mov_factura, venta_mov_monto, obra_cliente_nombre, obra_cliente_empresa_id_empresa, venta_movimiento_url_factura, catalogo_cliente_empresa, venta_mov_estim_estatus');
+    $this->db->from('venta_movimiento');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->join('catalogo_cliente','obra_cliente_id_cliente=id_catalogo_cliente');
+    $this->db->where('MONTH(venta_mov_fecha)',$mes);
+    $this->db->where('YEAR(venta_mov_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->where('obra_cliente_aplica_flujo','1');
+    $this->db->order_by('venta_mov_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+    public function Get_Egresos_Gasto_Evento($idcompany,$anio,$mes){
+    $this->db->select('id_gasto_venta, obra_cliente_id_obra_cliente, obra_cliente_empresa_id_empresa, gasto_venta_fecha, gasto_venta_factura, gasto_venta_monto, gasto_venta_concepto, gasto_venta_observacion, gasto_venta_estado_pago, gasto_venta_fecha_pago, obra_cliente_nombre');
+    $this->db->from('gasto_venta');
+    $this->db->join('obra_cliente','obra_cliente_id_obra_cliente=id_obra_cliente');
+    $this->db->where('MONTH(gasto_venta_fecha)',$mes);
+    $this->db->where('YEAR(gasto_venta_fecha)',$anio);
+    $this->db->where('obra_cliente_empresa_id_empresa',$idcompany);
+    $this->db->where('gasto_venta_aplica_flujo','1');
+    $this->db->order_by('gasto_venta_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Get_Egresos_Otros_Gastos($idcompany,$anio,$mes){
+    $this->db->select('`id_OGasto, empresa_id_empresa, fecha_emision, concepto, saldo, comentario, folio, factura, fecha_pago_factura');
+    $this->db->from('otros_gastos');
+    $this->db->join('empresa','empresa_id_empresa=id_empresa');
+    $this->db->where('MONTH(fecha_pago_factura)',$mes);
+    $this->db->where('YEAR(fecha_pago_factura)',$anio);
+    $this->db->where('empresa_id_empresa',$idcompany);
+    $this->db->where('otros_gastos_aplica_flujo','1');
+    $this->db->order_by('fecha_pago_factura');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Guarda_Flujo($data){
+    $this->db->insert('flujo_efectivo',$data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Update_Flujo($mes,$anio,$id_empresa,$data){
+    $this->db->where('flujo_efectivo_mes',$mes);
+    $this->db->where('flujo_efectivo_anio',$anio);
+     $this->db->where('empresa_id_empresa',$id_empresa);
+      $this->db->update('flujo_efectivo', $data);
+      if ($this->db->affected_rows() > 0) {
+        return true;
+      } else{
+        return false;
+      }
+  }
+
+  public function Get_Egresos_Gasto_Nomina($id_empresa,$anio,$mes){
+    $this->db->select('id_gasto_nomina, gasto_nomina_id_empresa, gasto_nomina_fecha, gasto_nomina_id_empleado, gasto_nomina_concepto, gasto_nomina_monto, gasto_nomina_comentario, gasto_nomina_url_comprobante');
+    $this->db->from('gasto_nomina');
+    $this->db->join('empresa','gasto_nomina_id_empresa=id_empresa');
+    $this->db->where('MONTH(gasto_nomina_fecha)',$mes);
+    $this->db->where('YEAR(gasto_nomina_fecha)',$anio);
+    $this->db->where('gasto_nomina_id_empresa',$id_empresa);
+    $this->db->order_by('gasto_nomina_fecha');
+    $result = $this->db->get();
+    return $result;
+  }
+
+  public function Get_Egresos_Serv_Mtto($id_empresa,$anio,$mes){
+     $this->db->select('id_serv_mtto, empresa_id_empresa, serv_mtto_fecha_emision, serv_mtto_concepto, serv_mtto_monto, serv_mtto_folio, serv_mtto_comentario, serv_mtto_url_factura, serv_mtto_referencia_pago');
+    $this->db->from('serv_mtto');
+    $this->db->join('empresa','empresa_id_empresa=id_empresa');
+    $this->db->where('MONTH(serv_mtto_fecha_emision)',$mes);
+    $this->db->where('YEAR(serv_mtto_fecha_emision)',$anio);
+    $this->db->where('empresa_id_empresa',$id_empresa);
+    $this->db->order_by('serv_mtto_fecha_emision');
+    $result = $this->db->get();
+    return $result;
+
+  }
+
 
 
 

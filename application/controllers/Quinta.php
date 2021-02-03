@@ -1633,6 +1633,175 @@ public function UpdateInfoProduct(){
   		echo $borrado;
 	}
 
+	public function FlujoEfectivo(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		//$data = array('' => , );
+		$this->load->view('Quinta/Report_Flujo_Efectivo');
+	}
+
+	public function Reporte_flujo_efectivo(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$anio=$_POST["anio"];
+		$mes=$_POST["mes"];
+		switch ($mes) {
+			case '01':
+				$mes_letra="ENERO";
+				break;
+			case '02':
+				$mes_letra="FEBRERO";
+				break;
+			case '03':
+				$mes_letra="MARZO";
+				break;
+			case '04':
+				$mes_letra="ABRIL";
+				break;
+			case '05':
+				$mes_letra="MAYO";
+				break;
+			case '06':
+				$mes_letra="JUNIO";
+				break;
+			case '07':
+				$mes_letra="JULIO";
+				break;
+			case '08':
+				$mes_letra="AGOSTO";
+				break;
+			case '09':
+				$mes_letra="SEPTIEMBRE";
+				break;
+			case '10':
+				$mes_letra="OCTUBRE";
+				break;
+			case '11':
+				$mes_letra="NOVIEMBRE";
+				break;
+			case '12':
+				$mes_letra="DICIEMBRE";
+				break;			
+			default:
+			
+				break;
+		}
+		if($mes==01){
+			$mes_ant=12;
+			$anio_ant=$anio-1;
+		}else{
+			$mes_ant=$mes-1;
+			$anio_ant=$anio;
+		}
+
+		switch ($mes_ant) {
+			case '01':
+				$mes_ant_letra="ENERO";
+				break;
+			case '02':
+				$mes_ant_letra="FEBRERO";
+				break;
+			case '03':
+				$mes_ant_letra="MARZO";
+				break;
+			case '04':
+				$mes_ant_letra="ABRIL";
+				break;
+			case '05':
+				$mes_ant_letra="MAYO";
+				break;
+			case '06':
+				$mes_ant_letra="JUNIO";
+				break;
+			case '07':
+				$mes_ant_letra="JULIO";
+				break;
+			case '08':
+				$mes_ant_letra="AGOSTO";
+				break;
+			case '09':
+				$mes_ant_letra="SEPTIEMBRE";
+				break;
+			case '10':
+				$mes_ant_letra="OCTUBRE";
+				break;
+			case '11':
+				$mes_ant_letra="NOVIEMBRE";
+				break;
+			case '12':
+				$mes_ant_letra="DICIEMBRE";
+				break;			
+			default:
+				# code...
+				break;
+		}
+
+
+		if(is_null($this->QM_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes_letra))){
+			$saldo_ant=$this->QM_model->Get_sal_ban_ant($idcompany->id_empresa,$anio_ant,$mes_ant_letra);//Si no existe un registro de flujo de efectivo para el mes actual, entonces busca el saldo en banco del mes anterior
+			if(isset($saldo_ant->flujo_efectivo_saldo_fin)){
+				$saldo_anterior=$saldo_ant->flujo_efectivo_saldo_fin;
+			}else{
+				$saldo_anterior=0.00;
+			}				
+				$tipo_saldo="anterior";
+			
+		}else{
+			$saldo_guardado=$this->QM_model->Get_sal_ban_guardado($idcompany->id_empresa,$anio,$mes_letra);//si ya existe un registro del mes actual, entonces toma el último saldo de banco guardado en el registro del flujo de efectivo
+			//$saldo_ant=0.99;
+			$tipo_saldo="guardado";
+		}	
+		
+
+		if($tipo_saldo=="anterior"){
+			$data = array('ingresos_venta_mov' => $this->QM_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
+					      'sal_ban_ant'=>$saldo_anterior,
+					      'egresos_gasto_venta' => $this->QM_model->Get_Egresos_Gasto_Evento($idcompany->id_empresa,$anio,$mes),
+					      'egresos_nomina' => $this->QM_model->Get_Egresos_Gasto_Nomina($idcompany->id_empresa,$anio,$mes),
+					      'egresos_otros_gastos' => $this->QM_model->Get_Egresos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
+					      'egresos_serv_mtto' => $this->QM_model->Get_Egresos_Serv_Mtto($idcompany->id_empresa,$anio,$mes),
+					      'mes'=>$mes_letra,
+					  	   'anio'=>$anio );
+		}else{
+			$data = array('ingresos_venta_mov' => $this->QM_model->Get_Ingresos_Pagos($idcompany->id_empresa,$anio,$mes),
+					  	   'sal_ban_ant'=> $saldo_guardado->flujo_efectivo_saldo_ini,
+					  	   'egresos_caja_chica' => $this->QM_model->Get_Egresos_Caja_Chica($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_gasto_venta' => $this->QM_model->Get_Egresos_Gasto_Venta($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_viatico' => $this->QM_model->Get_Egresos_Gasto_Viatico($idcompany->id_empresa,$anio,$mes),
+					  	   'egresos_otros_gastos' => $this->QM_model->Get_Egregos_Otros_Gastos($idcompany->id_empresa,$anio,$mes),
+					  	   'mes'=>$mes_letra,
+					  	   'anio'=>$anio );
+		}	
+		//var_dump($data);
+		$this->load->view('Quinta/Tabla_flujo_efectivo', $data);
+	}
+	public function Save_Reporte_flujo(){
+		$this->load->model('QM_model');
+		$company='QM';
+		$idcompany=$this->QM_model->IdCompany($company);
+		$anio=$_POST["anio"];
+		$mes=$_POST["mes"];
+		if(is_null($this->QM_model->Verifica_Flujo($idcompany->id_empresa,$anio,$mes))){
+			$data = array('empresa_id_empresa' =>$idcompany->id_empresa ,
+						  'flujo_efectivo_mes' =>$mes ,
+						  'flujo_efectivo_anio' =>$anio ,
+						  'flujo_efectivo_saldo_ini' =>$this->input->post('saldo_ini') ,
+						  'flujo_efectivo_saldo_fin' =>$this->input->post('saldo_fin') ,
+						  'flujo_efectivo_total_ingreso' =>$this->input->post('ingreso') ,
+						  'flujo_efectivo_total_egreso' =>$this->input->post('egresos'));
+			$result=$this->QM_model->Guarda_Flujo($data);
+			echo $result;
+		}else{
+			$data = array('flujo_efectivo_saldo_ini' =>$this->input->post('saldo_ini') ,
+						  'flujo_efectivo_saldo_fin' =>$this->input->post('saldo_fin') ,
+						  'flujo_efectivo_total_ingreso' =>$this->input->post('ingreso') ,
+						  'flujo_efectivo_total_egreso' =>$this->input->post('egresos'));
+			$this->QM_model->Update_Flujo($mes,$anio,$idcompany->id_empresa,$data);
+			echo "existe";
+		}
+	}
 
 }
 

@@ -2921,9 +2921,12 @@ public function GETMAX_Folio_recibo(){
 		$mensaje="Error";
 
 		//Verificamos el password actual
-		if($this->Iluminacion_model->Check_Pass($id_usuario,$pass_actual)){
+		$password_encriptado_actual=$this->Iluminacion_model->Check_Pass($id_usuario,$pass_actual);
+		if(password_verify($pass_actual, $password_encriptado_actual->usuario_pass)){
 
-			$data = array('usuario_pass' => $pass_nuevo );
+			$pass_cifrado=password_hash($pass_nuevo, PASSWORD_DEFAULT);
+
+			$data = array('usuario_pass' => $pass_cifrado );
 	        	$this->Iluminacion_model->Update_User($id_usuario,$data);
 	        $mensaje="pass_nuevo_actualizado";
 		}else{

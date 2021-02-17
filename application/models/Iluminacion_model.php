@@ -1331,13 +1331,14 @@ class Iluminacion_model extends CI_Model
   }
 
   public function Check_Pass($id_usuario,$pass_actual){
-    $this->db->select('id_usuario');
+    $this->db->select('id_usuario,usuario_pass');
     $this->db->from('usuario');
     $this->db->where('id_usuario',$id_usuario);
-    $this->db->where('usuario_pass',$pass_actual);
+   // $this->db->where('usuario_pass',$pass_actual);
     $query=$this->db->get();
     if($query -> num_rows() >0){
-      return true;
+      $result = $query->row();#the result displays in a row
+      return $result;#if the query has data, returns the data query
     }else{
       return false;
     }

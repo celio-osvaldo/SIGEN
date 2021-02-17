@@ -104,6 +104,8 @@ class SuperUser extends CI_Controller {
         $permitted_chars = '0123456789abcdefghijklmnopqrstuvwxyz';
 		$pass=substr(str_shuffle($permitted_chars), 0, 8);
 
+        $pass_cifrado=password_hash($pass, PASSWORD_DEFAULT, array("cost"=>12));
+
         $asunto="Nueva Contraseña SIGEN";
         $carta=$nombre;
         $carta.="\nA continuación se muestra su nueva contraseña de acceso al sistema SIGEN.\n";
@@ -114,7 +116,7 @@ class SuperUser extends CI_Controller {
         $carta.="\n\nSi usted no solicitó el cambio de contraseña, por favor contacte al administrador.";
 
         if(mail($email, $asunto, $carta)){
-        	$data = array('usuario_pass' => $pass );
+        	$data = array('usuario_pass' => $pass_cifrado );
         	$this->SU_model->Update_User($id_usuario,$data);
         	echo true;
         }else{
@@ -132,6 +134,8 @@ class SuperUser extends CI_Controller {
         $tel=$_POST["tel"];
         $email=$_POST["email"];
 
+        $pass_cifrado=password_hash($alias, PASSWORD_DEFAULT, array("cost"=>12));
+
         $data = array('usuario_tipo' => $tipo_usuario,
          			  'usuario_nom' => $nombre,
          			  'usuario_ap' => $ap,
@@ -139,7 +143,7 @@ class SuperUser extends CI_Controller {
          			  'usuario_tel' =>$tel,
          			  'usuario_email' => $email,
          			  'usuario_alias' => $alias,
-         			  'usuario_pass' => $alias);
+         			  'usuario_pass' => $pass_cifrado);
         $new_id=$this->SU_model->New_User($data);
         if($new_id){
         	if($tipo_usuario==1){

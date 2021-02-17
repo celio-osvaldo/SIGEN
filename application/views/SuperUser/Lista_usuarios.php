@@ -376,9 +376,9 @@
             type: 'post',
             data: {id_usuario:id_usuario, nombre:nombre, email:email, alias:alias},
             success:function(result){
-            //alert(result);
+            alert(result);
             if(result){
-             alert("Correo enviado");
+             alert("Correo enviado:");
              Update_Page(); 
            }else{
              alert("Error en el servidor. Correo no enviado");

@@ -149,7 +149,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <label class="label-control">Producto</label>
+            <label class="label-control">Mobiliario/Servicio</label>
             <select class="form-control" id="prod_nombre">
               <option disabled selected>--Seleccionar Mobiliario/Servicio--</option>
               <?php foreach ($lista_mobiliario->result() as $row){ ?>
@@ -191,7 +191,7 @@
         <input type="text" name="id_evento_mobiliario" id="id_evento_mobiliario" hidden="true">
         <div class="row">
           <div class="col-md-12">
-            <label class="label-control">Producto</label>
+            <label class="label-control">Mobiliario/Servicio</label>
             <input type="text" name="edit_prod_alm_nom" id="edit_prod_alm_nom" disabled="true" class="form-control">
           </div>
         </div>

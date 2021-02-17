@@ -22,11 +22,11 @@ class Welcome extends CI_Controller {
          $pass = $this->input->post('pass');//the name of input in the view for password
          $users = $this->Login_model->UserLogin($user, $pass);//invoke the funtion into the model
           
-         if (isset($users)) {#if the query is realized
+         if(password_verify($pass, $users->usuario_pass)){#if the query is realized
             $usuario_data = array(#its created an array with the fields to validated for login
                'id_usuario' => $users->id_usuario,#the field of table must be same in the parameter
                //'empresa_nom' => $users->empresa_nom,#the field of table must be same in the parameter
-               'usuario_alias' => $users->usuario_alias,#the field of table must be same in the parameter
+              'usuario_alias' => $users->usuario_alias,
                'usuario_nom' => $users->usuario_nom,#the field of table must be same in the parameter
                'usuario_tipo' => $users->usuario_tipo,
                'GetSession' => true);//If last data are true the next function will execute

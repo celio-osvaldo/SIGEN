@@ -147,7 +147,7 @@
     <td></td>
     <td></td>
     <td>
-      <button class="btn btn-success" onclick="Almacena_Rep()">Almacenar Reporte</button>     
+     <!-- <button class="btn btn-success" onclick="Almacena_Rep()">Almacenar Reporte</button>     -->
     </td>
   </tr>
 </tfoot>

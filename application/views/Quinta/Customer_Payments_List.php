@@ -69,14 +69,14 @@
             <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?>
           </td>
           <td>
-           <div class="row">
+           <div class="row" >
             <form action="<?php echo base_url();?>Quinta/Genera_PDF_Recibo_Pago" method="POST" target='_blank'>
              <input type="text" hidden="true" id="id_venta_mov" name="id_venta_mov" value="<?php echo $row->id_venta_mov ?>">
              <input hidden="true" id="folio" type="text" name="folio">
               <button class="btn btn-outline-secondary"  type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
            </form>
             <a class="btn btn-outline-secondary" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20" title="Editar" style="filter: invert(100%)" /></a>
-
+          </div>
           </td>
         </tr>
         <?php 

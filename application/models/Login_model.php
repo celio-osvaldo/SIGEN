@@ -21,9 +21,9 @@ function UsersQuery($user, $pass){
   }
 
   function UserLogin($user, $pass){
-    $this->db->select('id_usuario, usuario_alias, usuario_nom, usuario_tipo');//the name of fields to query in the login
+    $this->db->select('id_usuario, usuario_alias, usuario_nom, usuario_tipo, usuario_pass');//the name of fields to query in the login
       $this->db->from('usuario');#name of first table
-      $this->db->where('usuario_pass', $pass);#the field must match the entered parameter of password
+     // $this->db->where('usuario_pass', $pass);#the field must match the entered parameter of password
       $nom_alias = "(usuario_alias='$user' OR usuario_nom='$user')";
       $this->db->where($nom_alias);#the field must match the entered parameter of user
      // $this->db->or_where('usuario_nom',$user);

@@ -162,6 +162,10 @@
 	$('#Lista_Solicitudes').click(function(){
 			$('#page_content').load('Lista_Solicitudes');
 		});
+
+	$('#Nube').click(function(){
+			$('#page_content').load('Ver_Nube');
+		});
 	</script>
 
 

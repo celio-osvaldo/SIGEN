@@ -3184,6 +3184,28 @@ public function GETMAX_Folio_recibo(){
 		$this->load->view('Iluminacion/Historial_Inv_Consumible', $data);
     }
 
+   public function Ver_Nube(){
+        $this->load->model('Iluminacion_model');
+        $company='ILUMINACION';
+        $idcompany=$this->Iluminacion_model->IdCompany($company);
+        $url_base=base_url();
+        //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
+        $data = array('ruta' => "");
+        $this->load->view('Iluminacion/Menu_nube',$data);
+    }
+
+    public function Carga_tabla(){
+		 $this->load->model('Iluminacion_model');
+        $company='ILUMINACION';
+        $idcompany=$this->Iluminacion_model->IdCompany($company);
+        $url_base=base_url();
+        //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
+        $ruta=$_POST['ruta'];
+        $data = array('ruta' => $ruta, );
+        $this->load->view('Iluminacion/Menu_nube',$data);
+    }
+
+
 #end controller
 }
  

@@ -3195,7 +3195,7 @@ public function GETMAX_Folio_recibo(){
     }
 
     public function Carga_tabla(){
-		 $this->load->model('Iluminacion_model');
+		$this->load->model('Iluminacion_model');
         $company='ILUMINACION';
         $idcompany=$this->Iluminacion_model->IdCompany($company);
         $url_base=base_url();
@@ -3205,6 +3205,49 @@ public function GETMAX_Folio_recibo(){
         $this->load->view('Iluminacion/Menu_nube',$data);
     }
 
+    public function Borra_Archivo(){
+    	$nom_archivo=$_POST["nom_archivo"];
+    	$borrar="Resources/Nube_Sigen/Iluminacion/".$nom_archivo;
+    	if (unlink($borrar)) {
+    		echo true;
+    	}else{
+    		echo false;
+    	}
+    }
+
+    public function Borra_Carpeta(){
+    	$nom_carpeta=$_POST["nom_carpeta"];
+    	$borrar="Resources/Nube_Sigen/Iluminacion/".$nom_carpeta;
+
+    	foreach(glob($borrar . "/*") as $archivos_carpeta){             
+        	if (is_dir($archivos_carpeta)){
+          		rmDir_rf($archivos_carpeta);
+        	} else {
+        		unlink($archivos_carpeta);
+        	}
+      	}
+    	if (rmdir($borrar)) {
+    		echo true;
+    	}else{
+    		echo false;
+    	}
+    }
+
+    
+    public function Crea_Carpeta(){
+    	$nom_carpeta=$_POST["nom_carpeta"];
+    	$ruta_carpeta=$_POST["ruta_carpeta"];
+    	$ruta_carpeta=explode('Nube_Sigen/',$ruta_carpeta);
+    	$crear="Resources/Nube_Sigen/Iluminacion/".$ruta_carpeta[1]."/".$nom_carpeta;
+    	if (!file_exists($crear)) {
+		    mkdir($crear);
+		    echo true;
+		}else{
+			echo false;
+		}
+
+
+    }
 
 #end controller
 }

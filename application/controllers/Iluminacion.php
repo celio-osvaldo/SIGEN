@@ -3245,9 +3245,39 @@ public function GETMAX_Folio_recibo(){
 		}else{
 			echo false;
 		}
-
-
     }
+
+
+	public function Add_File(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+
+		$ruta_nuevo_archivo=$_POST["nueva_ruta"];
+		$ruta_nuevo_archivo=explode('Nube_Sigen/',$ruta_nuevo_archivo);
+		if (isset($_FILES['add_file']['name'])) {
+			$filename = $_FILES['add_file']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = "Resources/Nube_Sigen/Iluminacion/".$ruta_nuevo_archivo[1]."/".$filename;
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		//$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		$url_imagen="Resources/Nube_Sigen/Iluminacion/".$ruta_nuevo_archivo[1]."/".$filename;
+
+		if(move_uploaded_file($_FILES['add_file']['tmp_name'],$url_imagen)){
+			echo true;
+			}else{
+				echo false;
+			}
+	}
 
 #end controller
 }

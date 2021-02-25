@@ -18,20 +18,23 @@
 
 					}else{
 						?>
-							<!--	
-								<a style="font-size: 0.6rem" class="nav-link" href="<?php echo base_url() ?>Resources/Nube_Sigen/Iluminacion/<?php echo $elemento ?>" target="_blank"><?php echo $elemento ?></a>
-							-->
+								
+								<a style="font-size: 0.65rem" class="nav-link" href="<?php echo base_url() ?>Resources/Nube_Sigen/Iluminacion/<?php echo $ruta."/".$elemento ?>" download="<?php echo $elemento; ?>"  ><?php echo $elemento ?></a>
+
+							
 						<?php
 					}
 				}
 			}
 			?>
 
+			<!--
 			<div>
 				<hr>
 				<a  class="nav-item nav-link disabled" >Almacenamiento</a>
 				<a class="nav-item nav-link disabled" style="font-size: 0.6rem">usados de 1000MB</a>
 			</div>
+		-->
 		</div>
 		<div class="col-md-10">
 			<!--Mostrar listado de Archivos en Nube SIGEN -->
@@ -59,7 +62,7 @@
 					</div>
 					<div class="col-md-4">
 						<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#New_Carpeta"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nueva Carpeta</button>
-						<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewInv_OfficeModal"><img src="<?php echo base_url() ?>Resources/Icons/cloud-upload-symbol_icon-icons.com_56540.ico">Subir Archivo</button>
+						<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#New_Archivo"><img src="<?php echo base_url() ?>Resources/Icons/cloud-upload-symbol_icon-icons.com_56540.ico">Subir Archivo</button>
 					</div>
 				</div>
 
@@ -98,7 +101,10 @@
 
 												}else{
 													?>
-													<td> <a style="font-size: rem" class="nav-link" href="<?php echo base_url() ?>Resources/Nube_Sigen/Iluminacion/<?php echo $elemento ?>" target="_blank"><?php echo $elemento ?></a></td>
+													<td> <a style="font-size: 1rem" class="nav-link" href="<?php echo base_url() ?>Resources/Nube_Sigen/Iluminacion/<?php echo $ruta."/".$elemento ?>" download="<?php echo $elemento; ?>"  ><?php echo $elemento ?></a>
+														
+													</td>
+
 													<td><?php echo date ("d/m/Y H:i:s", filectime("Resources/Nube_Sigen/Iluminacion/".$ruta."/".$elemento)); ?></td>
 
 													<?php $size=filesize("Resources/Nube_Sigen/Iluminacion/".$ruta."/".$elemento);
@@ -251,6 +257,38 @@
   </div>
 </div>
 
+<!-- Subir Archivo -->
+<div class="modal fade" id="New_Archivo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Subir Nuevo Archivo</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<form class="form-group" id="add_archivo">
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-md-12">
+							<label class="label-control">Ubicación del archivo</label>
+							<input class="form-control" type="text" name="nueva_ruta" id="nueva_ruta" value="Nube_Sigen/<?php echo $ruta ?>">
+						</div>
+					</div>
+					<div class="row">
+						<input type="file" class="form-control" name="add_file" id="add_file" accept="application/*, image/*">
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-outline-success submitBtn" id="savefile">Guardar</button>
+                	<button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#table_nube').DataTable();
@@ -310,7 +348,6 @@
         		}	
     		});
 		});
-
 	});
 	function Index_tabla(){
 		$("#page_content").load("Ver_Nube");
@@ -343,4 +380,50 @@
     	$("#delete_carpeta").val(nom_carpeta[nom_carpeta.length - 1]);
     	$("#delete_ruta_carpeta").val($nom_carpeta);
 	}
+</script>
+
+
+<script>
+$(document).ready(function(e){
+		$("#add_archivo").on('submit', function(e){
+			//alert("Entra");
+			e.preventDefault();
+			$.ajax({
+				type: 'POST',
+				url: '<?php echo base_url(); ?>Iluminacion/Add_File',
+				data: new FormData(this),
+				contentType: false,
+				cache: false,
+				processData:false,
+				beforeSend: function(){
+					$('.submitBtn').attr("disabled","disabled");
+					$('#add_archivo').css("opacity",".5");
+				},
+				success: function(data){
+	                // $('.statusMsg').html('');
+
+	                if(data){
+	                	$('#add_archivo')[0].reset();
+	                    // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
+	                    //alert(data);
+	                    alert('Archivo subido correctamente');
+	                    Carga_tabla('<?php echo $ruta ?>');
+	                    $('#add_archivo').css("opacity","");
+	                	$(".submitBtn").removeAttr("disabled");
+	                	$('.modal-backdrop').remove();
+	                }else{
+	                	alert('Falló el servidor. Archivo no subido');
+	                	Carga_tabla('<?php echo $ruta ?>');
+	                    $('#add_archivo').css("opacity","");
+	                	$(".submitBtn").removeAttr("disabled");
+	                	$('.modal-backdrop').remove();
+	                }
+	                
+	                Carga_tabla('<?php echo $ruta ?>');
+	            }
+	        });
+		});
+});
+
+
 </script>

@@ -101,7 +101,7 @@
 
 												}else{
 													?>
-													<td> <a style="font-size: 1rem" class="nav-link" href="<?php echo base_url() ?>Resources/Nube_Sigen/Iluminacion/<?php echo $ruta."/".$elemento ?>" download="<?php echo $elemento; ?>"  ><?php echo $elemento ?></a>
+													<td> <a style="font-size: 1rem" class="nav-link" href="#" role="button" onclick="Carga_Vista(this.id)" id="Resources/Nube_Sigen/Iluminacion/<?php echo $ruta."/".$elemento ?>"  ><?php echo $elemento ?></a>
 														
 													</td>
 
@@ -151,6 +151,39 @@
 		</div>
 	</div>
 </div>
+
+
+
+
+<!-- Vista Previa -->
+<div class="modal fade bd-example-modal-lg" id="Preeliminar" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div style="height: 500px;">
+				<iframe width="100%"  height="100%" id="vista_previa"></iframe>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Sin Vista Previa -->
+<div class="modal fade" id="NoPreliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Archivo sin Vista Previa</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+        	<img id="no_vista_previa">
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 
@@ -379,6 +412,24 @@
 		$("#Elimina_carpeta").modal();
     	$("#delete_carpeta").val(nom_carpeta[nom_carpeta.length - 1]);
     	$("#delete_ruta_carpeta").val($nom_carpeta);
+	}
+
+	function Carga_Vista($ruta){
+		ruta=$ruta;
+		//alert(ruta);
+		tipo_archivo=ruta.split('.');
+		if(tipo_archivo[1]=="pdf"){
+			$("#Preeliminar").modal();
+			$("#vista_previa").removeAttr('src');
+			base_url="<?php echo base_url() ?>";
+	    	$("#vista_previa").attr('src',base_url+ruta+"#toolbar=0&navpanes=0&scrollbar=0");
+		}else{
+			$("#NoPreliminar").modal();
+			$("#no_vista_previa").removeAttr('src');
+			ruta_nueva="<?php echo base_url() ?>Resources/Icons/not_previwe.ico";
+    		$("#no_vista_previa").attr('src',ruta_nueva+"#toolbar=0&navpanes=0&scrollbar=0");
+		}
+
 	}
 </script>
 

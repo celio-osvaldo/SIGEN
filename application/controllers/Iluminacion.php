@@ -3191,7 +3191,7 @@ public function GETMAX_Folio_recibo(){
         $url_base=base_url();
         //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
         $data = array('ruta' => "");
-        $this->load->view('Iluminacion/Menu_nube',$data);
+        $this->load->view('Iluminacion/Menu_Nube',$data);
     }
 
     public function Carga_tabla(){
@@ -3202,7 +3202,7 @@ public function GETMAX_Folio_recibo(){
         //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
         $ruta=$_POST['ruta'];
         $data = array('ruta' => $ruta, );
-        $this->load->view('Iluminacion/Menu_nube',$data);
+        $this->load->view('Iluminacion/Menu_Nube',$data);
     }
 
     public function Borra_Archivo(){

@@ -797,6 +797,25 @@ public function Get_Product_History_Consu($id_producto){
     return $result;
   }
 
+  public function Get_solicitudes_elimina_carpeta(){
+    $this->db->select('count(id_borra_nube) as num_solic_elimina_carpeta');
+    $this->db->FROM('borra_nube_carpeta'); 
+    $this->db->WHERE('borra_nube_id_estado','1');
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_solicitudes_elimina_archivo(){
+    $this->db->select('count(id_borra_nube) as num_solic_elimina_archivo');
+    $this->db->FROM('borra_nube_archivo'); 
+    $this->db->WHERE('borra_nube_id_estado','1');
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+
 
   
 #end of model

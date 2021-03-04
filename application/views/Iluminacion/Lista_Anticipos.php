@@ -36,7 +36,7 @@
          <tr>
           <td id="<?php echo "nom_cliente".$row->id_anticipo;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td id="<?php echo "id_cliente".$row->id_anticipo;?>" hidden="true"><?php echo "".$row->obra_cliente_id_obra_cliente.""; ?></td>
-          <td id="<?php echo "importe_total".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_total,5,'.',',').""; ?></td>
+          <td id="<?php echo "importe_total".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_total,2,'.',',').""; ?></td>
     <!--      <td id="<?php echo "pagado".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_pago,2,'.',',').""; ?></td>  -->
     <!--      <td id="<?php echo "saldo".$row->id_anticipo;?>">$<?php echo number_format($row->anticipo_resto,2,'.',',').""; ?></td>  -->
           <td id="<?php echo "estado".$row->id_anticipo;?>"><?php echo "".$row->anticipo_status.""; ?></td>

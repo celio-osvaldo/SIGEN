@@ -179,7 +179,7 @@
           //alert(valor);
         }
       var resultado=valor.toLocaleString("en");
-      valor_final=parseFloat(resultado.replace(/,/g, "")).toFixed(5).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      valor_final=parseFloat(resultado.replace(/,/g, "")).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
       valor_final=valor_final.split(".");
       valor_final[1]=valor_final[1].replace(/,/g, "");
 

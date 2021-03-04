@@ -113,8 +113,8 @@ header("Pragma: no-cache");
 		<a class="btn btn-outline-light" role="button" id="Nube" title="Nube SIGEN"><img src="..\Resources\Icons\nube.ico">
 
 			<a class="btn btn-outline-light" role="button" id="Lista_Solicitudes" title="Solicitudes de Cambio"><img src="..\Resources\Icons\bell.ico" style="filter: invert(50%)">
-				<?php if ($solicitudes->num_solic>0||$solicitudes_pago->num_solic_pago>0) {
-					$total_solicitudes=$solicitudes->num_solic+$solicitudes_pago->num_solic_pago;?>
+				<?php if ($solicitudes->num_solic>0||$solicitudes_pago->num_solic_pago>0||$solicitudes_elimina_carpeta->num_solic_elimina_carpeta>0||$solicitudes_elimina_archivo->num_solic_elimina_archivo>0) {
+					$total_solicitudes=$solicitudes->num_solic+$solicitudes_pago->num_solic_pago+$solicitudes_elimina_carpeta->num_solic_elimina_carpeta+$solicitudes_elimina_archivo->num_solic_elimina_archivo;?>
 					<span class="badge badge-danger"><?php echo $total_solicitudes ?> </span>
 				<?php
 				}else{

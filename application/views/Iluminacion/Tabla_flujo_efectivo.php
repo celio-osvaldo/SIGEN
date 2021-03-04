@@ -11,7 +11,7 @@
     <td class="tab-logo"><img height="100" width="300" src="..\Resources\Logos\Logo_ISA.png"></td>
     <td class="tab-datos"><b>ILUMINACION SUSTENTABLE AGS, S DE RL DE CV <br> <?php echo $mes." DE ".$anio ?></b></td>
     <td class="tab-datos"><b><label style="text-align: right;">Saldo Inicial (En Banco Mes Anterior)</label> <br>
-       $<input type="text" id="saldo_mes_anterior"   value="<?php echo number_format($sal_ban_ant,5,'.',','); ?>"></b></td>
+       $<input type="text" id="saldo_mes_anterior"   value="<?php echo number_format($sal_ban_ant,2,'.',','); ?>"></b></td>
   </tr>
 </table>
 
@@ -210,7 +210,7 @@
         if ( number_format($row->gasto_venta_iva, 5, '.', ',')=="0.0000") {
           $subtotal=0.00000;
         }else{
-          if (number_format($row->gasto_venta_iva_ret,5,'.',',')!="0.00000"&&number_format($row->gasto_venta_isr_ret,5,'.',',')!="0.00000") {
+          if (number_format($row->gasto_venta_iva_ret,2,'.',',')!="0.00000"&&number_format($row->gasto_venta_isr_ret,2,'.',',')!="0.00000") {
             //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
             $subtotal=$row->gasto_venta_monto-$row->gasto_venta_iva+$row->gasto_venta_iva_ret+$row->gasto_venta_isr_ret;
           }else{
@@ -248,13 +248,13 @@
       <td class="tab3-lista" id="<?php echo "retiros_importe_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_monto, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_gastos".$row->id_gasto_venta;?>"><?php echo  number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_gastos".$row->id_gasto_venta;?>"><?php echo number_format($row->gasto_venta_iva, 5, '.', ',');?></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_".$row->id_gasto_venta;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_".$row->id_gasto_venta;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_isr_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_isr_".$row->id_gasto_venta;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_".$row->id_gasto_venta;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_ieps,5,'.',',') ?>" id="<?php echo "retiros_ieps_".$row->id_gasto_venta;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_".$row->id_gasto_venta;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_dap,5,'.',',') ?>" id="<?php echo "retiros_dap_".$row->id_gasto_venta;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->gasto_venta_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_".$row->id_gasto_venta;?>">
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_concepto".$row->id_gasto_venta;?>">Costo Venta - <?php echo $row->gasto_venta_concepto ?></td>
       <td class="tab3-lista2"></td>
@@ -279,7 +279,7 @@
         if ( number_format($row->lista_caja_chica_iva, 5, '.', ',')=="0.0000") {
           $subtotal=0.00000;
         }else{
-          if (number_format($row->lista_caja_chica_iva_ret,5,'.',',')!="0.00000"&&number_format($row->lista_caja_chica_isr_ret,5,'.',',')!="0.00000") {
+          if (number_format($row->lista_caja_chica_iva_ret,2,'.',',')!="0.00000"&&number_format($row->lista_caja_chica_isr_ret,2,'.',',')!="0.00000") {
             //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
             $subtotal=$row->lista_caja_chica_gasto-$row->lista_caja_chica_iva+$row->lista_caja_chica_iva_ret+$row->lista_caja_chica_isr_ret;
           }else{
@@ -317,13 +317,13 @@
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_caja_chica".$row->id_lista_caja_chica;?>"><?php echo number_format($row->lista_caja_chica_iva, 5, '.', ',');?>
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_caja_chica".$row->id_lista_caja_chica;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_caja_chica".$row->id_lista_caja_chica;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_isr_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_isr_caja_chica".$row->id_lista_caja_chica;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_caja_chica".$row->id_lista_caja_chica;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_ieps,5,'.',',') ?>" id="<?php echo "retiros_ieps_caja_chica".$row->id_lista_caja_chica;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_caja_chica".$row->id_lista_caja_chica;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_dap,5,'.',',') ?>" id="<?php echo "retiros_dap_caja_chica".$row->id_lista_caja_chica;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_caja_chica_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_caja_chica".$row->id_lista_caja_chica;?>">
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_concepto_caja_chica".$row->id_lista_caja_chica;?>">Caja Chica - <?php echo $row->lista_caja_chica_concepto ?>
       </td>
@@ -349,7 +349,7 @@
         if ( number_format($row->lista_viatico_iva, 5, '.', ',')=="0.0000") {
           $subtotal=0.00000;
         }else{
-          if (number_format($row->lista_viatico_iva_ret,5,'.',',')!="0.00000"&&number_format($row->lista_viatico_isr_ret,5,'.',',')!="0.00000") {
+          if (number_format($row->lista_viatico_iva_ret,2,'.',',')!="0.00000"&&number_format($row->lista_viatico_isr_ret,2,'.',',')!="0.00000") {
             //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
             $subtotal=$row->lista_viatico_importe-$row->lista_viatico_iva+$row->lista_viatico_iva_ret+$row->lista_viatico_isr_ret;
           }else{
@@ -386,13 +386,13 @@
       <td class="tab3-lista" id="<?php echo "retiros_importe_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_importe, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_viaticos".$row->id_lista_viatico;?>"><?php echo number_format($row->lista_viatico_iva, 5, '.', ',');?></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_viaticos".$row->id_lista_viatico;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_viaticos".$row->id_lista_viatico;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_isr_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_isr_viaticos".$row->id_lista_viatico;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_viaticos".$row->id_lista_viatico;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_ieps,5,'.',',') ?>" id="<?php echo "retiros_ieps_viaticos".$row->id_lista_viatico;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_viaticos".$row->id_lista_viatico;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_dap,5,'.',',') ?>" id="<?php echo "retiros_dap_viaticos".$row->id_lista_viatico;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->lista_viatico_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_viaticos".$row->id_lista_viatico;?>">
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_concepto_viaticos".$row->id_lista_viatico;?>">Viaticos - <?php echo $row->lista_viatico_concepto ?>
       </td>
@@ -418,7 +418,7 @@
         if ( number_format($row->otros_gastos_iva, 5, '.', ',')=="0.0000") {
           $subtotal=0.00000;
         }else{
-          if (number_format($row->otros_gastos_iva_ret,5,'.',',')!="0.00000"&&number_format($row->otros_gastos_isr_ret,5,'.',',')!="0.00000") {
+          if (number_format($row->otros_gastos_iva_ret,2,'.',',')!="0.00000"&&number_format($row->otros_gastos_isr_ret,2,'.',',')!="0.00000") {
             //Se aplica la fórmula para obtener el subtotal=Importe-IVA+Ret_IVA+Ret_ISR
             $subtotal=$row->saldo-$row->otros_gastos_iva+$row->otros_gastos_iva_ret+$row->otros_gastos_isr_ret;
           }else{
@@ -455,13 +455,13 @@
       <td class="tab3-lista" id="<?php echo "retiros_importe_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->saldo, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_subtotal_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($subtotal, 5, '.', ',');?></td>
       <td class="tab3-lista" id="<?php echo "retiros_iva_otros_gastos".$row->id_OGasto;?>"><?php echo number_format($row->otros_gastos_iva, 5, '.', ',');?></td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_iva_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_iva_otros_gastos".$row->id_OGasto;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_iva_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_iva_otros_gastos".$row->id_OGasto;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_isr_ret,5,'.',',') ?>" id="<?php echo "retiros_reten_isr_otros_gastos".$row->id_OGasto;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_isr_ret,2,'.',',') ?>" id="<?php echo "retiros_reten_isr_otros_gastos".$row->id_OGasto;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_ieps,5,'.',',') ?>" id="<?php echo "retiros_ieps_otros_gastos".$row->id_OGasto;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_ieps,2,'.',',') ?>" id="<?php echo "retiros_ieps_otros_gastos".$row->id_OGasto;?>">
       </td>
-      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_dap,5,'.',',') ?>" id="<?php echo "retiros_dap_otros_gastos".$row->id_OGasto;?>">
+      <td class="tab3-lista"><input size="6" type="text" onblur="Separa_Miles(this.id)" value="<?php echo number_format($row->otros_gastos_dap,2,'.',',') ?>" id="<?php echo "retiros_dap_otros_gastos".$row->id_OGasto;?>">
       </td>
       <td class="tab3-lista" id="<?php echo "retiros_concepto_otros_gastos".$row->id_OGasto;?>">Otros Gastos - <?php echo $row->concepto ?></td>
       <td class="tab3-lista2"></td>

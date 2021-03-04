@@ -36,13 +36,13 @@
                         <td id="<?php echo "bill".$row->id_OGasto.""; ?>"><?php echo "".$row->folio.""; ?></td>
                         <td id="<?php echo "emition".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_emision.""; ?></td>
                         <td id="<?php echo "concept".$row->id_OGasto.""; ?>"><?php echo "".$row->concepto.""; ?></td>
-                        <td id="<?php echo "expend".$row->id_OGasto.""; ?>">$<?php echo number_format($row->saldo,5,'.',',').""; ?></td>
+                        <td id="<?php echo "expend".$row->id_OGasto.""; ?>">$<?php echo number_format($row->saldo,2,'.',',').""; ?></td>
 
-                        <td id="<?php echo "iva".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_iva,5,'.',','); ?></td>
-                        <td id="<?php echo "ret_iva".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_iva_ret,5,'.',','); ?></td>
-                        <td id="<?php echo "ret_isr".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_isr_ret,5,'.',','); ?></td>
-                        <td id="<?php echo "ieps".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_ieps,5,'.',','); ?></td>
-                        <td id="<?php echo "dap".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_dap,5,'.',','); ?></td>
+                        <td id="<?php echo "iva".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_iva,2,'.',','); ?></td>
+                        <td id="<?php echo "ret_iva".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_iva_ret,2,'.',','); ?></td>
+                        <td id="<?php echo "ret_isr".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_isr_ret,2,'.',','); ?></td>
+                        <td id="<?php echo "ieps".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_ieps,2,'.',','); ?></td>
+                        <td id="<?php echo "dap".$row->id_OGasto.""; ?>">$<?php echo number_format($row->otros_gastos_dap,2,'.',','); ?></td>
 
                         <td id="<?php echo "comment".$row->id_OGasto.""; ?>"><?php echo "".$row->comentario.""; ?></td>
                         <td id="<?php echo "dateEx".$row->id_OGasto.""; ?>"><?php echo "".$row->fecha_pago_factura.""; ?></td>

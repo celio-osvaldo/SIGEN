@@ -67,9 +67,9 @@
 
           <td id="<?php echo "cliente".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_empresa.""; ?></td>
           <td id="<?php echo "licitacion".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_licitacion.""; ?></td>
-          <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_subtotal,5,'.',',').""; ?></td>
-          <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_iva,5,'.',',').""; ?></td>
-          <td id="<?php echo "total".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_total,5,'.',',').""; ?></td>
+          <td id="<?php echo "subtotal".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_subtotal,2,'.',',').""; ?></td>
+          <td id="<?php echo "iva".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_iva,2,'.',',').""; ?></td>
+          <td id="<?php echo "total".$row->id_cotizacion;?>">$<?php echo number_format($row->cotizacion_total,2,'.',',').""; ?></td>
           <td id="<?php echo "coment".$row->id_cotizacion;?>"><?php echo $row->cotizacion_comentario ?></td>
           <td id="<?php echo "tiempo_entrega".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_tiempo_entrega.""; ?></td>
           <td id="<?php echo "vigencia".$row->id_cotizacion;?>"><?php echo "".$row->cotizacion_vigencia.""; ?></td>
@@ -551,7 +551,7 @@ function Add_Product($id_cotizacion){
 
 function Details_Cotizacion($id_cotizacion){
   var id_cotizacion=$id_cotizacion;
-  alert(id_cotizacion);
+  //alert(id_cotizacion);
   $("#page_content").load("Cotizacion_Details",{id_cotizacion:id_cotizacion});
 }
 

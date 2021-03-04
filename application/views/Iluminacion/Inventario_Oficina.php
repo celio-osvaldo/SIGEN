@@ -39,7 +39,7 @@
           <td id="<?php echo "nom_prod".$row->id_prod;?>"><?php echo "".$row->producto_consu_nom.""; ?></td>
           <td id="<?php echo "unid_med".$row->id_prod;?>"><?php echo "".$row->unidad_medida.""; ?></td>
           <td id="<?php echo "existencia".$row->id_prod;?>"><?php echo "".$row->producto_consu_exist.""; ?></td>
-          <td id="<?php echo "precio".$row->id_prod;?>">$<?php echo number_format($row->producto_consu_prec_unit,5,'.',',').""; ?></td>
+          <td id="<?php echo "precio".$row->id_prod;?>">$<?php echo number_format($row->producto_consu_prec_unit,2,'.',',').""; ?></td>
           <td id="<?php echo "ult_compra".$row->id_prod;?>"><?php echo "".$row->producto_consu_ult_compra.""; ?></td>
           <td id="<?php echo "periodicidad".$row->id_prod;?>"><?php echo "".$row->producto_consu_periodicidad."-días"; ?></td>
           <td id="<?php echo "prox_compra".$row->id_prod;?>"><?php echo "".$row->producto_consu_prox_compra.""; ?></td>

@@ -13,6 +13,8 @@ class SuperUser extends CI_Controller {
             $this->load->model('SU_model');
             $data['solicitudes']=$this->SU_model->Get_solicitudes();
             $data['solicitudes_pago']=$this->SU_model->Get_solicitudes_pago();
+            $data['solicitudes_elimina_carpeta']=$this->SU_model->Get_solicitudes_elimina_carpeta();
+            $data['solicitudes_elimina_archivo']=$this->SU_model->Get_solicitudes_elimina_archivo();
 	   		$this->load->view('plantillas/header_SU', $data);
 			$this->load->view('SuperUser/Welcome');
        		$this->load->view('plantillas/footer');
@@ -177,6 +179,8 @@ class SuperUser extends CI_Controller {
         $this->load->model('SU_model');
         $data = array('solicitado' => $this->SU_model->Cambio_Solicitado() ,
                       'solicitado_pago' => $this->SU_model->Cambio_Solicitado_pago(), 
+                      'solicita_elimina_carpeta' => $this->SU_model->Solicita_Elimina_carpeta(),
+                      'solicita_elimina_archivo' => $this->SU_model->Solicita_Elimina_archivo(),
                       'catalogo_cliente' => $this->SU_model->Cat_Cliente(),
                       'catalogo_autoriza' =>$this->SU_model->Cat_autoriza());
         $this->load->view('SuperUser/ListaSolicitudes', $data);
@@ -302,6 +306,208 @@ class SuperUser extends CI_Controller {
                       'companies' =>$this->SU_model->Get_Companies());
 
         $this->load->view('SuperUser/Report_Flujo_Efectivo_proyecto',$data);
+    }
+
+    public function Borra_Carpeta(){
+        $this->load->model('SU_model');
+        $id_borra_carpeta=$_POST["id_borra_carpeta"];
+        $respuesta_elimina_carpeta=$_POST["respuesta_elimina_carpeta"];
+
+        $empresa_nube=$_POST["empresa_nube"];
+        $url_carpeta=$_POST["url_carpeta"];
+
+        if($respuesta_elimina_carpeta=="2"){//Verificamos si la solicitud se autorizó
+
+            $dir="Resources/Nube_Sigen/".$empresa_nube."/".$url_carpeta;
+
+            $it = new RecursiveDirectoryIterator($dir, RecursiveDirectoryIterator::SKIP_DOTS);
+            $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+            foreach($files as $file) {
+                if ($file->isDir()){
+                    rmdir($file->getRealPath());
+                } else {
+                    unlink($file->getRealPath());
+                }
+            }
+            if(rmdir($dir)){
+           $data = array('borra_nube_id_estado' => $respuesta_elimina_carpeta );
+            $this->SU_model->Update_Solicita_Elimina($id_borra_carpeta,$data);
+            echo true;
+        }else{
+            echo false;
+        }
+        }else{
+            //Se deberá actualizar el estado de la solicitud
+            $data = array('borra_nube_id_estado' => $respuesta_elimina_carpeta );
+            echo $this->SU_model->Update_Solicita_Elimina($id_borra_carpeta,$data);
+        }
+    }
+    
+    public function Borra_Archivo(){
+        $this->load->model('SU_model');
+        $id_borra_archivo=$_POST["id_borra_nube_archivo"];
+        $respuesta_elimina_archivo=$_POST["respuesta_elimina_archivo"];
+
+        $empresa_nube=$_POST["empresa_nube"];
+        $url_archivo=$_POST["url_archivo"];
+
+        if($respuesta_elimina_archivo=="2"){//Verificamos si la solicitud se autorizó
+
+            $dir="Resources/Nube_Sigen/".$empresa_nube."/".$url_archivo;
+            if(unlink($dir)){
+                $data = array('borra_nube_id_estado' => $respuesta_elimina_archivo );
+                $this->SU_model->Update_Solicita_Elimina_Archivo($id_borra_archivo,$data);
+                echo true;
+            }else{
+                echo false;
+            }
+        }else{
+            //Se deberá actualizar el estado de la solicitud
+            $data = array('borra_nube_id_estado' => $respuesta_elimina_archivo );
+            echo $this->SU_model->Update_Solicita_Elimina_Archivo($id_borra_archivo,$data);
+        }
+    }
+
+   public function Ver_Nube(){
+        $this->load->model('SU_model');
+        $url_base=base_url();
+        //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
+        $data = array('ruta' => "");
+        $this->load->view('SuperUser/Menu_Nube',$data);
+    }
+
+    public function Carga_tabla(){
+        $this->load->model('SU_model');
+        $url_base=base_url();
+        //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
+        $ruta=$_POST['ruta'];
+        $data = array('ruta' => $ruta, );
+
+        $this->load->view('SuperUser/Menu_Nube',$data);
+    }
+
+    public function Crea_Carpeta(){
+        $nom_carpeta=$_POST["nom_carpeta"];
+        $ruta_carpeta=$_POST["ruta_carpeta"];
+        $crear="Resources/".$ruta_carpeta."/".$nom_carpeta;
+        if (!file_exists($crear)) {
+            mkdir($crear);
+            echo true;
+        }else{
+            echo false;
+        }
+    }
+
+    public function Add_File(){
+        $this->load->model('SU_model');
+
+        $ruta_nuevo_archivo=$_POST["nueva_ruta"];
+
+        if (isset($_FILES['add_file']['name'])) {
+            $filename = $_FILES['add_file']['name'];
+        } else {
+            $filename="";
+        }
+
+        //Obtenemos el nombre del documento que subiremos
+        $location = "Resources/".$ruta_nuevo_archivo."/".$filename;
+        // file extension
+        $file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+        $file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+        // Valid image extensions
+        //$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+        $url_imagen="Resources/".$ruta_nuevo_archivo."/".$filename;
+
+        if(move_uploaded_file($_FILES['add_file']['tmp_name'],$url_imagen)){
+            echo true;
+            }else{
+                echo false;
+            }
+    }
+
+    public function Solicita_Borra_carpeta(){
+        $this->load->model('SU_model');
+        $txt_justifica=$_POST["txt_justifica"];
+        $delete_ruta_carpeta=$_POST["delete_ruta_carpeta"];
+
+        $nom_company=explode('/', $delete_ruta_carpeta);
+        $company=$nom_company[0];
+        //var_dump($company);
+        $idcomp=$this->SU_model->IdCompany($company);
+
+        $url=explode($nom_company[0].'/', $delete_ruta_carpeta);
+
+        date_default_timezone_set("America/Mexico_City");
+        $data = array('borra_nube_id_usuario' => $this->session->userdata('id_usuario'),
+        'borra_nube_empresa' => $idcomp->id_empresa,
+        'borra_nube_url_archivo' => $url[1],
+        'borra_nube_fecha_solicitud' => date("Y/m/d"),
+        'borra_nube_comentario'=>$txt_justifica,
+        'borra_nube_id_estado'=>"1");
+
+        $result=$this->SU_model->Add_Solicita_Borra_carpeta($data);
+        echo $result;
+    }
+
+    public function Solicita_Borra_archivo(){
+        $this->load->model('SU_model');
+        $txt_justifica=$_POST["txt_justifica"];
+        $delete_ruta_archivo=$_POST["delete_ruta_archivo"];
+
+        $nom_company=explode('/', $delete_ruta_archivo);
+        $company=$nom_company[0];
+        $idcomp=$this->SU_model->IdCompany($company);
+        $url=explode($nom_company[0].'/', $delete_ruta_archivo);
+
+        date_default_timezone_set("America/Mexico_City");
+        $data = array('borra_nube_id_usuario' => $this->session->userdata('id_usuario'),
+        'borra_nube_empresa' => $idcomp->id_empresa,
+        'borra_nube_url_archivo' => $url[1],
+        'borra_nube_fecha_solicitud' => date("Y/m/d"),
+        'borra_nube_comentario'=>$txt_justifica,
+        'borra_nube_id_estado'=>"1");
+
+        $result=$this->SU_model->Add_Solicita_Borra_archivo($data);
+        echo $result;
+    }
+
+    public function Solicita_descarga_archivo(){
+        $this->load->model('SU_model');
+        $descarga_ruta_archivo=$_POST["descarga_ruta_archivo"];
+        $descarga_nombre=$_POST["descarga_nombre"];
+        $pass_descarga=$_POST["pass_descarga"];
+
+        $pass_su_descarga = $this->SU_model->Pass_download($pass_descarga);//invoke the funtion into the model
+          
+         if(password_verify($pass_descarga, $pass_su_descarga->usuario_pass_descarga)){
+            echo true;
+         }else{
+            echo false;
+         }
+    }
+
+    public function Cambia_Password(){
+        $this->load->model('SU_model');
+
+        $pass_nuevo=$_POST["password"];
+        $id_usuario= $this->session->userdata('id_usuario');
+        $mensaje="Error";
+
+        //Verificamos el password actual
+        $password_encriptado_actual=$this->SU_model->Check_Pass_download($id_usuario);
+
+        if(password_verify($pass_nuevo, $password_encriptado_actual->usuario_pass_descarga)){
+            $mensaje="Contraseña Indicada igual a la anterior. Debe indicar una contraseña diferente";
+        }else{
+
+            $pass_cifrado=password_hash($pass_nuevo, PASSWORD_DEFAULT);
+            $data = array('usuario_pass_descarga' => $pass_cifrado );
+                $this->SU_model->Update_User($id_usuario,$data);
+            $mensaje="Contraseña Actualizada";
+        }
+        echo $mensaje;
     }
 
 

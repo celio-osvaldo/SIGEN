@@ -17,6 +17,8 @@ class Iluminacion extends CI_Controller {
 			$idcompany=$this->Iluminacion_model->IdCompany($company);
  			$data['solicitudes']=$this->Iluminacion_model->Get_solicitudes($idcompany->id_empresa);
             $data['solicitudes_pago']=$this->Iluminacion_model->Get_solicitudes_pago($idcompany->id_empresa);
+            $data['solicitudes_elimina_carpeta']=$this->Iluminacion_model->Get_solicitudes_elimina_carpeta();
+            $data['solicitudes_elimina_archivo']=$this->Iluminacion_model->Get_solicitudes_elimina_archivo();
             $data['datos_empresa']=$this->Iluminacion_model->Get_datos_empresa($idcompany->id_empresa);
 	   		$this->load->view('plantillas/header_iluminacion', $data);
 			$this->load->view('Iluminacion/Welcome');
@@ -3054,6 +3056,8 @@ public function GETMAX_Folio_recibo(){
         $idcompany=$this->Iluminacion_model->IdCompany($company);
         $data = array('solicitado' => $this->Iluminacion_model->Cambio_Solicitado($idcompany->id_empresa) ,
                       'solicitado_pago' => $this->Iluminacion_model->Cambio_Solicitado_pago($idcompany->id_empresa), 
+                      'solicita_elimina_carpeta' => $this->Iluminacion_model->Solicita_Elimina_carpeta(),
+                      'solicita_elimina_archivo' => $this->Iluminacion_model->Solicita_Elimina_archivo(),
                       'catalogo_cliente' => $this->Iluminacion_model->Cat_Cliente(),
                       'catalogo_autoriza' =>$this->Iluminacion_model->Cat_autoriza());
         $this->load->view('Iluminacion/ListaSolicitudes', $data);
@@ -3207,7 +3211,7 @@ public function GETMAX_Folio_recibo(){
 
     public function Borra_Archivo(){
     	$nom_archivo=$_POST["nom_archivo"];
-    	$borrar="Resources/Nube_Sigen/Iluminacion/".$nom_archivo;
+    	$borrar="Resources/Nube_Sigen/ILUMINACION/".$nom_archivo;
     	if (unlink($borrar)) {
     		echo true;
     	}else{
@@ -3215,30 +3219,12 @@ public function GETMAX_Folio_recibo(){
     	}
     }
 
-    public function Borra_Carpeta(){
-    	$nom_carpeta=$_POST["nom_carpeta"];
-    	$borrar="Resources/Nube_Sigen/Iluminacion/".$nom_carpeta;
-
-    	foreach(glob($borrar . "/*") as $archivos_carpeta){             
-        	if (is_dir($archivos_carpeta)){
-          		rmDir_rf($archivos_carpeta);
-        	} else {
-        		unlink($archivos_carpeta);
-        	}
-      	}
-    	if (rmdir($borrar)) {
-    		echo true;
-    	}else{
-    		echo false;
-    	}
-    }
-
-    
+   
     public function Crea_Carpeta(){
     	$nom_carpeta=$_POST["nom_carpeta"];
     	$ruta_carpeta=$_POST["ruta_carpeta"];
     	$ruta_carpeta=explode('Nube_Sigen/',$ruta_carpeta);
-    	$crear="Resources/Nube_Sigen/Iluminacion/".$ruta_carpeta[1]."/".$nom_carpeta;
+    	$crear="Resources/Nube_Sigen/ILUMINACION/".$ruta_carpeta[1]."/".$nom_carpeta;
     	if (!file_exists($crear)) {
 		    mkdir($crear);
 		    echo true;
@@ -3262,7 +3248,7 @@ public function GETMAX_Folio_recibo(){
 		}
 
 		//Obtenemos el nombre del documento que subiremos
-		$location = "Resources/Nube_Sigen/Iluminacion/".$ruta_nuevo_archivo[1]."/".$filename;
+		$location = "Resources/Nube_Sigen/ILUMINACION/".$ruta_nuevo_archivo[1]."/".$filename;
 		// file extension
 		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
 		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
@@ -3270,13 +3256,68 @@ public function GETMAX_Folio_recibo(){
 		// Valid image extensions
 		//$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
 
-		$url_imagen="Resources/Nube_Sigen/Iluminacion/".$ruta_nuevo_archivo[1]."/".$filename;
+		$url_imagen="Resources/Nube_Sigen/ILUMINACION/".$ruta_nuevo_archivo[1]."/".$filename;
 
 		if(move_uploaded_file($_FILES['add_file']['tmp_name'],$url_imagen)){
 			echo true;
 			}else{
 				echo false;
 			}
+	}
+
+	public function Solicita_Borra_carpeta(){
+		$this->load->model('Iluminacion_model');
+		$txt_justifica=$_POST["txt_justifica"];
+		$delete_ruta_carpeta=$_POST["delete_ruta_carpeta"];
+
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		date_default_timezone_set("America/Mexico_City");
+		$data = array('borra_nube_id_usuario' => $this->session->userdata('id_usuario'),
+        'borra_nube_empresa' => $idcomp->id_empresa,
+        'borra_nube_url_archivo' => $delete_ruta_carpeta,
+        'borra_nube_fecha_solicitud' => date("Y/m/d"),
+        'borra_nube_comentario'=>$txt_justifica,
+        'borra_nube_id_estado'=>"1");
+
+		$result=$this->Iluminacion_model->Add_Solicita_Borra_carpeta($data);
+		echo $result;
+	}
+
+	public function Solicita_Borra_archivo(){
+		$this->load->model('Iluminacion_model');
+		$txt_justifica=$_POST["txt_justifica"];
+		$delete_ruta_archivo=$_POST["delete_ruta_archivo"];
+
+		$company='ILUMINACION';
+		$idcomp=$this->Iluminacion_model->IdCompany($company);
+		date_default_timezone_set("America/Mexico_City");
+		$data = array('borra_nube_id_usuario' => $this->session->userdata('id_usuario'),
+        'borra_nube_empresa' => $idcomp->id_empresa,
+        'borra_nube_url_archivo' => $delete_ruta_archivo,
+        'borra_nube_fecha_solicitud' => date("Y/m/d"),
+        'borra_nube_comentario'=>$txt_justifica,
+        'borra_nube_id_estado'=>"1");
+
+		$result=$this->Iluminacion_model->Add_Solicita_Borra_archivo($data);
+		echo $result;
+	}
+
+
+	public function Solicita_descarga_archivo(){
+		$this->load->model('Iluminacion_model');
+		$descarga_ruta_archivo=$_POST["descarga_ruta_archivo"];
+		$descarga_nombre=$_POST["descarga_nombre"];
+		$pass_descarga=$_POST["pass_descarga"];
+
+		$pass_su_descarga = $this->Iluminacion_model->Pass_download($pass_descarga);//invoke the funtion into the model
+          
+         if(password_verify($pass_descarga, $pass_su_descarga->usuario_pass_descarga)){
+         	echo true;
+         }else{
+         	echo false;
+         }
+
 	}
 
 #end controller

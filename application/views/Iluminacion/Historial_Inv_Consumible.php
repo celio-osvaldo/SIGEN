@@ -20,7 +20,7 @@
       Existencia Actual:<hr><?php echo $Product_Inv_info->producto_consu_exist; ?>
     </span>
     <span class="badge badge-info col-md-1">
-      Precio Actual:<hr>$<?php echo number_format($Product_Inv_info->producto_consu_prec_unit,5,'.',','); ?>
+      Precio Actual:<hr>$<?php echo number_format($Product_Inv_info->producto_consu_prec_unit,2,'.',','); ?>
     </span> 
     <span class="badge badge-info col-md-2">
       Último Proveedor:<hr><?php echo $Product_Inv_info->catalogo_proveedor_empresa; ?>
@@ -70,8 +70,8 @@
           <td><?php echo "".$row->unidad_medida.""; ?></td>
           <td><?php echo $row->historial_almacen_producto_cantidad_old; ?></td>
           <td><?php echo $row->historial_almacen_producto_cantidad_new; ?></td>
-          <td>$<?php echo number_format($row->prod_alm_prec_unit_old,5,'.',','); ?></td>
-          <td>$<?php echo number_format($row->prod_alm_prec_unit_new,5,'.',','); ?></td>
+          <td>$<?php echo number_format($row->prod_alm_prec_unit_old,2,'.',','); ?></td>
+          <td>$<?php echo number_format($row->prod_alm_prec_unit_new,2,'.',','); ?></td>
           <td><?php echo $row->historial_almacen_proveedor_old; ?></td>
           <td><?php echo $row->catalogo_proveedor_empresa; ?></td>
           <td><?php echo $row->historial_almacen_producto_movimiento ?></td>

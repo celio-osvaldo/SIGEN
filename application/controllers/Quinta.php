@@ -17,6 +17,8 @@ class Quinta extends CI_Controller {
 			$idcompany=$this->QM_model->IdCompany($company);
  			$data['solicitudes']=$this->QM_model->Get_solicitudes($idcompany->id_empresa);
             $data['solicitudes_pago']=$this->QM_model->Get_solicitudes_pago($idcompany->id_empresa);
+            $data['solicitudes_elimina_carpeta']=$this->QM_model->Get_solicitudes_elimina_carpeta();
+            $data['solicitudes_elimina_archivo']=$this->QM_model->Get_solicitudes_elimina_archivo();
             $data['datos_empresa']=$this->QM_model->Get_datos_empresa($idcompany->id_empresa);
 	   		$this->load->view('plantillas/header_QM', $data);
 			$this->load->view('Quinta/Welcome');

@@ -17,7 +17,7 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Importe total de Proyecto en Tránsito:<hr>$<?php echo number_format($anticipo_info->anticipo_total,5,'.',','); ?>
+                Importe total de Proyecto en Tránsito:<hr>$<?php echo number_format($anticipo_info->anticipo_total,2,'.',','); ?>
               </h6>
             </span>
            <!-- <span class="badge badge-info">
@@ -58,7 +58,7 @@
             <td id="<?php echo "nombre".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
             <td hidden="true" id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
             <td id="<?php echo "cantidad".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_anticipo_cantidad.""; ?></td>
-            <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo number_format($row->prod_anticipo_precio_venta,5,'.',',').""; ?></td>
+            <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo number_format($row->prod_anticipo_precio_venta,2,'.',',').""; ?></td>
             <td id="<?php echo "coment".$row->id_prod_anticipo;?>"><?php echo $row->prod_anticipo_coment;?></td>
             <td>
               <a class="navbar-brand" onclick="EditProduct(this.id)" role="button" id="<?php echo $row->id_prod_anticipo; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" title="Editar Producto" style="filter: invert(100%)" /></button></a>

@@ -119,6 +119,24 @@ class SU_model extends CI_Model
     return $query;
   }
 
+  public function Get_solicitudes_elimina_carpeta(){
+    $this->db->select('count(id_borra_nube) as num_solic_elimina_carpeta');
+    $this->db->FROM('borra_nube_carpeta'); 
+    $this->db->WHERE('borra_nube_id_estado','1');
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
+  public function Get_solicitudes_elimina_archivo(){
+    $this->db->select('count(id_borra_nube) as num_solic_elimina_archivo');
+    $this->db->FROM('borra_nube_archivo'); 
+    $this->db->WHERE('borra_nube_id_estado','1');
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
 
   public function Cambio_Solicitado_pago(){
     $this->db->select('id_historial_proyecto_pago, historial_proyecto_pago_id_venta_mov, historial_proyecto_pago_fecha_actualizacion, historial_proyecto_pago_coment_old, historial_proyecto_pago_coment_new, historial_proyecto_pago_monto_old, historial_proyecto_pago_monto_new, historial_proyecto_pago_fecha_pago_old, historial_proyecto_pago_fecha_pago_new, historial_proyecto_pago_justifica, historial_proyecto_pago_autoriza, historial_proyecto_pago_solicita, historial_proyecto_pago_admin, usuario_nom, estado, obra_cliente_empresa_id_empresa,empresa_nom, historial_proyecto_pago_estim_estatus_old, historial_proyecto_pago_estim_estatus_new');
@@ -183,6 +201,105 @@ class SU_model extends CI_Model
       return $query;
     }
   }
+
+  public function Solicita_Elimina_carpeta(){
+    $this->db->select('id_borra_nube, borra_nube_id_usuario, borra_nube_empresa, borra_nube_url_archivo, borra_nube_fecha_solicitud, borra_nube_comentario, borra_nube_id_estado, empresa_nom, estado, usuario_nom');
+    $this->db->FROM('borra_nube_carpeta'); 
+    $this->db->JOIN('empresa', 'borra_nube_carpeta.borra_nube_empresa=id_empresa');
+    $this->db->JOIN('usuario','borra_nube_id_usuario=id_usuario');
+    $this->db->JOIN('autoriza','id_autoriza=borra_nube_id_estado');
+    $query=$this->db->get();
+    return $query;
+  }
+
+  public function Solicita_Elimina_archivo(){
+    $this->db->select('id_borra_nube, borra_nube_id_usuario, borra_nube_empresa, borra_nube_url_archivo, borra_nube_fecha_solicitud, borra_nube_comentario, borra_nube_id_estado, empresa_nom, estado, usuario_nom');
+    $this->db->FROM('borra_nube_archivo'); 
+    $this->db->JOIN('empresa', 'borra_nube_archivo.borra_nube_empresa=id_empresa');
+    $this->db->JOIN('usuario','borra_nube_id_usuario=id_usuario');
+    $this->db->JOIN('autoriza','id_autoriza=borra_nube_id_estado');
+    $query=$this->db->get();
+    return $query;
+  }
+
+  public function  Datos_Carpeta($id_borra_carpeta){
+    $this->db->select('borra_nube_url_archivo');
+    $this->db->from('borra_nube_carpeta');
+    //$this->db->join('empresa','borra_nube_empresa=id_empresa');
+    $this->db->where('id_borra_nube',$id_borra_carpeta);
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
+
+  public function Update_Solicita_Elimina($id_borra_carpeta,$data){
+    $this->db->where('id_borra_nube',$id_borra_carpeta);
+    $this->db->update('borra_nube_carpeta', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function Update_Solicita_Elimina_Archivo($id_borra_archivo,$data){
+    $this->db->where('id_borra_nube',$id_borra_archivo);
+    $this->db->update('borra_nube_archivo', $data);
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
+  public function IdCompany($company){
+      $this->db->select('id_empresa');//the name of fields to query in the login
+        $this->db->from('us_empresa');#name of first table
+        $this->db->join('empresa','empresa_id_empresa=id_empresa');
+        $this->db->where('empresa_nom', $company);#the field must match the entered parameter of password
+        $query = $this->db->get();#the query is obtained and stored within the variable
+        $result = $query->row();#the result displays in a row
+        return $result;#if the query has data, returns the data query
+      }
+  public function Add_Solicita_Borra_carpeta($data){
+    $this->db->insert('borra_nube_carpeta', $data);
+    if ($this->db->affected_rows() > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+  public function Add_Solicita_Borra_archivo($data){
+    $this->db->insert('borra_nube_archivo', $data);
+    if ($this->db->affected_rows() > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  function Pass_download($pass){
+    $this->db->select('usuario_pass_descarga');//the name of fields to query in the login
+    $this->db->from('usuario');#name of first table
+    $this->db->where('id_usuario','3');#the field must match the entered parameter of user
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
+
+  public function Check_Pass_download($id_usuario){
+    $this->db->select('id_usuario,usuario_pass_descarga');
+    $this->db->from('usuario');
+    $this->db->where('id_usuario',$id_usuario);
+    $query=$this->db->get();
+    if($query -> num_rows() >0){
+      $result = $query->row();#the result displays in a row
+      return $result;#if the query has data, returns the data query
+    }else{
+      return false;
+    }
+    }
+
 
 
 }

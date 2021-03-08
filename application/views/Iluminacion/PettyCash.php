@@ -39,18 +39,18 @@
 
                     <?php if ($row->lista_caja_chica_reposicion != "0"){ ?>
                         <td hidden="true" id="<?php echo "tipo".$row->id_lista_caja_chica.""; ?>">Ingreso</td>
-                        <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>"><?php echo number_format($row->lista_caja_chica_reposicion,2,'.',',').""; ?></td>
+                        <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>"><?php echo number_format($row->lista_caja_chica_reposicion,5,'.',',').""; ?></td>
                     <?php }else{ ?>
                         <td hidden="true" id="<?php echo "tipo".$row->id_lista_caja_chica.""; ?>">Egreso</td>
-                        <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_gasto,2,'.',',').""; ?></td>
+                        <td id="<?php echo "money".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_gasto,5,'.',',').""; ?></td>
                     <?php } ?>
 
 
-                    <td id="<?php echo "iva".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_iva,2,'.',','); ?></td>
-                    <td id="<?php echo "ret_iva".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_iva_ret,2,'.',','); ?></td>
-                    <td id="<?php echo "ret_isr".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_isr_ret,2,'.',','); ?></td>
-                    <td id="<?php echo "ieps".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_ieps,2,'.',','); ?></td>
-                    <td id="<?php echo "dap".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_dap,2,'.',','); ?></td>
+                    <td id="<?php echo "iva".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_iva,5,'.',','); ?></td>
+                    <td id="<?php echo "ret_iva".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_iva_ret,5,'.',','); ?></td>
+                    <td id="<?php echo "ret_isr".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_isr_ret,5,'.',','); ?></td>
+                    <td id="<?php echo "ieps".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_ieps,5,'.',','); ?></td>
+                    <td id="<?php echo "dap".$row->id_lista_caja_chica.""; ?>">$<?php echo number_format($row->lista_caja_chica_dap,5,'.',','); ?></td>
 
                     <td id="<?php echo "bill".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_factura.""; ?></td>
                     <td id="<?php echo "dateB".$row->id_lista_caja_chica.""; ?>"><?php echo "".$row->lista_caja_chica_fecha_factura.""; ?></td>

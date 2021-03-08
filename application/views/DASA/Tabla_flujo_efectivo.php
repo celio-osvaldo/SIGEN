@@ -151,8 +151,19 @@
 
     $('#table_flujo_efectivo').DataTable( 
     { 
-      dom: 'Bfrtip',
+      dom: 'Blfrtip',
       buttons: [ 
+        {
+            extend: 'excel',
+            title: 'Flujo de Efectivo\n Empresa: DASA \n'+$('#fecha_letra').text(),
+            exportOptions: {
+                modifier: {
+                    
+                },
+            },
+            header: true,
+            footer: true
+        },
         {
             extend: 'pdf',
             title: 'Flujo de Efectivo\n Empresa: DASA \n'+$('#fecha_letra').text(),
@@ -160,12 +171,13 @@
             pageSize: 'LETTER',
             exportOptions: {
                 modifier: {
-                    page: 'current'
+                    
                 }
             },
             header: true,
             footer: true
         },
+
                 {
             extend: 'copy',
             title: 'Flujo de Efectivo\n Empresa: DASA \n'+$('#fecha_letra').text(),
@@ -173,7 +185,6 @@
             pageSize: 'LETTER',
             exportOptions: {
                 modifier: {
-                    page: 'current'
                 }
             },
             header: true,

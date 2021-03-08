@@ -40,8 +40,8 @@
           <td id="<?php echo "nom_prod".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
           <td id="<?php echo "unid_med".$row->id_prod_alm;?>"><?php echo "".$row->unidad_medida.""; ?></td>
           <td id="<?php echo "modelo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_modelo.""; ?></td>
-          <td id="<?php echo "precio".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_prec_unit,2,'.',',').""; ?></td>
-          <td id="<?php echo "precio_venta".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_precio_venta,2,'.',',').""; ?></td>
+          <td id="<?php echo "precio".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_prec_unit,5,'.',',').""; ?></td>
+          <td id="<?php echo "precio_venta".$row->id_prod_alm;?>">$<?php echo number_format($row->prod_alm_precio_venta,5,'.',',').""; ?></td>
           <td id="<?php echo "existencia".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_exist.""; ?></td>
           <td id="<?php echo "codigo".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_codigo.""; ?></td>
           <td id="<?php echo "descripcion".$row->id_prod_alm;?>"><?php echo "".$row->prod_alm_descripcion.""; ?></td>

@@ -89,8 +89,8 @@
         <td class="tg-productos2"><?php echo "".$row->prod_alm_modelo.""; ?></td>
         <td class="tg-productos2"><?php echo "".$row->prod_alm_descripcion.""; ?></td>
         <td class="tg-productos2"><?php echo $row->lista_cotizacion_cantidad;?></td>
-        <td class="tg-productos2">$<?php echo number_format($row->lista_cotizacion_precio_unit,2,'.',',');?></td>
-        <td class="tg-productos2">$<?php echo number_format($importe,2,'.',',');?></td>
+        <td class="tg-productos2">$<?php echo number_format($row->lista_cotizacion_precio_unit,5,'.',',');?></td>
+        <td class="tg-productos2">$<?php echo number_format($importe,5,'.',',');?></td>
       </tr>
     <?php 
         if ($row->lista_cotizacion_descuento>0) {
@@ -100,8 +100,8 @@
       <td></td>
       <td></td>
       <td class="tg-iva">DESCUENTOS</td>
-      <td class="tg-iva"><?php echo number_format($descuento,2,'.',',')?>%</td>
-      <td class="tg-iva">$<?php echo number_format($tot_desc,2,'.',',')?></td>
+      <td class="tg-iva"><?php echo number_format($descuento,5,'.',',')?>%</td>
+      <td class="tg-iva">$<?php echo number_format($tot_desc,5,'.',',')?></td>
     </tr>
     <?php
     }
@@ -113,13 +113,13 @@
     <td></td>
     <td></td>
     <td class="tg-subtotal">SUBTOTAL</td>
-    <td class="tg-subtotal">$<?php echo number_format($cotizacion_info->cotizacion_subtotal,2,'.',',');?></td>
+    <td class="tg-subtotal">$<?php echo number_format($cotizacion_info->cotizacion_subtotal,5,'.',',');?></td>
   </tr>
   <tr>
     <td class="tg-anticipo" colspan="2" rowspan="2"><?php echo $cotizacion_info->cotizacion_comentario ?></td>
     <td></td>
     <td class="tg-iva">IVA</td>
-    <td class="tg-iva">$<?php echo number_format($cotizacion_info->cotizacion_iva,2,'.',',');?></td>
+    <td class="tg-iva">$<?php echo number_format($cotizacion_info->cotizacion_iva,5,'.',',');?></td>
   </tr>
   <tr>
     <td></td>

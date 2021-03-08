@@ -44,9 +44,9 @@
           <td id="<?php echo "nom_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td hidden="true" id="<?php echo "id_cliente".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_id_cliente.""; ?></td>
           <td id="<?php echo "kwh_totales".$row->id_pago_sfv;?>"><?php echo number_format($row->pago_sfv_kwh,0,'.',',').""; ?></td>
-          <td id="<?php echo "imp_total".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_imp_total,2,'.',',').""; ?></td>
-          <td id="<?php echo "total_pagado".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_pagado,2,'.',',').""; ?></td>
-          <td id="<?php echo "saldo".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_saldo,2,'.',',').""; ?></td>
+          <td id="<?php echo "imp_total".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_imp_total,5,'.',',').""; ?></td>
+          <td id="<?php echo "total_pagado".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_pagado,5,'.',',').""; ?></td>
+          <td id="<?php echo "saldo".$row->id_pago_sfv;?>">$<?php echo number_format($row->pago_sfv_saldo,5,'.',',').""; ?></td>
           <td id="<?php echo "fecha_ult_pago".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_fecha_ult_pago.""; ?></td>
           <td id="<?php echo "estado".$row->id_pago_sfv;?>"><?php echo "".$row->pago_sfv_estado.""; ?></td>
           <td id="<?php echo "pagos_realizados".$row->id_pago_sfv;?>"><?php echo "".$pagos_realizados.""; ?></td>

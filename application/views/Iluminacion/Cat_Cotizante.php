@@ -113,7 +113,47 @@
 
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#table_cotizante').DataTable();
+    $('#table_cotizante').DataTable({
+      dom: 'Blfrtip',
+      buttons: [ 
+        {
+            extend: 'excel',
+            title: 'Catálogo de Cotizantes\n Empresa: Iluminación',
+            exportOptions: {
+                modifier: {
+                    
+                },
+            },
+            header: true,
+            footer: true
+        },
+        {
+            extend: 'pdf',
+            title: 'Catálogo de Cotizantes\n Empresa: Iluminación',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                    
+                }
+            },
+            header: true,
+            footer: true
+        },
+
+                {
+            extend: 'copy',
+           title: 'Catálogo de Cotizantes\n Empresa: Iluminación',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                }
+            },
+            header: true,
+            footer: true
+        }]
+    });
 
     $('#UpdateCotizante').click(function(){
       nom_cotizante=$("#edit_nom_cotizante").val();

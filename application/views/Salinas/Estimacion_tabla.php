@@ -106,8 +106,21 @@
    $(document).ready( function () {
     $('#table_estimacion').DataTable( 
     { 
-      dom: 'Bfrtip',
+      dom: 'Blfrtip',
       buttons: [ 
+        {
+            extend: 'excel',
+            title: 'Reporte de Estimaciones\n Empresa: SALINAS Proyecto: '+$("#nom_proy").text()+' \n'+ $("#fecha_hoy").text(),
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                    //page: 'current'
+                }
+            },
+            header: true,
+            footer: true
+        },
         {
             extend: 'pdf',
             title: 'Reporte de Estimaciones\n Empresa: SALINAS Proyecto: '+$("#nom_proy").text()+' \n'+ $("#fecha_hoy").text(),

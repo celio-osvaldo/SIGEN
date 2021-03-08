@@ -11,17 +11,17 @@
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total de Proyecto:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,2,'.',','); ?>
+          Total de Proyecto:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,5,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Total Pagado:<hr>$<?php echo number_format($obra->obra_cliente_pagado,2,'.',','); ?>
+          Total Pagado:<hr>$<?php echo number_format($obra->obra_cliente_pagado,5,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
         <h6 align="center">
-          Saldo:<hr>$<?php echo number_format($obra->obra_cliente_saldo,2,'.',','); ?>
+          Saldo:<hr>$<?php echo number_format($obra->obra_cliente_saldo,5,'.',','); ?>
         </h6>
       </span>
       <span class="badge badge-info">
@@ -54,7 +54,7 @@
           ?>
           <tr>
             <td id="<?php echo "fecha".$row->id_venta_mov;?>"><?php echo "".$row->venta_mov_fecha.""; ?>  </td>
-            <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,2,'.',',').""; ?> </td>
+            <td id="<?php echo "pago".$row->id_venta_mov;?>">$<?php echo number_format($row->venta_mov_monto,5,'.',',').""; ?> </td>
             <td id="<?php echo "coment".$row->id_venta_mov;?>"> <?php echo "".$row->venta_mov_comentario.""; ?></td>
 
             <?php if ($obra->obra_cliente_aplica_flujo=="1"){ ?>

@@ -158,7 +158,47 @@
 
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#table_customer').DataTable();
+    $('#table_customer').DataTable({
+      dom: 'Blfrtip',
+      buttons: [ 
+        {
+            extend: 'excel',
+            title: 'Catálogo Clientes\n Empresa: DASA',
+            exportOptions: {
+                modifier: {
+                    
+                },
+            },
+            header: true,
+            footer: true
+        },
+        {
+            extend: 'pdf',
+            title: 'Catálogo Clientes\n Empresa: DASA',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                    
+                }
+            },
+            header: true,
+            footer: true
+        },
+
+                {
+            extend: 'copy',
+              title: 'Catálogo Clientes\n Empresa: DASA',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                }
+            },
+            header: true,
+            footer: true
+        }]
+    });
 
     $('#UpdateCustomer').click(function(){
       nom_fiscal=$("#edit_nom_fiscal").val();

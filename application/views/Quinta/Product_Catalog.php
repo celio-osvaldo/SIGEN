@@ -202,7 +202,47 @@
 
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#tableProductCatalog_id').DataTable();
+    $('#tableProductCatalog_id').DataTable({
+      dom: 'Blfrtip',
+      buttons: [ 
+        {
+            extend: 'excel',
+            title: 'Catálogo de Productos\n Empresa: Quinta Monticello',
+            exportOptions: {
+                modifier: {
+                    
+                },
+            },
+            header: true,
+            footer: true
+        },
+        {
+            extend: 'pdf',
+            title: 'Catálogo de Productos\n Empresa: Quinta Monticello',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                    
+                }
+            },
+            header: true,
+            footer: true
+        },
+
+                {
+            extend: 'copy',
+           title: 'Catálogo de Productos\n Empresa: Quinta Monticello',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                }
+            },
+            header: true,
+            footer: true
+        }]
+    });
 
 $('#saveProduct').click(function(){
   nameProductInsert=$("#nameProductInsert").val();

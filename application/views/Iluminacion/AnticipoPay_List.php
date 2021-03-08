@@ -17,17 +17,17 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total de Anticipo:<hr>$<?php echo number_format($anticipo_info->anticipo_total,2,'.',','); ?>
+                Total de Anticipo:<hr>$<?php echo number_format($anticipo_info->anticipo_total,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total Pagado:<hr>$<?php echo number_format($anticipo_info->anticipo_pago,2,'.',','); ?>
+                Total Pagado:<hr>$<?php echo number_format($anticipo_info->anticipo_pago,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Saldo:<hr>$<?php echo number_format($anticipo_info->anticipo_resto,2,'.',','); ?>
+                Saldo:<hr>$<?php echo number_format($anticipo_info->anticipo_resto,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
@@ -55,7 +55,7 @@
           <tr>
             <td hidden="true" id="<?php echo "id_pagos_anticipo".$row->id_pagos_anticipo;?>"><?php echo "".$row->id_pagos_anticipo.""; ?></td>
             <td id="<?php echo "fecha".$row->id_pagos_anticipo;?>"><?php echo "".$row->pagos_anticipo_fecha.""; ?></td>
-            <td id="<?php echo "cantidad".$row->id_pagos_anticipo;?>">$<?php echo number_format($row->pagos_anticipo_cantidad,2,'.',',').""; ?></td>
+            <td id="<?php echo "cantidad".$row->id_pagos_anticipo;?>">$<?php echo number_format($row->pagos_anticipo_cantidad,5,'.',',').""; ?></td>
             <td id="<?php echo "coment".$row->id_pagos_anticipo;?>"><?php echo "".$row->pagos_anticipo_coment.""; ?></td>
             <td id="<?php echo "comprobante".$row->id_pagos_anticipo;?>"><label hidden="true" id="<?php echo "url_".$row->id_pagos_anticipo;?>"><?php echo base_url().$row->pagos_anticipo_url_comprobante; ?></label> <a  onclick="ver_comprobante(this.id)" role="button" id="<?php echo $row->id_pagos_anticipo;?>"><button class="btn btn-outline-secondary" title="Ver comprobante de pago"><img src="..\Resources\Icons\frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" style="filter: invert(100%)" /></button></a>
             </td>

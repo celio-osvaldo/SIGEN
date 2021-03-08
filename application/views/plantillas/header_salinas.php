@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es_Mx">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<META HTTP-EQUIV="Cache-Control" CONTENT ="no-cache">
 	<link rel="shortcut icon" href="../Resources/Logos/system2.ico">
 	<link rel="stylesheet" href="..\assets\bootstrap_4.4\css\bootstrap.min.css">	
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\css\GeneralStyles.css">
@@ -11,10 +12,11 @@
 	<link rel="stylesheet" type="text/css" href="..\assets\Personalized\DataTables\datatables.min.css"/>
 	<script type="text/javascript" src="..\assets\Personalized\DataTables\datatables.min.js"></script>
 	<script type="text/javascript" src="..\assets\Personalized\js\moment.js"></script>
-
+	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
 	<script src="..\assets\multiple-select-1.5.2\dist\multiple-select.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="..\assets\multiple-select-1.5.2\dist\multiple-select.min.css">
-
+	<script type="text/javascript" src="..\assets\Personalized\DataTables\JSZip-2.5.0\jszip.min.js
+"></script>
 
 
 <?php

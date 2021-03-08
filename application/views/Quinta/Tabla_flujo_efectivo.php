@@ -65,7 +65,6 @@
    <td id="<?php echo "cargo".$row->id_gasto_venta;?>">$<?php echo number_format($row->gasto_venta_monto,2,'.',',').""; ?></td>
    <td></td>
    <td id="<?php echo "proyecto".$row->id_gasto_venta;?>"><?php echo "Gasto Evento:".$row->gasto_venta_concepto.""; ?></td>
-   <td></td>
  </tr>
  <?php 
  $no++;
@@ -83,7 +82,6 @@
    <td id="<?php echo "cargo".$row->id_OGasto;?>">$<?php echo number_format($row->saldo,2,'.',',').""; ?></td>
    <td></td>
    <td id="<?php echo "proyecto".$row->id_OGasto;?>">Otros Gastos</td>
-   <td></td>
  </tr>
  <?php 
  $no++;
@@ -102,7 +100,7 @@
    <td id="<?php echo "cargo".$row->id_gasto_nomina;?>">$<?php echo number_format($row->gasto_nomina_monto,2,'.',',').""; ?></td>
    <td></td>
    <td id="<?php echo "proyecto".$row->id_gasto_nomina;?>">Gasto Nómina</td>
-   <td></td>
+   
  </tr>
  <?php 
  $no++;
@@ -121,7 +119,7 @@
    <td id="<?php echo "cargo".$row->id_serv_mtto;?>">$<?php echo number_format($row->serv_mtto_monto,2,'.',',').""; ?></td>
    <td></td>
    <td id="<?php echo "proyecto".$row->id_serv_mtto;?>">Servicios/Mantenimiento</td>
-   <td></td>
+   
  </tr>
  <?php 
  $no++;
@@ -154,6 +152,7 @@
 </table>
 
 
+
 <script type="text/javascript">
   $(document).ready( function () {
 
@@ -162,13 +161,26 @@
       dom: 'Blfrtip',
       buttons: [ 
         {
+            extend: 'excel',
+            title: 'Flujo de Efectivo\n Empresa: Quinta Monticello \n'+$('#fecha_letra').text(),
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+
+                }
+            },
+            header: true,
+            footer: true
+        },
+        {
             extend: 'pdf',
             title: 'Flujo de Efectivo\n Empresa: Quinta Monticello \n'+$('#fecha_letra').text(),
             orientation: 'landscape',
             pageSize: 'LETTER',
             exportOptions: {
                 modifier: {
-                    page: 'current'
+
                 }
             },
             header: true,
@@ -181,7 +193,7 @@
             pageSize: 'LETTER',
             exportOptions: {
                 modifier: {
-                    page: 'current'
+
                 }
             },
             header: true,

@@ -15,6 +15,8 @@
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
 	<script src="..\assets\multiple-select-1.5.2\dist\multiple-select.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="..\assets\multiple-select-1.5.2\dist\multiple-select.min.css">
+	<script type="text/javascript" src="..\assets\Personalized\DataTables\JSZip-2.5.0\jszip.min.js
+"></script>
 
 	
 <?php
@@ -31,7 +33,6 @@ header("Pragma: no-cache");
     overflow: scroll;
 }
   </style>
-
 
 </head>
 <body>
@@ -128,25 +129,25 @@ header("Pragma: no-cache");
 	</nav>
 
 
-<script>
-var timeout;
-var base_url = "<?php echo base_url()?>Dasa/Logout";
-document.onmousemove = function() {
-  clearTimeout(timeout);
-  timeout = setTimeout(function() {
-  		  $.ajax({
-    type:"POST",
-    url:"<?php echo base_url();?>Dasa/Verifica_Sesion",
-     data:{},
-      success:function(result){
-      	if(!result){	
-  location.href= "<?php echo base_url()?>Dasa/Logout";
-      	}
-      	else{
-      		location.href= "<?php echo base_url()?>Dasa/Logout";
-      	}
-       }
-  });
+	<script>
+		var timeout;
+		var base_url = "<?php echo base_url()?>Dasa/Logout";
+		document.onmousemove = function() {
+			clearTimeout(timeout);
+			timeout = setTimeout(function() {
+				$.ajax({
+					type:"POST",
+					url:"<?php echo base_url();?>Dasa/Verifica_Sesion",
+					data:{},
+					success:function(result){
+						if(!result){	
+							location.href= "<?php echo base_url()?>Dasa/Logout";
+						}
+						else{
+							location.href= "<?php echo base_url()?>Dasa/Logout";
+						}
+					}
+				});
   }, 2701000);  //A los 45 min de que no se mueva el mouse sobre la página, se cerrará la sesión
-}
-</script>
+		}
+	</script>

@@ -20,10 +20,10 @@
       Existencia Actual:<hr><?php echo $Product_Inv_info->prod_alm_exist; ?>
     </span>
     <span class="badge badge-info col-md-2">
-      Precio Unitario Actual:<hr>$<?php echo number_format($Product_Inv_info->prod_alm_prec_unit,2,'.',','); ?>
+      Precio Unitario Actual:<hr>$<?php echo number_format($Product_Inv_info->prod_alm_prec_unit,5,'.',','); ?>
     </span> 
     <span class="badge badge-info col-md-2">
-      Precio Venta Actual:<hr>$<?php echo number_format($Product_Inv_info->prod_alm_precio_venta,2,'.',','); ?>
+      Precio Venta Actual:<hr>$<?php echo number_format($Product_Inv_info->prod_alm_precio_venta,5,'.',','); ?>
     </span>
   </div>
 </div>
@@ -70,10 +70,10 @@
           <td><?php echo "".$row->unidad_medida.""; ?></td>
           <td><?php echo $row->historial_almacen_producto_cantidad_old; ?></td>
           <td><?php echo $row->historial_almacen_producto_cantidad_new; ?></td>
-          <td>$<?php echo number_format($row->prod_alm_prec_unit_old,2,'.',','); ?></td>
-          <td>$<?php echo number_format($row->prod_alm_precio_venta_old,2,'.',','); ?></td>
-          <td>$<?php echo number_format($row->prod_alm_prec_unit_new,2,'.',','); ?></td>
-          <td>$<?php echo number_format($row->prod_alm_precio_venta_new,2,'.',',') ?></td>
+          <td>$<?php echo number_format($row->prod_alm_prec_unit_old,5,'.',','); ?></td>
+          <td>$<?php echo number_format($row->prod_alm_precio_venta_old,5,'.',','); ?></td>
+          <td>$<?php echo number_format($row->prod_alm_prec_unit_new,5,'.',','); ?></td>
+          <td>$<?php echo number_format($row->prod_alm_precio_venta_new,5,'.',',') ?></td>
           <td><?php echo $row->historial_almacen_producto_movimiento ?></td>
           <td><?php echo $row->historial_almacen_producto_procedencia ?></td>
           <td><?php echo $row->historial_almacen_producto_referencia ?></td>

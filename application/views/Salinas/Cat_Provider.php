@@ -172,7 +172,47 @@
 
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#table_provider').DataTable();
+    $('#table_provider').DataTable({
+      dom: 'Blfrtip',
+      buttons: [ 
+        {
+            extend: 'excel',
+            title: 'Catálogo de Proveedores\n Empresa: Salinas',
+            exportOptions: {
+                modifier: {
+                    
+                },
+            },
+            header: true,
+            footer: true
+        },
+        {
+            extend: 'pdf',
+            title: 'Catálogo de Proveedores\n Empresa: Salinas',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                    
+                }
+            },
+            header: true,
+            footer: true
+        },
+
+                {
+            extend: 'copy',
+           title: 'Catálogo de Proveedores\n Empresa: Salinas',
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                }
+            },
+            header: true,
+            footer: true
+        }]
+    });
 
     $('#UpdateProvider').click(function(){
       nom_fiscal=$("#edit_nom_fiscal").val();

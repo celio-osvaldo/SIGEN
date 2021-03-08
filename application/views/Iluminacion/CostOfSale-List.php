@@ -79,11 +79,11 @@
                     <td id="<?php echo "client".$row->id_gasto_venta.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
                     <td id="<?php echo "amount".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_monto, 5, '.', ',').""; ?></td>
 
-                    <td id="<?php echo "iva".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_iva,2,'.',','); ?></td>
-                    <td id="<?php echo "ret_iva".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_iva_ret,2,'.',','); ?></td>
-                    <td id="<?php echo "ret_isr".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_isr_ret,2,'.',','); ?></td>
-                    <td id="<?php echo "ieps".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_ieps,2,'.',','); ?></td>
-                    <td id="<?php echo "dap".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_dap,2,'.',','); ?></td>
+                    <td id="<?php echo "iva".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_iva,5,'.',','); ?></td>
+                    <td id="<?php echo "ret_iva".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_iva_ret,5,'.',','); ?></td>
+                    <td id="<?php echo "ret_isr".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_isr_ret,5,'.',','); ?></td>
+                    <td id="<?php echo "ieps".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_ieps,5,'.',','); ?></td>
+                    <td id="<?php echo "dap".$row->id_gasto_venta.""; ?>">$<?php echo number_format($row->gasto_venta_dap,5,'.',','); ?></td>
 
                     <td id="<?php echo "concept".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_concepto.""; ?></td>
                     <td id="<?php echo "comment".$row->id_gasto_venta.""; ?>"><?php echo "".$row->gasto_venta_observacion.""; ?></td>

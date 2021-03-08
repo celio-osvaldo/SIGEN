@@ -28,7 +28,7 @@
                         <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->viaticos_total_dias; ?></td>
                         <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->viaticos_fecha_ini; ?></td>
                         <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->viaticos_fecha_fin; ?></td>
-                        <td>$<?php echo number_format($total->sumPayment,2,'.',',') ?></td>
+                        <td>$<?php echo number_format($total->sumPayment,5,'.',',') ?></td>
                                     <!-- <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>" data-toggle="modal" data-target="#editReport"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
                                     </td> -->
                     </tr><?php } ?>
@@ -77,13 +77,13 @@
                         <td id="<?php echo "empleado".$row->id_lista_viatico.""; ?>"><?php echo $row->empleado; ?></td>
                         <td id="<?php echo "fecha".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_fecha; ?></td>
                         <td id="<?php echo "concepto".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_concepto; ?></td>
-                        <td id="<?php echo "importe".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_importe,2,'.',','); ?></td>
+                        <td id="<?php echo "importe".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_importe,5,'.',','); ?></td>
 
-                        <td id="<?php echo "iva".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_iva,2,'.',','); ?></td>
-                        <td id="<?php echo "ret_iva".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_iva_ret,2,'.',','); ?></td>
-                        <td id="<?php echo "ret_isr".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_isr_ret,2,'.',','); ?></td>
-                        <td id="<?php echo "ieps".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_ieps,2,'.',','); ?></td>
-                        <td id="<?php echo "dap".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_dap,2,'.',','); ?></td>
+                        <td id="<?php echo "iva".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_iva,5,'.',','); ?></td>
+                        <td id="<?php echo "ret_iva".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_iva_ret,5,'.',','); ?></td>
+                        <td id="<?php echo "ret_isr".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_isr_ret,5,'.',','); ?></td>
+                        <td id="<?php echo "ieps".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_ieps,5,'.',','); ?></td>
+                        <td id="<?php echo "dap".$row->id_lista_viatico.""; ?>">$<?php echo number_format($row->lista_viatico_dap,5,'.',','); ?></td>
 
                         <td id="<?php echo "tipo_comprobante".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_comprobante; ?></td>
                         <td id="<?php echo "tipo_ref".$row->id_lista_viatico.""; ?>"><?php echo "".$row->lista_viatico_referencia.""; ?></td>

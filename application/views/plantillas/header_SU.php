@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es_Mx">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -15,7 +15,8 @@
 	<script type="text/javascript" src="..\assets\Personalized\jspdf.debug.js"></script>
 	<script src="..\assets\multiple-select-1.5.2\dist\multiple-select.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="..\assets\multiple-select-1.5.2\dist\multiple-select.min.css">
-
+	<script type="text/javascript" src="..\assets\Personalized\DataTables\JSZip-2.5.0\jszip.min.js
+"></script>
 
 
 	<?php

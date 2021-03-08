@@ -74,6 +74,19 @@
       dom: 'Blfrtip',
       buttons: [ 
         {
+            extend: 'excel',
+            title: 'Flujo de Efectivo\n Empresa: Quinta Monticello \n'+$('#fecha_letra').text(),
+            orientation: 'landscape',
+            pageSize: 'LETTER',
+            exportOptions: {
+                modifier: {
+                    //page: 'current'
+                }
+            },
+            header: true,
+            footer: true
+        },
+        {
             extend: 'pdf',
             title: 'Flujo de Efectivo\n Empresa: Quinta Monticello \n'+$('#fecha_letra').text(),
             orientation: 'landscape',

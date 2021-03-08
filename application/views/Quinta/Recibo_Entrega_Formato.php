@@ -1,8 +1,6 @@
 <?php date_default_timezone_set("America/Mexico_City") ?>
 
-<table >
-  <tr>
- <td>
+
   <table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 14; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
     <tr class="td">
 
@@ -81,19 +79,12 @@
     <td style="border-right: 1px solid black;; border-left: 1px solid black; border-bottom: 1px solid black; text-align: center" colspan="8">Constitución no. 500, Col. San Pedro. Teocaltiche, Jalisco.</td>
   </tr>
 </table>
-</td>
-</tr>
-</table>
 
 
-<br>
+
+
 <hr>
-<br>
-<br>
 
-<table>
-  <tr>
- <td>
   <table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 14; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
     <tr class="td">
 
@@ -172,8 +163,6 @@
     <td style="border-right: 1px solid black;; border-left: 1px solid black; border-bottom: 1px solid black; text-align: center" colspan="8">Constitución no. 500, Col. San Pedro. Teocaltiche, Jalisco.</td>
   </tr>
 </table>
-</td>
-</tr>
-</table>
+
 
 

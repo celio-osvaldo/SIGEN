@@ -22,17 +22,17 @@
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Importe total:<hr>$<?php echo number_format($sfv_info->pago_sfv_imp_total,2,'.',','); ?>
+                Importe total:<hr>$<?php echo number_format($sfv_info->pago_sfv_imp_total,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Total pagado:<hr>$<?php echo number_format($sfv_info->pago_sfv_pagado,2,'.',','); ?>
+                Total pagado:<hr>$<?php echo number_format($sfv_info->pago_sfv_pagado,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
               <h6 align="center">
-                Saldo:<hr>$<?php echo number_format($sfv_info->pago_sfv_saldo,2,'.',','); ?>
+                Saldo:<hr>$<?php echo number_format($sfv_info->pago_sfv_saldo,5,'.',','); ?>
               </h6>
             </span>
             <span class="badge badge-info">
@@ -80,9 +80,9 @@
             <td id="<?php echo "num_pago".$row->id_lista_pago_sfv;?>"><?php echo "".$row->lista_pago_sfv_num_pago.""; ?></td>
             <td id="<?php echo "fecha".$row->id_lista_pago_sfv;?>"><?php echo "".$row->lista_pago_sfv_fecha.""; ?></td>
             <td id="<?php echo "kwh_facturado".$row->id_lista_pago_sfv;?>"><?php echo number_format($row->lista_pago_sfv_kwh_factu,0,'.',',').""; ?></td>
-            <td id="<?php echo "total_pago".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_total,2,'.',',').""; ?></td>
-            <td id="<?php echo "subtotal".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_sub_total,2,'.',',').""; ?></td>
-            <td id="<?php echo "iva".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_iva,2,'.',',').""; ?></td>
+            <td id="<?php echo "total_pago".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_total,5,'.',',').""; ?></td>
+            <td id="<?php echo "subtotal".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_sub_total,5,'.',',').""; ?></td>
+            <td id="<?php echo "iva".$row->id_lista_pago_sfv;?>">$<?php echo number_format($row->lista_pago_sfv_iva,5,'.',',').""; ?></td>
             <td id="<?php echo "coment".$row->id_lista_pago_sfv;?>"><?php echo "".$row->lista_pago_sfv_coment.""; ?></td>
             <td id="<?php echo "comprobante".$row->id_lista_pago_sfv;?>"><label hidden="true" id="<?php echo "url_".$row->id_lista_pago_sfv;?>"><?php echo base_url().$row->lista_pago_sfv_url_comprobante; ?></label> <a  onclick="ver_comprobante(this.id)" role="button" id="<?php echo $row->id_lista_pago_sfv;?>"><button class="btn btn-outline-secondary" title="Ver comprobante de pago"><img  width="25" src="..\Resources\Icons\frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" style="filter: invert(100%)" /></button></a>
             </td>

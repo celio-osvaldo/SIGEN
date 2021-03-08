@@ -32,7 +32,7 @@
                     <td id="<?php echo "total_dias".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_total_dias.""; ?></td>
                     <td id="<?php echo "fecha_ini".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_ini.""; ?></td>
                     <td id="<?php echo "fecha_fin".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha_fin.""; ?></td>
-                    <td id="<?php echo "monto".$row->id_viaticos.""; ?>">$<?php echo number_format($row->viaticos_total,2,'.',',').""; ?></td>
+                    <td id="<?php echo "monto".$row->id_viaticos.""; ?>">$<?php echo number_format($row->viaticos_total,5,'.',',').""; ?></td>
                     <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>"><img height="20" width="20" src="..\Resources\Icons\lupa.ico" alt="Editar" style="filter: invert(100%)" /></a>
                     </td>
                     <td>

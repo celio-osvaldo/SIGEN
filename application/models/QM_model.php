@@ -848,6 +848,33 @@ public function Get_Product_History_Consu($id_producto){
     return $result;
   }
 
+  public function Add_Solicita_Borra_carpeta($data){
+    $this->db->insert('borra_nube_carpeta', $data);
+    if ($this->db->affected_rows() > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  public function Add_Solicita_Borra_archivo($data){
+    $this->db->insert('borra_nube_archivo', $data);
+    if ($this->db->affected_rows() > 0){
+      return true;
+    }else{
+      return false;
+    }
+  }
+
+  function Pass_download($pass){
+    $this->db->select('usuario_pass_descarga');//the name of fields to query in the login
+    $this->db->from('usuario');#name of first table
+    $this->db->where('id_usuario','3');#the field must match the entered parameter of user
+    $query = $this->db->get();#the query is obtained and stored within the variable
+    $result = $query->row();#the result displays in a row
+    return $result;#if the query has data, returns the data query
+  }
+
   public function Get_solicitudes_elimina_carpeta(){
     $this->db->select('count(id_borra_nube) as num_solic_elimina_carpeta');
     $this->db->FROM('borra_nube_carpeta'); 
@@ -865,6 +892,27 @@ public function Get_Product_History_Consu($id_producto){
     $result=$query->row();
     return $result;
   }
+
+  public function Solicita_Elimina_carpeta(){
+    $this->db->select('id_borra_nube, borra_nube_id_usuario, borra_nube_empresa, borra_nube_url_archivo, borra_nube_fecha_solicitud, borra_nube_comentario, borra_nube_id_estado, empresa_nom, estado, usuario_nom');
+    $this->db->FROM('borra_nube_carpeta'); 
+    $this->db->JOIN('empresa', 'borra_nube_carpeta.borra_nube_empresa=id_empresa');
+    $this->db->JOIN('usuario','borra_nube_id_usuario=id_usuario');
+    $this->db->JOIN('autoriza','id_autoriza=borra_nube_id_estado');
+    $query=$this->db->get();
+    return $query;
+  }
+
+  public function Solicita_Elimina_archivo(){
+    $this->db->select('id_borra_nube, borra_nube_id_usuario, borra_nube_empresa, borra_nube_url_archivo, borra_nube_fecha_solicitud, borra_nube_comentario, borra_nube_id_estado, empresa_nom, estado, usuario_nom');
+    $this->db->FROM('borra_nube_archivo'); 
+    $this->db->JOIN('empresa', 'borra_nube_archivo.borra_nube_empresa=id_empresa');
+    $this->db->JOIN('usuario','borra_nube_id_usuario=id_usuario');
+    $this->db->JOIN('autoriza','id_autoriza=borra_nube_id_estado');
+    $query=$this->db->get();
+    return $query;
+  }
+
 
 
 

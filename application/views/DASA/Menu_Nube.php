@@ -5,33 +5,33 @@
 			<img  src="<?php echo base_url() ?>Resources/Icons/nube.ico"><a>Nube SIGEN</a>
 			<?php
 			$listar=null;
-			$directorio=opendir('Resources/Nube_Sigen/');
+			$directorio=opendir('Resources/Nube_Sigen/DASA/');
 
 			while ($elemento=readdir($directorio)) {
 				if ($elemento!='.'&&$elemento!='..') {
-					if(is_dir("Resources/Nube_Sigen/".$elemento))
+					if(is_dir("Resources/Nube_Sigen/DASA/".$elemento))
 					{
 						?>
-						<!--href="<?php echo base_url() ?>Resources/Nube_Sigen/<?php echo $elemento ?>/"-->
+						<!--href="<?php echo base_url() ?>Resources/Nube_Sigen/DASA/<?php echo $elemento ?>/"-->
 						<a style="font-size: 1rem" href="#" onclick="Carga_tabla(this.id)" id="<?php echo $elemento ?>" role="button" class="nav-link" ><img src="<?php echo base_url() ?>Resources/Icons/carpeta.ico" width="15px" ><?php echo $elemento ?></a>
 						<?php
 
 					}else{
 						?>
 
-						<a style="font-size: 0.65rem" class="nav-link" href="<?php echo base_url() ?>Resources/Nube_Sigen/<?php echo $ruta."/".$elemento ?>" download="<?php echo $elemento; ?>"  ><?php echo $elemento ?></a>
+						<a style="font-size: 0.65rem" class="nav-link" href="<?php echo base_url() ?>Resources/Nube_Sigen/DASA/<?php echo $ruta."/".$elemento ?>" download="<?php echo $elemento; ?>"  ><?php echo $elemento ?></a>
 						<?php
 					}
 				}
 			}
 			?>
-
+			
 			<div>
 				<hr>
 				<a  class="nav-item nav-link disabled" >Almacenamiento</a>
-				<a class="nav-item nav-link disabled" style="font-size: 0.6rem"><?php echo $size_dir; ?> usados de 20GB</a>
+				<a class="nav-item nav-link disabled" style="font-size: 0.6rem"><?php echo $size_dir; ?> usados de 5GB</a>
 			</div>
-
+		
 	</div>
 	<div class="col-md-10">
 		<!--Mostrar listado de Archivos en Nube SIGEN -->
@@ -58,7 +58,6 @@
 					</nav>
 				</div>
 				<div class="col-md-4">
-					<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#Download_Pass"><img src="<?php echo base_url() ?>Resources/Icons/cloud_pass.ico">Contraseña Descarga</button>
 					<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#New_Carpeta"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nueva Carpeta</button>
 					<button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#New_Archivo"><img src="<?php echo base_url() ?>Resources/Icons/cloud-upload-symbol_icon-icons.com_56540.ico">Subir Archivo</button>
 				</div>
@@ -80,18 +79,18 @@
 							<?php
 							if($ruta!=""){
 								$listar=null;
-								$directorio=opendir('Resources/Nube_Sigen/'.$ruta);
+								$directorio=opendir('Resources/Nube_Sigen/DASA/'.$ruta);
 
 								while ($elemento=readdir($directorio)) {
 									if ($elemento!='.'&&$elemento!='..') {
 										?>
 										<tr>
 											<?php
-											if(is_dir("Resources/Nube_Sigen/".$ruta."/".$elemento))
+											if(is_dir("Resources/Nube_Sigen/DASA/".$ruta."/".$elemento))
 											{
 												?>
 												<td> <a style="font-size: 1rem" href="#" onclick="Carga_tabla(this.id)" id="<?php echo $ruta."/".$elemento ?>" role="button" class="nav-link" ><img src="<?php echo base_url() ?>Resources/Icons/carpeta.ico" width="15px" ><?php echo $elemento ?></a></td>
-												<td><?php echo date ("d/m/Y H:i:s", filectime("Resources/Nube_Sigen/".$ruta."/".$elemento)); ?></td>
+												<td><?php echo date ("d/m/Y H:i:s", filectime("Resources/Nube_Sigen/DASA/".$ruta."/".$elemento)); ?></td>
 												<td>-</td>
 												<td><a role="button" class="btn btn-outline-dark" onclick="Delete_Carpeta(this.id)" id="<?php echo $ruta."/".$elemento ?>" data-toggle="modal" data-target="#deletecarpeta"><img height="20" src="..\Resources\Icons\delete.ico" alt="Eliminar" style="filter: invert(100%)" /></a></td>
 
@@ -99,13 +98,13 @@
 
 											}else{
 												?>
-												<td> <a style="font-size: 1rem" class="nav-link" href="#" role="button" onclick="Carga_Vista(this.id)" id="Resources/Nube_Sigen/<?php echo $ruta."/".$elemento ?>"  ><?php echo $elemento ?></a>
+												<td> <a style="font-size: 1rem" class="nav-link" href="#" role="button" onclick="Carga_Vista(this.id)" id="Resources/Nube_Sigen/DASA/<?php echo $ruta."/".$elemento ?>"  ><?php echo $elemento ?></a>
 
 												</td>
 
-												<td><?php echo date ("d/m/Y H:i:s", filectime("Resources/Nube_Sigen/".$ruta."/".$elemento)); ?></td>
+												<td><?php echo date ("d/m/Y H:i:s", filectime("Resources/Nube_Sigen/DASA/".$ruta."/".$elemento)); ?></td>
 
-												<?php $size=filesize("Resources/Nube_Sigen/".$ruta."/".$elemento);
+												<?php $size=filesize("Resources/Nube_Sigen/DASA/".$ruta."/".$elemento);
 												if($size<1024){
 													$size=1;
 													$size_uni="KB";
@@ -152,6 +151,8 @@
 	</div>
 </div>
 </div>
+
+
 
 
 
@@ -396,34 +397,6 @@
 	</div>
 </div>
 
-
-<!-- Modal Descarga_archivo -->
-
-<div class="modal fade" id="Download_Pass" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Contraseña para Descargar Archivos</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				<div class="row">
-					<div class="col-md-12">
-						<label class="label-control">Indique la contraseña para descarga de archivos</label>
-						<input class="form-control" required="true" type="password" name="password" id="password">
-					</div>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-				<button type="button" class="btn btn-primary" id="guarda_contraseña" data-dismiss="modal">Guardar Contraseña</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#table_nube').DataTable();
@@ -434,7 +407,7 @@
 			//alert(ruta_carpeta+" "+nom_carpeta);
 			$.ajax({
 				type:"POST",
-				url:"<?php echo base_url();?>SuperUser/Crea_Carpeta",
+				url:"<?php echo base_url();?>Dasa/Crea_Carpeta",
 				data:{nom_carpeta:nom_carpeta, ruta_carpeta:ruta_carpeta},
 				success:function(result){
 					//alert(result);
@@ -452,11 +425,10 @@
     $('#Solicita_borrado_carpeta').click(function(){
     	txt_justifica=$("#txt_justifica_carpeta").val();
 		delete_ruta_carpeta=$("#delete_ruta_carpeta").val();
-		alert(delete_ruta_carpeta);
       if(txt_justifica!=""){
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>SuperUser/Solicita_Borra_carpeta",
+          url:"<?php echo base_url();?>Dasa/Solicita_Borra_carpeta",
           data:{txt_justifica:txt_justifica, delete_ruta_carpeta:delete_ruta_carpeta},
                 success:function(result){
                   //alert(result);
@@ -479,7 +451,7 @@
       if(txt_justifica!=""){
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>SuperUser/Solicita_Borra_archivo",
+          url:"<?php echo base_url();?>Dasa/Solicita_Borra_archivo",
           data:{txt_justifica:txt_justifica, delete_ruta_archivo:delete_ruta_archivo},
                 success:function(result){
                   //alert(result);
@@ -504,7 +476,7 @@
       if(pass_descarga!=""){
         $.ajax({
           type:"POST",
-          url:"<?php echo base_url();?>SuperUser/Solicita_descarga_archivo",
+          url:"<?php echo base_url();?>Dasa/Solicita_descarga_archivo",
           data:{descarga_ruta_archivo:descarga_ruta_archivo, descarga_nombre:descarga_nombre, pass_descarga:pass_descarga},
                 success:function(result){
                   //alert(result);
@@ -522,28 +494,6 @@
            }
     });
 
-
-    $('#guarda_contraseña').click(function(){
-		password=$("#password").val();
-      if(password!=""){
-        $.ajax({
-          type:"POST",
-          url:"<?php echo base_url();?>SuperUser/Cambia_Password",
-          data:{password:password},
-                success:function(result){
-                  //alert(result);
-                  if(result=="Contraseña Actualizada"){
-                    alert(result);
-                  }else{
-                    alert(result);
-                  }
-                  Carga_tabla('<?php echo $ruta ?>');
-                }
-              });
-           }else{
-            alert("Debe indicar una contraseña para descarga de archivos.");
-           }
-    });
 
 	});
 	function Index_tabla(){
@@ -604,15 +554,13 @@
 	}
 
 	function descargar($ruta){
-		ruta="Resources/Nube_Sigen/"+$ruta;
+		ruta="Resources/Nube_Sigen/DASA/"+$ruta;
 		base_url="<?php echo base_url() ?>";
-		$('.modal-backdrop').remove();
-		window.open(base_url+ruta, "_blank");
+			window.open(base_url+ruta, "_blank");
 	}
 
 
 </script>
-
 
 
 <script>
@@ -646,7 +594,7 @@ $(document).ready(()=>{
 				},
 
 				type: 'POST',
-				url: '<?php echo base_url(); ?>SuperUser/Add_File',
+				url: '<?php echo base_url(); ?>Dasa/Add_File',
 				data: new FormData(this),
 				contentType: false,
 				cache: false,

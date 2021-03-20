@@ -3188,24 +3188,120 @@ public function GETMAX_Folio_recibo(){
 		$this->load->view('Iluminacion/Historial_Inv_Consumible', $data);
     }
 
-   public function Ver_Nube(){
-        $this->load->model('Iluminacion_model');
-        $company='ILUMINACION';
-        $idcompany=$this->Iluminacion_model->IdCompany($company);
-        $url_base=base_url();
-        //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
-        $data = array('ruta' => "");
-        $this->load->view('Iluminacion/Menu_Nube',$data);
-    }
+    public function Ver_Nube(){
+    	$this->load->model('Iluminacion_model');
+    	$company='ILUMINACION';
+    	$idcompany=$this->Iluminacion_model->IdCompany($company);
+    	$url_base=base_url();
+    	$directorio="Resources/Nube_Sigen/".$company;
+    	$ruta= $directorio;
+    	$_eltamano=0;
+
+    	function listar_directorios_ruta($ruta){ // abre funcion
+    		global $_eltamano;
+		    if ($dh = opendir($ruta)) { // abre opendir
+		    	while (($file = readdir($dh)) !== false) { // abrewile
+		    		$laruta=$ruta.'/'.$file;
+		    		if($file != '.' && $file!= '..' && !is_link($laruta)){ // pregunta si es archivo o directorio
+		    			if (is_dir($laruta)){ // es directorio
+		    				listar_directorios_ruta($laruta."/");
+		    			} // cierra si es directorio
+		    				else if(is_file($laruta)){ // pregunta si es archivo
+		    					$tamano=filesize($laruta);
+		    					$_eltamano+=$tamano;
+		    				} // cierra si es archivo
+					} // cierra si es directorio o archivo
+				} // cierra while
+		    } // cierra opendir
+		    closedir($dh);
+		    return $_eltamano;
+		} // cierra funcion
+
+		$_final=listar_directorios_ruta($ruta);
+
+		//var_dump($_final);
+
+		function sizeFormat($_dirSize)
+		{
+			if($_dirSize < 1024)
+			{
+				return $_dirSize." Bytes.";
+			}
+			else if($_dirSize < (1024*1024))
+			{
+				$_dirSize = round($_dirSize/1024,1);
+				return $_dirSize." KB.";
+			}
+			else
+			{
+				$_dirSize = round($_dirSize/(1024*1024),1);
+				return $_dirSize + 0.1." MB.";
+			}
+		}    
+$data = array('ruta' => "",
+	'size_dir' => sizeFormat($_final));
+$this->load->view('Iluminacion/Menu_Nube',$data);
+}
 
     public function Carga_tabla(){
 		$this->load->model('Iluminacion_model');
-        $company='ILUMINACION';
-        $idcompany=$this->Iluminacion_model->IdCompany($company);
-        $url_base=base_url();
-        //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
-        $ruta=$_POST['ruta'];
-        $data = array('ruta' => $ruta, );
+            	$company='ILUMINACION';
+    	$idcompany=$this->Iluminacion_model->IdCompany($company);
+    	$url_base=base_url();
+
+    	$direccion="Resources/Nube_Sigen/".$company;
+    	//var_dump(filesize($direccion));
+		$directorio="Resources/Nube_Sigen/".$company;
+    	$ruta= $directorio;
+    	$_eltamano=0;
+
+    	function listar_directorios_ruta($ruta){ // abre funcion
+    		global $_eltamano;
+		    if ($dh = opendir($ruta)) { // abre opendir
+		    	while (($file = readdir($dh)) !== false) { // abrewile
+		    		$laruta=$ruta.'/'.$file;
+		    		if($file != '.' && $file!= '..' && !is_link($laruta)){ // pregunta si es archivo o directorio
+		    			if (is_dir($laruta)){ // es directorio
+		    				listar_directorios_ruta($laruta."/");
+		    			} // cierra si es directorio
+		    				else if(is_file($laruta)){ // pregunta si es archivo
+		    					$tamano=filesize($laruta);
+		    					$_eltamano+=$tamano;
+		    				} // cierra si es archivo
+					} // cierra si es directorio o archivo
+				} // cierra while
+		    } // cierra opendir
+		    closedir($dh);
+		    return $_eltamano;
+		} // cierra funcion
+
+		$_final=listar_directorios_ruta($ruta);
+
+		//var_dump($_final);
+
+		function sizeFormat($_dirSize)
+		{
+			if($_dirSize < 1024)
+			{
+				return $_dirSize." Bytes.";
+			}
+			else if($_dirSize < (1024*1024))
+			{
+				$_dirSize = round($_dirSize/1024,1);
+				return $_dirSize." KB.";
+			}
+			else
+			{
+				$_dirSize = round($_dirSize/(1024*1024),1);
+				return $_dirSize + 0.1." MB.";
+			}
+		}    
+
+       	$ruta=$_POST['ruta'];
+    	$data = array('ruta' => $ruta,
+    				'size_dir' => sizeFormat($_final));
+ 
+
         $this->load->view('Iluminacion/Menu_Nube',$data);
     }
 
@@ -3258,10 +3354,11 @@ public function GETMAX_Folio_recibo(){
 
 		$url_imagen="Resources/Nube_Sigen/ILUMINACION/".$ruta_nuevo_archivo[1]."/".$filename;
 
-		if(move_uploaded_file($_FILES['add_file']['tmp_name'],$url_imagen)){
-			echo true;
+		$upload=move_uploaded_file($_FILES['add_file']['tmp_name'],$url_imagen);
+		if(!$upload){
+			echo false;
 			}else{
-				echo false;
+				echo true;
 			}
 	}
 

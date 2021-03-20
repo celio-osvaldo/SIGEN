@@ -1,7 +1,7 @@
 <?php date_default_timezone_set("America/Mexico_City") ?>
 
 
-  <table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 14; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
+  <table class="td" style="width:80%; border-collapse: collapse; font-family: Geneva; font-size: 14; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
     <tr class="td">
 
       <td class="t2-1" style="border-left: 1px solid black; border-top: 1px solid black " ></td>
@@ -85,7 +85,7 @@
 
 <hr>
 
-  <table class="td" style="width:100%; border-collapse: collapse; font-family: Geneva; font-size: 14; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
+  <table class="td" style="width:80%; border-collapse: collapse; font-family: Geneva; font-size: 14; background-image: url(<?php echo base_url() ?>Resources/Logos/qm_recibo.png); background-repeat: no-repeat; ">
     <tr class="td">
 
       <td class="t2-1" style="border-left: 1px solid black; border-top: 1px solid black " ></td>

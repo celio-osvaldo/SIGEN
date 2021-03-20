@@ -149,6 +149,10 @@
 					$("#page_content").load("Servicios");
 				});
 			});
+
+	$('#Nube').click(function(){
+			$('#page_content').load('Ver_Nube');
+		});
 		</script>
 
 <script type="text/javascript">

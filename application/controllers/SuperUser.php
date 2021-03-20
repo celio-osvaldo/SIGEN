@@ -371,8 +371,53 @@ class SuperUser extends CI_Controller {
    public function Ver_Nube(){
         $this->load->model('SU_model');
         $url_base=base_url();
-        //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
-        $data = array('ruta' => "");
+        $directorio="Resources/Nube_Sigen/";
+        $ruta= $directorio;
+        $_eltamano=0;
+
+        function listar_directorios_ruta($ruta){ // abre funcion
+            global $_eltamano;
+            if ($dh = opendir($ruta)) { // abre opendir
+                while (($file = readdir($dh)) !== false) { // abrewile
+                    $laruta=$ruta.'/'.$file;
+                    if($file != '.' && $file!= '..' && !is_link($laruta)){ // pregunta si es archivo o directorio
+                        if (is_dir($laruta)){ // es directorio
+                            listar_directorios_ruta($laruta."/");
+                        } // cierra si es directorio
+                            else if(is_file($laruta)){ // pregunta si es archivo
+                                $tamano=filesize($laruta);
+                                $_eltamano+=$tamano;
+                            } // cierra si es archivo
+                    } // cierra si es directorio o archivo
+                } // cierra while
+            } // cierra opendir
+            closedir($dh);
+            return $_eltamano;
+        } // cierra funcion
+
+        $_final=listar_directorios_ruta($ruta);
+
+        //var_dump($_final);
+
+        function sizeFormat($_dirSize)
+        {
+            if($_dirSize < 1024)
+            {
+                return $_dirSize." Bytes.";
+            }
+            else if($_dirSize < (1024*1024))
+            {
+                $_dirSize = round($_dirSize/1024,1);
+                return $_dirSize." KB.";
+            }
+            else
+            {
+                $_dirSize = round($_dirSize/(1024*1024),1);
+                return $_dirSize + 0.1." MB.";
+            }
+        }    
+$data = array('ruta' => "",
+    'size_dir' => sizeFormat($_final));
         $this->load->view('SuperUser/Menu_Nube',$data);
     }
 
@@ -380,8 +425,55 @@ class SuperUser extends CI_Controller {
         $this->load->model('SU_model');
         $url_base=base_url();
         //var_dump(disk_free_space('C:\xampp\htdocs\SIGEN\Resources'));
+        $directorio="Resources/Nube_Sigen/";
+        $ruta= $directorio;
+        $_eltamano=0;
+
+        function listar_directorios_ruta($ruta){ // abre funcion
+            global $_eltamano;
+            if ($dh = opendir($ruta)) { // abre opendir
+                while (($file = readdir($dh)) !== false) { // abrewile
+                    $laruta=$ruta.'/'.$file;
+                    if($file != '.' && $file!= '..' && !is_link($laruta)){ // pregunta si es archivo o directorio
+                        if (is_dir($laruta)){ // es directorio
+                            listar_directorios_ruta($laruta."/");
+                        } // cierra si es directorio
+                            else if(is_file($laruta)){ // pregunta si es archivo
+                                $tamano=filesize($laruta);
+                                $_eltamano+=$tamano;
+                            } // cierra si es archivo
+                    } // cierra si es directorio o archivo
+                } // cierra while
+            } // cierra opendir
+            closedir($dh);
+            return $_eltamano;
+        } // cierra funcion
+
+        $_final=listar_directorios_ruta($ruta);
+
+        //var_dump($_final);
+
+        function sizeFormat($_dirSize)
+        {
+            if($_dirSize < 1024)
+            {
+                return $_dirSize." Bytes.";
+            }
+            else if($_dirSize < (1024*1024))
+            {
+                $_dirSize = round($_dirSize/1024,1);
+                return $_dirSize." KB.";
+            }
+            else
+            {
+                $_dirSize = round($_dirSize/(1024*1024),1);
+                return $_dirSize + 0.1." MB.";
+            }
+        }    
+
         $ruta=$_POST['ruta'];
-        $data = array('ruta' => $ruta, );
+        $data = array('ruta' => $ruta,
+                    'size_dir' => sizeFormat($_final));
 
         $this->load->view('SuperUser/Menu_Nube',$data);
     }

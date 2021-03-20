@@ -1857,6 +1857,240 @@ function Update_Inv_Consu(){
 		$this->load->view('Salinas/Historial_Inv_Consumible', $data);
     }
 
+public function Ver_Nube(){
+    	$this->load->model('Salinas_model');
+    	$company='SALINAS';
+    	$idcompany=$this->Salinas_model->IdCompany($company);
+    	$url_base=base_url();
+    	$directorio="Resources/Nube_Sigen/".$company;
+    	$ruta= $directorio;
+    	$_eltamano=0;
+
+    	function listar_directorios_ruta($ruta){ // abre funcion
+    		global $_eltamano;
+		    if ($dh = opendir($ruta)) { // abre opendir
+		    	while (($file = readdir($dh)) !== false) { // abrewile
+		    		$laruta=$ruta.'/'.$file;
+		    		if($file != '.' && $file!= '..' && !is_link($laruta)){ // pregunta si es archivo o directorio
+		    			if (is_dir($laruta)){ // es directorio
+		    				listar_directorios_ruta($laruta."/");
+		    			} // cierra si es directorio
+		    				else if(is_file($laruta)){ // pregunta si es archivo
+		    					$tamano=filesize($laruta);
+		    					$_eltamano+=$tamano;
+		    				} // cierra si es archivo
+					} // cierra si es directorio o archivo
+				} // cierra while
+		    } // cierra opendir
+		    closedir($dh);
+		    return $_eltamano;
+		} // cierra funcion
+
+		$_final=listar_directorios_ruta($ruta);
+
+		//var_dump($_final);
+
+		function sizeFormat($_dirSize)
+		{
+			if ($_dirSize=="") {
+				$_dirSize=0;
+			}
+			if($_dirSize < 1024)
+			{
+				return $_dirSize." Bytes.";
+			}
+			else if($_dirSize < (1024*1024))
+			{
+				$_dirSize = round($_dirSize/1024,1);
+				return $_dirSize." KB.";
+			}
+			else
+			{
+				$_dirSize = round($_dirSize/(1024*1024),1);
+				return $_dirSize + 0.1." MB.";
+			}
+		}    
+$data = array('ruta' => "",
+	'size_dir' => sizeFormat($_final));
+$this->load->view('Salinas/Menu_Nube',$data);
+}
+
+    public function Carga_tabla(){
+		$this->load->model('Salinas_model');
+            	$company='SALINAS';
+    	$idcompany=$this->Salinas_model->IdCompany($company);
+    	$url_base=base_url();
+
+    	$direccion="Resources/Nube_Sigen/".$company;
+    	//var_dump(filesize($direccion));
+		$directorio="Resources/Nube_Sigen/".$company;
+    	$ruta= $directorio;
+    	$_eltamano=0;
+
+    	function listar_directorios_ruta($ruta){ // abre funcion
+    		global $_eltamano;
+		    if ($dh = opendir($ruta)) { // abre opendir
+		    	while (($file = readdir($dh)) !== false) { // abrewile
+		    		$laruta=$ruta.'/'.$file;
+		    		if($file != '.' && $file!= '..' && !is_link($laruta)){ // pregunta si es archivo o directorio
+		    			if (is_dir($laruta)){ // es directorio
+		    				listar_directorios_ruta($laruta."/");
+		    			} // cierra si es directorio
+		    				else if(is_file($laruta)){ // pregunta si es archivo
+		    					$tamano=filesize($laruta);
+		    					$_eltamano+=$tamano;
+		    				} // cierra si es archivo
+					} // cierra si es directorio o archivo
+				} // cierra while
+		    } // cierra opendir
+		    closedir($dh);
+		    return $_eltamano;
+		} // cierra funcion
+
+		$_final=listar_directorios_ruta($ruta);
+
+		//var_dump($_final);
+
+		function sizeFormat($_dirSize)
+		{
+			if ($_dirSize=="") {
+				$_dirSize=0;
+			}
+			if($_dirSize < 1024)
+			{
+				return $_dirSize." Bytes.";
+			}
+			else if($_dirSize < (1024*1024))
+			{
+				$_dirSize = round($_dirSize/1024,1);
+				return $_dirSize." KB.";
+			}
+			else
+			{
+				$_dirSize = round($_dirSize/(1024*1024),1);
+				return $_dirSize + 0.1." MB.";
+			}
+		}    
+
+       	$ruta=$_POST['ruta'];
+    	$data = array('ruta' => $ruta,
+    				'size_dir' => sizeFormat($_final));
+ 
+
+        $this->load->view('Salinas/Menu_Nube',$data);
+    }
+
+    public function Borra_Archivo(){
+    	$nom_archivo=$_POST["nom_archivo"];
+    	$borrar="Resources/Nube_Sigen/SALINAS/".$nom_archivo;
+    	if (unlink($borrar)) {
+    		echo true;
+    	}else{
+    		echo false;
+    	}
+    }
+
+   
+    public function Crea_Carpeta(){
+    	$nom_carpeta=$_POST["nom_carpeta"];
+    	$ruta_carpeta=$_POST["ruta_carpeta"];
+    	$ruta_carpeta=explode('Nube_Sigen/',$ruta_carpeta);
+    	$crear="Resources/Nube_Sigen/SALINAS/".$ruta_carpeta[1]."/".$nom_carpeta;
+    	if (!file_exists($crear)) {
+		    mkdir($crear);
+		    echo true;
+		}else{
+			echo false;
+		}
+    }
+
+
+	public function Add_File(){
+		$this->load->model('Salinas_model');
+		$company='SALINAS';
+		$idcomp=$this->Salinas_model->IdCompany($company);
+
+		$ruta_nuevo_archivo=$_POST["nueva_ruta"];
+		$ruta_nuevo_archivo=explode('Nube_Sigen/',$ruta_nuevo_archivo);
+		if (isset($_FILES['add_file']['name'])) {
+			$filename = $_FILES['add_file']['name'];
+		} else {
+			$filename="";
+		}
+
+		//Obtenemos el nombre del documento que subiremos
+		$location = "Resources/Nube_Sigen/SALINAS/".$ruta_nuevo_archivo[1]."/".$filename;
+		// file extension
+		$file_extension = pathinfo($location, PATHINFO_EXTENSION);//obtenermos la extension del documento
+		$file_extension = strtolower($file_extension);//cambiamos la extension del documento a minusculas
+
+		// Valid image extensions
+		//$image_ext = array("jpg","png","jpeg","gif","pdf");//Array con las extensiones permitidas
+
+		$url_imagen="Resources/Nube_Sigen/SALINAS/".$ruta_nuevo_archivo[1]."/".$filename;
+
+		$upload=move_uploaded_file($_FILES['add_file']['tmp_name'],$url_imagen);
+		if(!$upload){
+			echo false;
+			}else{
+				echo true;
+			}
+	}
+
+	public function Solicita_Borra_carpeta(){
+		$this->load->model('Salinas_model');
+		$txt_justifica=$_POST["txt_justifica"];
+		$delete_ruta_carpeta=$_POST["delete_ruta_carpeta"];
+
+		$company='SALINAS';
+		$idcomp=$this->Salinas_model->IdCompany($company);
+		date_default_timezone_set("America/Mexico_City");
+		$data = array('borra_nube_id_usuario' => $this->session->userdata('id_usuario'),
+        'borra_nube_empresa' => $idcomp->id_empresa,
+        'borra_nube_url_archivo' => $delete_ruta_carpeta,
+        'borra_nube_fecha_solicitud' => date("Y/m/d"),
+        'borra_nube_comentario'=>$txt_justifica,
+        'borra_nube_id_estado'=>"1");
+
+		$result=$this->Salinas_model->Add_Solicita_Borra_carpeta($data);
+		echo $result;
+	}
+
+	public function Solicita_Borra_archivo(){
+		$this->load->model('Salinas_model');
+		$txt_justifica=$_POST["txt_justifica"];
+		$delete_ruta_archivo=$_POST["delete_ruta_archivo"];
+
+		$company='SALINAS';
+		$idcomp=$this->Salinas_model->IdCompany($company);
+		date_default_timezone_set("America/Mexico_City");
+		$data = array('borra_nube_id_usuario' => $this->session->userdata('id_usuario'),
+        'borra_nube_empresa' => $idcomp->id_empresa,
+        'borra_nube_url_archivo' => $delete_ruta_archivo,
+        'borra_nube_fecha_solicitud' => date("Y/m/d"),
+        'borra_nube_comentario'=>$txt_justifica,
+        'borra_nube_id_estado'=>"1");
+
+		$result=$this->Salinas_model->Add_Solicita_Borra_archivo($data);
+		echo $result;
+	}
+
+
+	public function Solicita_descarga_archivo(){
+		$this->load->model('Salinas_model');
+		$descarga_ruta_archivo=$_POST["descarga_ruta_archivo"];
+		$descarga_nombre=$_POST["descarga_nombre"];
+		$pass_descarga=$_POST["pass_descarga"];
+
+		$pass_su_descarga = $this->Salinas_model->Pass_download($pass_descarga);//invoke the funtion into the model
+          
+         if(password_verify($pass_descarga, $pass_su_descarga->usuario_pass_descarga)){
+         	echo true;
+         }else{
+         	echo false;
+         }
+
+	}
 
 #end conntroller
 }

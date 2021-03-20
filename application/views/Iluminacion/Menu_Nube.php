@@ -25,14 +25,13 @@
 				}
 			}
 			?>
-
-			<!--
+			
 			<div>
 				<hr>
 				<a  class="nav-item nav-link disabled" >Almacenamiento</a>
-				<a class="nav-item nav-link disabled" style="font-size: 0.6rem">usados de 1000MB</a>
+				<a class="nav-item nav-link disabled" style="font-size: 0.6rem"><?php echo $size_dir; ?> usados de 5GB</a>
 			</div>
-		-->
+		
 	</div>
 	<div class="col-md-10">
 		<!--Mostrar listado de Archivos en Nube SIGEN -->
@@ -152,6 +151,8 @@
 	</div>
 </div>
 </div>
+
+
 
 
 
@@ -336,11 +337,20 @@
 					<div class="row">
 						<div class="col-md-12">
 							<label class="label-control">Ubicación del archivo</label>
-							<input class="form-control" type="text" name="nueva_ruta" id="nueva_ruta" value="Nube_Sigen/<?php echo $ruta ?>">
+							<input class="form-control" type="text" name="nueva_ruta" id="nueva_ruta" readonly="true" value="Nube_Sigen/<?php echo $ruta ?>">
 						</div>
 					</div>
 					<div class="row">
 						<input type="file" class="form-control" name="add_file" id="add_file" accept="application/*, image/*">
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<div class="wrapper mt-5" style="display: none;">
+								<div class="progress progress_wrapper">
+									<div class="progress-bar progress-bar-striped bg-info progress-bar-animated progress_bar" role="progressbar" style="width: 0%;">0%</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -554,46 +564,80 @@
 
 
 <script>
-$(document).ready(function(e){
+$(document).ready(()=>{
+
 		$("#add_archivo").on('submit', function(e){
 			//alert("Entra");
 			e.preventDefault();
+
+			wrapper=$('.wrapper');
+			progress_bar=$('.progress_bar');
+
+			progress_bar.removeClass('bg-success bg-danger').addClass('bg-info');
+			progress_bar.css('width','0%');
+			progress_bar.html('Preparando...');
+			wrapper.fadeIn();
+
+
+
 			$.ajax({
+				xhr: function(){
+					let xhr= new window.XMLHttpRequest();
+					xhr.upload.addEventListener("progress", function(e){
+						if(e.lengthComputable){
+							let percentComplete=Math.floor((e.loaded/e.total)*100);
+							progress_bar.css('width', percentComplete+'%');
+							progress_bar.html(percentComplete+'%');
+						}
+					},false);
+					return xhr;
+				},
+
 				type: 'POST',
 				url: '<?php echo base_url(); ?>Iluminacion/Add_File',
 				data: new FormData(this),
 				contentType: false,
 				cache: false,
 				processData:false,
-				beforeSend: function(){
-					$('.submitBtn').attr("disabled","disabled");
-					$('#add_archivo').css("opacity",".5");
-				},
-				success: function(data){
-	                // $('.statusMsg').html('');
+				beforeSend: () => {
+					$('#savefile').attr('disabled',true);
+				}
+			}).done(res=>{
+				if(res){
+					progress_bar.removeClass('bg-info').addClass('bg-success')
+	            	progress_bar.html('Carga Completa');
+	            	$('#add_archivo').trigger('reset');
+	            	setTimeout(()=>{
+	            		wrapper.fadeOut();
+	            		progress_bar.removeClass('bg-success bg-danger').addClass('bg-info');
+	            		progress_bar.css('width','0%');
+	            		progress_bar.html('Preparando');
+	            	},1500);
+	            	//alert("Archivo Cargado con éxito");
+				}else{
+					progress_bar.removeClass('bg-success bg-info').addClass('bg-danger')
+					progress_bar.css('width','100%');
+	            	progress_bar.html('Error al Subir el Archivo');
+	            	
+				}
 
-	                if(data){
-	                	$('#add_archivo')[0].reset();
-	                    // $('.statusMsg').html('<span style="font-size:18px;color:#34A853">Form data submitted successfully.</span>');
-	                    //alert(data);
-	                    alert('Archivo subido correctamente');
-	                    Carga_tabla('<?php echo $ruta ?>');
-	                    $('#add_archivo').css("opacity","");
-	                	$(".submitBtn").removeAttr("disabled");
-	                	$('.modal-backdrop').remove();
-	                }else{
-	                	alert('Falló el servidor. Archivo no subido');
-	                	Carga_tabla('<?php echo $ruta ?>');
-	                    $('#add_archivo').css("opacity","");
-	                	$(".submitBtn").removeAttr("disabled");
-	                	$('.modal-backdrop').remove();
-	                }
-	                
-	                Carga_tabla('<?php echo $ruta ?>');
-	            }
-	        });
+			}).fail(err=>{
+				progress_bar.removeClass('bg-success bg-info').addClass('bg-danger')
+	            progress_bar.html('Error de Carga');
+	            alert("Error");
+			}).always(res=>{
+				if(res){
+					alert("Archivo Cargado con éxito");
+				}else{
+					alert("Error al Subir el Archivo");
+				}
+				$('#add_archivo').css("opacity","");
+	            $(".submitBtn").removeAttr("disabled");
+	            $('.modal-backdrop').remove();
+				Carga_tabla('<?php echo $ruta ?>');
+			});
 		});
-});
+	});
 
 
 </script>

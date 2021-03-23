@@ -528,7 +528,13 @@ $(function() {
   
   function Croquis($id){
     id_evento=$id;
-    $("#page_content").load("Croquis",{id_evento:id_evento});
+    mobiliario=$("#mobiliario"+id_evento).text();
+    if (mobiliario=="SI") {
+      alert("Si mobiliario");
+      $("#page_content").load("Croquis",{id_evento:id_evento});
+    }else{
+      alert("No es posible llenar el Croquis de mobiliario ya que indicó que este evento no incluye mobiliario. \nPuede modificar esto desde la opción de 'Editar Generales.'");
+    }
   }
 
   function llena_tabla($activo) {

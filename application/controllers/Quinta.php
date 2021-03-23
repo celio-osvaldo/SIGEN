@@ -840,8 +840,6 @@ function Update_Inv_Consu(){
 		    'margin_right' => 30,
 		    'margin_top' => 30,
 		    'margin_bottom' => 30,
-
-
 		]);
 	$mpdf->defaultfooterline=0; //Eliminamos la línea del pie de página
 	$mpdf->defaultheaderline=0; //Eliminamos la línea del encabezado
@@ -875,9 +873,12 @@ function Update_Inv_Consu(){
 		$html2 = $this->load->view('Quinta/Reglamento_Contrato',$data2,true);
 		$mpdf->WriteHTML($html2,\Mpdf\HTMLParserMode::HTML_BODY);
 
+		if($data2['detalles_evento']->detalle_evento_mobiliario=="SI"){
 		$mpdf->AddPage();
 		$html3 = $this->load->view('Quinta/Croquis_Evento',$data2,true);
 		$mpdf->WriteHTML($html3,\Mpdf\HTMLParserMode::HTML_BODY);
+		}
+
 		$mpdf->Output('Contrato_quinta_'.$data2["datos_evento"]->obra_cliente_contrato.'.pdf','I'); 
 	}
 

@@ -715,8 +715,8 @@ function Responder_Solicitud($id_historial){
  imp_cambio="<?php echo $row2->historial_proyecto_importe_new ?>";
  estado_actual="<?php echo $row2->historial_proyecto_estado_old ?>";
  estado_cambio="<?php echo $row2->historial_proyecto_estado_new ?>";
- coment_actual="<?php echo $row2->historial_proyecto_coment_old ?>";
- coment_cambio="<?php echo $row2->historial_proyecto_coment_new ?>";
+ coment_actual="<?php echo preg_replace('/[\r\n]+/', ' ', $row2->historial_proyecto_coment_old)?>"; 
+ coment_cambio="<?php echo preg_replace('/[\r\n]+/', ' ', $row2->historial_proyecto_coment_new) ?>";
  id_proyecto="<?php echo $row2->id_obra_cliente ?>";
 }
 <?php endforeach ?>
@@ -763,7 +763,7 @@ $("#cli_cambio_id").val(cli_cambio_id);
 
 if (imp_actual!=imp_cambio) {
  $("#importe").removeAttr('hidden');
- ("#importe").attr('style','background-color:#FFFB77');
+ $("#importe").attr('style','background-color:#FFFB77');
 }
 $("#imp_actual").val(imp_actual);
 $("#imp_cambio").val(imp_cambio);

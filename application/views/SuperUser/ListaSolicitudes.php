@@ -615,11 +615,16 @@ foreach ($solicita_elimina_archivo->result() as $row) {?>
       data:{id_historial_pago:id_historial_pago, respuesta_pago:respuesta_pago, fecha_pago_new:fecha_pago_new, monto_new:monto_new, comentario_new:comentario_new, id_pago:id_pago, aplica_flujo_new:aplica_flujo_new},
       success:function(result){
             //alert(result);
-            if(result){
+            if(result=="cambio anterior"){
+              alert("Solicitud similar realiza con anterioridad. Estado de solicitud Actualizado");
+            }else{
+              if(result){
               alert('Cambios realizados');
             }else{
               alert('Falló el servidor. Cambios no realizados');
             }
+            }
+
           }
         });
     Update_Page();

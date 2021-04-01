@@ -48,6 +48,8 @@ class Iluminacion extends CI_Controller {
 			$idcompany=$this->Iluminacion_model->IdCompany($company);
  			$data['solicitudes']=$this->Iluminacion_model->Get_solicitudes($idcompany->id_empresa);
             $data['solicitudes_pago']=$this->Iluminacion_model->Get_solicitudes_pago($idcompany->id_empresa);
+         	$data['solicitudes_elimina_carpeta']=$this->Iluminacion_model->Get_solicitudes_elimina_carpeta();
+            $data['solicitudes_elimina_archivo']=$this->Iluminacion_model->Get_solicitudes_elimina_archivo();
             $data['datos_empresa']=$this->Iluminacion_model->Get_datos_empresa($idcompany->id_empresa);
 	   		$this->load->view('plantillas/header_iluminacion', $data);
 			$this->load->view('Iluminacion/Configuracion',$data);

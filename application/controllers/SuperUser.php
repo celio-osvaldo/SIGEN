@@ -243,7 +243,15 @@ class SuperUser extends CI_Controller {
         $aplica_flujo_new=$_POST["aplica_flujo_new"];
 
         //var_dump($respuesta_pago);
-        if($respuesta_pago=="2"){
+        $data0 = array('venta_mov_fecha' => $fecha_pago_new,
+                'venta_mov_monto' => $monto_new,
+                'venta_mov_comentario' => $comentario_new,
+                'venta_mov_estim_estatus' => $aplica_flujo_new );
+
+        $verifica_cambio = array('datos' =>$this->SU_model->Verifica_Cambio($data0,$id_pago));
+
+        if ($verifica_cambio['datos']->venta_mov_fecha!=$fecha_pago_new||$verifica_cambio['datos']->venta_mov_monto!=$monto_new||$verifica_cambio['datos']->venta_mov_comentario!=$comentario_new||$verifica_cambio['datos']->venta_mov_estim_estatus!=$aplica_flujo_new) {
+                    if($respuesta_pago=="2"){
             $this->load->model('Iluminacion_model');
             $data = array('venta_mov_fecha' => $fecha_pago_new ,
                 'venta_mov_monto' => $monto_new,
@@ -278,6 +286,14 @@ class SuperUser extends CI_Controller {
             $this->SU_model->Update_Historial_Proy_pago($id_historial_pago,$data2);
             echo true;
         }
+        }else{
+            $data2 = array('historial_proyecto_pago_autoriza' => $respuesta_pago,
+                 'historial_proyecto_pago_admin'=> $this->session->userdata('id_usuario') );
+                $this->SU_model->Update_Historial_Proy_pago($id_historial_pago,$data2);
+
+            echo "cambio anterior";
+        }
+
     }
 
 
@@ -330,7 +346,8 @@ class SuperUser extends CI_Controller {
                 }
             }
             if(rmdir($dir)){
-           $data = array('borra_nube_id_estado' => $respuesta_elimina_carpeta );
+           $data = array('borra_nube_id_estado' => $respuesta_elimina_carpeta,
+                            'borra_nube_id_autoriza'=> $this->session->userdata('id_usuario'));
             $this->SU_model->Update_Solicita_Elimina($id_borra_carpeta,$data);
             echo true;
         }else{
@@ -338,7 +355,8 @@ class SuperUser extends CI_Controller {
         }
         }else{
             //Se deberá actualizar el estado de la solicitud
-            $data = array('borra_nube_id_estado' => $respuesta_elimina_carpeta );
+            $data = array('borra_nube_id_estado' => $respuesta_elimina_carpeta,
+                            'borra_nube_id_autoriza'=> $this->session->userdata('id_usuario') );
             echo $this->SU_model->Update_Solicita_Elimina($id_borra_carpeta,$data);
         }
     }
@@ -354,16 +372,23 @@ class SuperUser extends CI_Controller {
         if($respuesta_elimina_archivo=="2"){//Verificamos si la solicitud se autorizó
 
             $dir="Resources/Nube_Sigen/".$empresa_nube."/".$url_archivo;
-            if(unlink($dir)){
-                $data = array('borra_nube_id_estado' => $respuesta_elimina_archivo );
+            if (file_exists($dir)) {
+                if(unlink($dir)){
+                $data = array('borra_nube_id_estado' => $respuesta_elimina_archivo,
+                             'borra_nube_id_autoriza'=> $this->session->userdata('id_usuario') );
                 $this->SU_model->Update_Solicita_Elimina_Archivo($id_borra_archivo,$data);
                 echo true;
+            }
             }else{
-                echo false;
+                //Se deberá actualizar el estado de la solicitud
+            $data = array('borra_nube_id_estado' => $respuesta_elimina_archivo,
+                         'borra_nube_id_autoriza'=> $this->session->userdata('id_usuario'));
+            echo $this->SU_model->Update_Solicita_Elimina_Archivo($id_borra_archivo,$data);
             }
         }else{
             //Se deberá actualizar el estado de la solicitud
-            $data = array('borra_nube_id_estado' => $respuesta_elimina_archivo );
+            $data = array('borra_nube_id_estado' => $respuesta_elimina_archivo,
+                             'borra_nube_id_autoriza'=> $this->session->userdata('id_usuario') );
             echo $this->SU_model->Update_Solicita_Elimina_Archivo($id_borra_archivo,$data);
         }
     }

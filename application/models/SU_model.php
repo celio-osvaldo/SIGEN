@@ -300,8 +300,16 @@ class SU_model extends CI_Model
     }
     }
 
+    public function Verifica_Cambio($data,$id){
+    $this->db->select('venta_mov_fecha, venta_mov_comentario, venta_mov_monto, venta_mov_estim_estatus');
+    $this->db->from('venta_movimiento');
+    $this->db->where('id_venta_mov',$id);
+     $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
 
+  }
 
-}
 
  ?>

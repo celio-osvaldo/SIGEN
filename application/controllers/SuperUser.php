@@ -194,7 +194,7 @@ class SuperUser extends CI_Controller {
         $cliente_new=$_POST["cliente_new"];
         $importe_new=$_POST["importe_new"];
         $estado_new=$_POST["estado_new"];; //1-Activo. 2-Pagado 3-Cancelado
-        $coment_new=$_POST["coment_new"];
+        $coment_new=trim($_POST["coment_new"]);
         $id_proyecto=$_POST["id_proyecto"];
 
         if($respuesta=="2"){
@@ -238,7 +238,7 @@ class SuperUser extends CI_Controller {
 
         $fecha_pago_new=$_POST["fecha_pago_new"];
         $monto_new=$_POST["monto_new"];
-        $comentario_new=$_POST["comentario_new"];
+        $comentario_new=trim($_POST["comentario_new"]);
 
         $aplica_flujo_new=$_POST["aplica_flujo_new"];
 
@@ -546,7 +546,7 @@ $data = array('ruta' => "",
 
     public function Solicita_Borra_carpeta(){
         $this->load->model('SU_model');
-        $txt_justifica=$_POST["txt_justifica"];
+        $txt_justifica=trim($_POST["txt_justifica"]);
         $delete_ruta_carpeta=$_POST["delete_ruta_carpeta"];
 
         $nom_company=explode('/', $delete_ruta_carpeta);
@@ -570,7 +570,7 @@ $data = array('ruta' => "",
 
     public function Solicita_Borra_archivo(){
         $this->load->model('SU_model');
-        $txt_justifica=$_POST["txt_justifica"];
+        $txt_justifica=trim($_POST["txt_justifica"]);
         $delete_ruta_archivo=$_POST["delete_ruta_archivo"];
 
         $nom_company=explode('/', $delete_ruta_archivo);

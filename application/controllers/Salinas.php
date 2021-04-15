@@ -294,7 +294,7 @@ class Salinas extends CI_Controller {
 		$nombre=$_POST["nombre"];
 		$id_cliente=$_POST["id_cliente"];
 		$importe=$_POST["importe"];
-		$coment=$_POST["coment"];
+		$coment=trim($_POST["coment"]);
 		$add_flujo=$_POST["addflujo"];
 		$company='SALINAS';
 		$idcomp=$this->Salinas_model->IdCompany($company);
@@ -316,7 +316,7 @@ class Salinas extends CI_Controller {
 		$act_cliente=$_POST["act_cliente"];
 		$act_imp=$_POST["act_imp"];
 		$act_estado=$_POST["act_estado"];
-		$act_coment=$_POST["act_coment"];
+		$act_coment=trim($_POST["act_coment"]);
 		$id=$_POST["id"];
 		$act_addflujo=$_POST["act_addflujo"];
 		$company='SALINAS';
@@ -347,8 +347,8 @@ class Salinas extends CI_Controller {
 		$act_cliente=$_POST["act_cliente"];
 		$act_imp=$_POST["act_imp"];
 		$act_estado=$_POST["act_estado"];
-		$act_coment=$_POST["act_coment"];
-		$txt_justifica=$_POST["txt_justifica"];
+		$act_coment=trim($_POST["act_coment"]);
+		$txt_justifica=trim($_POST["txt_justifica"]);
 		$id=$_POST["id"];
 		$act_addflujo=$_POST["act_addflujo"];
 
@@ -356,7 +356,7 @@ class Salinas extends CI_Controller {
 		$cliente_old=$_POST["cliente_old"];
 		$importe_old=$_POST["importe_old"];
 		$estado_old=$_POST["estado_old"];
-		$coment_old=$_POST["coment_old"];
+		$coment_old=trim($_POST["coment_old"]);
 
 
 		$company='SALINAS';
@@ -444,7 +444,7 @@ class Salinas extends CI_Controller {
 		$new_id_obra=$_POST["id_obra"];
 		$new_cant_pago=$_POST["cant_pago"];
 		$new_fecha=$_POST["fecha"];
-		$new_coment=$_POST["coment"];
+		$new_coment=trim($_POST["coment"]);
 		$addflujo=$_POST["addflujo"];
 
 		$company='SALINAS';
@@ -652,7 +652,7 @@ class Salinas extends CI_Controller {
 						'fecha_emision'=> $this->input->post('editEmitionDate'),
 						'concepto'=> $this->input->post('editConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->post('editComment'),
+						'comentario'=> $this->input->trim(post('editComment')),
 						'folio' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'),
 						'otros_gastos_aplica_flujo' => $edit_flujo,
@@ -850,7 +850,7 @@ class Salinas extends CI_Controller {
 		$this->load->model('Salinas_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->post('act_coment'),
+						'venta_mov_comentario' => $this->input->trim(post('act_coment')),
 						'venta_mov_estim_estatus' => $this->input->post('act_aplica_flujo_new') );
 		//var_dump($id_movimiento);
 		if ($this->Salinas_model->UpdateProject_Pay($data,$id_movimiento)) {
@@ -877,15 +877,15 @@ public function EditCustomerPay_Admin(){
 
 		$act_fecha=$_POST["act_fecha"];
 		$act_imp=$_POST["act_imp"];
-		$act_coment=$_POST["act_coment"];
+		$act_coment=trim($_POST["act_coment"]);
 
 		$fecha_old=$_POST["fecha_old"];
 		$importe_old=$_POST["importe_old"];
-		$coment_old=$_POST["coment_old"];
+		$coment_old=trim($_POST["coment_old"]);
 		$act_aplica_flujo_new=$_POST["act_aplica_flujo_new"];
 		$act_aplica_flujo_old=$_POST["act_aplica_flujo_old"];
 
-		$txt_justifica=$_POST["txt_justifica"];
+		$txt_justifica=trim($_POST["txt_justifica"]);
 
 		$data = array('historial_proyecto_pago_id_venta_mov' => $id,
 					  'historial_proyecto_pago_fecha_actualizacion' => date("Y/m/d"),
@@ -921,7 +921,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->post('coment'));
+						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
 		if($this->Salinas_model->Update_Provider($id_prov,$data)){
 			echo true;
 		}else{
@@ -948,7 +948,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->post('coment'));
+						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
 		if($this->Salinas_model->New_Provider($data)){
 			echo true;
 		}else{
@@ -972,7 +972,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->post('coment'));
+						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
 		if($this->Salinas_model->Update_Customer($id_cust,$data)){
 			echo true;
 		}else{
@@ -998,7 +998,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->post('coment'));
+						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
 		if($this->Salinas_model->New_Customer($data)){
 			echo true;
 		}else{
@@ -1019,7 +1019,7 @@ public function EditCustomerPay_Admin(){
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->post('coment'));
+						'prod_alm_coment' => $this->input->trim(post('coment')));
 		if($this->Salinas_model->Edit_Product($id_prod,$data)){
 			echo true;
 		}else{
@@ -1039,7 +1039,7 @@ public function EditCustomerPay_Admin(){
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->post('coment'));
+						'prod_alm_coment' => $this->input->trim(post('coment')));
 		if($this->Salinas_model->New_Product($data)){
 			echo true;
 		}else{
@@ -1166,7 +1166,7 @@ public function EditCustomerPay_Admin(){
 						'fecha_emision'=> $this->input->post('addEmitionDate'),
 						'concepto'=> $this->input->post('addConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->post('addComment'),
+						'comentario'=> $this->input->trim(post('addComment')),
 						'folio' => $this->input->post('addFolio'),
 						'fecha_pago_factura' => $this->input->post('addDate'),
 						'otros_gastos_aplica_flujo' => $add_flujo,
@@ -2041,7 +2041,7 @@ $this->load->view('Salinas/Menu_Nube',$data);
 
 	public function Solicita_Borra_carpeta(){
 		$this->load->model('Salinas_model');
-		$txt_justifica=$_POST["txt_justifica"];
+		$txt_justifica=trim($_POST["txt_justifica"]);
 		$delete_ruta_carpeta=$_POST["delete_ruta_carpeta"];
 
 		$company='SALINAS';
@@ -2060,7 +2060,7 @@ $this->load->view('Salinas/Menu_Nube',$data);
 
 	public function Solicita_Borra_archivo(){
 		$this->load->model('Salinas_model');
-		$txt_justifica=$_POST["txt_justifica"];
+		$txt_justifica=trim($_POST["txt_justifica"]);
 		$delete_ruta_archivo=$_POST["delete_ruta_archivo"];
 
 		$company='SALINAS';

@@ -166,7 +166,7 @@
                 //alert(result);
                 if(result>0){
                   alert('Registro Actualizado');
-                  location.href= "<?php echo base_url()?>Dsa/Configuracion";
+                  location.href= "<?php echo base_url()?>Dasa/Configuracion";
                 }else{
                   alert('Falló el servidor. Registro no actualizado');
                 }

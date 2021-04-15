@@ -1,6 +1,5 @@
 <div class="card bg-card">
  <div class="table-responsive">
-  <br>
   <div class="table-responsive">
    <table id="table_solicitudes" class="table table-hover display table-striped" style="font-size: 10pt;">
     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
@@ -20,7 +19,7 @@
      <td id="<?php echo "id_historial_proyecto_info"; ?>"><?php echo "INFO-".$row->id_historial_proyecto_info."";?></td>
      <td id="<?php echo "usuario".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
      <td id="<?php echo "fecha".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_fecha_actualizacion."";?></td>
-     <td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_coment_justifica."";?></td>
+     <td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo trim($row->historial_proyecto_coment_justifica);?></td>
      <td id="<?php echo "estado".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->estado."";?></td>	
      <?php if ($row->historial_proyecto_autoriza=="1"){ ?>
       <td><a role="button" class="btn btn-outline-dark" onclick="Responder_Solicitud(this.id)" id="<?php echo "".$row->id_historial_proyecto_info.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Responder" style="filter: invert(100%)" /></a></td>						
@@ -36,7 +35,7 @@ foreach ($solicitado_pago->result() as $row) {?>
    <td id="<?php echo "id_historial_proyecto_pago"; ?>"><?php echo "PAGO-".$row->id_historial_proyecto_pago."";?></td>
    <td id="<?php echo "usuario".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
    <td id="<?php echo "fecha".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_fecha_actualizacion."";?></td>
-   <td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_justifica."";?></td>
+   <td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo trim($row->historial_proyecto_pago_justifica);?></td>
    <td id="<?php echo "estado".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->estado."";?></td>	
    <?php if ($row->historial_proyecto_pago_autoriza=="1"){ ?>
     <td><a role="button" class="btn btn-outline-dark" onclick="Responder_Solicitud_pago(this.id)" id="<?php echo "".$row->id_historial_proyecto_pago.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Responder" style="filter: invert(100%)" /></a></td>							
@@ -54,7 +53,7 @@ foreach ($solicita_elimina_carpeta->result() as $row) {?>
     <td id="<?php echo "id_borra_nube_carpeta"; ?>"><?php echo "Elimina-Carpeta-".$row->id_borra_nube."";?></td>
     <td id="<?php echo "usuario".$row->id_borra_nube.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
     <td id="<?php echo "fecha".$row->id_borra_nube.""; ?>"><?php echo "".$row->borra_nube_fecha_solicitud."";?></td>
-    <td id="<?php echo "coment".$row->id_borra_nube.""; ?>"><?php echo "".$row->borra_nube_comentario."";?></td>
+    <td id="<?php echo "coment".$row->id_borra_nube.""; ?>"><?php echo trim($row->borra_nube_comentario);?></td>
     <td id="<?php echo "estado".$row->id_borra_nube.""; ?>"><?php echo "".$row->estado."";?></td>  
     <?php if ($row->borra_nube_id_estado=="1"){ ?>
       <td><a role="button" class="btn btn-outline-dark" onclick="Responder_Solicitud_elimina_carpeta(this.id)" id="<?php echo "".$row->id_borra_nube.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Responder" style="filter: invert(100%)" /></a></td>               
@@ -72,7 +71,7 @@ foreach ($solicita_elimina_archivo->result() as $row) {?>
     <td id="<?php echo "id_borra_nube_archivo"; ?>"><?php echo "Elimina-Archivo-".$row->id_borra_nube."";?></td>
     <td id="<?php echo "usuario".$row->id_borra_nube.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
     <td id="<?php echo "fecha".$row->id_borra_nube.""; ?>"><?php echo "".$row->borra_nube_fecha_solicitud."";?></td>
-    <td id="<?php echo "coment".$row->id_borra_nube.""; ?>"><?php echo "".$row->borra_nube_comentario."";?></td>
+    <td id="<?php echo "coment".$row->id_borra_nube.""; ?>"><?php echo trim($row->borra_nube_comentario);?></td>
     <td id="<?php echo "estado".$row->id_borra_nube.""; ?>"><?php echo "".$row->estado."";?></td>  
     <?php if ($row->borra_nube_id_estado=="1"){ ?>
       <td><a role="button" class="btn btn-outline-dark" onclick="Responder_Solicitud_elimina_archivo(this.id)" id="<?php echo "".$row->id_borra_nube.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Responder" style="filter: invert(100%)" /></a> </td>               
@@ -797,8 +796,8 @@ function Responder_Solicitud_pago($id_historial){
     empresa="<?php echo $row_pago->empresa_nom ?>";
 
     fecha_solicita="<?php echo $row_pago->historial_proyecto_pago_fecha_actualizacion ?>";
-    comentario_old="<?php echo $row_pago->historial_proyecto_pago_coment_old?>";
-    comentario_new="<?php echo $row_pago->historial_proyecto_pago_coment_new?>";
+    comentario_old="<?php echo preg_replace('/[\r\n]+/', ' ',$row_pago->historial_proyecto_pago_coment_old) ?>";
+    comentario_new="<?php echo preg_replace('/[\r\n]+/', ' ',$row_pago->historial_proyecto_pago_coment_new) ?>";
     monto_new="<?php echo $row_pago->historial_proyecto_pago_monto_new ?>";
     monto_old="<?php echo $row_pago->historial_proyecto_pago_monto_old ?>";
     fecha_pago_old="<?php echo $row_pago->historial_proyecto_pago_fecha_pago_old ?>";
@@ -865,7 +864,7 @@ $("#txt_obs_pago").text($("#coment"+$id_historial).text());
         fecha_solicita="<?php echo $row_elimina_carpeta->borra_nube_fecha_solicitud ?>";
         usuario="<?php echo $row_elimina_carpeta->usuario_nom ?>";
         url_carpeta="<?php echo $row_elimina_carpeta->borra_nube_url_archivo?>";
-        coment="<?php echo $row_elimina_carpeta->borra_nube_comentario ?>";   
+        coment="<?php echo preg_replace('/[\r\n]+/', ' ',$row_elimina_carpeta->borra_nube_comentario) ?>";   
         id_borrar="<?php echo $row_elimina_carpeta->id_borra_nube ?>";
       }
     <?php } ?>
@@ -885,7 +884,7 @@ $("#txt_obs_pago").text($("#coment"+$id_historial).text());
         fecha_solicita="<?php echo $row_elimina_archivo->borra_nube_fecha_solicitud ?>";
         usuario="<?php echo $row_elimina_archivo->usuario_nom ?>";
         url_archivo="<?php echo $row_elimina_archivo->borra_nube_url_archivo?>";
-        coment="<?php echo $row_elimina_archivo->borra_nube_comentario ?>";   
+        coment="<?php echo preg_replace('/[\r\n]+/', ' ',$row_elimina_archivo->borra_nube_comentario) ?>";   
         id_borrar="<?php echo $row_elimina_archivo->id_borra_nube ?>";
       }
     <?php } ?>

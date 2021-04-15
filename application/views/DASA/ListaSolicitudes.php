@@ -19,7 +19,7 @@
 							<td id="<?php echo "id_historial_proyecto_info"; ?>"><?php echo "INFO-".$row->id_historial_proyecto_info."";?></td>
 							<td id="<?php echo "usuario".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
 							<td id="<?php echo "fecha".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_fecha_actualizacion."";?></td>
-							<td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->historial_proyecto_coment_justifica."";?></td>
+							<td id="<?php echo "coment".$row->id_historial_proyecto_info.""; ?>"><?php echo trim($row->historial_proyecto_coment_justifica);?></td>
 							<td id="<?php echo "estado".$row->id_historial_proyecto_info.""; ?>"><?php echo "".$row->estado."";?></td>	
 
 							<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud(this.id)" id="<?php echo "".$row->id_historial_proyecto_info.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>									
@@ -32,7 +32,7 @@
 							<td id="<?php echo "id_historial_proyecto_pago"; ?>"><?php echo "PAGO-".$row->id_historial_proyecto_pago."";?></td>
 							<td id="<?php echo "usuario".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->usuario_nom."";?></td>
 							<td id="<?php echo "fecha".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_fecha_actualizacion."";?></td>
-							<td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->historial_proyecto_pago_justifica."";?></td>
+							<td id="<?php echo "coment".$row->id_historial_proyecto_pago.""; ?>"><?php echo trim($row->historial_proyecto_pago_justifica);?></td>
 							<td id="<?php echo "estado".$row->id_historial_proyecto_pago.""; ?>"><?php echo "".$row->estado."";?></td>	
 							<td><a role="button" class="btn btn-outline-dark" onclick="Detalles_Solicitud_pago(this.id)" id="<?php echo "".$row->id_historial_proyecto_pago.""; ?>" ><img width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Detalles" style="filter: invert(100%)" /></a>
 							</td>
@@ -249,8 +249,8 @@
 				imp_cambio="<?php echo $row2->historial_proyecto_importe_new ?>";
 				estado_actual="<?php echo $row2->historial_proyecto_estado_old ?>";
 				estado_cambio="<?php echo $row2->historial_proyecto_estado_new ?>";
-				coment_actual="<?php echo $row2->historial_proyecto_coment_old ?>";
-				coment_cambio="<?php echo $row2->historial_proyecto_coment_new ?>";
+				coment_actual="<?php echo  preg_replace('/[\r\n]+/', ' ', $row2->historial_proyecto_coment_old)?>";
+				coment_cambio="<?php echo  preg_replace('/[\r\n]+/', ' ', $row2->historial_proyecto_coment_new)?>";
 				id_proyecto="<?php echo $row2->id_obra_cliente ?>";
 			}
 		<?php endforeach ?>
@@ -328,13 +328,13 @@
         empresa="<?php echo $row_pago->empresa_nom ?>";
 
 					fecha_solicita="<?php echo $row_pago->historial_proyecto_pago_fecha_actualizacion ?>";
-					comentario_old="<?php echo $row_pago->historial_proyecto_pago_coment_old?>";
-					comentario_new="<?php echo $row_pago->historial_proyecto_pago_coment_new?>";
+					comentario_old="<?php echo  preg_replace('/[\r\n]+/', ' ',$row_pago->historial_proyecto_pago_coment_old)?>";
+					comentario_new="<?php echo  preg_replace('/[\r\n]+/', ' ',$row_pago->historial_proyecto_pago_coment_new)?>";
 					monto_new="<?php echo $row_pago->historial_proyecto_pago_monto_new ?>";
 					monto_old="<?php echo $row_pago->historial_proyecto_pago_monto_old ?>";
 					fecha_pago_old="<?php echo $row_pago->historial_proyecto_pago_fecha_pago_old ?>";
 					fecha_pago_new="<?php echo $row_pago->historial_proyecto_pago_fecha_pago_new ?>";
-					coment_justifica="<?php echo $row_pago->historial_proyecto_pago_justifica ?>";
+					coment_justifica="<?php echo  preg_replace('/[\r\n]+/', ' ', $row_pago->historial_proyecto_pago_justifica)?>";
 
 				id_pago="<?php echo $row_pago->historial_proyecto_pago_id_venta_mov ?>";
 			}

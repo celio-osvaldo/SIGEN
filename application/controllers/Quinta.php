@@ -148,7 +148,7 @@ class Quinta extends CI_Controller {
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->post('coment'));
+						'prod_alm_coment' => $this->input->trim(post('coment')));
 		if($this->QM_model->New_Product($data)){
 			echo true;
 		}else{
@@ -169,7 +169,7 @@ class Quinta extends CI_Controller {
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->post('coment'));
+						'prod_alm_coment' => $this->input->trim(post('coment')));
 		if($this->QM_model->Edit_Product($id_prod,$data)){
 			echo true;
 		}else{
@@ -395,7 +395,7 @@ function Update_Inv_Consu(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->post('coment'));
+						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
 		if($this->QM_model->New_Provider($data)){
 			echo true;
 		}else{
@@ -418,7 +418,7 @@ function Update_Inv_Consu(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->post('coment'));
+						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
 		if($this->QM_model->Update_Provider($id_prov,$data)){
 			echo true;
 		}else{
@@ -451,7 +451,7 @@ function Update_Inv_Consu(){
 		$nombre=$_POST["nombre"];
 		$id_cliente=$_POST["id_cliente"];
 		$importe=$_POST["importe"];
-		$coment=$_POST["coment"];
+		$coment=trim($_POST["coment"]);
 		$fecha_evento=$_POST["fecha_evento"];
 		$tipo_evento=$_POST["tipo_evento"];
 		$cant_persona=$_POST["cant_persona"];
@@ -531,7 +531,7 @@ function Update_Inv_Consu(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->post('coment'),
+						'catalogo_cliente_coment' => $this->input->trim(post('coment')),
 						'catalogo_cliente_calle' => $this->input->post('calle'),
 						'catalogo_cliente_numero' => $this->input->post('numero'),
 						'catalogo_cliente_colonia' => $this->input->post('colonia'),
@@ -555,7 +555,7 @@ function Update_Inv_Consu(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->post('coment'),
+						'catalogo_cliente_coment' => $this->input->trim(post('coment')),
 						'catalogo_cliente_calle' => $this->input->post('calle'),
 						'catalogo_cliente_numero' => $this->input->post('numero'),
 						'catalogo_cliente_colonia' => $this->input->post('colonia'),
@@ -575,7 +575,7 @@ function Update_Inv_Consu(){
 		$act_cliente=$_POST["act_cliente"];
 		$act_imp=$_POST["act_imp"];
 		$act_estado=$_POST["act_estado"];
-		$act_coment=$_POST["act_coment"];
+		$act_coment=trim($_POST["act_coment"]);
 		$id=$_POST["id"];
 		$contrato=$_POST["contrato"];
 
@@ -592,7 +592,7 @@ function Update_Inv_Consu(){
 		$fecha_fin=$_POST["fecha_fin"];
 
 		$importe_txt=$_POST["importe_txt"];
-		$anticipo_txt=$_POST["anticipo_txt"];
+		$anticipo_txt=trim($_POST["anticipo_txt"]);
 		$resto=$_POST["resto_2"];
 		$resto_txt=$_POST["resto_txt"];
 
@@ -656,7 +656,7 @@ function Update_Inv_Consu(){
 		$id_evento=$_POST["id_evento"];
 		$id_mob_serv=$_POST["id_mob_serv"];
 		$mob_serv_cantidad=$_POST["mob_serv_cantidad"];
-		$coment=$_POST["coment"];
+		$coment=trim($_POST["coment"]);
 		$data = array('id_evento' => $id_evento,
 						'id_mobiliario' => $id_mob_serv,
 						'evento_mobiliario_cantidad' => $mob_serv_cantidad,
@@ -672,7 +672,7 @@ function Update_Inv_Consu(){
 		$id_evento_mobiliario=$_POST["id_evento_mobiliario"];
 
 		$mob_serv_cantidad=$_POST["mob_serv_cantidad"];
-		$coment=$_POST["coment"];
+		$coment=trim($_POST["coment"]);
 		$data = array('evento_mobiliario_cantidad' => $mob_serv_cantidad,
 						'evento_mobiliario_coment' => $coment);
 		echo $this->QM_model->Update_Mobiliario($id_evento_mobiliario, $data);
@@ -710,7 +710,7 @@ function Update_Inv_Consu(){
 		$new_id_obra=$_POST["id_obra"];
 		$new_cant_pago=$_POST["cant_pago"];
 		$new_fecha=$_POST["fecha"];
-		$new_coment=$_POST["coment"];
+		$new_coment=trim($_POST["coment"]);
 		$cant_pago_letra=$_POST["cant_pago_letra"];
 		$no_recibo=$_POST["no_recibo"];
 		$company='QM';
@@ -756,7 +756,7 @@ function Update_Inv_Consu(){
 		$this->load->model('QM_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->post('act_coment'),
+						'venta_mov_comentario' => $this->input->trim(post('act_coment')),
 						'venta_mov_monto_letra' => $this->input->post('cant_pago_letra'),
 						'venta_mov_factura' => $this->input->post('no_recibo'));
 		//var_dump($id_movimiento);
@@ -1106,7 +1106,7 @@ public function UpdateInfoProduct(){
 						'gasto_nomina_id_empleado'=> $this->input->post('new_empleado'),
 						'gasto_nomina_concepto'=> $this->input->post('new_concepto'),
 						'gasto_nomina_monto'=> $new_monto,
-						'gasto_nomina_comentario' => $this->input->post('new_comentario'));
+						'gasto_nomina_comentario' => $this->input->trim(post('new_comentario')));
 
 		$id_gasto_nomina=$this->QM_model->Insert($table, $data);
 		$url_imagen='Resources/Bills/Nomina/QM/gasto_nomina_'.$id_gasto_nomina.'.'.$file_extension;
@@ -1136,7 +1136,7 @@ public function UpdateInfoProduct(){
 		$edit_concepto=$_POST['edit_concepto'];
 		$edit_monto=$_POST['edit_monto'];
 		$edit_monto=str_replace(',', '', $edit_monto); 
-		$edit_comentario=$_POST['edit_comentario'];
+		$edit_comentario=trim($_POST['edit_comentario']);
 
 
 		if (isset($_FILES['edit_Bill']['name'])) {
@@ -1160,7 +1160,7 @@ public function UpdateInfoProduct(){
 						'gasto_nomina_id_empleado'=> $this->input->post('edit_empleado'),
 						'gasto_nomina_concepto'=> $this->input->post('edit_concepto'),
 						'gasto_nomina_monto'=> $this->input->post('edit_monto'),
-						'gasto_nomina_comentario' => $this->input->post('edit_comentario'));
+						'gasto_nomina_comentario' => $this->input->trim(post('edit_comentario')));
 		        $this->QM_model->UpdateNomina($edit_id_gasto_nomina, $data);
 
 		if(in_array($file_extension,$image_ext)&&$edit_id_gasto_nomina!=""&&$filename!=""){
@@ -1406,7 +1406,7 @@ public function UpdateInfoProduct(){
 						'fecha_emision'=> $this->input->post('addEmitionDate'),
 						'concepto'=> $this->input->post('addConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->post('addComment'),
+						'comentario'=> $this->input->trim(post('addComment')),
 						'folio' => $this->input->post('addFolio'),
 						'fecha_pago_factura' => $this->input->post('addDate'),
 						//'otros_gastos_aplica_flujo' => $add_flujo,
@@ -1478,7 +1478,7 @@ public function UpdateInfoProduct(){
 						'fecha_emision'=> $this->input->post('editEmitionDate'),
 						'concepto'=> $this->input->post('editConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->post('editComment'),
+						'comentario'=> $this->input->trim(post('editComment')),
 						'folio' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'),
 						//'otros_gastos_aplica_flujo' => $edit_flujo,
@@ -1551,7 +1551,7 @@ public function UpdateInfoProduct(){
 						'serv_mtto_folio'=> $this->input->post('new_folio'),
 						'serv_mtto_concepto'=> $this->input->post('new_concepto'),
 						'serv_mtto_monto'=> $new_monto,
-						'serv_mtto_comentario' => $this->input->post('new_comentario'),
+						'serv_mtto_comentario' => $this->input->trim(post('new_comentario')),
 						'serv_mtto_referencia_pago' =>$this->input->post('add_ref'));
 
 		$id_serv_mtto=$this->QM_model->Insert($table, $data);
@@ -1583,7 +1583,7 @@ public function UpdateInfoProduct(){
 			$edit_concepto=$_POST['edit_concepto'];
 			$edit_monto=$_POST['edit_monto'];
 			$edit_monto=str_replace(',', '', $edit_monto); 
-			$edit_comentario=$_POST['edit_comentario'];
+			$edit_comentario=trim($_POST['edit_comentario']);
 			$edit_ref=$_POST['edit_ref'];
 
 
@@ -1610,7 +1610,7 @@ public function UpdateInfoProduct(){
 						'serv_mtto_folio'=> $this->input->post('edit_folio'),
 						'serv_mtto_concepto'=> $this->input->post('edit_concepto'),
 						'serv_mtto_monto'=> $edit_monto,
-						'serv_mtto_comentario' => $this->input->post('edit_comentario'),
+						'serv_mtto_comentario' => $this->input->trim(post('edit_comentario')),
 						'serv_mtto_referencia_pago' =>$this->input->post('edit_ref'));
 			        $this->QM_model->UpdateServ_Mtto($edit_id_serv_mtto, $data);
 
@@ -2012,7 +2012,7 @@ $this->load->view('Quinta/Menu_Nube',$data);
 
 	public function Solicita_Borra_carpeta(){
 		$this->load->model('QM_model');
-		$txt_justifica=$_POST["txt_justifica"];
+		$txt_justifica=trim($_POST["txt_justifica"]);
 		$delete_ruta_carpeta=$_POST["delete_ruta_carpeta"];
 
 		$company='QM';
@@ -2031,7 +2031,7 @@ $this->load->view('Quinta/Menu_Nube',$data);
 
 	public function Solicita_Borra_archivo(){
 		$this->load->model('QM_model');
-		$txt_justifica=$_POST["txt_justifica"];
+		$txt_justifica=trim($_POST["txt_justifica"]);
 		$delete_ruta_archivo=$_POST["delete_ruta_archivo"];
 
 		$company='QM';

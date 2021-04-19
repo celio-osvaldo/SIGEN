@@ -406,7 +406,7 @@ class DASA extends CI_Controller {
 
 
 		$table = 'catalogo_producto';
-		$data = array('catalogo_producto_nombre'=> $this->input->trim(post('nameProductInsert')),
+		$data = array('catalogo_producto_nombre'=> $this->input->post('nameProductInsert'),
 			'catalogo_producto_umedida'=> $this->input->post('medidaInsert'),
 			'catalogo_producto_precio'=> $this->input->post('priceInsert'),
 			'catalogo_proveedor_id_catalogo_proveedor'=> $this->input->post('providerInsert'),
@@ -512,7 +512,7 @@ class DASA extends CI_Controller {
 						'gasto_venta_factura'=> $this->input->post('addFolio'),
 						'gasto_venta_monto'=> $monto,
 						'gasto_venta_concepto' => $this->input->post('addConcept'),
-						'gasto_venta_observacion' => $this->input->trim(post('addComment')),
+						'gasto_venta_observacion' => $this->input->post('addComment'),
 						'gasto_venta_estado_pago' => $this->input->post('addStatus'),
 						'gasto_venta_fecha_pago' => $this->input->post('addDate'),
 						'gasto_venta_aplica_flujo' => $addflujo,
@@ -581,7 +581,7 @@ class DASA extends CI_Controller {
 						'gasto_venta_factura'=> $this->input->post('folioE'),
 						'gasto_venta_monto'=> $monto,
 						'gasto_venta_concepto' => $this->input->post('conceptE'),
-						'gasto_venta_observacion' => $this->input->trim(post('commentE')),
+						'gasto_venta_observacion' => $this->input->post('commentE'),
 						'gasto_venta_estado_pago' => $this->input->post('statusE'),
 						'gasto_venta_fecha_pago' => $this->input->post('dateE'),
 						'gasto_venta_aplica_flujo' => $editflujo,
@@ -649,7 +649,7 @@ class DASA extends CI_Controller {
 						'fecha_emision'=> $this->input->post('editEmitionDate'),
 						'concepto'=> $this->input->post('editConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->trim(post('editComment')),
+						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'),
 						'otros_gastos_aplica_flujo' => $edit_flujo,
@@ -724,7 +724,7 @@ class DASA extends CI_Controller {
 		$table = 'lista_caja_chica';
 		$data = array('empresa_id_empresa'=> $idcomp->id_empresa,
 						'lista_caja_chica_fecha'=> $this->input->post('dateI'), //fecha de emisión
-						'lista_caja_chica_concepto'=> $this->input->trim(post('conceptI')),
+						'lista_caja_chica_concepto'=> $this->input->post('conceptI'),
 						'lista_caja_chica_reposicion'=> $reposicion,
 						'lista_caja_chica_gasto'=> $gasto,
 						'lista_caja_chica_factura' => $this->input->post('folioBillI'),
@@ -843,7 +843,7 @@ class DASA extends CI_Controller {
 		$this->load->model('Dasa_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->trim(post('act_coment')),
+						'venta_mov_comentario' => $this->input->post('act_coment'),
 						'venta_mov_estim_estatus' => $this->input->post('act_aplica_flujo_new') );
 		//var_dump($id_movimiento);
 		if ($this->Dasa_model->UpdateProject_Pay($data,$id_movimiento)) {
@@ -914,7 +914,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
 		if($this->Dasa_model->Update_Provider($id_prov,$data)){
 			echo true;
 		}else{
@@ -941,7 +941,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
 		if($this->Dasa_model->New_Provider($data)){
 			echo true;
 		}else{
@@ -965,7 +965,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
+						'catalogo_cliente_coment' => $this->input->post('coment'));
 		if($this->Dasa_model->Update_Customer($id_cust,$data)){
 			echo true;
 		}else{
@@ -991,7 +991,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
+						'catalogo_cliente_coment' => $this->input->post('coment'));
 		if($this->Dasa_model->New_Customer($data)){
 			echo true;
 		}else{
@@ -1011,8 +1011,8 @@ public function EditCustomerPay_Admin(){
 						'prod_alm_prec_unit' => $this->input->post('precio'),
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
-						'prod_alm_descripcion' => $this->input->trim(post('descripcion')),
-						'prod_alm_coment' => $this->input->trim(post('coment')));
+						'prod_alm_descripcion' => $this->input->post('descripcion'),
+						'prod_alm_coment' => $this->input->post('coment'));
 		if($this->Dasa_model->Edit_Product($id_prod,$data)){
 			echo true;
 		}else{
@@ -1031,8 +1031,8 @@ public function EditCustomerPay_Admin(){
 						'prod_alm_prec_unit' => $this->input->post('precio'),
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
-						'prod_alm_descripcion' => $this->input->trim(post('descripcion')),
-						'prod_alm_coment' => $this->input->trim(post('coment')));
+						'prod_alm_descripcion' => $this->input->post('descripcion'),
+						'prod_alm_coment' => $this->input->post('coment'));
 		if($this->Dasa_model->New_Product($data)){
 			echo true;
 		}else{
@@ -1159,7 +1159,7 @@ public function EditCustomerPay_Admin(){
 						'fecha_emision'=> $this->input->post('addEmitionDate'),
 						'concepto'=> $this->input->post('addConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->trim(post('addComment')),
+						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
 						'fecha_pago_factura' => $this->input->post('addDate'),
 						'otros_gastos_aplica_flujo' => $add_flujo,

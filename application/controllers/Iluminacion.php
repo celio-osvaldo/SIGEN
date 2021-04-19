@@ -138,7 +138,7 @@ class Iluminacion extends CI_Controller {
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->trim(post('coment')));
+						'prod_alm_coment' => $this->input->post('coment'));
 		if($this->Iluminacion_model->Edit_Product($id_prod,$data)){
 			echo true;
 		}else{
@@ -159,7 +159,7 @@ class Iluminacion extends CI_Controller {
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->trim(post('coment')));
+						'prod_alm_coment' => $this->input->post('coment'));
 		if($this->Iluminacion_model->New_Product($data)){
 			echo true;
 		}else{
@@ -394,7 +394,7 @@ class Iluminacion extends CI_Controller {
 		$this->load->model('Iluminacion_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->trim(post('act_coment')),
+						'venta_mov_comentario' => $this->input->post('act_coment'),
 						'venta_mov_estim_estatus' => $this->input->post('act_aplica_flujo_new') );
 		//var_dump($id_movimiento);
 		if ($this->Iluminacion_model->UpdateProject_Pay($data,$id_movimiento)) {
@@ -472,7 +472,7 @@ class Iluminacion extends CI_Controller {
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
 		if($this->Iluminacion_model->Update_Provider($id_prov,$data)){
 			echo true;
 		}else{
@@ -498,7 +498,7 @@ class Iluminacion extends CI_Controller {
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
 		if($this->Iluminacion_model->New_Provider($data)){
 			echo true;
 		}else{
@@ -679,7 +679,7 @@ public function AddProduct(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
+						'catalogo_cliente_coment' => $this->input->post('coment'));
 		if($this->Iluminacion_model->Update_Customer($id_cust,$data)){
 			echo true;
 		}else{
@@ -706,7 +706,7 @@ public function AddProduct(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
+						'catalogo_cliente_coment' => $this->input->post('coment'));
 		if($this->Iluminacion_model->New_Customer($data)){
 			echo true;
 		}else{
@@ -747,7 +747,7 @@ public function AddProduct(){
 					  'anticipo_status' => 'Activo',
 					  'anticipo_fecha_finiquito'=> $this->input->post('fecha_fin'),
 					  'anticipo_fecha_entrega' => $this->input->post('fecha_ent'),
-					  'anticipo_coment' =>$this->input->trim(post('coment')));
+					  'anticipo_coment' =>$this->input->post('coment'));
 		if($this->Iluminacion_model->New_Anticipo($data)){
 			echo true;
 		}else{
@@ -766,7 +766,7 @@ public function AddProduct(){
 					  'anticipo_status' => $this->input->post('estado'),
 					  'anticipo_fecha_finiquito'=> $this->input->post('fecha_fin'),
 					  'anticipo_fecha_entrega' => $this->input->post('fecha_ent'),
-					  'anticipo_coment' =>$this->input->trim(post('coment')));
+					  'anticipo_coment' =>$this->input->post('coment'));
 		if($this->Iluminacion_model->Update_Anticipo($data,$id_anticipo)){
 			if($estado_anterior=="Activo"&&$estado_nuevo=="Cancelado"){//Si se cambia de estado de activo a Cancelado, se regresa la cantidad 															 	//de productos al almacen como invnetario.
 				$productos=$this->Iluminacion_model->Get_Anticipo_Product_List($id_anticipo);
@@ -807,7 +807,7 @@ public function AddProduct(){
 					  'producto_almacen_id_prod_alm' =>$this->input->post('id_producto') ,
 					  'prod_anticipo_cantidad' =>$this->input->post('prod_cantidad') ,
 					  'prod_anticipo_precio_venta' =>$this->input->post('prod_precio_venta') ,
-					  'prod_anticipo_coment' =>$this->input->trim(post('coment')));
+					  'prod_anticipo_coment' =>$this->input->post('coment'));
 
 		if($this->Iluminacion_model->Add_Anticipo_product($data)){
 
@@ -1099,7 +1099,7 @@ public function AddProduct(){
 					  'pago_sfv_kwh'=> $this->input->post('kwh'),
 					  'pago_sfv_estado' => 'Activo',
 					  'pago_sfv_cant_pagos' => $this->input->post('cant_pagos'),
-					  'pago_sfv_coment' =>$this->input->trim(post('coment')),
+					  'pago_sfv_coment' =>$this->input->post('coment'),
 					  'pago_sfv_imp_total' => $this->input->post('imp_total'),
 					  'pago_sfv_saldo' => $this->input->post('imp_total'),);
 		if($this->Iluminacion_model->New_SFV($data)){
@@ -1132,7 +1132,7 @@ public function AddProduct(){
 					  'pago_sfv_kwh'=> $this->input->post('kwh'),
 					  'pago_sfv_estado' => $estado,
 					  'pago_sfv_cant_pagos' => $this->input->post('cant_pagos'),
-					  'pago_sfv_coment' =>$this->input->trim(post('coment')),
+					  'pago_sfv_coment' =>$this->input->post('coment'),
 					  'pago_sfv_imp_total' => $imp_total,
 					  'pago_sfv_saldo' => $resto);
 
@@ -1386,7 +1386,7 @@ public function AddProduct(){
 					  'cotizacion_estado' => $this->input->post('new_estado'),
 					  'cotizacion_empresa' => $this->input->post('new_empresa'),
 					  'cotizacion_licitacion' => $this->input->post('new_licitacion'),
-					  'cotizacion_comentario' => $this->input->trim(post('new_coment')));
+					  'cotizacion_comentario' => $this->input->post('new_coment'));
 		if($this->Iluminacion_model->New_Cotizacion($data)){
 			echo true;
 		}else{
@@ -1408,7 +1408,7 @@ public function AddProduct(){
 					  'cotizacion_estado' => $this->input->post('estado'),
 					  'cotizacion_licitacion' => $this->input->post('licitacion'),
 					  'cotizacion_empresa'=> $this->input->post('empresa'),
-					  'cotizacion_comentario' => $this->input->trim(post('coment')));
+					  'cotizacion_comentario' => $this->input->post('coment'));
 		$id_cotizacion=$_POST["id_cotizacion"];
 		if($this->Iluminacion_model->Update_Cotizacion($id_cotizacion,$data)){
 			echo true;
@@ -2446,7 +2446,7 @@ public function UpdateReportPettyCash(){
 						'fecha_emision'=> $this->input->post('addEmitionDate'),
 						'concepto'=> $this->input->post('addConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->trim(post('addComment')),
+						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
 						'fecha_pago_factura' => $this->input->post('addDate'),
 						'otros_gastos_referencia'=>$this->input->post('add_ref'),
@@ -2513,7 +2513,7 @@ public function UpdateReportPettyCash(){
 						'fecha_emision'=> $this->input->post('editEmitionDate'),
 						'concepto'=> $this->input->post('editConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->trim(post('editComment')),
+						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'),
 						'otros_gastos_referencia'=>$this->input->post('edit_ref'),
@@ -2946,7 +2946,7 @@ public function GETMAX_Folio_recibo(){
 		$data = array('id_empresa' => $idcomp->id_empresa ,
 						'catalogo_cotizante_nombre	' => $this->input->post('nom_cotizante') ,
 						'catalogo_cotizante_empresa' => $this->input->post('empresa'),
-						'catalogo_cotizante_coment' => $this->input->trim(post('coment')),
+						'catalogo_cotizante_coment' => $this->input->post('coment'),
 						'catalogo_cotizante_tel' => $this->input->post('tel') ,
 						'catalogo_cotizante_mail' => $this->input->post('email'));
 		if($this->Iluminacion_model->New_Cotizante($data)){
@@ -2961,7 +2961,7 @@ public function GETMAX_Folio_recibo(){
 		$id_cot=$_POST["id_cot"];
 		$data = array('catalogo_cotizante_nombre	' => $this->input->post('nom_cotizante') ,
 						'catalogo_cotizante_empresa' => $this->input->post('empresa'),
-						'catalogo_cotizante_coment' => $this->input->trim(post('coment')),
+						'catalogo_cotizante_coment' => $this->input->post('coment'),
 						'catalogo_cotizante_tel' => $this->input->post('tel') ,
 						'catalogo_cotizante_mail' => $this->input->post('email'));
 		if($this->Iluminacion_model->Update_Cotizante($id_cot,$data)){

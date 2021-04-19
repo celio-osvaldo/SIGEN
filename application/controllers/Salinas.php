@@ -652,7 +652,7 @@ class Salinas extends CI_Controller {
 						'fecha_emision'=> $this->input->post('editEmitionDate'),
 						'concepto'=> $this->input->post('editConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->trim(post('editComment')),
+						'comentario'=> $this->input->post('editComment'),
 						'folio' => $this->input->post('editFolio'),
 						'fecha_pago_factura' => $this->input->post('editDate'),
 						'otros_gastos_aplica_flujo' => $edit_flujo,
@@ -850,7 +850,7 @@ class Salinas extends CI_Controller {
 		$this->load->model('Salinas_model');
 		$data = array('venta_mov_fecha' => $this->input->post('act_fecha') ,
 						'venta_mov_monto' => $this->input->post('act_imp'),
-						'venta_mov_comentario' => $this->input->trim(post('act_coment')),
+						'venta_mov_comentario' => $this->input->post('act_coment'),
 						'venta_mov_estim_estatus' => $this->input->post('act_aplica_flujo_new') );
 		//var_dump($id_movimiento);
 		if ($this->Salinas_model->UpdateProject_Pay($data,$id_movimiento)) {
@@ -921,7 +921,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
 		if($this->Salinas_model->Update_Provider($id_prov,$data)){
 			echo true;
 		}else{
@@ -948,7 +948,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_proveedor_tel2' => $this->input->post('tel2') ,
 						'catalogo_proveedor_cel2' => $this->input->post('cel2') ,
 						'catalogo_proveedor_email2' => $this->input->post('email2') ,
-						'catalogo_proveedor_coment' => $this->input->trim(post('coment')));
+						'catalogo_proveedor_coment' => $this->input->post('coment'));
 		if($this->Salinas_model->New_Provider($data)){
 			echo true;
 		}else{
@@ -972,7 +972,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
+						'catalogo_cliente_coment' => $this->input->post('coment'));
 		if($this->Salinas_model->Update_Customer($id_cust,$data)){
 			echo true;
 		}else{
@@ -998,7 +998,7 @@ public function EditCustomerPay_Admin(){
 						'catalogo_cliente_tel2' => $this->input->post('tel2') ,
 						'catalogo_cliente_cel2' => $this->input->post('cel2') ,
 						'catalogo_cliente_email2' => $this->input->post('email2') ,
-						'catalogo_cliente_coment' => $this->input->trim(post('coment')));
+						'catalogo_cliente_coment' => $this->input->post('coment'));
 		if($this->Salinas_model->New_Customer($data)){
 			echo true;
 		}else{
@@ -1019,7 +1019,7 @@ public function EditCustomerPay_Admin(){
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->trim(post('coment')));
+						'prod_alm_coment' => $this->input->post('coment'));
 		if($this->Salinas_model->Edit_Product($id_prod,$data)){
 			echo true;
 		}else{
@@ -1039,7 +1039,7 @@ public function EditCustomerPay_Admin(){
 						'prod_alm_exist' => $this->input->post('existencia'),
 						'prod_alm_codigo' => $this->input->post('codigo'),
 						'prod_alm_descripcion' => $this->input->post('descripcion'),
-						'prod_alm_coment' => $this->input->trim(post('coment')));
+						'prod_alm_coment' => $this->input->post('coment'));
 		if($this->Salinas_model->New_Product($data)){
 			echo true;
 		}else{
@@ -1166,7 +1166,7 @@ public function EditCustomerPay_Admin(){
 						'fecha_emision'=> $this->input->post('addEmitionDate'),
 						'concepto'=> $this->input->post('addConcept'),
 						'saldo'=> $monto,
-						'comentario'=> $this->input->trim(post('addComment')),
+						'comentario'=> $this->input->post('addComment'),
 						'folio' => $this->input->post('addFolio'),
 						'fecha_pago_factura' => $this->input->post('addDate'),
 						'otros_gastos_aplica_flujo' => $add_flujo,

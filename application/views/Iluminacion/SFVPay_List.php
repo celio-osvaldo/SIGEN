@@ -1,62 +1,62 @@
 <!--Mostrar lista de Pagos de SFV -->
 
-<div class="container">
-  <button class="btn btn-success" onclick="Lista_SFV()">Regresar a SFV</button>
+<div class="row">
+  <div class="col">
+    <h2 align="center">Lista de Pagos en SFV </h2>
+    <div class="col" align="center">
+      <span class="badge badge-info">
+        <h6 align="center">
+          Cliente:<hr><?php echo $sfv_info->catalogo_cliente_empresa; ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
+          KWh totales:<hr><?php echo number_format($sfv_info->pago_sfv_kwh,0,'.',','); ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
+          Importe total:<hr>$<?php echo number_format($sfv_info->pago_sfv_imp_total,5,'.',','); ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
+          Total pagado:<hr>$<?php echo number_format($sfv_info->pago_sfv_pagado,5,'.',','); ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
+          Saldo:<hr>$<?php echo number_format($sfv_info->pago_sfv_saldo,5,'.',','); ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
+          Fecha último pago:<hr><?php echo $sfv_info->pago_sfv_fecha_ult_pago; ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
+          <?php $total_realizados=$sfv_info->pagos_realizados-1;
+          if($total_realizados==-1){
+            $total_realizados=0;
+          } ?>
+          Pagos realizados/total:<hr><?php echo $total_realizados."/".$sfv_info->pago_sfv_cant_pagos; ?>
+        </h6>
+      </span>
+      <span class="badge badge-info">
+        <h6 align="center">
+          Comentarios:<hr><?php echo $sfv_info->pago_sfv_coment; ?>
+        </h6>
+      </span>
+      <div class="offset-10">
+        <button  class="btn btn-success" onclick="Lista_SFV()">Regresar a SFV</button> 
+      </div>
+    </div>
+  </div>
 </div>
 <div class="card bg-card">
   <div class="table-responsive">
     <table id="table_sfv_pay_list" class="table table-striped table-hover display" style="font-size: 10pt;">
-      <div class="row">
-        <div class="col">
-          <h2 align="center">Lista de Pagos en SFV </h2>
-          <div class="col" align="center">
-            <span class="badge badge-info">
-              <h6 align="center">
-                Cliente:<hr><?php echo $sfv_info->catalogo_cliente_empresa; ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                KWh totales:<hr><?php echo number_format($sfv_info->pago_sfv_kwh,0,'.',','); ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                Importe total:<hr>$<?php echo number_format($sfv_info->pago_sfv_imp_total,5,'.',','); ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                Total pagado:<hr>$<?php echo number_format($sfv_info->pago_sfv_pagado,5,'.',','); ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                Saldo:<hr>$<?php echo number_format($sfv_info->pago_sfv_saldo,5,'.',','); ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                Fecha último pago:<hr><?php echo $sfv_info->pago_sfv_fecha_ult_pago; ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                <?php $total_realizados=$sfv_info->pagos_realizados-1;
-                if($total_realizados==-1){
-                  $total_realizados=0;
-                } ?>
-                Pagos realizados/total:<hr><?php echo $total_realizados."/".$sfv_info->pago_sfv_cant_pagos; ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                Comentarios:<hr><?php echo $sfv_info->pago_sfv_coment; ?>
-              </h6>
-            </span>
-          </div>
-        </div>
-      </div>
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
           <th hidden="false">id_lista_pago_sfv</th>
@@ -125,25 +125,34 @@
 <div class="modal fade" id="EditPayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <div class="modal-header" >
-        <h5 class="modal-title" id="title">Editar Pago de SFV<br><label id="title_pago"></label>
-          <div style="text-align: center"><label id="title_num_pago" class="bg-warning"></label></div></h5>
+      <div class="modal-header">
+        <div class="row modal-title">
+          <div class="col-md-12">
+            <h5 align="center" id="title">Editar Pago de SFV</h5>
+          </div>
+          <div class="col-md-12">
+            <h5><label id="title_pago"></label><label id="title_num_pago" class="bg-warning"></label></h5>
+          </div>
+        </div>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <h6>
         <input type="text" id="edit_id_lista_pago_sfv" hidden="true">
-        <label>Fecha</label><br>
-        <input type="date" id="pago_fecha" class="form-control col-md-5">
+        <div class="row">
+          <div class="col-md-5">
+            <label class="label-control">Fecha</label>
+            <input type="date" id="pago_fecha" class="form-control">
+          </div>
+        </div>
         <div class="form-row">
           <div class="form-group col-md-4">
-            <label>Total </label>
+            <label class="label-control">Total </label>
             <input type="text" onblur="Separa_Miles(this.id)" onchange="Calcula()" id="pago_total" class="form-control">
           </div>
           <div class="form-group col-md-4">
-            <label>SubTotal </label>
+            <label class="label-control">SubTotal </label>
             <input type="text" onblur="Separa_Miles(this.id)" id="subtotal" class="form-control">
           </div>
           <div class="form-group col-md-4">
@@ -151,16 +160,15 @@
             <input type="text" onblur="Separa_Miles(this.id)" id="iva" class="form-control">
           </div>
         </div>
-        <label>KWh Totales</label><br>
-        <input type="number" min="0" id="kwh_total" class="form-control col-md-4"><br>
-        <label>Comprobante de Pago</label><br>
+        <label class="label-control">KWh Totales</label><br>
+        <input type="number" min="0" id="kwh_total" class="form-control col-md-4">
+        <label class="label-control">Comprobante de Pago</label>
         <!-- Form -->
         <form method='post' enctype="multipart/form-data">
-          <input type="file" id="comprobante_sfv" accept="application/pdf, image/*" class="form-control "><br>
+          <input type="file" id="comprobante_sfv" accept="application/pdf, image/*" class="form-control ">
         </form>
         <label>Comentarios</label><br>
         <textarea id="coment" maxlength="200" class="form-control input-sm"></textarea>
-        </h6>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -204,7 +212,26 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#table_sfv_pay_list').DataTable();
+    $('#table_sfv_pay_list').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
     $('#Edit_SFV_Pay').click(function(){
       var id_lista_pago_sfv=$("#edit_id_lista_pago_sfv").val();
@@ -287,8 +314,8 @@
             }
           }
         });
-        Update();
-        Update();
+        $('EditPayModal').removeClass('modal-open');
+        $('.modal-backdrop').remove();
       }else{
         mensaje="";
         for (var i = 0; i < errores.length; i++) {
@@ -319,6 +346,7 @@
         });
       Update(); 
     });
+
 
   });
 

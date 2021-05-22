@@ -103,7 +103,6 @@
     <table id="table_Inv_Prod" class="table table-striped table-hover display" style="font-size: 9pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
-
           <th>Nombre Mobiliario/Servicio</th>
           <th>Unidad de Medida</th>
           <th>Cantidad</th>
@@ -267,6 +266,27 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
+
+      $('#table_Inv_Prod').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
     $('#Add_Mobil').click(function(){
       id_evento=<?php echo $detalles_evento->evento_detalle_id_obra_cliente;; ?>;

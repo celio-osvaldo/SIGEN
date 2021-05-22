@@ -76,6 +76,8 @@
               <button class="btn btn-outline-secondary"  type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
            </form>
             <a class="btn btn-outline-secondary" onclick="Edit_pay2(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20" title="Editar" style="filter: invert(100%)" /></a>
+
+            <a class="btn btn-outline-secondary" onclick="Delete_pay(this.id)" role="button" id="<?php echo $row->id_venta_mov; ?>"><img src="..\Resources\Icons\delete.ico" width="20" title="Eliminar" style="filter: invert(100%)" /></a>
           </div>
           </td>
         </tr>
@@ -103,15 +105,15 @@
         <div class="row">
           <div class="col-md-3">
             <label class="label-control">#Recibo</label>
-            <input type="text" name="edit_no_recibo" id="edit_no_recibo" class="form-control">
+            <input type="text" name="edit_no_recibo" id="edit_no_recibo" class="form-control" onblur="Verifica(this.id)" required="true">
           </div>
           <div class="col-md-5">
             <label class="label-control">Fecha de Pago</label>
-            <input type="date" name="" id="edit_fecha" class="form-control input-sm">
+            <input type="date" name="" id="edit_fecha" class="form-control input-sm" onblur="Verifica(this.id)" required="true">
           </div>
           <div class="col-md-4">
             <label class="label-control">Importe de Pago</label>
-            <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_pago" class="form-control input-sm">
+            <input type="text" onblur="SeparaMiles(this.id)" id="edit_imp_pago" onblur="Verifica(this.id)" class="form-control input-sm" required="true">
           </div>
         </div>
         <div class="row">
@@ -124,11 +126,53 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="UpdatePay" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="UpdatePay" disabled="true" data-dismiss="modal">Actualizar</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal Delete Pay Customer_Project -->
+<div class="modal fade" id="DeletePayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Eliminar Pago</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3">
+            <label class="label-control">#Recibo</label>
+            <input type="text" name="delete_no_recibo" id="delete_no_recibo" disabled="true" class="form-control">
+          </div>
+          <div class="col-md-5">
+            <label class="label-control">Fecha de Pago</label>
+            <input type="date" name="delete_fecha" id="delete_fecha" disabled="true" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Importe de Pago</label>
+            <input type="text" onblur="SeparaMiles(this.id)" id="delete_imp_pago" disabled="true" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Concepto de Pago</label>
+            <textarea id="delete_coment" class="form-control input-sm" disabled="true" maxlength="200"></textarea>
+          </div>
+        </div>
+        <input type="text" id="delete_id_vent_mov" hidden="true">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
+        <button type="button" class="btn btn-danger" id="DeletePay" data-dismiss="modal">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <!-- Modal Justifica Cambios Customer_Pays -->
 <div class="modal fade" id="JustificaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -155,8 +199,42 @@
 
 
 <script type="text/javascript">
+
+  function Verifica(id){
+    dato=$("#"+id).val();
+    
+    if(dato==""){
+      $("#UpdatePay").attr("disabled","true");
+      $('#'+id).addClass("is-invalid");
+    }else{
+     $("#UpdatePay").removeAttr("disabled");
+     $('#'+id).removeClass("is-invalid");
+   }
+
+
+ }
+
   $(document).ready( function () {
-    $('#table_payments_list').DataTable();
+    $('#table_payments_list').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
         //Función para actualizar el registro
         $('#UpdatePay').click(function(){
@@ -204,6 +282,36 @@
       } 
     });
 
+    $('#DeletePay').click(function(){
+      id=$("#delete_id_vent_mov").val();
+      delete_imp=$("#delete_imp_pago").val();
+      delete_imp=delete_imp.replace(/\,/g, '');
+    $.ajax({
+      type: 'POST',
+      url: '<?php echo base_url(); ?>Quinta/DeletePayment',
+      data: {id:id, delete_imp:delete_imp},
+    }).done(res=>{
+          //Accion a realzar si se completa la solicitud
+          if(res){
+            alert("Pago Eliminado Correctamente");
+            Update_Page();
+          }
+          if(!res){
+            alert("Pago no eliminado, intentelo nuevamente");
+            Update_Page();
+          }
+          
+        }).fail(err=>{
+          //Acción a realizar en caso de un error, solicitud no realizada
+          alert("Error intentelo nuevamente");
+          Update_Page();
+        }).always(res=>{
+          //Acción a realizar independientemente si existe error o no
+          //Update_Page();
+        });
+
+      });
+
 
     $('#Solicita_Cambio').click(function(){
       txt_justifica=$("#txt_justifica").val();
@@ -234,7 +342,6 @@
     });
 
 
-
   });
     </script>
 
@@ -257,6 +364,25 @@ function Edit_pay2($id){
     $("#edit_coment").val(coment);
     $("#edit_id_vent_mov").val(id_venta_mov);
     $("#edit_no_recibo").val(no_recibo);
+  }
+
+function Delete_pay($id){
+    //alert("Eliminar "+$id);
+    var fecha=$("#fecha"+$id).text();
+    //alert(fecha);
+    var pago=$("#pago"+$id).text().split('$');
+    pago[1]=pago[1].replace(/\,/g, '');
+    //alert(pago);
+    var coment=$("#coment"+$id).text().trim();
+    var id_venta_mov=$id;
+    var no_recibo=$("#no_recibo"+$id).text().trim();
+    //alert(id_venta_mov);
+    $("#DeletePayModal").modal();
+    document.getElementById("delete_fecha").valueAsDate = new Date(fecha);
+    $("#delete_imp_pago").val(parseFloat(pago[1]));
+    $("#delete_coment").val(coment);
+    $("#delete_id_vent_mov").val(id_venta_mov);
+    $("#delete_no_recibo").val(no_recibo);
   }
   
 //Función para Mostrar Modal de Editar un registro Pago

@@ -1,35 +1,44 @@
 <!--Mostrar lista de Pagos de Proyectos -->
 
 <div class="row">
-  <div class="col">
+  <div class="col-md-12">
     <h2 align="center">Lista de Pagos Realizados </h2>
-    <div class="col" align="center">
-      <span class="badge badge-info">
-        <h6 align="center">
-          Proyecto/Cliente:<hr><?php echo $obra->obra_cliente_nombre; ?>
-        </h6>
-      </span>
-      <span class="badge badge-info">
-        <h6 align="center">
-          Total de Proyecto:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,5,'.',','); ?>
-        </h6>
-      </span>
-      <span class="badge badge-info">
-        <h6 align="center">
-          Total Pagado:<hr>$<?php echo number_format($obra->obra_cliente_pagado,5,'.',','); ?>
-        </h6>
-      </span>
-      <span class="badge badge-info">
-        <h6 align="center">
-          Saldo:<hr>$<?php echo number_format($obra->obra_cliente_saldo,5,'.',','); ?>
-        </h6>
-      </span>
-      <span class="badge badge-info">
-        <h6 align="center">
-          Comentarios:<hr><?php echo $obra->obra_cliente_comentarios; ?>
-        </h6>
-      </span>
-    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col" align="center">
+    <span class="badge badge-info">
+      <h6 align="center">
+        Proyecto/Cliente:<hr><?php echo $obra->obra_cliente_nombre; ?>
+      </h6>
+    </span>
+    <span class="badge badge-info">
+      <h6 align="center">
+        Total de Proyecto:<hr>$<?php echo number_format($obra->obra_cliente_imp_total,5,'.',','); ?>
+      </h6>
+    </span>
+    <span class="badge badge-info">
+      <h6 align="center">
+        Total Pagado:<hr>$<?php echo number_format($obra->obra_cliente_pagado,5,'.',','); ?>
+      </h6>
+    </span>
+    <span class="badge badge-info">
+      <h6 align="center">
+        Saldo:<hr>$<?php echo number_format($obra->obra_cliente_saldo,5,'.',','); ?>
+      </h6>
+    </span>
+    <span class="badge badge-info">
+      <h6 align="center">
+        Comentarios:<hr><?php echo $obra->obra_cliente_comentarios; ?>
+      </h6>
+    </span>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-md-4 offset-md-10">
+    <button type="button" onclick="Update_Page()" class="btn btn-success">Regresar a lista de Pagos</button>
   </div>
 </div>
 
@@ -163,7 +172,26 @@
 
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#table_payments_list').DataTable();
+    $('#table_payments_list').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
         //Función para actualizar el registro
         $('#UpdatePay').click(function(){

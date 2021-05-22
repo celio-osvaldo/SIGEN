@@ -22,7 +22,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><?php foreach ($viatico->result() as $row) {?>
+                    <?php foreach ($viatico->result() as $row) {?>
+                    <tr>
                         <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->viaticos_fecha; ?></td>
                         <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->obra_cliente_nombre; ?></td>
                         <td id="<?php echo $row->id_viaticos; ?>"><?php echo $row->viaticos_total_dias; ?></td>
@@ -31,7 +32,8 @@
                         <td>$<?php echo number_format($total->sumPayment,5,'.',',') ?></td>
                                     <!-- <td align="center"><a role="button" class="btn btn-outline-dark" onclick="Details(this.id)" id="<?php echo $row->id_viaticos; ?>" data-toggle="modal" data-target="#editReport"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
                                     </td> -->
-                    </tr><?php } ?>
+                    </tr>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -72,7 +74,8 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr><?php foreach ($detail->result() as $row) {?>
+                    <?php foreach ($detail->result() as $row) {?>
+                    <tr>
                         <td id="<?php echo "comprobante".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_factura; ?></td>
                         <td id="<?php echo "empleado".$row->id_lista_viatico.""; ?>"><?php echo $row->empleado; ?></td>
                         <td id="<?php echo "fecha".$row->id_lista_viatico.""; ?>"><?php echo $row->lista_viatico_fecha; ?></td>
@@ -91,7 +94,8 @@
                         <td align="center" id="<?php echo "bill".$row->id_lista_viatico.""; ?>"><a role="button" onclick="Display_bill(this.id)" class="btn btn-outline-dark" id="<?php echo "".$row->id_lista_viatico.""; ?>"><img height="20" src="..\Resources\Icons\invoice_icon_128337.ico" alt="Editar" style="filter: invert(100%)"></a></td>
                         <td><a role="button" class="btn btn-outline-dark" onclick="Edit_Registro(this.id)" id="<?php echo "".$row->id_lista_viatico.""; ?>"><img height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
                         </td>
-                        </tr><?php } ?>
+                    </tr>
+                    <?php } ?>
                     </tbody>
                 </table>
             </div>
@@ -100,7 +104,26 @@
 
 <script type="text/javascript">
     $(document).ready( function () {
-        $('#table_id').DataTable();
+        $('#table_id').DataTable({
+            initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+        });
     });
 </script>
 

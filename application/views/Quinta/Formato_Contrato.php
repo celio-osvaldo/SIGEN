@@ -49,8 +49,6 @@
 		<label class="label-control">Teocaltiche, Jalisco a <?php echo strftime('%e de '); echo $mes; echo strftime(' de %G')?></label>
 	</p>
 
-
-
 		<?php switch (strftime("%m", strtotime($detalles_evento->evento_detalle_fecha))) {
 			case '1':
 				$mes2="Enero";
@@ -90,6 +88,46 @@
 				break;
 
 		} ?>
+<?php switch (strftime("%m", strtotime($detalles_evento->evento_detalle_fecha_fin))) {
+			case '1':
+				$mes_fin="Enero";
+				break;
+			case '2':
+				$mes_fin="Febrero";
+				break;
+			case '3':
+				$mes_fin="Marzo";
+				break;
+			case '4':
+				$mes_fin="Abril";
+				break;
+			case '5':
+				$mes_fin="Mayo";
+				break;
+			case '6':
+				$mes_fin="Junio";
+				break;
+			case '7':
+				$mes_fin="Julio";
+				break;
+			case '8':
+				$mes_fin="Agosto";
+				break;
+			case '9':
+				$mes_fin="Septiembre";
+				break;
+			case '10':
+				$mes_fin="Octubre";
+				break;
+			case '11':
+				$mes_fin="Noviembre";
+				break;
+			case '12':
+				$mes_fin="Diciembre";
+				break;
+
+		} ?>
+
 
 
 <p style="text-align: justify;">
@@ -118,7 +156,7 @@ En virtud de las Declaraciones anteriores, “Las partes” convienen en obligar
 	<b>CLÁUSULAS</b>
 </p>
 <p style="text-align: justify;">
-	PRIMERA.- “El Salón de Eventos” se dispondrá para la realización del evento de <b><?php echo $detalles_evento->evento_detalle_tipo_evento; ?></b> el día <b><?php echo strftime("%e de ", strtotime($detalles_evento->evento_detalle_fecha)); echo $mes2; echo strftime(' de %G ', strtotime($detalles_evento->evento_detalle_fecha)); ?></b> y se rentará por  <b><?php echo $detalles_evento->evento_detalle_total_horas; ?></b> horas, iniciando a las <b><?php echo  date('H:i',strtotime($detalles_evento->evento_detalle_hora_inicio)); ?></b> horas y terminará las <b><?php echo  date('H:i',strtotime($detalles_evento->evento_detalle_hora_fin)); ?></b> horas, del día <b><?php echo strftime("%e de ", strtotime($detalles_evento->evento_detalle_fecha_fin)); echo $mes2; echo strftime(' de %G ', strtotime($detalles_evento->evento_detalle_fecha_fin)); ?></b>. La renta del salón incluye:
+	PRIMERA.- “El Salón de Eventos” se dispondrá para la realización del evento de <b><?php echo $detalles_evento->evento_detalle_tipo_evento; ?></b> el día <b><?php echo strftime("%e de ", strtotime($detalles_evento->evento_detalle_fecha)); echo $mes2; echo strftime(' de %G ', strtotime($detalles_evento->evento_detalle_fecha)); ?></b> y se rentará por  <b><?php echo $detalles_evento->evento_detalle_total_horas; ?></b> horas, iniciando a las <b><?php echo  date('H:i',strtotime($detalles_evento->evento_detalle_hora_inicio)); ?></b> horas y terminará las <b><?php echo  date('H:i',strtotime($detalles_evento->evento_detalle_hora_fin)); ?></b> horas, del día <b><?php echo strftime("%e de ", strtotime($detalles_evento->evento_detalle_fecha_fin)); echo $mes_fin; echo strftime(' de %G ', strtotime($detalles_evento->evento_detalle_fecha_fin)); ?></b>. La renta del salón incluye:
 	<ul style="list-style: disc;">
 
  	<?php 

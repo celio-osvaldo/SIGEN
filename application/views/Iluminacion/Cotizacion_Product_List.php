@@ -16,11 +16,6 @@
    
  </div>
 </div>
-
-
-<div class="card bg-card">
-  <div class="table-responsive">
-    <table id="table_cotizacion_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
       <div class="row">
         <div class="col">
           <h2 align="center">Lista de Productos de la Cotización </h2>
@@ -95,6 +90,11 @@
           </div>
         </div>
       </div>
+
+
+<div class="card bg-card">
+  <div class="table-responsive">
+    <table id="table_cotizacion_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
           <th hidden="true">id_cotizacion</th>
@@ -215,7 +215,26 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#table_cotizacion_prod_list').DataTable();
+    $('#table_cotizacion_prod_list').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
 
     $( "#edit_prod_cantidad" ).change(function() {

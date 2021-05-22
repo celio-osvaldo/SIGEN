@@ -12,9 +12,6 @@
    </form>
  </div>
 </div>
-<div class="card bg-card">
-  <div class="table-responsive">
-    <table id="table_recibo_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
       <div class="row">
         <div class="col">
           <h2 align="center">Lista de Productos Recibo de Entrega</h2>
@@ -47,6 +44,9 @@
           </div>
         </div>
       </div>
+<div class="card bg-card">
+  <div class="table-responsive">
+    <table id="table_recibo_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
       <div class="col align-self-end" align="right">
         <a class="navbar-brand" onclick="AddProduct(this.id)" role="button" id="<?php echo $recibo_info->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary btn-sm"><img src="..\Resources\Icons\addbuttonwithplussigninacircle_79538.ico" width="30px" height="30px" alt="Agregar Producto al Recibo" style="filter: invert(100%)">Agregar Nuevo Producto al Recibo de Entrega</button></a>
       </div>        
@@ -168,7 +168,26 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#table_recibo_prod_list').DataTable();
+    $('#table_recibo_prod_list').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
         $('#Delete_Product').click(function(){
           id_lista_recibo_entrega=$("#delete_id_lista_recibo_entrega").val();
@@ -235,7 +254,8 @@
             }else{
               alert('Falló el servidor. Producto no Actualizado');
             }
-            Update_Page(id_recibo_entrega); 
+              $('EditProductModal').removeClass('modal-open');
+             $('.modal-backdrop').remove();
           }
         });
       Update_Page(id_recibo_entrega); 

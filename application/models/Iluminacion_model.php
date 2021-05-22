@@ -74,6 +74,17 @@ class Iluminacion_model extends CI_Model
     }
   }
 
+  public function Verifica_existe($txt_verifica,$tabla,$columna_nombre,$id_empresa){
+    $this->db->select('count('.$columna_nombre.') as existe');
+    $this->db->from($tabla);
+    $this->db->where($columna_nombre,$txt_verifica);
+    $this->db->where('empresa_id_empresa',$id_empresa);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+
+  }
+
   public function GetInventorie_Office($idcompany){
       	$this->db->select('id_prod, producto_consu_nom, unidad_medida, producto_consu_prec_unit, producto_consu_exist, producto_consu_ult_compra, producto_consu_periodicidad, producto_consu_prox_compra, catalogo_proveedor_empresa');
       	$this->db->from('producto_consumible');

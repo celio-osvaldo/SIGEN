@@ -1,25 +1,25 @@
 <!--Mostrar lista de clientes y obras -->
 
 <div class="row">
-  <div class="col-9">
+  <div class="col-md-9">
     <h3 align="center">Lista de Proyectos</h3>
   </div>
-  <div class="col-3">
+  <div class="col-md-3">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewClientModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Proyecto</button>
   </div>
+</div>
 
 <div class="row">
-    <div class="form-group row">
-        <label class="col-md-6">Ver Proyectos</label>
+  <div class="form-group row">
+    <label class="col-md-6">Ver Proyectos</label>
     <div class="col-md-6">
       <select multiple="multiple" class="multiple-select" id="estado_proyecto" placeholder="Seleccione">
-          <option value="1" selected="true">Activo</option>
-          <option value="2">Pagado</option>
-          <option value="3">Cancelado</option>
+        <option value="1" selected="true">Activo</option>
+        <option value="2">Pagado</option>
+        <option value="3">Cancelado</option>
       </select>
     </div>
   </div>
-</div>
 </div>
 
 <div class="card bg-card" id="tbl_body">   
@@ -44,13 +44,13 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <label>Nombre Proyecto</label>
+            <label class="label-control">*Nombre Proyecto</label>
             <input type="text" name="" id="nom_obra" class="form-control input-sm">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <label class="label-control">Cliente</label>
+            <label class="label-control">*Cliente</label>
             <select class="form-control" name="customer" id="customer">
               <option disabled selected>----Seleccionar Cliente----</option>
               <?php foreach ($customerlist->result() as $row){ ?>
@@ -61,7 +61,7 @@
         </div>
         <div class="row">
           <div class="col-md-6">
-            <label>Importe Total</label>
+            <label class="label-control">*Importe Total</label>
             <input type="text" onblur="Separa_Miles(this.id)" id="imp_obra" class="form-control input-sm">
           </div>
           <div class=" col-md-6">
@@ -74,12 +74,13 @@
         </div>        
         <div class="row">
          <div class="col-md-12">
-          <label>Comentarios</label>
+          <label class="label-control">Comentarios</label>
           <textarea id="coment_obra" class="form-control input-sm" maxlength="200"></textarea>
         </div>
       </div>
     </div>
     <div class="modal-footer">
+      <label class="label-control" style="color: red; " >* Datos mínimos requeridos</label>
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
       <button type="button" class="btn btn-primary" id="guardarnuevo" data-dismiss="modal">Guardar</button>
     </div>
@@ -103,13 +104,13 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <label>Nombre de Proyecto</label>
+            <label class="label-control">*Nombre de Proyecto</label>
             <input type="text" name="" id="edit_nom_obra" class="form-control input-sm">
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-           <label class="label-control">Cliente</label>
+           <label class="label-control">*Cliente</label>
            <select class="form-control" name="edit_customer" id="edit_customer">
             <?php foreach ($customerlist->result() as $row){ ?>
               <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
@@ -119,7 +120,7 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-         <label>Importe Total</label>
+         <label class="label-control">*Importe Total</label>
          <input type="text" onblur="Separa_Miles(this.id)" id="edit_imp_obra" class="form-control input-sm">
        </div>
        <div class=" col-md-6">
@@ -132,8 +133,8 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <label>Estado</label><br>   
-        <select id="edit_estado_obra">
+        <label class="label-control">Estado</label>   
+        <select id="edit_estado_obra" class="form-control">
           <option value="1">Activo</option>
           <option value="2">Pagado</option>
           <option value="3">Cancelado</option>
@@ -142,13 +143,14 @@
     </div>
     <div class="row">
       <div class="col-md-12">
-        <label>Comentarios</label>
+        <label class="label-control">Comentarios</label>
         <textarea id="edit_coment_obra" class="form-control input-sm" maxlength="200"></textarea>
         <input type="text" id="edit_id_obra" hidden="true">
       </div>
     </div>
   </div>
   <div class="modal-footer">
+    <label class="label-control" style="color: red; " >* Datos mínimos requeridos</label>
     <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
     <button type="button" class="btn btn-primary" id="UpdateRegister" data-dismiss="modal">Actualizar</button>
   </div>

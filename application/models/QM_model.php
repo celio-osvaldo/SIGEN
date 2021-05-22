@@ -435,6 +435,16 @@ public function Get_Product_History_Consu($id_producto){
     }
   }
 
+  public function DeleteProject_Pay($id_pago){
+    $this->db->where('id_venta_mov',$id_pago);
+    $this->db->delete('venta_movimiento');
+    if ($this->db->affected_rows() > 0) {
+      return true;
+    } else{
+      return false;
+    }
+  }
+
   public function Id_Proyecto($id_movimiento){
     $this->db->select('obra_cliente_id_obra_cliente');
     $this->db->from('venta_movimiento');

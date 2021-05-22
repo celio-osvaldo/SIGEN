@@ -22,14 +22,16 @@
 </div>
 </div>
 <div class="row">
-  <div class="card bg-card" id="tbl_body"></div>
+  <div class="card bg-card" id="tbl_body">
+    
+  </div>
 </div>
 
 
 
 <!-- Modal Add Customer_Project -->
 <div class="modal fade" id="NewClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Evento</h5>
@@ -39,39 +41,14 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-6">
             <label class="label-control">Nombre Evento*</label>
             <input type="text" maxlength="150" name="" id="nom_obra" class="form-control input-sm">
           </div>
           <div class="col-md-4">
-            <label class="label-control">Contrato</label>
-             <input type="text" name="contrato" id="contrato" class="form-control" maxlength="200">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-8">
-            <label class="label-control">Cliente*</label>
-            <select class="form-control" name="customer" id="customer">
-              <option disabled selected>----Seleccionar Cliente----</option>
-              <?php foreach ($customerlist->result() as $row){ ?>
-              <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-              <?php } ?>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <label class="label-control">Importe Total*</label>
-            <input type="text" min="0" onblur="SeparaMiles(this.id)" name="" id="imp_obra" class="form-control input-sm">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <label class="label-control">Fecha del Evento</label>
-            <input type="date" name="fecha_evento" id="fecha_evento" class="form-control">
-          </div>
-          <div class="col-md-7">
             <label class="label-control">Tipo de Evento</label>
             <select class="form-control" name="tipo_evento" id="tipo_evento">
-              <option disabled selected>----Seleccione tipo Evento----</option>
+              <option disabled selected>--Seleccione tipo Evento--</option>
               <option value="Boda">Boda</option>
               <option value="XV Años">XV Años</option>
               <option value="Cumpleaños">Cumpleaños</option>
@@ -85,18 +62,38 @@
               <option value="Otro">Otro</option>
             </select>
           </div>
+          <div class="col-md-2">
+            <label class="label-control">Contrato</label>
+             <input type="text" name="contrato" id="contrato" class="form-control" maxlength="200">
+          </div>
         </div>
         <div class="row">
-          <div class="col-md-5">
-            <label class="label-control">Cantidad de Personas</label>
-            <input type="number" min="0"  name="cant_persona" id="cant_persona" class="form-control">
+          <div class="col-md-6">
+            <label class="label-control">Cliente*</label>
+            <select class="form-control" name="customer" id="customer">
+              <option disabled selected>----Seleccionar Cliente----</option>
+              <?php foreach ($customerlist->result() as $row){ ?>
+              <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
           </div>
           <div class="col-md-3">
-            <label class="label-control">Mobiliario</label>
-            <select class="form-control" name="mobiliario" id="mobiliario">
-              <option value="SI">SI</option>
-              <option value="NO">NO</option>
-            </select>
+            <label class="label-control">Importe Total*</label>
+            <input type="text" min="0" onblur="SeparaMiles(this.id)" value="0.00" name="imp_obra" id="imp_obra" class="form-control input-sm">
+          </div>
+          <div class="col-md-3">
+            <label class="label-control">Anticipo Establecido</label>
+            <input type="text" name="anticipo" id="anticipo" value="0.00" onblur="SeparaMiles(this.id)" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="label-control">Fecha del Evento</label>
+            <input type="date" name="fecha_evento" id="fecha_evento" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Fecha Final del Evento</label>
+            <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
           </div>
           <div class="col-md-4">
             <label class="label-control">Permiso</label>
@@ -108,27 +105,28 @@
             <label class="label-control">Total Horas</label>
             <input type="number" min="0" name="total_horas" id="total_horas" step="0.5" class="form-control">
           </div>
-          <div class="col-md-4.5">
+          <div class="col-md-4">
             <label class="label-control">Hora Inicio</label>
             <input type="time" name="hora_inicio" id="hora_inicio" class="form-control">
           </div>
-          <div class="col-md-4.5">
+          <div class="col-md-4">
             <label class="label-control">Hora Fin</label>
             <input type="time" name="hora_fin" id="hora_fin" class="form-control">
           </div>
         </div>
         <div class="row">
-          <div class="col-md-6">
-            <label class="label-control">Fecha Final del Evento</label>
-            <input type="date" name="fecha_fin" id="fecha_fin" class="form-control">
+          <div class="col-md-3">
+            <label class="label-control">Cantidad de Personas</label>
+            <input type="number" min="0"  name="cant_persona" id="cant_persona" class="form-control">
+          </div>
+          <div class="col-md-3">
+            <label class="label-control">Mobiliario</label>
+            <select class="form-control" name="mobiliario" id="mobiliario">
+              <option value="SI">SI</option>
+              <option value="NO">NO</option>
+            </select>
           </div>
           <div class="col-md-6">
-            <label class="label-control">Anticipo Establecido</label>
-            <input type="text" name="anticipo" id="anticipo" onblur="SeparaMiles(this.id)" class="form-control">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
             <label class="label-control">Comentarios</label>
             <textarea id="coment_obra" class="form-control input-sm" maxlength="200"></textarea>
           </div>
@@ -146,7 +144,7 @@
 
 <!-- Modal Edit Customer_Project -->
 <div class="modal fade" id="EditClientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modificar Evento</h5>
@@ -157,39 +155,14 @@
       <div class="modal-body">
         <input type="text" hidden="true" name="edit_id_obra" id="edit_id_obra">
         <div class="row">
-          <div class="col-md-8">
+          <div class="col-md-6">
             <label class="label-control">Nombre Evento*</label>
             <input type="text" maxlength="150" name="edit_nom_obra" id="edit_nom_obra" class="form-control input-sm">
           </div>
           <div class="col-md-4">
-            <label class="label-control">Contrato</label>
-             <input type="text" name="edit_contrato" id="edit_contrato" class="form-control" maxlength="200">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-8">
-            <label class="label-control">Cliente*</label>
-            <select class="form-control" name="edit_customer" id="edit_customer">
-              <option disabled selected>----Seleccionar Cliente----</option>
-              <?php foreach ($customerlist->result() as $row){ ?>
-              <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-              <?php } ?>
-            </select>
-          </div>
-          <div class="col-md-4">
-            <label class="label-control">Importe Total*</label>
-            <input type="text" onblur="SeparaMiles(this.id)" name="edit_imp_obra" id="edit_imp_obra" class="form-control input-sm">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
-            <label class="label-control">Fecha del Evento</label>
-            <input type="date" name="edit_fecha_evento" id="edit_fecha_evento" class="form-control">
-          </div>
-          <div class="col-md-7">
             <label class="label-control">Tipo de Evento</label>
             <select class="form-control" name="edit_tipo_evento" id="edit_tipo_evento">
-              <option disabled selected>----Seleccione tipo Evento----</option>
+              <option disabled selected>--Seleccione tipo Evento--</option>
               <option value="Boda">Boda</option>
               <option value="XV Años">XV Años</option>
               <option value="Cumpleaños">Cumpleaños</option>
@@ -203,9 +176,60 @@
               <option value="Otro">Otro</option>
             </select>
           </div>
+          <div class="col-md-2">
+            <label class="label-control">Contrato</label>
+             <input type="text" name="edit_contrato" id="edit_contrato" class="form-control" maxlength="200">
+          </div>
         </div>
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-6">
+            <label class="label-control">Cliente*</label>
+            <select class="form-control" name="edit_customer" id="edit_customer">
+              <option disabled selected>----Seleccionar Cliente----</option>
+              <?php foreach ($customerlist->result() as $row){ ?>
+              <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
+          </div>
+          <div class="col-md-3">
+            <label class="label-control">Importe Total*</label>
+            <input type="text" min="0" onblur="SeparaMiles(this.id)" name="edit_imp_obra" id="edit_imp_obra" class="form-control input-sm">
+          </div>
+          <div class="col-md-3">
+            <label class="label-control">Anticipo Establecido</label>
+            <input type="text" name="edit_anticipo" id="edit_anticipo" onblur="SeparaMiles(this.id)" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="label-control">Fecha del Evento</label>
+            <input type="date" name="edit_fecha_evento" id="edit_fecha_evento" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Fecha Final del Evento</label>
+            <input type="date" name="edit_fecha_fin" id="edit_fecha_fin" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Permiso</label>
+            <input type="text" name="edit_permiso" id="edit_permiso" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
+            <label class="label-control">Total Horas</label>
+            <input type="number" min="0" name="edit_total_horas" id="edit_total_horas" step="0.5" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Hora Inicio</label>
+            <input type="time" name="edit_hora_inicio" id="edit_hora_inicio" class="form-control">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Hora Fin</label>
+            <input type="time" name="edit_hora_fin" id="edit_hora_fin" class="form-control">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3">
             <label class="label-control">Cantidad de Personas</label>
             <input type="number" min="0"  name="edit_cant_persona" id="edit_cant_persona" class="form-control">
           </div>
@@ -217,43 +241,12 @@
             </select>
           </div>
           <div class="col-md-4">
-            <label class="label-control">Permiso</label>
-            <input type="text" name="edit_permiso" id="edit_permiso" class="form-control">
-          </div>
-        </div>
-                <div class="row">
-          <div class="col-md-3">
-            <label class="label-control">Total Horas</label>
-            <input type="number" min="0" name="edit_total_horas" id="edit_total_horas" step="0.5" class="form-control">
-          </div>
-          <div class="col-md-4.5">
-            <label class="label-control">Hora Inicio</label>
-            <input type="time" name="edit_hora_inicio" id="edit_hora_inicio" class="form-control">
-          </div>
-          <div class="col-md-4.5">
-            <label class="label-control">Hora Fin</label>
-            <input type="time" name="edit_hora_fin" id="edit_hora_fin" class="form-control">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <label class="label-control">Fecha Final del Evento</label>
-            <input type="date" name="edit_fecha_fin" id="edit_fecha_fin" class="form-control">
-          </div>
-          <div class="col-md-6">
-            <label class="label-control">Anticipo Establecido</label>
-            <input type="text" name="edit_anticipo" id="edit_anticipo" onblur="SeparaMiles(this.id)" class="form-control">
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-4">
             <label class="label-control">Estado</label>
             <select name="edit_estado_obra" id="edit_estado_obra" class="form-control">
               <option value="1" selected="true">Activo</option>
               <option value="2">Pagado</option>
               <option value="3">Cancelado</option>
             </select>
-
           </div>
         </div>
         <div class="row">
@@ -261,7 +254,7 @@
             <label class="label-control">Comentarios</label>
             <textarea id="edit_coment_obra" class="form-control input-sm" maxlength="200"></textarea>
           </div>
-        </div> 
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -530,7 +523,7 @@ $(function() {
     id_evento=$id;
     mobiliario=$("#mobiliario"+id_evento).text();
     if (mobiliario=="SI") {
-      alert("Si mobiliario");
+      //alert("Si mobiliario");
       $("#page_content").load("Croquis",{id_evento:id_evento});
     }else{
       alert("No es posible llenar el Croquis de mobiliario ya que indicó que este evento no incluye mobiliario. \nPuede modificar esto desde la opción de 'Editar Generales.'");

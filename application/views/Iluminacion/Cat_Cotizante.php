@@ -57,16 +57,34 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre del Cotizante</label>
-        <input type="text" id="new_nom_cotizante" class="form-control input-sm">
-        <label>Empresa</label><br>   
-        <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm"><br>
-        <label>Teléfono</label><br>
-        <input type="text" id="new_tel" class="form-control col-4"><br>
-        <label>Email</label><br>
-        <input type="email" id="new_email" class="form-control input-sm" required="true"><br>
-        <label>Comentarios</label><br>
-        <textarea id="new_coment" maxlength="200" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="control-label">Nombre del Cotizante</label>
+            <input type="text" id="new_nom_cotizante" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="control-label">Empresa</label>
+            <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <label class="control-label">Teléfono</label>
+            <input type="text" id="new_tel" class="form-control">
+          </div>
+          <div class="col-md-7">
+            <label class="control-label">Email</label>
+            <input type="email" id="new_email" class="form-control input-sm" required="true">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="control-label">Comentarios</label>
+            <textarea id="new_coment" maxlength="200" class="form-control input-sm"></textarea>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -82,22 +100,40 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modificar Cliente</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Modificar Cotizante</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre del Cotizante</label>
-        <input type="text" id="edit_nom_cotizante" class="form-control input-sm">
-        <label>Empresa</label><br>   
-        <input type="text" maxlength="13" id="edit_empresa" class="form-control input-sm"><br>
-        <label>Teléfono</label><br>
-        <input type="text" id="edit_tel" class="form-control col-4"><br>
-        <label>Email</label><br>
-        <input type="email" id="edit_email" class="form-control input-sm" required="true"><br>
-        <label>Comentarios</label><br>
-        <textarea id="edit_coment" maxlength="200" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="control-label">Nombre del Cotizante</label>
+            <input type="text" id="edit_nom_cotizante" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="control-label">Empresa</label>  
+            <input type="text" maxlength="13" id="edit_empresa" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <label>Teléfono</label>
+            <input type="text" id="edit_tel" class="form-control">
+          </div>
+          <div class="col-md-7">
+            <label>Email</label>
+            <input type="email" id="edit_email" class="form-control input-sm" required="true">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label>Comentarios</label>
+            <textarea id="edit_coment" maxlength="200" class="form-control input-sm"></textarea>
+          </div>
+        </div>
         <input type="text" id="edit_id_cotizante" hidden="true">
       </div>
       <div class="modal-footer">
@@ -114,6 +150,24 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#table_cotizante').DataTable({
+      initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
       dom: 'Blfrtip',
       buttons: [ 
         {
@@ -206,7 +260,7 @@
           }
         });
       }else{
-        alert("Debe ingresar nombre de Cliente");
+        alert("Debe ingresar nombre de Cotizante");
       }
     });
 

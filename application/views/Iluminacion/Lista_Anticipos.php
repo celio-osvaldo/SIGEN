@@ -86,19 +86,33 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Cliente</label>
-        <select class="form-control" name="new_cliente" id="new_cliente">
-          <option disabled selected>----Seleccionar Cliente----</option>
-          <?php foreach ($catalogo_cliente->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-          <?php } ?>
-        </select>
-        <label>Fecha Finiquito</label><br>   
-        <input type="date" id="new_fecha_fin" class="form-control input-sm"><br>
-        <label>Fecha de Entrega</label><br>
-        <input type="date" id="new_fecha_entrega" class="form-control input-sm"><br>
-        <label>Comentarios</label><br>
-        <textarea id="new_coment" maxlength="150" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="col-md-12">Cliente</label>
+            <select class="form-control" name="new_cliente" id="new_cliente">
+              <option disabled selected>----Seleccionar Cliente----</option>
+              <?php foreach ($catalogo_cliente->result() as $row){ ?>
+              <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Fecha Finiquito</label>
+            <input type="date" id="new_fecha_fin" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Fecha de Entrega</label>
+            <input type="date" id="new_fecha_entrega" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentarios</label>
+            <textarea id="new_coment" maxlength="150" class="form-control input-sm"></textarea>
+          </div>
+        </div>       
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -120,25 +134,41 @@
       </div>
       <div class="modal-body">
         <input type="text" id="edit_id_anticipo" hidden="true">
-        <label>Cliente</label>
-        <select class="form-control" id="edit_cliente">
-          <option disabled selected>----Seleccionar Cliente----</option>
-          <?php foreach ($catalogo_cliente->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-          <?php } ?>
-        </select>
-        <label>Estado</label>
-        <select class="form-control" id="edit_estado">
-          <option value="Activo">Activo</option>
-          <option value="Enviado a Proyecto">Enviado a Proyecto</option>
-          <option value="Cancelado">Cancelado</option>
-        </select>
-        <label>Fecha Finiquito</label><br>   
-        <input type="date" id="edit_fecha_fin" class="form-control input-sm"><br>
-        <label>Fecha de Entrega</label><br>
-        <input type="date" id="edit_fecha_entrega" class="form-control input-sm"><br>
-        <label>Comentarios</label><br>
-        <textarea id="edit_coment" maxlength="150" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Cliente</label>
+            <select class="form-control" id="edit_cliente">
+              <option disabled selected>----Seleccionar Cliente----</option>
+              <?php foreach ($catalogo_cliente->result() as $row){ ?>
+              <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Fecha Finiquito</label>
+            <input type="date" id="edit_fecha_fin" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+             <label class="label-control">Fecha de Entrega</label>
+            <input type="date" id="edit_fecha_entrega" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">
+            <label class="label-control">Estado</label>
+            <select class="form-control" id="edit_estado">
+              <option value="Activo">Activo</option>
+              <option value="Enviado a Proyecto">Enviado a Proyecto</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+          </div>
+          <div class="col-md-7">
+            <label class="label-control">Comentarios</label><br>
+            <textarea id="edit_coment" maxlength="150" class="form-control input-sm"></textarea>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -161,37 +191,39 @@
       </div>
       <div class="modal-body">
         <input type="text" id="prod_id_anticipo" hidden="true">
-        <label>Producto</label>
-        <select class="form-control" id="prod_nombre">
-          <option disabled selected>----Seleccionar Producto----</option>
-          <?php foreach ($inventario_productos->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_prod_alm.""; ?>"><?php echo "".$row->prod_alm_nom.""; ?></option>
-          <?php } ?>
-        </select>
         <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-12">
+            <label class="label-control">Producto</label>
+            <select class="form-control" id="prod_nombre">
+              <option disabled selected>----Seleccionar Producto----</option>
+              <?php foreach ($inventario_productos->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_prod_alm.""; ?>"><?php echo "".$row->prod_alm_nom.""; ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-md-6">
             <label class="label-control">Cantidad</label>
             <input type="number" class="form-control" onclick="Separa_Miles('prod_total')" onblur="Separa_Miles('prod_total')" min="0" max="0" id="prod_cantidad">
           </div>
-          <div class="col-md-5">
-            <label class="label-control">Precio Venta</label><br>
+          <div class="col-md-6">
+            <label class="label-control">Precio Venta</label>
             <input class="form-control" type="text" onblur="Separa_Miles(this.id)"  id="prod_precio">
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-5">
-            <label class="label-control">Total</label><br>
+            <label class="label-control">Total</label>
             <input class="form-control" type="text" onload="Separa_Miles(this.id)" id="prod_total" disabled="true">
           </div>
-        </div>
-       
-        <div class="row">
-          <div class="col-md-12">
-            <label class="label-control">Comentarios</label><br>
+          <div class="col-md-7">
+            <label class="label-control">Comentarios</label>
             <textarea class="form-control" id="prod_coment" maxlength="150" class="form-control input-sm"></textarea>
           </div>
-        </div>     
+        </div>   
       </div>
       <!--
       <div class="bg-warning">
@@ -296,7 +328,26 @@
 <script type="text/javascript">
 
   $(document).ready(function(){
-    $('#table_anticipo').DataTable();
+    $('#table_anticipo').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
 
     $('#Add_Proyecto').click(function(){
@@ -332,20 +383,25 @@
       fecha_ent=$('#new_fecha_entrega').val();
       coment=$('#new_coment').val();
       //alert(cliente+fecha_fin+fecha_ent+coment);
-      $.ajax({
-        type:"POST",
-        url:"<?php echo base_url();?>Iluminacion/NewAnticipo",
-        data:{cliente:cliente, fecha_fin:fecha_fin, fecha_ent:fecha_ent, coment:coment},
-        success:function(result){
-            //alert(result);
-            if(result){
-              alert('Nuevo anticipo Agregado');
-            }else{
-              alert('Falló el servidor. Nuevo Anticipo no Agregado');
-            }
-            Update();
-          }
-        });
+      if (cliente!=""&&fecha_fin!="") {
+          $.ajax({
+            type:"POST",
+            url:"<?php echo base_url();?>Iluminacion/NewAnticipo",
+            data:{cliente:cliente, fecha_fin:fecha_fin, fecha_ent:fecha_ent, coment:coment},
+            success:function(result){
+                //alert(result);
+                if(result){
+                  alert('Nuevo anticipo Agregado');
+                }else{
+                  alert('Falló el servidor. Nuevo Anticipo no Agregado');
+                }
+                Update();
+              }
+            });
+      }else{
+        alert("Debe indicar un cliente y fecha de Finiquito");
+      }
+
     });
 
     $('#UpdateAnticipo').click(function(){

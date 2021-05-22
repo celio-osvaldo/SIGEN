@@ -67,23 +67,23 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <label class="label-control">Nombre Producto</label>
-            <input type="text" id="new_nom_prod" class="form-control input-sm">
+            <label class="label-control">*Nombre Producto</label>
+            <input type="text" id="new_nom_prod" class="form-control input-sm" required="true" onblur="Verifica_nombre(this.id)">
           </div>
         </div>
         <div class="row">
           <div class="col-md-5">
-            <label class="label-control">Unidad de Medida</label>
+            <label class="label-control">*Unidad de Medida</label>
             <select class="form-control" name="new_unid_med" id="new_unid_med">
-              <option disabled selected>---Unidad Medida---</option>
+              <option disabled selected>-Unidad Medida-</option>
               <?php foreach ($unidades_medida->result() as $row){ ?>
                 <option value="<?php echo "".$row->id_uMedida.""; ?>"><?php echo "".$row->unidad_medida.""; ?></option>
               <?php } ?>
             </select>            
           </div>
           <div class="col-md-3">
-            <label class="label-control">Existencia</label>
-            <input type="number" id="new_exist" class="form-control input-sm">
+            <label class="label-control">*Existencia</label>
+            <input type="number" id="new_exist" class="form-control input-sm" required="true">
           </div>
           <div class="col-md-4">
             <label class="label-control">Precio Unitario</label>
@@ -102,7 +102,7 @@
         </div> 
         <div class="row">
           <div class="col-md-12">
-            <label class="label-control">Proveedor</label>
+            <label class="label-control">*Proveedor</label>
             <select class="form-control" name="new_provider" id="new_provider">
               <option disabled selected>----Seleccionar Proveedor----</option>
               <?php foreach ($providers->result() as $row){ ?>
@@ -113,6 +113,7 @@
         </div>        
       </div>
       <div class="modal-footer">
+        <label class="label-control" style="color: red; " >* Datos mínimos requeridos</label>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
         <button type="button" class="btn btn-primary" id="NewConsumible" data-dismiss="modal">Agregar</button>
       </div>
@@ -134,13 +135,13 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <label class="label-control">Nombre Producto</label>
+            <label class="label-control">*Nombre Producto</label>
             <input type="text" id="edit_nom_prod" class="form-control input-sm">
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            <label class="label-control">Unidad de Medida</label>
+            <label class="label-control">*Unidad de Medida</label>
             <select class="form-control" name="edit_unid_med" id="edit_unid_med">
               <option disabled selected>----Seleccionar Unidad Medida----</option>
               <?php foreach ($unidades_medida->result() as $row){ ?>
@@ -169,7 +170,7 @@
       </div>
       <div class="row">
         <div class="col-md-12">
-          <label class="label-control">Proveedor</label>
+          <label class="label-control">*Proveedor</label>
           <select class="form-control" name="edit_provider" id="edit_provider">
             <option disabled selected>----Seleccionar Proveedor----</option>
             <?php foreach ($providers->result() as $row){ ?>
@@ -181,6 +182,7 @@
       <input type="text" id="edit_id_product" hidden="true">
     </div>
     <div class="modal-footer">
+      <label class="label-control" style="color: red; " >* Datos mínimos requeridos</label>
       <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
       <button type="button" class="btn btn-primary" id="UpdateConsumible" data-dismiss="modal">Actualizar</button>
     </div>
@@ -298,7 +300,26 @@
 
 <script type="text/javascript">
   $(document).ready( function () {
-    $('#table_Inv_Office').DataTable();
+    $('#table_Inv_Office').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
 
     $('#InvProduct').click(function(){
@@ -419,6 +440,33 @@
 </script>
 
 <script type="text/javascript">
+
+    function Verifica_nombre(id){
+    txt_producto=$("#"+id).val();
+    tabla="producto_consumible";
+    columna_nombre="producto_consu_nom";
+    $.ajax({
+      type: 'POST',
+      url: '<?php echo base_url(); ?>Iluminacion/Verifica_nombre',
+      data: {txt_producto:txt_producto, tabla:tabla, columna_nombre:columna_nombre},
+    }).done(res=>{
+          //Accion a realzar si se completa la solicitud
+          if(res>0){
+            alert("Nombre de producto ya existe");
+            $("#NewConsumible").attr("disabled","true");
+          }else{
+
+             $("#NewConsumible").removeAttr("disabled");
+          }
+        }).fail(err=>{
+          //Acción a realizar en caso de un error, solicitud no realizada
+          alert("Error");
+        }).always(res=>{
+          //Acción a realizar independientemente si existe error o no
+
+        });
+
+      }
   //Función para Mostrar Modal de Editar un registro de Cliente/Obra
   function EditOffice($id_product){
     //alert("Editar "+$id_catalogo_proveedor);

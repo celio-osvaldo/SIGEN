@@ -26,7 +26,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr><?php foreach ($report_viatics->result() as $row) {?>
+                <?php foreach ($report_viatics->result() as $row) {?>
+                <tr>
                     <td id="<?php echo "fecha".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_fecha.""; ?></td>
                     <td id="<?php echo "proyecto".$row->id_viaticos.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></td>
                     <td id="<?php echo "total_dias".$row->id_viaticos.""; ?>"><?php echo "".$row->viaticos_total_dias.""; ?></td>
@@ -38,7 +39,8 @@
                     <td>
                         <a role="button" class="btn btn-outline-dark" onclick="Edit_Registro(this.id)" id="<?php echo "".$row->id_viaticos.""; ?>"><img height="20" width="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
                     </td>
-                    </tr><?php } ?>
+                </tr>
+            <?php } ?>
                 </tbody>
             </table>
         </div>
@@ -160,7 +162,26 @@
 
 <script type="text/javascript">
     $(document).ready( function () {
-        $('#table_id').DataTable();
+        $('#table_id').DataTable({
+            initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+        });
 
     });
 </script>

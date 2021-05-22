@@ -10,12 +10,9 @@
 </div>
 
 <div class="row">
-    
-    <div class="col-md-1"></div>
     <div class="col-md-12">
             <div class="card bg-card">
             <div class="margins">
-                <br>
                 <div class="table-responsive">
                     <table id="tableProductCatalog_id" class="table table-hover display table-striped" style="font-size: 10pt;">
                     <thead class="bg-primary" style="color: #FFFFFF;" align="center">
@@ -23,7 +20,6 @@
                         <!--    <th>Código</th>   -->
                             <th>Nombre</th>
                             <th>Unidad de medida</th>
-                            <th></th>
                             <th>Precio</th>
                             <th>Proveedor</th>
                             <th>Fecha de act.</th>
@@ -39,15 +35,14 @@
                               <!--  <td id=""><?php echo "".$row->id_catalogo_producto.""; ?></td>   -->
                                 <td id="<?php echo "name".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_nombre.""; ?></td>
                                 <td id="<?php echo "medida".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->unidad_medida.""; ?></td>
-                                <td>$</td>
-                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>"><?php echo "".number_format($row->catalogo_producto_precio, 5, '.', ',').""; ?></td>
+                                <td id="<?php echo "price".$row->id_catalogo_producto.""; ?>">$<?php echo "".number_format($row->catalogo_producto_precio, 2, '.', ',').""; ?></td>
                                 <td id="<?php echo "provider".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></td>
                                 <td id="<?php echo "date".$row->id_catalogo_producto.""; ?>"><?php echo "".$row->catalogo_producto_fecha_actualizacion.""; ?></td>
-                                <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><a role="button" class="btn btn-outline-dark" onclick="Display_product(this.id)" id="<?php echo "".$row->catalogo_producto_url_imagen.""; ?>" data-toggle="modal" data-target="#imgProduct"><img src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
-                                <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
+                                <td id="<?php echo "image".$row->id_catalogo_producto.""; ?>"><a role="button" class="btn btn-outline-dark" onclick="Display_product(this.id)" id="<?php echo "".$row->catalogo_producto_url_imagen.""; ?>" data-toggle="modal" data-target="#imgProduct"><img width="20" height="20" src="<?php echo base_url() ?>Resources/Icons/frame_gallery_image_images_photo_picture_pictures_icon_123209.ico" alt=""></a></td>
+                                <td><a role="button" class="btn btn-outline-dark" onclick="Edit_product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>" data-toggle="modal" data-target="#productE"><img width="20" height="20" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" alt="Editar" style="filter: invert(100%)" /></a>
                                 </td>
                                 <td>
-                                  <a role="button" class="btn btn-outline-dark" onclick="Record_Product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>"><img src="..\Resources\Icons\historial.ico" alt="Historial" style="filter: invert(100%)" /></a>
+                                  <a role="button" class="btn btn-outline-dark" onclick="Record_Product(this.id)" id="<?php echo "".$row->id_catalogo_producto.""; ?>"><img width="20" height="20" src="..\Resources\Icons\historial.ico" alt="Historial" style="filter: invert(100%)" /></a>
                                 </td>
                             </tr>
                         <?php } ?>
@@ -97,7 +92,7 @@
             <label class="label-control">Proveedor</label>
             <select class="custom-select" id="providerInsert" name="providerInsert" required="true">
               <?php foreach ($providers->result() as $row){ ?>
-                <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
+                <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_nom_fiscal.""; ?></option>
               <?php } ?>
             </select>
           </div>
@@ -157,7 +152,7 @@
                         <label class="label-control">Proveedor</label>
                         <select class="custom-select" id="providerE" name="providerE" required="true">
                         <?php foreach ($providers->result() as $row){ ?>
-                            <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_empresa.""; ?></option>
+                            <option value="<?php echo "".$row->id_catalogo_proveedor.""; ?>"><?php echo "".$row->catalogo_proveedor_nom_fiscal.""; ?></option>
                         <?php } ?>
                         </select>
                       </div>
@@ -205,11 +200,29 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#tableProductCatalog_id').DataTable({
-            dom: 'Blfrtip',
+          initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+      dom: 'Blfrtip',
       buttons: [ 
         {
             extend: 'excel',
-            title: 'Catálogo de Productos\n Empresa: Iluminación',
+            title: 'Catálogo de Productos\n Empresa: Iluminacion Monticello',
             exportOptions: {
                 modifier: {
                     
@@ -220,7 +233,7 @@
         },
         {
             extend: 'pdf',
-            title: 'Catálogo de Productos\n Empresa: Iluminación',
+            title: 'Catálogo de Productos\n Empresa: Iluminacion Monticello',
             orientation: 'landscape',
             pageSize: 'LETTER',
             exportOptions: {
@@ -234,7 +247,7 @@
 
                 {
             extend: 'copy',
-           title: 'Catálogo de Productos\n Empresa: Iluminación',
+           title: 'Catálogo de Productos\n Empresa: Iluminacion Monticello',
             orientation: 'landscape',
             pageSize: 'LETTER',
             exportOptions: {
@@ -263,7 +276,7 @@ $('#saveProduct').click(function(){
   datos.append('providerInsert',providerInsert);
   datos.append('dateInsert',dateInsert);
    //alert(nameProductInsert+" "+medidaInsert+" "+priceInsert+" "+providerInsert+" "+dateInsert);
-   if(nameProductInsert!=""&&priceInsert!=""){
+   if(nameProductInsert!=""&&priceInsert!=""&&medidaInsert!="Seleccionar"){
     $.ajax({
       url: '<?php echo base_url();?>Iluminacion/AddProduct',
       type: 'post',
@@ -273,8 +286,7 @@ $('#saveProduct').click(function(){
       success:function(result){
             //alert(result);
             if(result){
-            alert("Producto Agregado");
-            Update_Page();      
+            alert("Producto Agregado");   
             }else{
               alert("Error del Servidor. Producto no Agregado. Intentelo nuevamente");
             }
@@ -282,7 +294,7 @@ $('#saveProduct').click(function(){
           }
         });
   }else{
-    alert("Debe ingresar un nombre de producto e indicar su precio");
+    alert("Debe ingresar un nombre de producto, proveedor e indicar su precio");
   }     
   Update_Page(); 
   CloseModal();
@@ -344,14 +356,14 @@ function CloseModal(){
     $('#btncancelar').click();
     $('#NewProduct').modal("hide");
     $('.modal-backdrop').remove();
-    $("#page_content").load("GetInventories");
+    //$("#page_content").load("GetInventories");
   }
 
 function CloseModal2(){
     $('#btncancelar').click();
     $('#productE').modal("hide");
     $('.modal-backdrop').remove();
-    $("#page_content").load("GetInventories");
+    //$("#page_content").load("GetInventories");
   }
 </script>
 
@@ -361,8 +373,7 @@ function CloseModal2(){
     // alert("Editar "+$id);
     var name_product=$("#name"+$id).text();
     var uds_medida=$("#medida"+$id).text();
-    var price=$("#price"+$id).text();
-    price=price.replace(/\,/g, '');
+    var price=$("#price"+$id).text().replace(/\$/g, '').replace(/\,/g, '');
     var provider=$("#provider"+$id).text();
     // var company=$("#company"+$id).val();
     var image=$("#image"+$id).text();
@@ -409,7 +420,5 @@ function CloseModal2(){
 
     }
   }
-
-
 
 </script>

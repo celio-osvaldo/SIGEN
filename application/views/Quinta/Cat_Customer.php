@@ -61,7 +61,7 @@
 
 <!-- Modal New Customer -->
 <div class="modal fade" id="NewCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Cliente</h5>
@@ -76,7 +76,8 @@
             <input type="text" id="new_nom_comer" class="form-control input-sm">
           </div>
         </div>
-        <label class="label-control">Domicilio del Cliente</label>
+        <div class="jumbotron py-0">
+        <h5 class="text-center">Domicilio del cliente.</h5>
         <div class="row">
           <div class="col-md-6">
             <label class="label-control">Calle</label>
@@ -103,50 +104,48 @@
             <input type="text" name="mun_estado" id="mun_estado" class="form-control" placeholder="Municipio, Estado">
           </div>
         </div>
+      </div>
        <div class="row">
-         <div class="col-md-12">
+         <div class="col-md-6">
             <label class="label-control">Nombre Contacto 1</label>
             <input type="text" id="new_cont1" class="form-control input-sm">
          </div>
-       </div>
-       <div class="row">
          <div class="col-md-6">
             <label class="label-control">Teléfono 1</label>
             <input type="text" id="new_tel1" class="form-control input-sm">
          </div>
+       </div>
+       <div class="row">
          <div class="col-md-6">
             <label class="label-control">Celular 1</label>
             <input type="text" id="new_cel1" class="form-control input-sm">
          </div>
-       </div>
-       <div class="row">
-         <div class="col-md-12">
+         <div class="col-md-6">
             <label class="label-control">Email 1</label>
             <input type="email" id="new_email1" class="form-control input-sm" required="true">
          </div>
        </div>
        <div class="row">
-         <div class="col-md-12">
+          <div class="col-md-6">
             <label class="label-control">Nombre Contacto 2</label>
-        <input type="text" id="new_cont2" class="form-control input-sm">
-         </div>
-       </div>
-       <div class="row">
-         <div class="col-md-6">
-             <label class="label-control">Teléfono 2</label>
-        <input type="text" id="new_tel2" class="form-control input-sm">
-         </div>
+            <input type="text" id="new_cont2" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Teléfono 2</label>
+            <input type="text" id="new_tel2" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
          <div class="col-md-6">
             <label class="label-control">Celular 2</label>
             <input type="text" id="new_cel2" class="form-control input-sm">
          </div>
-       </div>
-       <div class="row">
-         <div class="col-md-12">
+         <div class="col-md-6">
             <label class="label-control">Email 2</label>
             <input type="email" id="new_email2" class="form-control input-sm">
          </div>
        </div>
+
        <div class="row">
          <div class="col-md-12">
            <label class="label-control">Comentarios</label><br>
@@ -165,7 +164,7 @@
 
 <!-- Modal Edit Customer -->
 <div class="modal fade" id="EditCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modificar Cliente</h5>
@@ -174,12 +173,14 @@
         </button>
       </div>
       <div class="modal-body">
-       <div class="row">
+        <div class="row">
           <div class="col-md-12">
-             <label class="label-control">Nombre Cliente</label>
-            <input type="text" id="edit_nom_customer" class="form-control input-sm">
+              <label class="label-control">Nombre Cliente</label>
+              <input type="text" id="edit_nom_customer" class="form-control input-sm">
           </div>
         </div>
+        <div class="jumbotron py-0">
+        <h5 class="text-center">Domicilio del cliente.</h5>
         <label class="label-control">Domicilio del Cliente</label>
         <div class="row">
           <div class="col-md-6">
@@ -207,46 +208,43 @@
             <input type="text" name="edit_mun_estado" id="edit_mun_estado" class="form-control" placeholder="Municipio, Estado">
           </div>
         </div>
+      </div>
        <div class="row">
-         <div class="col-md-12">
+         <div class="col-md-6">
             <label class="label-control">Nombre Contacto 1</label>
             <input type="text" id="edit_cont1" class="form-control input-sm">
          </div>
-       </div>
-       <div class="row">
          <div class="col-md-6">
             <label class="label-control">Teléfono 1</label>
             <input type="text" id="edit_tel1" class="form-control input-sm">
          </div>
+       </div>
+       <div class="row">
          <div class="col-md-6">
             <label class="label-control">Celular 1</label>
             <input type="text" id="edit_cel1" class="form-control input-sm">
          </div>
-       </div>
-       <div class="row">
-         <div class="col-md-12">
+         <div class="col-md-6">
             <label class="label-control">Email 1</label>
             <input type="email" id="edit_email1" class="form-control input-sm" required="true">
          </div>
        </div>
        <div class="row">
-         <div class="col-md-12">
-            <label class="label-control">Nombre Contacto 2</label>
-        <input type="text" id="edit_cont2" class="form-control input-sm">
+         <div class="col-md-6">
+          <label class="label-control">Nombre Contacto 2</label>
+          <input type="text" id="edit_cont2" class="form-control input-sm">
+         </div>
+         <div class="col-md-6">
+            <label class="label-control">Teléfono 2</label>
+            <input type="text" id="edit_tel2" class="form-control input-sm">
          </div>
        </div>
        <div class="row">
-         <div class="col-md-6">
-             <label class="label-control">Teléfono 2</label>
-        <input type="text" id="edit_tel2" class="form-control input-sm">
-         </div>
          <div class="col-md-6">
             <label class="label-control">Celular 2</label>
             <input type="text" id="edit_cel2" class="form-control input-sm">
          </div>
-       </div>
-       <div class="row">
-         <div class="col-md-12">
+         <div class="col-md-6">
             <label class="label-control">Email 2</label>
             <input type="email" id="edit_email2" class="form-control input-sm">
          </div>
@@ -273,6 +271,24 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#table_customer').DataTable({
+              initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
             dom: 'Blfrtip',
       buttons: [ 
         {

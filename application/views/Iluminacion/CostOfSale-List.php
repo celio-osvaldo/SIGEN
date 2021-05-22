@@ -120,17 +120,17 @@
                              <?php foreach ($max->result() as $row){ ?>
                             <input type="hidden" name="idCost" id="idCost" value="<?php echo "".($row->id_gasto_venta + 1).""; ?>">
                             <?php } ?>
-                            <label class="control-label">Folio Factura:</label>
+                            <label class="control-label">*Folio Factura:</label>
                                 <input class="form-control" type="text" name="addFolio" id="addFolio" required="true">
                         </div>
                         <div class="col-md-4">
                             <label class="label-control">Fecha de emisión:</label>
-                            <input type="date" class="form-control" name="addEmitionDate" id="addEmitionDate" >
+                            <input type="date" class="form-control" name="addEmitionDate" id="addEmitionDate">
                         </div>
                         <div class="col-md-6">
-                            <label class = "control-label">Cliente:</label>
-                            <select class="form-control" type="text" name="addClientName" id="addClientName" required="true">
-                                <option selected>Seleccionar</option>
+                            <label class = "control-label">*Cliente:</label>
+                            <select  class="form-control is-invalid" type="text" name="addClientName" id="addClientName" onchange="Activa_guarda(this.id)">
+                                <option selected >Seleccionar</option>
                                 <?php foreach ($works->result() as $row){ ?>
                                     <option value="<?php echo "".$row->id_obra_cliente.""; ?>"><?php echo "".$row->obra_cliente_nombre.""; ?></option>
                                 <?php } ?>
@@ -139,15 +139,14 @@
                     </div>
                     <div class="row">
                         <div class="col-md-6">
-                            <label for="">Concepto:</label>
+                            <label for="">*Concepto:</label>
                             <input type="text" id="addConcept" name="addConcept" class="form-control" required="true">
                             <input type="hidden" id="addCompany" name="addCompany" value="2">
                         </div>
                         <div class="col-md-6">
                             <label for="">Estatus:</label>
                             <select class="form-control" id="addStatus" name="addStatus">
-                                <option selected>Seleccionar</option>
-                                <option value="Autorización solicitada">Autorización solicitada</option>
+                                <option selected="true" value="Autorización solicitada">Autorización solicitada</option>
                                 <option value="Autorización aprobada">Autorización aprobada</option>
                                 <option value="Autorización cancelada">Autorización cancelada</option>
                             </select>
@@ -155,7 +154,7 @@
                     </div>
                     <div class="row">
                         <div class="col-md-3">
-                            <label class="label-control">Monto</label>
+                            <label class="label-control">*Monto</label>
                             <input type="text" onblur="Separa_Miles(this.id)" class="form-control" name="addAmount" id="addAmount" required="true">
                         </div>
                         <div class="col-md-3">
@@ -181,7 +180,7 @@
                             <input type="text" onblur="Separa_Miles(this.id)" class="form-control" name="add_dap" id="add_dap" required="true" value="0.00000">
                         </div>
                         <div class="col-md-3">
-                            <label class="label-control">Fecha de pago:</label>
+                            <label class="label-control">*Fecha de pago:</label>
                             <input type="date" id="addDate" name="addDate" class="form-control" onchange="DateObtain(this)" required="true" value="<?php date_default_timezone_set('UTC'); echo date("Y-m-d"); ?>">
                         </div>
                         <div class="col-md-3">
@@ -206,7 +205,8 @@
                     </div>
     
             <div class="modal-footer">
-                <button type="submit" class="btn btn-outline-success submitBtn" id="saveCost">Guardar</button>
+                <label class="label-control" style="color: red; " >* Datos mínimos requeridos</label>
+                <button type="submit" class="btn btn-outline-success submitBtn" disabled="true" id="saveCost">Guardar</button>
                 <button type="button" class="btn btn-outline-danger" data-dismiss="modal" id="btncancelar">Cancelar</button>
             </div>
 
@@ -327,6 +327,24 @@
 <script type="text/javascript">
     $(document).ready( function () {
         tabla=$('#table_id').DataTable({
+            initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
         "order": [[ 1, "desc" ]]
     });
     });
@@ -354,7 +372,17 @@
     }).change()
   });
 
+ function Activa_guarda(id){
 
+    if ($('select[name="addClientName"] option:selected').text()!="Seleccionar") {
+        $('#saveCost').removeAttr("disabled");
+        $('#addClientName').removeClass("is-invalid");
+    }else{
+        $('#saveCost').attr("disabled","true");
+        alert("Debe Seleccionar un Cliente");
+        $('#addClientName').addClass("is-invalid");
+    }
+ }
 </script>
 
 <!-- change format date -->

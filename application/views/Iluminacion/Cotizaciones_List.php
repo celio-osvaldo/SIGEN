@@ -107,7 +107,7 @@
 
 <!-- Modal New Cotización -->
 <div class="modal fade" id="NewCotizacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Nueva Cotización</h5>
@@ -116,63 +116,82 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label>Folio</label>
-            <input type="text" id="new_folio" class="form-control">
-          </div>
-          <div class="form-group col-md-5">
-            <label>Fecha de Elaboración</label>
+        <div class="row">
+          <div class="col-md-6">
+             <label class="label-control">Folio</label>
+              <input type="text" id="new_folio" class="form-control">
+            </div>
+          <div class="col-md-4">
+            <label class="label-control">Fecha de Elaboración</label>
             <input type="date" id="new_fecha_elabora" class="form-control">
           </div>
         </div>
+
         <div class="radio">
           <label><input onclick="Ver_Catalogo(this.id)" checked="true" type="radio" name="radio_btn" id="radio_btn" value="cliente">Catálogo Clientes</label>
         </div>
         <div class="radio">
           <label><input onclick="Ver_Catalogo(this.id)"  type="radio" name="radio_btn" id="radio_btn" value="cotizante">Catálogo Cotizantes</label>
         </div>
-        <label>Empresa</label>
-        <select class="form-control" id="new_cliente">
-          <option disabled selected>----Seleccionar Empresa----</option>
-          <?php foreach ($catalogo_cliente->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-          <?php } ?>
-        </select>
-
-        <select class="form-control" id="new_cotizante" hidden="true">
-          <option disabled selected>----Seleccionar Cotizante----</option>
-          <?php foreach ($catalogo_cotizante->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_catalogo_cotizante.""; ?>"><?php echo "".$row->catalogo_cotizante_nombre.""; ?></option>
-          <?php } ?>
-        </select>
-
-        <label>Obra</label><br>
-        <input type="text" maxlength="200" id="new_obra" class="form-control input-sm">
-        <label>Atención (Cliente)</label>
-        <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm">
-        <label>Licitación</label>
-        <input type="text" maxlength="200" id="new_licitacion" class="form-control input-sm">
-        <label>Comentarios</label>
-        <textarea  maxlength="200" id="new_coment" class="form-control input-sm"></textarea>
-        <div class="form-row">
-          <div class="form-group col-md-5">
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Empresa</label>
+            <select class="form-control" id="new_cliente">
+              <option disabled selected>----Seleccionar Empresa----</option>
+              <?php foreach ($catalogo_cliente->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
+            <select class="form-control" id="new_cotizante" hidden="true">
+              <option disabled selected>----Seleccionar Cotizante----</option>
+                <?php foreach ($catalogo_cotizante->result() as $row){ ?>
+              <option value="<?php echo "".$row->id_catalogo_cotizante.""; ?>"><?php echo "".$row->catalogo_cotizante_nombre.""; ?></option>
+                <?php } ?>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Obra</label><br>
+            <textarea maxlength="200" id="new_obra" class="form-control input-sm"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Atención (Cliente)</label>
+            <input type="text" maxlength="200" id="new_empresa" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Licitación</label>
+            <input type="text" maxlength="200" id="new_licitacion" class="form-control input-sm">
+          </div>
+        </div>
+       <div class="row">
+          <div class="col-md-5">
+            <label class="label-control">Comentarios</label>
+            <textarea  maxlength="200" id="new_coment" class="form-control input-sm"></textarea>
+         </div>
+          <div class="col-md-4">
             <label>Tiempo de Entrega (semanas)</label>
             <input type="number" id="new_tiem_entrega" class="form-control input-sm">
           </div>
-          <div class="form-group col-md-4">
+          <div class="col-md-3">
             <label>Vigencia (días)</label>
             <input type="number" id="new_vigencia" class="form-control input-sm">
           </div>
-          <label>Nombre de quien Elabora Cotización</label>
-          <input type="text" maxlength="200" id="new_elabora" class="form-control input-sm">
-          <label>Estado de Cotización</label>
-          <select class="form-control" id="new_estado">
-            <option value="Activo">Activo</option>
-            <option value="Vencido">Vencido</option>
-            <option value="Cancelado">Cancelado</option>
-            <option value="Entregado">Entregado</option>
-          </select>
+       </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Nombre de quien Elabora Cotización</label>
+            <input type="text" maxlength="200" id="new_elabora" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Estado de Cotización</label>
+            <select class="form-control" id="new_estado">
+              <option value="Activo">Activo</option>
+              <option value="Vencido">Vencido</option>
+              <option value="Cancelado">Cancelado</option>
+              <option value="Entregado">Entregado</option>
+            </select>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -185,7 +204,7 @@
 
 <!-- Modal Edit Cotización -->
 <div class="modal fade" id="EditCotizacionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Editar Cotización</h5>
@@ -194,14 +213,14 @@
         </button>
       </div>
       <div class="modal-body">
-        <div class="form-row">
-          <div class="form-group col-md-4">
+        <div class="row">
+          <div class="col-md-4">
             <input type="text" id="edit_id_cotizacion" hidden="true">
-            <label>Folio</label>
+            <label class="label-control">Folio</label>
             <input type="text" id="edit_folio" class="form-control">
           </div>
-          <div class="form-group col-md-5">
-            <label>Fecha de Elaboración</label>
+          <div class="col-md-5">
+            <label class="label-control">Fecha de Elaboración</label>
             <input type="date" id="edit_fecha_elabora" class="form-control">
           </div>
         </div>
@@ -211,50 +230,69 @@
         <div class="radio">
           <label><input onclick="Ver_Catalogo_2(this.id)"  type="radio" name="edit_radio_btn" id="edit_radio_btn" value="cotizante">Catálogo Cotizantes</label>
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Empresa</label>
+            <select class="form-control" id="edit_cliente">
+              <option disabled selected>----Seleccionar Empresa----</option>
+              <?php foreach ($catalogo_cliente->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
 
-        <label>Empresa</label>
-
-        <select class="form-control" id="edit_cliente">
-          <option disabled selected>----Seleccionar Empresa----</option>
-          <?php foreach ($catalogo_cliente->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-          <?php } ?>
-        </select>
-
-        <select class="form-control" id="edit_cotizante" hidden="true">
-          <option disabled selected>----Seleccionar Cotizante----</option>
-          <?php foreach ($catalogo_cotizante->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_catalogo_cotizante.""; ?>"><?php echo "".$row->catalogo_cotizante_nombre.""; ?></option>
-          <?php } ?>
-        </select>
-
-
-        <label>Obra</label><br>
-        <input type="text" maxlength="200" id="edit_obra" class="form-control input-sm">
-        <label>Atención (Cliente)</label><br>
-        <input type="text" maxlength="200" id="edit_empresa" class="form-control input-sm">
-        <label>Licitación</label><br>
-        <input type="text" maxlength="200" id="edit_licitacion" class="form-control input-sm">
-        <label>Comentarios</label>
-        <input type="text" maxlength="200" id="edit_coment" class="form-control input-sm">
-        <div class="form-row">
-          <div class="form-group col-md-5">
-            <label>Tiempo de Entrega (días)</label>
+            <select class="form-control" id="edit_cotizante" hidden="true">
+              <option disabled selected>----Seleccionar Cotizante----</option>
+              <?php foreach ($catalogo_cotizante->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_catalogo_cotizante.""; ?>"><?php echo "".$row->catalogo_cotizante_nombre.""; ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Obra</label>
+            <textarea type="text" maxlength="200" id="edit_obra" class="form-control input-sm"></textarea>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Atención (Cliente)</label>
+            <input type="text" maxlength="200" id="edit_empresa" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Licitación</label>
+            <input type="text" maxlength="200" id="edit_licitacion" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Comentarios</label>
+            <textarea type="text" maxlength="200" id="edit_coment" class="form-control input-sm"></textarea>
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Tiempo de Entrega (días)</label>
             <input type="number" id="edit_tiem_entrega" class="form-control input-sm">
           </div>
-          <div class="form-group col-md-4">
-            <label>Vigencia (días)</label>
+          <div class="col-md-2">
+            <label class="label-control">Vigencia (días)</label>
             <input type="number" id="edit_vigencia" class="form-control input-sm">
           </div>
-          <label>Nombre de quien Elabora Cotización</label>
-          <input type="text" maxlength="200" id="edit_elabora" class="form-control input-sm">
-          <label>Estado de Cotización</label>
-          <select class="form-control" id="edit_estado">
-            <option value="Activo">Activo</option>
-            <option value="Vencido">Vencido</option>
-            <option value="Cancelado">Cancelado</option>
-            <option value="Entregado">Entregado</option>
-          </select>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Nombre de quien Elabora Cotización</label>
+            <input type="text" maxlength="200" id="edit_elabora" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Estado de Cotización</label>
+              <select class="form-control" id="edit_estado">
+                <option value="Activo">Activo</option>
+                <option value="Vencido">Vencido</option>
+                <option value="Cancelado">Cancelado</option>
+                <option value="Entregado">Entregado</option>
+              </select>
+          </div>
+        </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -318,6 +356,24 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('#table_cotizacion').DataTable({
+      initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
       "bSort": true,
         "order": [[ 0, "desc" ]]
     });

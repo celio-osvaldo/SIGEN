@@ -1,25 +1,22 @@
 <!--Mostrar lista de Productos de Anticipo -->
 
-<div class="container">
-  <button class="btn btn-success" onclick="Lista_Anticipos()">Regresar a Lista de Proyectos en Tránsito</button>
+<div class="row">
+  <div class="col-md-12">
+    <h2 align="center">Lista de Productos del Proyecto en Tránsito </h2>
+  </div>
 </div>
-<div class="card bg-card">
-  <div class="table-responsive">
-    <table id="table_anticipo_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
-      <div class="row">
-        <div class="col">
-          <h2 align="center">Lista de Productos del Proyecto en Tránsito </h2>
-          <div class="col" align="center">
-            <span class="badge badge-info">
-              <h6 align="center">
-                Cliente:<hr><?php echo $anticipo_info->catalogo_cliente_empresa; ?>
-              </h6>
-            </span>
-            <span class="badge badge-info">
-              <h6 align="center">
-                Importe total de Proyecto en Tránsito:<hr>$<?php echo number_format($anticipo_info->anticipo_total,5,'.',','); ?>
-              </h6>
-            </span>
+<div class="row">
+  <div class="col" align="center">
+    <span class="badge badge-info">
+      <h6 align="center">
+        Cliente:<hr><?php echo $anticipo_info->catalogo_cliente_empresa; ?>
+      </h6>
+    </span>
+    <span class="badge badge-info">
+      <h6 align="center">
+        Importe total de Proyecto en Tránsito:<hr>$<?php echo number_format($anticipo_info->anticipo_total,5,'.',','); ?>
+      </h6>
+    </span>
            <!-- <span class="badge badge-info">
               <h6 align="center">
                 Total Pagado:<hr>$<?php echo number_format($anticipo_info->anticipo_pago,5,'.',','); ?>
@@ -38,40 +35,48 @@
           </div>
         </div>
       </div>
-      <thead class="bg-primary" style="color: #FFFFFF;" align="center">
-        <tr>
-          <th hidden="true">id_anticipo</th>
-          <th>Nombre de Producto</th>
-          <th hidden="true">id_producto</th>
-          <th>Cantidad de Productos</th>
-          <th>Precio de Venta</th>
-          <th>Comentarios</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php 
-        foreach ($anticipo_productos->result() as $row) {
-          ?>
-          <tr>
-            <td hidden="true" id="<?php echo "id_anticipo".$row->id_prod_anticipo;?>"><?php echo "".$row->anticipo_id_anticipo.""; ?></td>
-            <td id="<?php echo "nombre".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
-            <td hidden="true" id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
-            <td id="<?php echo "cantidad".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_anticipo_cantidad.""; ?></td>
-            <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo number_format($row->prod_anticipo_precio_venta,5,'.',',').""; ?></td>
-            <td id="<?php echo "coment".$row->id_prod_anticipo;?>"><?php echo $row->prod_anticipo_coment;?></td>
-            <td>
-              <a class="navbar-brand" onclick="EditProduct(this.id)" role="button" id="<?php echo $row->id_prod_anticipo; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" title="Editar Producto" style="filter: invert(100%)" /></button></a>
-              <a class="navbar-brand" onclick="DeleteProduct(this.id)" role="button" id="<?php echo $row->id_prod_anticipo; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\delete.ico" title="Eliminar Producto" style="filter: invert(100%)" /></button></a>
-            </td>
-          </tr>
-          <?php 
-        }
-        ?>
-      </tbody>
-    </table>
-  </div>
-</div>
+      <div class="row">
+        <div class="col-md-4 offset-md-9">
+          <button class="btn btn-success" onclick="Lista_Anticipos()">Regresar a Lista de Proyectos en Tránsito</button>
+        </div>
+      </div>
+      <div class="card bg-card">
+        <div class="table-responsive">
+          <table id="table_anticipo_prod_list" class="table table-striped table-hover display" style="font-size: 10pt;">
+            <thead class="bg-primary" style="color: #FFFFFF;" align="center">
+              <tr>
+                <th hidden="true">id_anticipo</th>
+                <th>Nombre de Producto</th>
+                <th hidden="true">id_producto</th>
+                <th>Cantidad de Productos</th>
+                <th>Precio de Venta</th>
+                <th>Comentarios</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php 
+              foreach ($anticipo_productos->result() as $row) {
+                ?>
+                <tr>
+                  <td hidden="true" id="<?php echo "id_anticipo".$row->id_prod_anticipo;?>"><?php echo "".$row->anticipo_id_anticipo.""; ?></td>
+                  <td id="<?php echo "nombre".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_alm_nom.""; ?></td>
+                  <td hidden="true" id="<?php echo "id_producto".$row->id_prod_anticipo;?>"><?php echo "".$row->producto_almacen_id_prod_alm.""; ?></td>
+                  <td id="<?php echo "cantidad".$row->id_prod_anticipo;?>"><?php echo "".$row->prod_anticipo_cantidad.""; ?></td>
+                  <td id="<?php echo "precio".$row->id_prod_anticipo;?>">$<?php echo number_format($row->prod_anticipo_precio_venta,5,'.',',').""; ?></td>
+                  <td id="<?php echo "coment".$row->id_prod_anticipo;?>"><?php echo $row->prod_anticipo_coment;?></td>
+                  <td>
+                    <a class="navbar-brand" onclick="EditProduct(this.id)" role="button" id="<?php echo $row->id_prod_anticipo; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" title="Editar Producto" style="filter: invert(100%)" /></button></a>
+                    <a class="navbar-brand" onclick="DeleteProduct(this.id)" role="button" id="<?php echo $row->id_prod_anticipo; ?>"><button class="btn btn-outline-secondary"><img src="..\Resources\Icons\delete.ico" title="Eliminar Producto" style="filter: invert(100%)" /></button></a>
+                  </td>
+                </tr>
+                <?php 
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
+      </div>
 
 
 <!-- Modal Edit Product Anticipo -->
@@ -135,7 +140,26 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#table_anticipo_prod_list').DataTable();
+    $('#table_anticipo_prod_list').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
         //Función para actualizar el registro de un Producto
         $('#UpdateProduct').click(function(){

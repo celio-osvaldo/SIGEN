@@ -167,6 +167,18 @@ class Iluminacion extends CI_Controller {
 		}		
 	}
 
+	public function Verifica_nombre(){
+		$this->load->model('Iluminacion_model');
+		$company='ILUMINACION';
+		$idcompany=$this->Iluminacion_model->IdCompany($company);
+		$columna_nombre=$_POST["columna_nombre"];
+		$txt_verifica=$_POST["txt_producto"];
+		$tabla=$_POST["tabla"];
+		$res1=$this->Iluminacion_model->Verifica_existe($txt_verifica,$tabla,$columna_nombre,$idcompany->id_empresa);
+		echo $res1->existe;
+	}
+
+
 
 	public function InventarioOficina(){
 		$this->load->model('Iluminacion_model');

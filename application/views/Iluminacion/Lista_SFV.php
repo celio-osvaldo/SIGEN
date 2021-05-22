@@ -80,13 +80,17 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Cliente</label>
-        <select class="form-control" id="new_cliente">
-          <option disabled selected>----Seleccionar Cliente----</option>
-          <?php foreach ($catalogo_cliente->result() as $row){ ?>
-            <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
-          <?php } ?>
-        </select>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Cliente</label>
+            <select class="form-control" id="new_cliente">
+              <option disabled selected>----Seleccionar Cliente----</option>
+              <?php foreach ($catalogo_cliente->result() as $row){ ?>
+                <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
+              <?php } ?>
+            </select>
+          </div>
+        </div>
         <div class="row">
           <div  class="col-md-5">
             <label class="label-control">KWh Totales</label>
@@ -117,7 +121,7 @@
 
 <!-- Modal Add Pay SFV -->
 <div class="modal fade" id="Add_PayModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" >
         <h5 class="modal-title" id="title">Agregar Pago de SFV<label id="title_pago"></label><br>
@@ -127,34 +131,44 @@
         </button>
       </div>
       <div class="modal-body">
-        <h6>
         <input type="text" id="id_pago_sfv" hidden="true">
-        <label>Fecha</label><br>
-        <input type="date" id="pago_fecha" class="form-control col-md-5">
-        <div class="form-row">
-          <div class="form-group col-md-4">
-            <label>Total </label>
-            <input type="text" onblur="Separa_Miles(this.id)" onchange="Calcula()" id="pago_total" class="form-control">
+        <div class="row">
+          <div class="col-md-3">
+            <label class="label-control">Fecha</label>
+            <input type="date" id="pago_fecha" class="form-control">
           </div>
-          <div class="form-group col-md-4">
-            <label>SubTotal </label>
-            <input type="text" onblur="Separa_Miles(this.id)" id="subtotal" class="form-control">
+          <div class="col-md-3">
+            <label class="label-control">Total </label>
+            <input type="text" value="0.00" onblur="Separa_Miles(this.id)" onchange="Calcula()" id="pago_total" class="form-control">
           </div>
-          <div class="form-group col-md-4">
-            <label>IVA </label>
-            <input type="text" onblur="Separa_Miles(this.id)" min="0" id="iva" class="form-control">
+          <div class="col-md-3">
+            <label class="label-control">SubTotal </label>
+            <input type="text" value="0.00" onblur="Separa_Miles(this.id)" id="subtotal" class="form-control">
+          </div>
+          <div class="col-md-3">
+            <label class="label-control">IVA </label>
+            <input type="text" value="0.00" onblur="Separa_Miles(this.id)" min="0" id="iva" class="form-control">
           </div>
         </div>
-        <label>KWh Totales</label><br>
-        <input type="number" min="0" id="kwh_total" class="form-control col-md-4"><br>
-        <label>Comprobante de Pago</label><br>
-        <!-- Form -->
-        <form method='post' enctype="multipart/form-data">
-          <input type="file" id="comprobante_sfv" accept="application/pdf, image/*" class="form-control "><br>
-        </form>
-        <label>Comentarios</label><br>
-        <textarea id="coment" maxlength="200" class="form-control input-sm"></textarea>
-        </h6>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="label-control">KWh Totales</label>
+            <input type="number" min="0" value="0" id="kwh_total" class="form-control">
+          </div>
+          <div class="col-md-8">
+            <label class="label-control">Comprobante de Pago</label>
+            <!-- Form -->
+            <form method='post' enctype="multipart/form-data">
+              <input type="file" id="comprobante_sfv" accept="application/pdf, image/*" class="form-control ">
+            </form>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentarios</label>
+            <textarea id="coment" maxlength="200" class="form-control input-sm"></textarea>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
@@ -227,7 +241,26 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $('#table_sfv').DataTable();
+    $('#table_sfv').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
     $('#NewSFV').click(function(){
       cliente=$('#new_cliente').val();
@@ -237,20 +270,25 @@
       imp_total=imp_total.replace(/\,/g, '');
       coment=$('#new_coment').val();
       //alert(cliente+kwh+cant_pagos+imp_total+coment);
-      $.ajax({
-        type:"POST",
-        url:"<?php echo base_url();?>Iluminacion/NewSFV",
-        data:{cliente:cliente, kwh:kwh, cant_pagos:cant_pagos, imp_total:imp_total, coment:coment},
-        success:function(result){
-            //alert(result);
-            if(result){
-              alert('Nuevo SFV Agregado');
-            }else{
-              alert('Falló el servidor. Nuevo SFV no Agregado');
+      if (cliente!=null) {
+        $.ajax({
+          type:"POST",
+          url:"<?php echo base_url();?>Iluminacion/NewSFV",
+          data:{cliente:cliente, kwh:kwh, cant_pagos:cant_pagos, imp_total:imp_total, coment:coment},
+          success:function(result){
+              //alert(result);
+              if(result){
+                alert('Nuevo SFV Agregado');
+              }else{
+                alert('Falló el servidor. Nuevo SFV no Agregado');
+              }
+              Update();
             }
-            Update();
-          }
-        });
+          });
+      }else{
+        alert("Debe indicar un cliente");
+      }
+
     });
 
     $('#UpdateSFV').click(function(){
@@ -372,6 +410,8 @@
           mensaje=mensaje+errores[i].toString();
         }
         alert(mensaje);
+        $('Add_PayModal').removeClass('modal-open');
+        $('.modal-backdrop').remove();
       }
       Update();  
     });

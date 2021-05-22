@@ -4,7 +4,7 @@
   <div class="col-9">
     <h3 align="center">Almacén de Productos</h3>
   </div>
-    <div class="col-3">
+  <div class="col-3">
     <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#NewInv_ProdModal"><img src="<?php echo base_url() ?>Resources/Icons/add_icon.ico">Nuevo Producto</button>
   </div>
 </div>
@@ -58,7 +58,7 @@
 
 <!-- Modal New Product -->
 <div class="modal fade" id="NewInv_ProdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Producto</h5>
@@ -67,45 +67,60 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Producto</label>
-        <input type="text" maxlength="300" id="new_nom_prod" class="form-control input-sm">
-        <label>Unidad de Medida</label>
-         <select class="form-control" name="new_unid_med" id="new_unid_med">
-                    <option disabled selected>----Seleccionar Unidad Medida----</option>
-                  <?php foreach ($unidades_medida->result() as $row){ ?>
-                      <option value="<?php echo "".$row->id_uMedida.""; ?>"><?php echo "".$row->unidad_medida.""; ?></option>
-                  <?php } ?>
-          </select>
-        <label>Modelo</label><br>   
-        <input type="text" id="new_model" maxlength="300" class="form-control input-sm">
         <div class="row">
-          <div  class="col-md-5">
-            <label class="label-control">Precio Unitario</label>
-            <input type="text" id="new_prec" onblur="Separa_Miles(this.id)" class="form-control">
-          </div>
-          <div class="col-md-5">
-            <label class="label-control">Precio de Venta</label>
-            <input type="text" id="new_prec_venta" onblur="Separa_Miles(this.id)" class="form-control ">
+          <div class="col-md-12">
+            <label class="label-control">*Nombre Producto</label>
+            <input type="text" maxlength="300" id="new_nom_prod" class="form-control input-sm" required="true" onblur="Verifica_nombre(this.id)">
           </div>
         </div>
         <div class="row">
-          <div class="col-md-5">
-            <label>Existencia</label>
-            <input type="number" id="new_exist" class="form-control">
+          <div class="col-md-6">
+            <label class="label-control">*Unidad de Medida</label>
+            <select class="form-control" name="new_unid_med" id="new_unid_med" class="form-control">
+              <option disabled selected>--Unidad Medida--</option>
+              <?php foreach ($unidades_medida->result() as $row){ ?>
+              <option value="<?php echo "".$row->id_uMedida.""; ?>"><?php echo "".$row->unidad_medida.""; ?></option>
+              <?php } ?>
+            </select>
           </div>
-          <div class="col-md-5">
-            <label>Cógido de Producto</label>
+          <div class="col-md-6">
+            <label class="label-control">Modelo</label>   
+            <input type="text" id="new_model" maxlength="300" class="form-control input-sm">
+          </div>
+        </div>       
+        <div class="row">
+          <div  class="col-md-3">
+            <label class="label-control">*Precio Unitario</label>
+            <input type="text" id="new_prec" onblur="Separa_Miles(this.id)" class="form-control" required="true">
+          </div>
+          <div class="col-md-3">
+            <label class="label-control">*Precio de Venta</label>
+            <input type="text" id="new_prec_venta" onblur="Separa_Miles(this.id)" class="form-control" required="true">
+          </div>
+          <div class="col-md-2">
+            <label class="label-control">*Existencia</label>
+            <input type="number" id="new_exist" class="form-control" required="true">
+          </div>
+          <div class="col-md-4">
+          <label class="label-control">Cógido de Producto</label>
             <input type="text" id="new_cod" maxlength="45" class="form-control">
           </div>
-        </div>     
-        <label>Descripción del Producto</label>
-        <input type="text" id="new_descrip" maxlength="600" class="form-control">
-        <label>Comentarios</label><br>
-        <textarea id="new_coment" maxlength="400" class="form-control input-sm"></textarea>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Descripción del Producto</label>
+            <textarea  id="new_descrip" maxlength="600" class="form-control"></textarea>
+          </div>          
+          <div class="col-md-6">
+            <label class="label-control">Comentarios</label>
+            <textarea id="new_coment" maxlength="400" class="form-control input-sm"></textarea>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
+        <label class="label-control" style="color: red; " >* Datos mínimos requeridos</label>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="NewProduct" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="NewProduct" data-dismiss="modal">Agregar</button>
       </div>
     </div>
   </div>
@@ -114,7 +129,7 @@
 
 <!-- Modal Edit Product -->
 <div class="modal fade" id="EditProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modificar Producto</h5>
@@ -125,13 +140,13 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <label class="label-control">Nombre Producto</label>
-            <input type="text" id="edit_nom_prod" class="form-control">
+            <label class="label-control">*Nombre Producto</label>
+            <input type="text" id="edit_nom_prod" class="form-control" required="true">
           </div>
         </div>
         <div class="row">
           <div class="col-md-4">
-            <label class="label-control">Unidad de Medida</label>
+            <label class="label-control">*Unidad de Medida</label>
            <select class="form-control" name="edit_unid_med" id="edit_unid_med">
             <option disabled selected>----Seleccionar Unidad Medida----</option>
             <?php foreach ($unidades_medida->result() as $row){ ?>
@@ -145,40 +160,38 @@
         </div>
       </div>
         <div class="row">
-          <div class="col-md-6">
-            <label class="label-control">Precio Unitario</label>
-            <input type="text" id="edit_prec" onblur="Separa_Miles(this.id)" class="form-control input-sm">
+          <div class="col-md-3">
+            <label class="label-control">*Precio Unitario</label>
+            <input type="text" id="edit_prec" onblur="Separa_Miles(this.id)" class="form-control input-sm" required="true">
           </div>
-          <div class="col-md-6">
-            <label class="label-control">Precio de Venta</label>
-            <input type="text" id="edit_prec_venta" onblur="Separa_Miles(this.id)" class="form-control input-sm">
+          <div class="col-md-3">
+            <label class="label-control">*Precio de Venta</label>
+            <input type="text" id="edit_prec_venta" onblur="Separa_Miles(this.id)" class="form-control input-sm" required="true">
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-5">
+          <div class="col-md-3">
             <label class="label-control">Existencia</label>
             <input disabled="true" type="number" id="edit_exist" class="form-control input-sm">
           </div>
-          <div class="col-md-6">
+          <div class="col-md-3">
             <label class="label-control">Cógido de Producto</label>
             <input type="text" id="edit_cod" class="form-control input-sm">
           </div>
         </div>
+
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
             <label class="label-control">Descripción del Producto</label>
             <textarea rows="3" id="edit_descrip" maxlength="600" class="form-control input-sm"></textarea>
           </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <label class="label-control">Comentarios</label><br>
+          <div class="col-md-6">
+            <label class="label-control">Comentarios</label>
             <textarea rows="1" id="edit_coment" maxlength="400" class="form-control input-sm"></textarea>
           </div>
         </div>
         <input type="text" id="edit_id_product" hidden="true">
       </div>
       <div class="modal-footer">
+        <label class="label-control" style="color: red; " >* Datos mínimos requeridos</label>
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
         <button type="button" class="btn btn-primary" id="UpdateProduct" data-dismiss="modal">Actualizar</button>
       </div>
@@ -189,7 +202,7 @@
 
 <!-- Modal Update Inventorie -->
 <div class="modal fade" id="UpdateInventorieProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Actualizar Inventario de Producto</h5>
@@ -276,8 +289,54 @@
 
 
 <script type="text/javascript">
+
+  function Verifica_nombre(id){
+    txt_producto=$("#"+id).val();
+    tabla="producto_almacen";
+    columna_nombre="prod_alm_nom";
+    $.ajax({
+      type: 'POST',
+      url: '<?php echo base_url(); ?>Iluminacion/Verifica_nombre',
+      data: {txt_producto:txt_producto, tabla:tabla, columna_nombre:columna_nombre},
+    }).done(res=>{
+          //Accion a realzar si se completa la solicitud
+          if(res>0){
+            alert("Nombre de producto ya existe");
+            $("#NewProduct").attr("disabled","true");
+          }else{
+             $("#NewProduct").removeAttr("disabled");
+          }
+        }).fail(err=>{
+          //Acción a realizar en caso de un error, solicitud no realizada
+          alert("Error");
+        }).always(res=>{
+          //Acción a realizar independientemente si existe error o no
+
+        });
+
+      }
+
   $(document).ready( function () {
-    $('#table_Inv_Prod').DataTable();
+    $('#table_Inv_Prod').DataTable({
+        initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
+    });
 
     $('#UpdateProduct').click(function(){
       nom_prod=$("#edit_nom_prod").val();

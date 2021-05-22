@@ -57,7 +57,7 @@
 
 <!-- Modal New Provider -->
 <div class="modal fade" id="NewProviderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Proveedor</h5>
@@ -66,38 +66,80 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Fiscal</label>
-        <input type="text" id="new_nom_fiscal" class="form-control input-sm">
-        <label>Nombre Comercial</label>
-        <input type="text" id="new_nom_comer" class="form-control input-sm">
-        <label>RFC</label><br>   
-        <input type="text" maxlength="13" id="new_rfc" class="form-control input-sm"><br>
-        <label>Contacto 1</label><br>
-        <input type="text" id="new_cont1" class="form-control input-sm"><br>
-        <label>Puesto 1</label><br>
-        <input type="text" id="new_puesto1" class="form-control input-sm"><br>
-        <label>Teléfono 1</label><br>
-        <input type="text" id="new_tel1" class="form-control input-sm"><br>
-        <label>Celular 1</label><br>
-        <input type="text" id="new_cel1" class="form-control input-sm"><br>
-        <label>Email 1</label><br>
-        <input type="email" id="new_email1" class="form-control input-sm" required="true"><br>
-        <label>Contacto 2</label><br>
-        <input type="text" id="new_cont2" class="form-control input-sm"><br>
-        <label>Puesto 2</label><br>
-        <input type="text" id="new_puesto2" class="form-control input-sm"><br>
-        <label>Teléfono 2</label><br>
-        <input type="text" id="new_tel2" class="form-control input-sm"><br>
-        <label>Celular 2</label><br>
-        <input type="text" id="new_cel2" class="form-control input-sm"><br>
-        <label>Email 2</label><br>
-        <input type="email" id="new_email2" class="form-control input-sm"><br>
-        <label>Comentarios</label><br>
-        <textarea id="new_coment" maxlength="200" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">*Nombre Fiscal</label>
+            <input type="text" id="new_nom_fiscal" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Nombre Comercial</label>
+            <input type="text" id="new_nom_comer" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">RFC</label>
+            <input type="text" maxlength="13" id="new_rfc" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Contacto 1</label>
+            <input type="text" id="new_cont1" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Puesto 1</label>
+            <input type="text" id="new_puesto1" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="label-control">Teléfono 1</label>
+            <input type="text" id="new_tel1" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+           <label class="label-control">Celular 1</label>
+           <input type="text" id="new_cel1" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+          <label class="label-control">Email 1</label>
+          <input type="email" id="new_email1" class="form-control input-sm" required="true">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Contacto 2</label>
+            <input type="text" id="new_cont2" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Puesto 2</label>
+            <input type="text" id="new_puesto2" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="label-control">Teléfono 2</label>
+            <input type="text" id="new_tel2" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Celular 2</label>
+            <input type="text" id="new_cel2" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Email 2</label>
+            <input type="email" id="new_email2" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentarios</label>
+            <textarea id="new_coment" maxlength="200" class="form-control input-sm"></textarea>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal" id="btncancelar">Cancelar</button>
-        <button type="button" class="btn btn-primary" id="NewProvider" data-dismiss="modal">Actualizar</button>
+        <button type="button" class="btn btn-primary" id="NewProvider" data-dismiss="modal">Agregar</button>
       </div>
     </div>
   </div>
@@ -106,7 +148,7 @@
 
 <!-- Modal Edit Provider -->
 <div class="modal fade" id="EditProviderModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+  <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Modificar Proveedor</h5>
@@ -115,34 +157,76 @@
         </button>
       </div>
       <div class="modal-body">
-        <label>Nombre Fiscal</label>
-        <input type="text" id="edit_nom_fiscal" class="form-control input-sm">
-        <label>Nombre Comercial</label>
-        <input type="text" id="edit_nom_comer" class="form-control input-sm">
-        <label>RFC</label><br>   
-        <input type="text" maxlength="13" id="edit_rfc" class="form-control input-sm"><br>
-        <label>Contacto 1</label><br>
-        <input type="text" id="edit_cont1" class="form-control input-sm"><br>
-        <label>Puesto 1</label><br>
-        <input type="text" id="edit_puesto1" class="form-control input-sm"><br>
-        <label>Teléfono 1</label><br>
-        <input type="text" id="edit_tel1" class="form-control input-sm"><br>
-        <label>Celular 1</label><br>
-        <input type="text" id="edit_cel1" class="form-control input-sm"><br>
-        <label>Email 1</label><br>
-        <input type="email" id="edit_email1" class="form-control input-sm" required="true"><br>
-        <label>Contacto 2</label><br>
-        <input type="text" id="edit_cont2" class="form-control input-sm"><br>
-        <label>Puesto 2</label><br>
-        <input type="text" id="edit_puesto2" class="form-control input-sm"><br>
-        <label>Teléfono 2</label><br>
-        <input type="text" id="edit_tel2" class="form-control input-sm"><br>
-        <label>Celular 2</label><br>
-        <input type="text" id="edit_cel2" class="form-control input-sm"><br>
-        <label>Email 2</label><br>
-        <input type="email" id="edit_email2" class="form-control input-sm"><br>
-        <label>Comentarios</label><br>
-        <textarea id="edit_coment" maxlength="200" class="form-control input-sm"></textarea>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Nombre Fiscal</label>
+            <input type="text" id="edit_nom_fiscal" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Nombre Comercial</label>
+            <input type="text" id="edit_nom_comer" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">RFC</label>   
+            <input type="text" maxlength="13" id="edit_rfc" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Contacto 1</label>
+            <input type="text" id="edit_cont1" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Puesto 1</label>
+            <input type="text" id="edit_puesto1" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="label-control">Teléfono 1</label>
+            <input type="text" id="edit_tel1" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Celular 1</label>
+            <input type="text" id="edit_cel1" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Email 1</label>
+            <input type="email" id="edit_email1" class="form-control input-sm" required="true">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <label class="label-control">Contacto 2</label>
+            <input type="text" id="edit_cont2" class="form-control input-sm">
+          </div>
+          <div class="col-md-6">
+            <label class="label-control">Puesto 2</label>
+            <input type="text" id="edit_puesto2" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label class="label-control">Teléfono 2</label>
+            <input type="text" id="edit_tel2" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Celular 2</label>
+            <input type="text" id="edit_cel2" class="form-control input-sm">
+          </div>
+          <div class="col-md-4">
+            <label class="label-control">Email 2</label>
+            <input type="email" id="edit_email2" class="form-control input-sm">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <label class="label-control">Comentarios</label>
+            <textarea id="edit_coment" maxlength="200" class="form-control input-sm"></textarea>
+          </div>
+        </div>
         <input type="text" id="edit_id_provider" hidden="true">
       </div>
       <div class="modal-footer">
@@ -159,6 +243,24 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#table_provider').DataTable({
+                    initComplete: function() {
+            $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
+        },
+         /****** add this */
+        "searching": true,
+        // "autoFill": true,
+        "language": {
+            "lengthMenu": "Por página: _MENU_",
+            "zeroRecords": "Sin resultados",
+            "info": "Mostrando página _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay registros disponibles",
+            "infoFiltered": "(Filtrado de _MAX_ registros en total)",
+            "search": "Búsqueda",
+                "paginate": {
+            "previous": "Anterior",
+            "next": "Siguiente"
+          }
+        },
             dom: 'Blfrtip',
       buttons: [ 
         {

@@ -778,6 +778,30 @@ function Update_Inv_Consu(){
 		}
 	}
 
+	public function DeletePayment(){
+		$this->load->model('QM_model');
+		$delete_imp=$_POST["delete_imp"];
+		$id_pago=$_POST["id"];
+		$id_obra=$this->QM_model->Id_Proyecto($id_pago);
+		//Eliminamos el pago de la BD
+		if($this->QM_model->DeleteProject_Pay($id_pago)){
+
+			//Si se elimina correctametne el pago de la BD, procedemos a actualizar los datos del proyecto (monto y fecha último pago)
+			
+			$sum_pagos=$this->QM_model->SumPagos_Obra($id_obra->obra_cliente_id_obra_cliente);
+			$total_obra=$this->QM_model->Total_obra($id_obra->obra_cliente_id_obra_cliente);
+			$resta=($total_obra->obra_cliente_imp_total-$sum_pagos->suma_pagos);
+			$fecha_ult_pago=$this->QM_model->Fecha_Ult_Pago($id_obra->obra_cliente_id_obra_cliente);
+			$saldo=array('obra_cliente_saldo' => $resta,
+						'obra_cliente_pagado'=>$sum_pagos->suma_pagos,
+						'obra_cliente_ult_pago'=>$fecha_ult_pago->venta_mov_fecha);
+			$actualiza=$this->QM_model->UpdatePaysCustomer($id_obra->obra_cliente_id_obra_cliente,$saldo);
+			echo true;
+		}else{
+			echo false;
+		}
+	}
+
 	public function Genera_PDF_Recibo_Pago(){
 		$this->load->model('QM_model');
 		$company='QM';

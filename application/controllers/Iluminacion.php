@@ -1571,10 +1571,12 @@ public function AddProduct(){
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$data = array('catalogo_cliente'=>$this->Iluminacion_model->GetAll_Customer($idcomp->id_empresa),
+					 'catalogo_cotizante'=>$this->Iluminacion_model->GetAll_Cotizante($idcomp->id_empresa),
 					  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
 					  'lista_anticipos'=>$this->Iluminacion_model->GetAll_Anticipos_activo(),
 					  'lista_cotizaciones'=>$this->Iluminacion_model->GetCotizaciones_List($idcomp->id_empresa),
-					  'recibo_entrega'=>$this->Iluminacion_model->Get_List_Recibo_entrega($idcomp->id_empresa));
+					  'recibo_entrega'=>$this->Iluminacion_model->Get_List_Recibo_entrega($idcomp->id_empresa),
+					  'recibo_entrega_cotizante'=>$this->Iluminacion_model->Get_List_Recibo_entrega_cotizante($idcomp->id_empresa));
 		$this->load->view('Iluminacion/Lista_Recibos_Entrega',$data);	
 	}
 
@@ -1606,13 +1608,14 @@ public function AddProduct(){
 		if($origen_cotizacion=="cotizacion"){
 			$id_c=$this->Iluminacion_model->Get_Id_Cliente_cotizacion($cotizacion);
 			$id_cliente=$id_c->cotizacion_id_cliente;
+			$id_cliente=explode("cot-", $id_cliente);
 			$origen=$origen_cotizacion;
 			$id_origen=$cotizacion;
 		}
 
 		$data = array('id_empresa' => $idcomp->id_empresa,
 			'recibo_entrega_folio' => $folio,
-			'recibo_entrega_id_cliente' => $id_cliente ,
+			'recibo_entrega_id_cliente' => $id_cliente[1] ,
 			'recibo_entrega_domicilio' => $domicilio,
 			'recibo_entrega_origen' => $origen,
 			'recibo_entrega_id_origen' => $id_origen,
@@ -1725,8 +1728,10 @@ public function AddProduct(){
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_recibo_entrega=$_POST["id_recibo_entrega"];
 		$data = array('recibo_info'=>$this->Iluminacion_model->GetRecibo_Info($id_recibo_entrega),
+					  'recibo_info_cotizante'=>$this->Iluminacion_model->GetRecibo_Info_cotizante($id_recibo_entrega),
 			 		  'inventario_productos'=>$this->Iluminacion_model->GetInventorie_Products($idcomp->id_empresa),
 					  'recibo_products' => $this->Iluminacion_model->GetRecibo_Products($id_recibo_entrega));
+
 		$this->load->view('Iluminacion/Recibo_Product_List',$data);
 	}
 
@@ -1738,7 +1743,7 @@ public function AddProduct(){
 		$id_recibo_entrega=$_POST["id_recibo_entrega"];
 		$cantidad=$_POST["cantidad"];
 		$id_producto=$_POST["id_producto"];
-
+		$folio_recibo_entrega=$_POST["folio_recibo_entrega"];
 		if($this->Iluminacion_model->Delete_Product_Recibo($id_lista_recibo_entrega)){ //Eliminarmos el producto del listado del recibio de entrega
 			$prod_inventario=$this->Iluminacion_model->Get_Inventorie_Product($id_producto);
 			$nueva_existencia=(($prod_inventario->prod_alm_exist)+($cantidad));
@@ -1757,7 +1762,7 @@ public function AddProduct(){
         				'historial_almacen_producto_fecha' => date("Y/m/d"),
         				'historial_almacen_producto_movimiento' => 'devolucion',
         				'historial_almacen_producto_procedencia' => 'recibo entrega',
-        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio);
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio_recibo_entrega);
 
         $table="historial_almacen_producto";
 		$result=$this->Iluminacion_model->Insert($table,$data2);
@@ -1775,6 +1780,7 @@ public function AddProduct(){
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+		$folio_recibo_entrega=$_POST["folio_recibo_entrega"];
 
 		$lista_productos=$this->Iluminacion_model->GetRecibo_Products($id_recibo_entrega);
 		foreach ($lista_productos->result() as $row) {
@@ -1797,7 +1803,7 @@ public function AddProduct(){
         				'historial_almacen_producto_fecha' => date("Y/m/d"),
         				'historial_almacen_producto_movimiento' => 'devolucion',
         				'historial_almacen_producto_procedencia' => 'recibo entrega',
-        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio);
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio_recibo_entrega);
 
         $table="historial_almacen_producto";
 		$result=$this->Iluminacion_model->Insert($table,$data2); //Ingresamos al historial de productos el alta de los productos al inventario
@@ -1816,6 +1822,8 @@ public function AddProduct(){
 		$company='ILUMINACION';
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+		$folio_recibo_entrega=$_POST["folio_recibo_entrega"];
+
 		$id_producto=$_POST["id_producto"];
 		$prod_cantidad=$_POST["prod_cantidad"];
 
@@ -1842,7 +1850,7 @@ public function AddProduct(){
         				'historial_almacen_producto_fecha' => date("Y/m/d"),
         				'historial_almacen_producto_movimiento' => 'baja',
         				'historial_almacen_producto_procedencia' => 'recibo entrega',
-        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$id_recibo_entrega);
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio_recibo_entrega);
 
         $table="historial_almacen_producto";
 		$result=$this->Iluminacion_model->Insert($table,$data2); //Ingresamos al historial de productos el alta de los productos al inventario
@@ -1862,6 +1870,7 @@ public function AddProduct(){
 		$cantidad_anterior=$_POST["cantidad_anterior"];
 		$id_producto=$_POST["id_producto"];
 		$id_recibo_entrega=$_POST["id_recibo_entrega"];
+		$folio_recibo_entrega=$_POST["folio_recibo_entrega"];
 
 		$data = array('lista_recibo_entrega_cantidad' => $cantidad );
 		$this->Iluminacion_model->Update_Product_Recibo($id_lista_recibo_entrega,$data);
@@ -1892,7 +1901,7 @@ public function AddProduct(){
         				'historial_almacen_producto_fecha' => date("Y/m/d"),
         				'historial_almacen_producto_movimiento' => $tipo_mov,
         				'historial_almacen_producto_procedencia' => 'recibo entrega',
-        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$id_recibo_entrega);
+        				'historial_almacen_producto_referencia' => 'Folio Recibo Entrega '.$folio_recibo_entrega);
 
         $table="historial_almacen_producto";
 		$result=$this->Iluminacion_model->Insert($table,$data3); //Ingresamos al historial de productos el alta de los productos al inventario
@@ -1908,6 +1917,7 @@ public function AddProduct(){
 		$folio=$_POST["folio"];
 		$idcomp=$this->Iluminacion_model->IdCompany($company);
 		$data = array('recibo_info'=>$this->Iluminacion_model->GetRecibo_Info($id_lista_recibo_entrega),
+			'recibo_info_cotizante'=>$this->Iluminacion_model->GetRecibo_Info_cotizante($id_lista_recibo_entrega),
 			'recibo_products' => $this->Iluminacion_model->GetRecibo_Products($id_lista_recibo_entrega));
 
 		$css=file_get_contents('assets/Personalized/css/PDFStyles_Recibo_Entrega.css');

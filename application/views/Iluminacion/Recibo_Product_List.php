@@ -21,9 +21,18 @@
                 Folio:<hr><?php echo $recibo_info->recibo_entrega_folio; ?>
               </h6>
             </span>
+
+
+
             <span class="badge badge-info">
               <h6 align="center">
-                Empresa:<hr><?php echo $recibo_info->catalogo_cliente_empresa; ?>
+                Empresa:<hr><?php
+
+                if ($recibo_info->recibo_entrega_origen=="cotizacion") {
+                   echo $recibo_info_cotizante->catalogo_cotizante_empresa;
+                 }else{
+                  echo $recibo_info->catalogo_cliente_empresa; 
+                }?>
               </h6>
             </span>
             <span class="badge badge-info">
@@ -116,7 +125,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="titleDeleteProductModal">Agregar Producto al Recibido de Entrega</h5>
+        <h5 class="modal-title" id="Add_ProductoModal">Agregar Producto al Recibido de Entrega</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -192,13 +201,14 @@
         $('#Delete_Product').click(function(){
           id_lista_recibo_entrega=$("#delete_id_lista_recibo_entrega").val();
           cantidad=$("#delete_cantidad").text();
+          folio_recibo_entrega="<?php echo $recibo_info->recibo_entrega_folio?>";
           id_producto=$("#id_producto"+id_lista_recibo_entrega).text();
           id_recibo_entrega=<?php echo $recibo_info->id_recibo_entrega; ?>;
           //alert(id_lista_recibo_entrega+" "+cantidad+" "+id_producto+" "+id_recibo_entrega);
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Iluminacion/DeleteProduct_Recibo_Entrega",
-          data:{id_lista_recibo_entrega:id_lista_recibo_entrega, cantidad:cantidad, id_producto:id_producto, id_recibo_entrega:id_recibo_entrega},
+          data:{id_lista_recibo_entrega:id_lista_recibo_entrega, cantidad:cantidad, id_producto:id_producto, id_recibo_entrega:id_recibo_entrega, folio_recibo_entrega:folio_recibo_entrega},
           success:function(result){
             //alert(result);
             if(result){
@@ -206,13 +216,16 @@
             }else{
               alert('Falló el servidor. Producto no eliminado');
             }
+             $('DeleteProductModal').removeClass('modal-open');
+        $('.modal-backdrop').remove();
+        Update_Page(id_recibo_entrega);
           }
-        });
-      Update_Page(id_recibo_entrega); 
+        }); 
     });
 
     $('#Add_Product').click(function(){
       id_recibo_entrega=<?php echo $recibo_info->id_recibo_entrega; ?>;
+      folio_recibo_entrega="<?php echo $recibo_info->recibo_entrega_folio?>";
       id_producto=$("#prod_nombre").val();
       prod_cantidad=$("#prod_cantidad").val();
      //alert(id_recibo_entrega+" "+id_producto+" "+prod_cantidad);
@@ -220,7 +233,7 @@
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Iluminacion/Add_Product_Recibo",
-          data:{id_recibo_entrega:id_recibo_entrega, id_producto:id_producto, prod_cantidad:prod_cantidad},
+          data:{id_recibo_entrega:id_recibo_entrega, id_producto:id_producto, prod_cantidad:prod_cantidad, folio_recibo_entrega:folio_recibo_entrega},
           success:function(result){
             //alert(result);
             if(result){
@@ -228,6 +241,8 @@
             }else{
               alert('Falló el servidor. Producto no Agregado');
             }
+            $('AddProductModal').removeClass('modal-open');
+             $('.modal-backdrop').remove();
             Update_Page(id_recibo_entrega);
           }
         });
@@ -239,6 +254,7 @@
         $('#Update_Product').click(function(){
           id_lista_recibo_entrega=$("#Edit_id_lista_recibo_entrega").val();
           cantidad=$("#Edit_cantidad").val();
+          folio_recibo_entrega="<?php echo $recibo_info->recibo_entrega_folio?>";
           id_producto=$("#id_producto"+id_lista_recibo_entrega).text();
           id_recibo_entrega=<?php echo $recibo_info->id_recibo_entrega; ?>;
           cantidad_anterior=$("#cantidad"+id_lista_recibo_entrega).text();
@@ -246,7 +262,7 @@
         $.ajax({
           type:"POST",
           url:"<?php echo base_url();?>Iluminacion/UpdateProduct_Recibo_Entrega",
-          data:{id_lista_recibo_entrega:id_lista_recibo_entrega, cantidad:cantidad, cantidad_anterior:cantidad_anterior, id_producto:id_producto, id_recibo_entrega:id_recibo_entrega},
+          data:{id_lista_recibo_entrega:id_lista_recibo_entrega, cantidad:cantidad, cantidad_anterior:cantidad_anterior, id_producto:id_producto, id_recibo_entrega:id_recibo_entrega, folio_recibo_entrega:folio_recibo_entrega},
           success:function(result){
             //alert(result);
             if(result){
@@ -254,11 +270,12 @@
             }else{
               alert('Falló el servidor. Producto no Actualizado');
             }
-              $('EditProductModal').removeClass('modal-open');
-             $('.modal-backdrop').remove();
+            $('EditProductModal').removeClass('modal-open');
+          $('.modal-backdrop').remove();
+          Update_Page(id_recibo_entrega); 
           }
         });
-      Update_Page(id_recibo_entrega); 
+      
     });
 
   });

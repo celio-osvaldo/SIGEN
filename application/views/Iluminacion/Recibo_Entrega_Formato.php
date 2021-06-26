@@ -35,7 +35,14 @@
 <table class="tab">
   <tr>
     <td class="tab-empresa">EMPRESA</td>
-    <td class="tab-empresa2" colspan="4"><?php echo $recibo_info->catalogo_cliente_empresa; ?></td>
+    <td class="tab-empresa2" colspan="4">
+      <?php
+        if ($recibo_info->recibo_entrega_origen=="cotizacion") {
+          echo $recibo_info_cotizante->catalogo_cotizante_empresa;
+        }else{
+          echo $recibo_info->catalogo_cliente_empresa; 
+        }?>
+    </td>
   </tr>
   <tr>
     <td class="tab-domicilio">DOMICILIO</td>

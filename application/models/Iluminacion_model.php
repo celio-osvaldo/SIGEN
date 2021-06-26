@@ -793,6 +793,18 @@ class Iluminacion_model extends CI_Model
     return $result;
   }
 
+  
+  public function Get_List_Recibo_entrega_cotizante($id_empresa){
+    $this->db->select('id_recibo_entrega, recibo_entrega.id_empresa, recibo_entrega_folio, recibo_entrega_id_cliente, catalogo_cotizante_empresa,  recibo_entrega_domicilio, recibo_entrega_origen, recibo_entrega_id_origen, recibo_entrega_fecha, recibo_entrega_estado');
+    $this->db->from('recibo_entrega');
+    $this->db->join('catalogo_cotizante','recibo_entrega_id_cliente=id_catalogo_cotizante');
+    $this->db->where('recibo_entrega.id_empresa',$id_empresa);
+    $this->db->order_by('recibo_entrega_folio');
+    $result=$this->db->get();
+    return $result;
+  }
+
+
   public function GetAll_Anticipos_activo(){
     $this->db->select('id_anticipo, obra_cliente_id_obra_cliente, catalogo_cliente_empresa, anticipo_fecha_deposito, anticipo_total, anticipo_pago, anticipo_resto, anticipo_status, anticipo_fecha_finiquito, anticipo_fecha_entrega, anticipo_coment');
     $this->db->from('anticipo');
@@ -860,6 +872,18 @@ class Iluminacion_model extends CI_Model
     $result=$query->row();
     return $result;
   }
+
+  public function GetRecibo_Info_cotizante($id_recibo_entrega){
+    $this->db->select('id_recibo_entrega,catalogo_cotizante_empresa, recibo_entrega.id_empresa, recibo_entrega_folio, recibo_entrega_id_cliente, recibo_entrega_domicilio, recibo_entrega_origen, recibo_entrega_id_origen, recibo_entrega_fecha, recibo_entrega_estado');
+    $this->db->from('recibo_entrega');
+    $this->db->join('catalogo_cotizante','recibo_entrega_id_cliente=id_catalogo_cotizante');
+    $this->db->join('empresa','recibo_entrega.id_empresa=empresa.id_empresa');
+    $this->db->where('id_recibo_entrega',$id_recibo_entrega);
+    $query=$this->db->get();
+    $result=$query->row();
+    return $result;
+  }
+
 
   public function GetRecibo_Products($id_recibo_entrega){
     $this->db->select('id_lista_recibo_entrega, lista_recibo_entrega_id_recibo_entrega, lista_recibo_entrega_cantidad, producto_almacen_id_prod_alm, prod_alm_descripcion, prod_alm_modelo, prod_alm_nom, prod_alm_prec_unit, prod_alm_precio_venta');

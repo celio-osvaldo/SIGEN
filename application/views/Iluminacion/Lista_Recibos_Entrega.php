@@ -15,6 +15,7 @@
     <table id="table_recibo" class="table table-striped table-hover display" style="font-size: 10pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
+          <th hidden="true">Origen</th>
           <th>Folio</th>
           <th>Empresa</th>
           <th hidden="true">Id_empresa</th>
@@ -27,10 +28,50 @@
         </tr>
       </thead>
       <tbody>
+
         <?php 
-        foreach ($recibo_entrega->result() as $row) {
+        foreach ($recibo_entrega_cotizante->result() as $row) {
+          if($row->recibo_entrega_origen=="cotizacion"){
          ?>
          <tr>
+          <td hidden="true" id="<?php echo "origen".$row->id_recibo_entrega?>"><?php echo $row->recibo_entrega_origen ?></td>
+          <td id="<?php echo "folio".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_folio.""; ?></td>
+          <td id="<?php echo "empresa".$row->id_recibo_entrega;?>"><?php echo "".$row->catalogo_cotizante_empresa.""; ?></td>
+          <td hidden="true" id="<?php echo "id_empresa".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_id_cliente.""; ?></td>
+          <td id="<?php echo "fecha".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_fecha.""; ?></td>
+          <td id="<?php echo "domicilio".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_domicilio.""; ?></td>
+          <td id="<?php echo "estado".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_estado.""; ?></td>
+          <td>
+            <a class="navbar-brand" href="#" onclick="EditRecibo(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>">
+              <button class="btn btn-outline-secondary " title="Editar Registro"><img width="20px" src="..\Resources\Icons\353430-checkbox-edit-pen-pencil_107516.ico" width="20px" alt="Editar" style="filter: invert(100%)" />
+              </button>
+            </a>
+            <a class="navbar-brand" onclick="DeleteRecibo(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary"><img width="20px" src="..\Resources\Icons\delete.ico" title="Eliminar Recibo de Entrega" width="20px" style="filter: invert(100%)" /></button></a>
+          </td>
+          <td style="text-align: right;">
+            <a class="navbar-brand" href="#" onclick="Product_Details(this.id)" role="button" id="<?php echo $row->id_recibo_entrega; ?>"><button class="btn btn-outline-secondary" title="Ver Detalles de Productos"><img width="20px" src="..\Resources\Icons\lupa.ico" width="20px" alt="Detalles" style="filter: invert(100%)"></button>
+            </a>
+          </td>
+          <td style="text-align: left;"> 
+            <form action="<?php echo base_url();?>Iluminacion/Genera_PDF_Recibo_Entrega" method="POST" target='_blank'>
+             <input type="text" hidden="false" id="id_lista_recibo_entrega" name="id_lista_recibo_entrega"  value="<?php echo $row->id_recibo_entrega; ?>">
+             <input hidden="false" id="folio" type="text" name="folio" value="<?php echo $row->recibo_entrega_folio; ?>">
+              <button class="btn btn-outline-secondary"  type="submit" title="Imprimir Recibo de Entrega"><img width="20px" src="..\Resources\Icons\imprimir.ico" width="20px" style="filter: invert(100%)"></button>
+           </form>
+         </td>
+        </tr>
+        <?php 
+      }
+      }
+      ?>
+
+
+        <?php 
+        foreach ($recibo_entrega->result() as $row) {
+          if($row->recibo_entrega_origen!="cotizacion"){
+         ?>
+         <tr>
+          <td hidden="true"> id="<?php echo "origen".$row->recibo_entrega_origen?>"><?php echo $row->recibo_entrega_origen ?></td>
           <td id="<?php echo "folio".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_folio.""; ?></td>
           <td id="<?php echo "empresa".$row->id_recibo_entrega;?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></td>
           <td hidden="true" id="<?php echo "id_empresa".$row->id_recibo_entrega;?>"><?php echo "".$row->recibo_entrega_id_cliente.""; ?></td>
@@ -57,6 +98,7 @@
          </td>
         </tr>
         <?php 
+      }
       }
       ?>
     </tbody>
@@ -143,13 +185,25 @@
         <input type="text" id="edit_id_recibo_entrega" hidden="true">
         <label>Folio</label>
         <input type="text" id="edit_folio" class="form-control  input-sm col-md-4">
-        <label>Empresa</label>
-        <select class="form-control" id="edit_empresa">
+
+        <input hidden="true" type="text" name="origen" id="origen">
+
+        <label  class="control-label">Empresa</label>
+
+        <select class="form-control" id="edit_empresa_cliente">
           <option disabled selected>----Seleccionar Cliente----</option>
           <?php foreach ($catalogo_cliente->result() as $row){ ?>
             <option value="<?php echo "".$row->id_catalogo_cliente.""; ?>"><?php echo "".$row->catalogo_cliente_empresa.""; ?></option>
           <?php } ?>
         </select>
+
+        <select class="form-control" id="edit_empresa_cotizante">
+          <option disabled selected>----Seleccionar Cotizante----</option>
+          <?php foreach ($catalogo_cotizante->result() as $row){ ?>
+            <option value="<?php echo "".$row->id_catalogo_cotizante.""; ?>"><?php echo "".$row->catalogo_cotizante_empresa.""; ?></option>
+          <?php } ?>
+        </select>
+
         <label>Estado</label>
         <select class="form-control input-sm col-md-6" id="edit_estado">
           <option value="Entrega Pendiente">Entrega Pendiente</option>
@@ -218,7 +272,7 @@
             "next": "Siguiente"
           }
         },
-        "order": [[ 0, "desc" ]]
+        "order": [[ 1, "desc" ]]
     } );
 
     $('#radio_anticipo').click(function(){
@@ -290,7 +344,14 @@
       id_recibo_entrega=$('#edit_id_recibo_entrega').val();
       folio=$('#edit_folio').val();
       fecha_entrega=$('#edit_fecha_entrega').val();
-      id_empresa=$('#edit_empresa').val();
+
+      origen=$("#origen").val();
+      if(origen=="cotizacion"){
+        id_empresa=$('#edit_empresa_cotizante').val();
+      }else{
+        id_empresa=$('#edit_empresa_cliente').val();
+      }
+      
       estado=$('#edit_estado').val();
       domicilio=$('#edit_domicilio').val();
       //alert(cliente+estado+fecha_fin+fecha_ent+coment+id_anticipo);
@@ -363,10 +424,24 @@ function EditRecibo($id_recibo_entrega){
   var domicilio=$("#domicilio"+id_recibo_entrega).text();
   var id_empresa=$("#id_empresa"+id_recibo_entrega).text();
   var estado=$("#estado"+id_recibo_entrega).text();
+  var origen=$("#origen"+id_recibo_entrega).text();
   $('#EditReciboModal').modal();
   $("#edit_folio").val(folio);
-  $("#edit_empresa").val(id_empresa).attr('selected', true);
+  
   $("#edit_id_recibo_entrega").val(id_recibo_entrega);
+
+  if(origen=="cotizacion"){
+    $("#edit_empresa_cotizante").removeAttr("hidden");
+    $("#edit_empresa_cotizante").val(id_empresa).attr('selected', "true");
+    $("#edit_empresa_cliente").attr("hidden","true");
+    $("#origen").val("cotizacion");
+  }else{
+    $("#edit_empresa_cliente").removeAttr("hidden");
+    $("#edit_empresa_cliente").val(id_empresa).attr('selected', "true");
+    $("#edit_empresa_cotizante").attr("hidden","true");
+    $("#origen").val("cliente");
+  }
+
   $("#edit_estado").val(estado).attr('selected',true);
   $("#edit_domicilio").val(domicilio);
   $("#edit_fecha_entrega").val(fecha_entrega);

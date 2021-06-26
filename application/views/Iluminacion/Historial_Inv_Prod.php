@@ -45,7 +45,7 @@
     <table id="table_Inv_Prod" class="table table-striped table-hover display" style="font-size: 9pt;">
       <thead class="bg-primary" style="color: #FFFFFF;" align="center">
         <tr>
-
+          <th hidden="true">Id_historial_producto</th>
           <th>Nombre Producto</th>
           <th>Unidad de Medida</th>
           <th>Existencia Anterior</th>
@@ -65,7 +65,7 @@
        foreach ($historial_inv_prod->result() as $row) {
          ?>
          <tr>
-
+          <td hidden="true"><?php echo $row->id_historial_almacen_producto;?></td>
           <td><?php echo "".$row->prod_alm_nom.""; ?></td>
           <td><?php echo "".$row->unidad_medida.""; ?></td>
           <td><?php echo $row->historial_almacen_producto_cantidad_old; ?></td>
@@ -91,6 +91,7 @@
 <script type="text/javascript">
   $(document).ready( function () {
     $('#table_Inv_Prod').DataTable({
+       "order": [[ 0, "desc" ]],
         initComplete: function() {
             $(this.api().table().container()).find('input').parent().wrap('<form>').parent().attr('autocomplete', 'off');
         },

@@ -188,6 +188,12 @@ SEPTIMA.- En caso de que “El arrendador” se encuentre imposibilitado para ot
 <br><br> 
 OCTAVA.- En caso de que el Salón sufriere un menoscabo por culpa o negligencia debidamente comprobada de “El arrendatario” o de sus invitados, este se obliga a cubrir los gastos de reparación del mismo dentro de los 10 (diez) días naturales siguientes, el costo de la reparación dependerá del estado actual y desgaste habitual en que se encontraba el Salón para el uso objeto del presente Contrato, así como del valor del bien dañado que sea fehacientemente comprobable por parte del “El arrendador”. 
 <br><br>
+NOVENA.- El número de personas autorizadas como asistencia en cada evento dependerá de lo que señale la Presidencia Municipal, de conformidad a las disposiciones sanitarias, de seguridad o alguna otra que establezca la autoridad, puede variar en cualquier momento. 
+<br><br>
+DECIMA.- El cliente deberá solicitar permiso para la realización del evento en la Secretaría General de la Presidencia Municipal y deberá entregarnos copia del mismo. 
+<br><br>
+DECIMA PRIMERA.- El anticipo que se solicita para confirmar la fecha del evento NO ES REEMBOLSABLE, sin embargo seguirá siendo válido en caso de reagendar la fecha del evento.
+<br><br>
 Leído que fue por las partes el contenido del presente Contrato y sabedoras de su alcance legal, lo firman por duplicado en la Ciudad de TEOCALTICHE, JALISCO  a los <?php echo strftime('%e días del mes de '); echo $mes; echo strftime(' del año %G')?>. 
 </p>
 <br><br>
